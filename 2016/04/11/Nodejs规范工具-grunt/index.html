@@ -1,0 +1,1372 @@
+<!doctype html>
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+<html class="mac-soft mist use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Boogaloo:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Satisfy:300,300italic,400,400italic,700,700italic|Roboto:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="nodejs,grunt," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Northpark博客" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="前言一个应用开发到一定阶段，普遍会遇到一个问题。当功能越来越多，代码量越来越大，bug修复越来越频繁，开发人员一波一波的交替，…..应该用会向着越来越不可控发展。我们不能再准确估计新功能的开发时间，也不知道一个bug修复后是否会引发另一个bug出现。所有的程序开发，都会面临着这样的问题。
+C/C++程序通过makefile管理编译测试打包的过程，Java程序通过Maven,Ant实现项目构建管理功">
+<meta property="og:type" content="article">
+<meta property="og:title" content="nodejs规范工具grunt">
+<meta property="og:url" content="http://liuhouer.github.io/2016/04/11/Nodejs规范工具-grunt/index.html">
+<meta property="og:site_name" content="Northpark博客">
+<meta property="og:description" content="前言一个应用开发到一定阶段，普遍会遇到一个问题。当功能越来越多，代码量越来越大，bug修复越来越频繁，开发人员一波一波的交替，…..应该用会向着越来越不可控发展。我们不能再准确估计新功能的开发时间，也不知道一个bug修复后是否会引发另一个bug出现。所有的程序开发，都会面临着这样的问题。
+C/C++程序通过makefile管理编译测试打包的过程，Java程序通过Maven,Ant实现项目构建管理功">
+<meta property="og:image" content="http://7xpfpd.com1.z0.glb.clouddn.com/post.adbbde95-83cf-4f20-95ad-353123b4f3e7.jpg">
+<meta property="og:updated_time" content="2017-03-22T07:01:42.057Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="nodejs规范工具grunt">
+<meta name="twitter:description" content="前言一个应用开发到一定阶段，普遍会遇到一个问题。当功能越来越多，代码量越来越大，bug修复越来越频繁，开发人员一波一波的交替，…..应该用会向着越来越不可控发展。我们不能再准确估计新功能的开发时间，也不知道一个bug修复后是否会引发另一个bug出现。所有的程序开发，都会面临着这样的问题。
+C/C++程序通过makefile管理编译测试打包的过程，Java程序通过Maven,Ant实现项目构建管理功">
+<meta name="twitter:image" content="http://7xpfpd.com1.z0.glb.clouddn.com/post.adbbde95-83cf-4f20-95ad-353123b4f3e7.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://liuhouer.github.io/2016/04/11/Nodejs规范工具-grunt/"/>
+
+
+
+
+
+  <title> nodejs规范工具grunt | Northpark博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Northpark博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Today does not walk, will have to run tomorrow.</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-首页">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-关于">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-旅行">
+          <a href="/travel" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-ship"></i> <br />
+            
+            旅行
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-微世界">
+          <a href="/landscape" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-reddit-alien"></i> <br />
+            
+            微世界
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-音乐">
+          <a href="/music" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-music"></i> <br />
+            
+            音乐
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-读书">
+          <a href="/books" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-book"></i> <br />
+            
+            读书
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-归档">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://liuhouer.github.io/2016/04/11/Nodejs规范工具-grunt/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Bruce">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Northpark博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                nodejs规范工具grunt
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-04-11T18:41:10+08:00">
+                2016-04-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/nodejs/" itemprop="url" rel="index">
+                    <span itemprop="name">nodejs</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/nodejs/grunt/" itemprop="url" rel="index">
+                    <span itemprop="name">grunt</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i> &nbsp;  本文总阅读量
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>次
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>一个应用开发到一定阶段，普遍会遇到一个问题。当功能越来越多，代码量越来越大，bug修复越来越频繁，开发人员一波一波的交替，…..应该用会向着越来越不可控发展。我们不能再准确估计新功能的开发时间，也不知道一个bug修复后是否会引发另一个bug出现。所有的程序开发，都会面临着这样的问题。</p>
+<p>C/C++程序通过makefile管理编译测试打包的过程，Java程序通过Maven,Ant实现项目构建管理功能，Python有pip，Ruby有gem。在Nodejs的领域，我们同样需要一个项目构建工具，这就是Grunt。Grunt可以执行像压缩, 编译, 单元测试, 代码检查以及打包发布的任务。</p>
+<h1 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h1><ul>
+<li>Grunt介绍</li>
+<li>Grunt安装</li>
+<li>Grunt使用</li>
+<li>Grunt常用插件：<br>1).grunt-contrib-uglify：压缩js代码<br>2).grunt-contrib-concat：合并js文件<br>3).grunt-contrib-qunit：单元测试<br>4).grunt-contrib-jshint：js代码检查<br>5).grunt-contrib-watch：文件监控</li>
+</ul>
+<h2 id="1-Grunt介绍"><a href="#1-Grunt介绍" class="headerlink" title="1.Grunt介绍"></a>1.Grunt介绍</h2><p>Grunt是一个自动化的项目构建工具. 如果你需要重复的执行像压缩, 编译, 单元测试, 代码检查以及打包发布的任务. 那么你可以使用Grunt来处理这些任务, 你所需要做的只是配置好Grunt, 这样能很大程度的简化你的工作.</p>
+<p>如果在团队中使用Grunt, 你只需要与其他人员约定好使用Grunt应该规避的问题, 就能够很方便的自动化的处理大部分的常见工作任务, 你所付出的努力几乎为0.</p>
+<p><img src="http://7xpfpd.com1.z0.glb.clouddn.com/post.adbbde95-83cf-4f20-95ad-353123b4f3e7.jpg" alt=""></p>
+<a id="more"></a>    
+<h2 id="2-Grunt安装"><a href="#2-Grunt安装" class="headerlink" title="2. Grunt安装"></a>2. Grunt安装</h2><p>Grunt和Grunt插件都是通过npm, Node.js包管理器安装和管理的.</p>
+<p>我的系统环境</p>
+<p>win7 64bit<br>Nodejs:v0.10.5<br>Npm:1.2.19<br>    ~ D:\workspace\javascript&gt;node -v<br>    v0.10.5</p>
+<pre><code>~ D:\workspace\javascript&gt;npm -v
+1.2.19
+</code></pre><p>在系统中，我们已经安装好了Nodejs和npm。win7安装nodejs请参考文章：Nodejs开发框架Express3.0开发手记–从零开始</p>
+<p>安装grunt-cli<br>grunt-cli并不grunt，grunt-cli的作用是管理本地各版本的grunt，让命令行可以直接执行grunt命令。</p>
+<p>下面全局安装grunt-cli(-g)</p>
+<pre><code>~ D:\workspace\javascript&gt;npm install -g grunt-cli
+
+D:\toolkit\nodejs\grunt -&gt; D:\toolkit\nodejs\node_modules\grunt-cli\bin\grunt
+grunt-cli@0.1.9 D:\toolkit\nodejs\node_modules\grunt-cli
+├── resolve@0.3.1
+├── nopt@1.0.10 (abbrev@1.0.4)
+└── findup-sync@0.1.2 (lodash@1.0.1, glob@3.1.21)
+</code></pre><p>我们看到grunt-cli似乎做了一个软件链接，把grunt脚本复制到nodejs安装根目录里。</p>
+<p>接下来全局安装grunt</p>
+<pre><code>~ D:\workspace\javascript&gt;npm install -g grunt
+
+~ D:\workspace\javascript&gt;grunt
+grunt-cli: The grunt command line interface. (v0.1.9)
+
+Fatal error: Unable to find local grunt.
+
+If you&apos;re seeing this message, either a Gruntfile wasn&apos;t found or grunt
+hasn&apos;t been installed locally to your project. For more information about
+installing and configuring grunt, please see the Getting Started guide:
+
+http://gruntjs.com/getting-started
+</code></pre><p>执行grunt命令，我们发现系统报错了，提示不能加载本地库。因为，grunt命令执行，是需要当前目录中包括package.json和Gruntfile.js两个文件。</p>
+<p>package.json，是npm项目配置文件<br>Gruntfile.js，是专门用来配置grunt的配置文件</p>
+<p>接下来，我们创建一个express3的项目。</p>
+<p> D:\workspace\javascript&gt;express -e nodejs-grunt<br> D:\workspace\javascript&gt;cd nodejs-grunt &amp;&amp; npm install<br> D:\workspace\javascript\nodejs-grunt&gt;npm install grunt –save-dev<br>安装-save-dev，就可以，直接把grunt作为devDependencies写入的package.json中。</p>
+<pre><code>~ vi package.json
+
+{
+  &quot;name&quot;: &quot;nodejs-grunt&quot;,
+  &quot;version&quot;: &quot;0.0.1&quot;,
+  &quot;private&quot;: true,
+  &quot;scripts&quot;: {
+&quot;start&quot;: &quot;node app.js&quot;
+  },
+  &quot;dependencies&quot;: {
+&quot;express&quot;: &quot;3.2.2&quot;,
+&quot;ejs&quot;: &quot;*&quot;
+  },
+  &quot;devDependencies&quot;: {
+&quot;grunt&quot;: &quot;~0.4.1&quot;,
+  }
+}
+</code></pre><p>然后，我们再执行grunt，系统提示缺少Gruntfile文件</p>
+<pre><code>~ D:\workspace\javascript\nodejs-grunt&gt;grunt
+A valid Gruntfile could not be found. Please see the getting started guide for
+more information on how to configure grunt: http://gruntjs.com/getting-started
+Fatal error: Unable to find Gruntfile.
+</code></pre><p>创建Gruntfile文件</p>
+<pre><code>~ vi Gruntfile.js
+
+module.exports = function(grunt) {
+  // Project configuration.
+  grunt.initConfig({
+pkg: grunt.file.readJSON(&apos;package.json&apos;),
+uglify: {
+  options: {
+banner: &apos;/*! &lt;%= pkg.name %&gt; &lt;%= grunt.template.today(&quot;yyyy-mm-dd&quot;) %&gt; */\n&apos;
+  },
+  build: {
+src: &apos;src/&lt;%= pkg.name %&gt;.js&apos;,
+dest: &apos;build/&lt;%= pkg.name %&gt;.min.js&apos;
+  }
+}
+  });
+  // Load the plugin that provides the &quot;uglify&quot; task.
+  grunt.loadNpmTasks(&apos;grunt-contrib-uglify&apos;);
+  // Default task(s).
+  grunt.registerTask(&apos;default&apos;, [&apos;uglify&apos;]);
+};
+</code></pre><p>再次运行grunt，这时提示是grunt-contrib-uglify包找不到，是Gruntfile.js配置文件中的错误了。</p>
+<pre><code>~ D:\workspace\javascript\nodejs-grunt&gt;grunt
+</code></pre><blockquote>
+<blockquote>
+<pre><code>Local Npm module &quot;grunt-contrib-uglify&quot; not found. Is it installed?
+Warning: Task &quot;uglify&quot; not found. Use --force to continue.
+</code></pre><p>我们编辑package.js, 在devDependencies中增加grunt-contrib-uglify的依赖库</p>
+</blockquote>
+</blockquote>
+<pre><code>~ vi package.js
+{
+  &quot;name&quot;: &quot;application-name&quot;,
+  &quot;version&quot;: &quot;0.0.1&quot;,
+  &quot;private&quot;: true,
+  &quot;scripts&quot;: {
+&quot;start&quot;: &quot;node app.js&quot;
+  },
+  &quot;dependencies&quot;: {
+&quot;express&quot;: &quot;3.2.2&quot;,
+&quot;ejs&quot;: &quot;*&quot;
+  },
+  &quot;devDependencies&quot;: {
+&quot;grunt&quot;: &quot;~0.4.1&quot;
+&quot;grunt-contrib-uglify&quot;: &quot;~0.1.1&quot;
+  }
+}
+
+~ D:\workspace\javascript\nodejs-grunt&gt;npm install
+</code></pre><p>我们创建两个目录src和build，和nodejs-grunt.js的文件</p>
+<pre><code>~ D:\workspace\javascript\nodejs-grunt&gt;mkdir src
+~ D:\workspace\javascript\nodejs-grunt&gt;mkdir build
+
+~ D:\workspace\javascript\nodejs-grunt&gt;vi src/nodejs-grunt.js
+var sayHello = function(name){
+return &quot;Hello &quot; + name;
+}
+</code></pre><p>我们再执行grunt</p>
+<pre><code>~ D:\workspace\javascript\nodejs-grunt&gt;grunt
+Running &quot;uglify:build&quot; (uglify) task
+File &quot;build/nodejs-grunt.min.js&quot; created.
+Uncompressed size: 59 bytes.
+Compressed size: 40 bytes gzipped (43 bytes minified).
+
+Done, without errors.
+</code></pre><p>grunt运行正常，并且执行了uglify:build的任务。打开build/nodejs-grunt.min.js文件</p>
+<pre><code>~ D:\workspace\javascript\nodejs-grunt&gt;vi build/nodejs-grunt.min.js
+
+/*! nodejs-grunt 2013-08-17 */
+var sayHello=function(l){return&quot;Hello &quot;+l};
+</code></pre><p>我们可以看到一个新生成的压缩文件nodejs-grunt.min.js。</p>
+<p>上面的例子，是一个js文件压缩的例子。</p>
+<h2 id="3-Grunt使用"><a href="#3-Grunt使用" class="headerlink" title="3.  Grunt使用"></a>3.  Grunt使用</h2><p>我们可以通过help帮助，看一下grunt怎么用。</p>
+<pre><code>~ D:\workspace\javascript\nodejs-grunt&gt;grunt --help
+Grunt: The JavaScript Task Runner (v0.4.1)
+
+Usage
+ grunt [options] [task [task ...]]
+
+Options
+--help, -h  Display this help text.
+--base  Specify an alternate base path. By default, all file paths are
+relative to the Gruntfile. (grunt.file.setBase) *
+--no-color  Disable colored output.
+   --gruntfile  Specify an alternate Gruntfile. By default, grunt looks in the
+current or parent directories for the nearest Gruntfile.js or
+Gruntfile.coffee file.
+   --debug, -d  Enable debugging mode for tasks that support it.
+   --stack  Print a stack trace when exiting with a warning or fatal error.
+   --force, -f  A way to force your way past warnings. Want a suggestion? Don&apos;t
+use this option, fix your code.
+   --tasks  Additional directory paths to scan for task and &quot;extra&quot; files.
+(grunt.loadTasks) *
+ --npm  Npm-installed grunt plugins to scan for task and &quot;extra&quot; files.
+(grunt.loadNpmTasks) *
+--no-write  Disable writing files (dry run).
+ --verbose, -v  Verbose mode. A lot more information output.
+ --version, -V  Print the grunt version. Combine with --verbose for more info.
+  --completion  Output shell auto-completion rules. See the grunt-cli
+documentation for more information.
+
+Options marked with * have methods exposed via the grunt API and should instead
+be specified inside the Gruntfile wherever possible.
+
+Available tasks
+uglify  Minify files with UglifyJS. *
+   default  Alias for &quot;uglify&quot; task.
+
+Tasks run in the order specified. Arguments may be passed to tasks that accept
+them by using colons, like &quot;lint:files&quot;. Tasks marked with * are &quot;multi tasks&quot;
+and will iterate over all sub-targets if no argument is specified.
+
+The list of available tasks may change based on tasks directories or grunt
+plugins specified in the Gruntfile or via command-line options.
+
+For more information, see http://gruntjs.com/
+</code></pre><p><strong>有两方面是我们需要注意的：</strong></p>
+<ul>
+<li>Options: grunt支持的命令</li>
+<li><p>Available tasks: 当目录可执行的任务</p>
+<h2 id="4-Grunt常用插件"><a href="#4-Grunt常用插件" class="headerlink" title="4.  Grunt常用插件"></a>4.  Grunt常用插件</h2></li>
+<li><p>grunt-contrib-uglify：压缩js代码</p>
+</li>
+<li>grunt-contrib-concat：合并js文件</li>
+<li>grunt-contrib-qunit：单元测试</li>
+<li>grunt-contrib-jshint：js代码检查</li>
+<li>grunt-contrib-watch：监控文件修改并重新执行注册的任务<h4 id="1-grunt-contrib-uglify：是执行压缩JS代码的任务"><a href="#1-grunt-contrib-uglify：是执行压缩JS代码的任务" class="headerlink" title="1). grunt-contrib-uglify：是执行压缩JS代码的任务"></a>1). grunt-contrib-uglify：是执行压缩JS代码的任务</h4>具体操作请查看”2.Grunt安装”，</li>
+</ul>
+<h4 id="2-grunt-contrib-concat：是执行合并文件的任务。"><a href="#2-grunt-contrib-concat：是执行合并文件的任务。" class="headerlink" title="2). grunt-contrib-concat：是执行合并文件的任务。"></a>2). grunt-contrib-concat：是执行合并文件的任务。</h4><p>插件安装及更新到配置</p>
+<p> D:\workspace\javascript\nodejs-grunt&gt;npm install grunt-contrib-concat –save-dev<br>修改Gruntfile.js文件</p>
+<pre><code>grunt.initConfig({
+pkg: grunt.file.readJSON(&apos;package.json&apos;),
+concat:{
+  options: {
+//定义一个字符串插入没个文件之间用于连接输出
+separator: &apos;;&apos;
+  },
+  dist: {
+  src: [&apos;src/*.js&apos;],
+  dest: &apos;build/&lt;%= pkg.name %&gt;.cat.js&apos;
+  }
+},
+  });
+grunt.loadNpmTasks(&apos;grunt-contrib-qunit&apos;);
+grunt.registerTask(&apos;default&apos;, [&apos;uglify&apos;,&apos;concat&apos;]);
+</code></pre><p>在src目录，新增加文件src/sayBye.js</p>
+<pre><code>~ vi src/sayBye.js
+
+var sayBye = function(name){
+return &quot;Bye &quot; + name;
+}
+</code></pre><p>执行concat任务</p>
+<pre><code>~ D:\workspace\javascript\nodejs-grunt&gt;grunt concat
+Running &quot;concat:dist&quot; (concat) task
+File &quot;build/nodejs-grunt.cat.js&quot; created.
+
+Done, without errors.
+</code></pre><p>查看生成的文件build/nodejs-grunt.cat.js</p>
+<pre><code>~ vi build/nodejs-grunt.cat.js
+
+var sayHello = function(name){
+return &quot;Hello &quot; + name;
+};var sayBye = function(name){
+return &quot;Bye &quot; + name;
+}
+</code></pre><p>两个文件完全的合并。</p>
+<h4 id="3-grunt-contrib-qunit：是执行QUint单元测试的任务。"><a href="#3-grunt-contrib-qunit：是执行QUint单元测试的任务。" class="headerlink" title="3). grunt-contrib-qunit：是执行QUint单元测试的任务。"></a>3). grunt-contrib-qunit：是执行QUint单元测试的任务。</h4><p>插件安装及更新到配置</p>
+<p> D:\workspace\javascript\nodejs-grunt&gt;npm install grunt-contrib-qunit –save-dev<br>修改Gruntfile.js文件</p>
+<pre><code>grunt.initConfig({
+pkg: grunt.file.readJSON(&apos;package.json&apos;),
+qunit: {
+  files: [&apos;test/*.html&apos;]
+}
+  });
+grunt.loadNpmTasks(&apos;grunt-contrib-qunit&apos;);
+grunt.registerTask(&apos;default&apos;, [&apos;uglify&apos;,&apos;concat&apos;,&apos;qunit&apos;]);
+</code></pre><p>创建一个test目录，并编写用于测试的qunit.html文件</p>
+<pre><code>~ mkdir test
+~ vi test/qunit.html
+&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot; &quot;http://www.w3.org/TR/html4/loose.dtd&quot;&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=UTF-8&quot;&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;http://github.com/jquery/qunit/raw/master/qunit/qunit.css&quot; type=&quot;text/css&quot; media=&quot;screen&quot; /&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;http://github.com/jquery/qunit/raw/master/qunit/qunit.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+test(&quot;hello&quot;, function() {
+ok(true, &quot;world&quot;);
+});
+&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1 id=&quot;qunit-header&quot;&gt;QUnit example&lt;/h1&gt;
+&lt;h2 id=&quot;qunit-banner&quot;&gt;&lt;/h2&gt;
+&lt;h2 id=&quot;qunit-userAgent&quot;&gt;&lt;/h2&gt;
+&lt;ol id=&quot;qunit-tests&quot;&gt;&lt;/ol&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>执行qunit命令</p>
+<pre><code>~ D:\workspace\javascript\nodejs-grunt&gt;grunt qunit
+Running &quot;qunit:files&quot; (qunit) task
+Testing test/qunit.html .OK
+</code></pre><blockquote>
+<blockquote>
+<pre><code>1 assertions passed (67ms)
+</code></pre></blockquote>
+</blockquote>
+<pre><code>Done, without errors.
+</code></pre><p>完成单元测试！！</p>
+<h4 id="4-grunt-contrib-jshint：是执行代码验证的任务"><a href="#4-grunt-contrib-jshint：是执行代码验证的任务" class="headerlink" title="4). grunt-contrib-jshint：是执行代码验证的任务"></a>4). grunt-contrib-jshint：是执行代码验证的任务</h4><p>插件安装及更新到配置</p>
+<pre><code>~ D:\workspace\javascript\nodejs-grunt&gt;npm install grunt-contrib-jshint --save-dev
+</code></pre><p>修改Gruntfile.js文件</p>
+<pre><code>grunt.initConfig({
+pkg: grunt.file.readJSON(&apos;package.json&apos;),
+jshint: {
+files: [&apos;gruntfile.js&apos;, &apos;src/*.js&apos;, &apos;build/*.js&apos;],
+options: {
+globals: {
+exports: true
+}
+}
+}
+  });
+grunt.loadNpmTasks(&apos;grunt-contrib-jshint&apos;);
+grunt.registerTask(&apos;default&apos;, [&apos;uglify&apos;,&apos;concat&apos;,&apos;qunit&apos;,&apos;jshint&apos;]);
+</code></pre><p>执行jshint代码检查</p>
+<pre><code>~ D:\workspace\javascript\nodejs-grunt&gt;grunt jshint
+Running &quot;jshint:files&quot; (jshint) task
+Linting src/nodejs-grunt.js ...ERROR
+[L3:C2] W033: Missing semicolon.
+}
+Linting build/nodejs-grunt.cat.js ...ERROR
+[L5:C2] W033: Missing semicolon.
+}
+Linting build/nodejs-grunt.min.js ...ERROR
+[L2:C42] W033: Missing semicolon.
+var sayHello=function(l){return&quot;Hello &quot;+l};
+
+Warning: Task &quot;jshint:files&quot; failed. Use --force to continue.
+
+Aborted due to warnings.
+</code></pre><p>好多的错误啊，细看一下，都是”丢失分号”的错误。</p>
+<pre><code>~ vi src/sayBye.js
+var sayBye = function(name){
+return &quot;Bye &quot; + name;
+};
+</code></pre><p>增加最后一行的分号，解决上面的错误。</p>
+<h4 id="5-grunt-contrib-watch，是监控指定文件被修改，重新启动已注册的任务"><a href="#5-grunt-contrib-watch，是监控指定文件被修改，重新启动已注册的任务" class="headerlink" title="5). grunt-contrib-watch，是监控指定文件被修改，重新启动已注册的任务"></a>5). grunt-contrib-watch，是监控指定文件被修改，重新启动已注册的任务</h4><p>我感觉这个插入，就点类似于supervisor的功能。</p>
+<p>插件安装及更新到配置</p>
+<pre><code>~ D:\workspace\javascript\nodejs-grunt&gt;npm install grunt-contrib-watch --save-dev
+</code></pre><p>修改Gruntfile.js文件</p>
+<pre><code>grunt.initConfig({
+pkg: grunt.file.readJSON(&apos;package.json&apos;),
+watch: {
+files: [&apos;&lt;%= jshint.files %&gt;&apos;],
+tasks: [&apos;jshint&apos;, &apos;qunit&apos;]
+}
+  });
+grunt.loadNpmTasks(&apos;grunt-contrib-watch&apos;);
+grunt.registerTask(&apos;default&apos;, [&apos;uglify&apos;,&apos;concat&apos;,&apos;qunit&apos;,&apos;jshint&apos;]);
+</code></pre><p>执行watch任务</p>
+<pre><code>~ D:\workspace\javascript\nodejs-grunt&gt;grunt watch
+Running &quot;watch&quot; task
+Waiting...OK
+</code></pre><p><strong><em>手动修改src/sayBye.js文件，下面watch的任务被触发</em></strong></p>
+<blockquote>
+<blockquote>
+<pre><code>File &quot;src\sayBye.js&quot; changed.
+</code></pre></blockquote>
+</blockquote>
+<pre><code>Running &quot;jshint:files&quot; (jshint) task
+Linting src/sayBye.js ...ERROR
+[L3:C2] W033: Missing semicolon.
+}
+Linting build/nodejs-grunt.cat.js ...ERROR
+[L3:C3] W032: Unnecessary semicolon.
+};;var sayBye = function(name){
+Linting build/nodejs-grunt.min.js ...ERROR
+[L2:C42] W033: Missing semicolon.
+var sayHello=function(l){return&quot;Hello &quot;+l};
+
+Warning: Task &quot;jshint:files&quot; failed. Use --force to continue.
+
+Aborted due to warnings.
+Completed in 0.770s at Sat Aug 17 2013 20:49:15 GMT+0800 (中国标准时间) - Waiting...
+</code></pre><p>上面介绍的5个任务，可能是我们比较常用配置的任务，大家也可以按照需要指定自己的任务。</p>
+<p>下面贴上所最终的package.json和Gruntfile.js文件代码</p>
+<pre><code>package.json
+
+
+{
+  &quot;name&quot;: &quot;nodejs-grunt&quot;,
+  &quot;version&quot;: &quot;0.0.1&quot;,
+  &quot;private&quot;: true,
+  &quot;scripts&quot;: {
+&quot;start&quot;: &quot;node app.js&quot;
+  },
+  &quot;dependencies&quot;: {
+&quot;express&quot;: &quot;3.2.2&quot;,
+&quot;ejs&quot;: &quot;*&quot;
+  },
+  &quot;devDependencies&quot;: {
+&quot;grunt&quot;: &quot;~0.4.1&quot;,
+&quot;grunt-contrib-uglify&quot;: &quot;~0.1.1&quot;,
+&quot;grunt-contrib-concat&quot;: &quot;~0.3.0&quot;,
+&quot;grunt-contrib-qunit&quot;: &quot;~0.2.2&quot;,
+&quot;grunt-contrib-jshint&quot;: &quot;~0.6.3&quot;,
+&quot;grunt-contrib-watch&quot;: &quot;~0.5.2&quot;
+  }
+}
+Gruntfile.js
+
+
+module.exports = function(grunt) {
+
+  // Project configuration.
+  grunt.initConfig({
+pkg: grunt.file.readJSON(&apos;package.json&apos;),
+uglify: {
+  options: {
+banner: &apos;/*! &lt;%= pkg.name %&gt; &lt;%= grunt.template.today(&quot;yyyy-mm-dd&quot;) %&gt; */\n&apos;
+  },
+  build: {
+src: &apos;src/&lt;%= pkg.name %&gt;.js&apos;,
+dest: &apos;build/&lt;%= pkg.name %&gt;.min.js&apos;
+  }
+},
+concat:{
+  options: {
+//定义一个字符串插入没个文件之间用于连接输出
+separator: &apos;;&apos;
+  },
+  dist: {
+  src: [&apos;src/*.js&apos;],
+  dest: &apos;build/&lt;%= pkg.name %&gt;.cat.js&apos;
+  }
+},
+qunit: {
+  files: [&apos;test/*.html&apos;]
+},
+jshint: {
+files: [&apos;gruntfile.js&apos;, &apos;src/*.js&apos;, &apos;build/*.js&apos;],
+options: {
+globals: {
+exports: true
+}
+}
+},
+watch: {
+files: [&apos;&lt;%= jshint.files %&gt;&apos;],
+tasks: [&apos;jshint&apos;, &apos;qunit&apos;]
+}
+  });
+
+  grunt.loadNpmTasks(&apos;grunt-contrib-uglify&apos;);
+  grunt.loadNpmTasks(&apos;grunt-contrib-concat&apos;);
+  grunt.loadNpmTasks(&apos;grunt-contrib-qunit&apos;);
+  grunt.loadNpmTasks(&apos;grunt-contrib-jshint&apos;);
+  grunt.loadNpmTasks(&apos;grunt-contrib-watch&apos;);
+
+  // Default task(s).
+  grunt.registerTask(&apos;default&apos;, [&apos;uglify&apos;,&apos;concat&apos;,&apos;qunit&apos;,&apos;jshint&apos;]);
+
+};
+</code></pre>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>生活不止苟且,还有我喜爱的海岸.</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="http://7xpfpd.com1.z0.glb.clouddn.com/blog/donate/wxpay.jpg" alt="Bruce WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="http://7xpfpd.com1.z0.glb.clouddn.com/blog/donate/alipay.png" alt="Bruce Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/nodejs/" rel="tag"># nodejs</a>
+          
+            <a href="/tags/grunt/" rel="tag"># grunt</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/04/05/Gradle介绍及安装/" rel="next" title="Gradle介绍及安装">
+                <i class="fa fa-chevron-left"></i> Gradle介绍及安装
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/04/26/日志维度分析以及自动邮件发送/" rel="prev" title="日志维度分析以及自动邮件发送">
+                日志维度分析以及自动邮件发送 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8yNzgzNy80NDEz"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="Bruce" />
+          <p class="site-author-name" itemprop="name">Bruce</p>
+           
+              <p class="site-description motion-element" itemprop="description">人生苦短，及时行乐</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/">
+                <span class="site-state-item-count">64</span>
+                <span class="site-state-item-name">posts</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">60</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/liuhouer" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/liuhouer" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.facebook.com/bruce.mo.7" target="_blank" title="Facebook">
+                  
+                    <i class="fa fa-fw fa-facebook-square"></i>
+                  
+                  Facebook
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://northpark.cn/?,NorthPark-小清新的软件、影视、心情、图片互动公园" title="NorthPark" target="_blank">NorthPark</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://effine.cn/?,哈哈，他叫verphen，故给他起绰号挖粪男孩" title="挖粪の男孩" target="_blank">挖粪の男孩</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://lonelyrobots.cn/?,哈哈，他排行老六，又名撒币六子" title="OldのSix" target="_blank">OldのSix</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#目录"><span class="nav-number">2.</span> <span class="nav-text">目录</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-Grunt介绍"><span class="nav-number">2.1.</span> <span class="nav-text">1.Grunt介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-Grunt安装"><span class="nav-number">2.2.</span> <span class="nav-text">2. Grunt安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-Grunt使用"><span class="nav-number">2.3.</span> <span class="nav-text">3.  Grunt使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-Grunt常用插件"><span class="nav-number">2.4.</span> <span class="nav-text">4.  Grunt常用插件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-grunt-contrib-uglify：是执行压缩JS代码的任务"><span class="nav-number">2.4.0.1.</span> <span class="nav-text">1). grunt-contrib-uglify：是执行压缩JS代码的任务</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-grunt-contrib-concat：是执行合并文件的任务。"><span class="nav-number">2.4.0.2.</span> <span class="nav-text">2). grunt-contrib-concat：是执行合并文件的任务。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-grunt-contrib-qunit：是执行QUint单元测试的任务。"><span class="nav-number">2.4.0.3.</span> <span class="nav-text">3). grunt-contrib-qunit：是执行QUint单元测试的任务。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-grunt-contrib-jshint：是执行代码验证的任务"><span class="nav-number">2.4.0.4.</span> <span class="nav-text">4). grunt-contrib-jshint：是执行代码验证的任务</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-grunt-contrib-watch，是监控指定文件被修改，重新启动已注册的任务"><span class="nav-number">2.4.0.5.</span> <span class="nav-text">5). grunt-contrib-watch，是监控指定文件被修改，重新启动已注册的任务</span></a></li></ol></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Bruce</span>
+</div>
+
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://northpark.cn/">NorthPark.cn</a>
+</div>
+
+
+<div class="powered-by">
+  MacSoft -
+  <a class="theme-link" href="https://northpark.cn/soft/mac">
+    NorthPark.soft
+  </a>
+</div>
+
+<div class="powered-by">
+ Movies.TV.Comic -
+  <a class="theme-link" href="https://northpark.cn/movies">
+    NorthPark.movies
+  </a>
+</div>
+
+<div class="theme-info">
+  Pua -
+  <a class="theme-link" href="https://northpark.cn/romeo">
+    NorthPark.pua
+  </a>
+</div>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i> &nbsp;   本站访客数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人次
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>  &nbsp; 本站总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+</body>
+</html>

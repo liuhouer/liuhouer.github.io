@@ -1,0 +1,1136 @@
+<!doctype html>
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+<html class="mac-soft mist use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Boogaloo:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Satisfy:300,300italic,400,400italic,700,700italic|Roboto:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="python," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Northpark博客" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="python学习笔记02 [2015-12-28]编写函数﻿
+
+在Python中，定义一个函数要使用 def 语句，依次写出函数名、括号、括号中的参数和冒号:，然后，在缩进块中编写函数体，函数的返回值用 return 语句返回。
+
+任务 请定义一个 square_of_sum 函数，它接受一个list，返回list中每个元素平方的和。def square_of_sum(L):
+
+    sum =">
+<meta property="og:type" content="article">
+<meta property="og:title" content="python学习笔记02">
+<meta property="og:url" content="http://liuhouer.github.io/2015/12/28/python02/index.html">
+<meta property="og:site_name" content="Northpark博客">
+<meta property="og:description" content="python学习笔记02 [2015-12-28]编写函数﻿
+
+在Python中，定义一个函数要使用 def 语句，依次写出函数名、括号、括号中的参数和冒号:，然后，在缩进块中编写函数体，函数的返回值用 return 语句返回。
+
+任务 请定义一个 square_of_sum 函数，它接受一个list，返回list中每个元素平方的和。def square_of_sum(L):
+
+    sum =">
+<meta property="og:updated_time" content="2017-03-22T07:01:42.105Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="python学习笔记02">
+<meta name="twitter:description" content="python学习笔记02 [2015-12-28]编写函数﻿
+
+在Python中，定义一个函数要使用 def 语句，依次写出函数名、括号、括号中的参数和冒号:，然后，在缩进块中编写函数体，函数的返回值用 return 语句返回。
+
+任务 请定义一个 square_of_sum 函数，它接受一个list，返回list中每个元素平方的和。def square_of_sum(L):
+
+    sum =">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://liuhouer.github.io/2015/12/28/python02/"/>
+
+
+
+
+
+  <title> python学习笔记02 | Northpark博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Northpark博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Today does not walk, will have to run tomorrow.</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-首页">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-关于">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-旅行">
+          <a href="/travel" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-ship"></i> <br />
+            
+            旅行
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-微世界">
+          <a href="/landscape" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-reddit-alien"></i> <br />
+            
+            微世界
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-音乐">
+          <a href="/music" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-music"></i> <br />
+            
+            音乐
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-读书">
+          <a href="/books" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-book"></i> <br />
+            
+            读书
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-归档">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://liuhouer.github.io/2015/12/28/python02/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Bruce">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Northpark博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                python学习笔记02
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2015-12-28T20:06:30+08:00">
+                2015-12-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/python/" itemprop="url" rel="index">
+                    <span itemprop="name">python</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i> &nbsp;  本文总阅读量
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>次
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="python学习笔记02-2015-12-28"><a href="#python学习笔记02-2015-12-28" class="headerlink" title="python学习笔记02 [2015-12-28]"></a>python学习笔记02 <em>[2015-12-28]</em></h1><h2 id="编写函数"><a href="#编写函数" class="headerlink" title="编写函数"></a>编写函数</h2><p>﻿</p>
+<ul>
+<li>在Python中，定义一个函数要使用 def 语句，依次写出函数名、括号、括号中的参数和冒号:，然后，在缩进块中编写函数体，函数的返回值用 return 语句返回。</li>
+</ul>
+<h3 id="任务-请定义一个-square-of-sum-函数，它接受一个list，返回list中每个元素平方的和。"><a href="#任务-请定义一个-square-of-sum-函数，它接受一个list，返回list中每个元素平方的和。" class="headerlink" title="任务 请定义一个 square_of_sum 函数，它接受一个list，返回list中每个元素平方的和。"></a>任务 请定义一个 square_of_sum 函数，它接受一个list，返回list中每个元素平方的和。</h3><pre><code>def square_of_sum(L):
+
+    sum = 0
+
+    for i in L:
+
+        sum += i * i
+
+    return sum
+
+
+
+print square_of_sum([1, 2, 3, 4, 5])
+
+print square_of_sum([-5, 0, 5, 15, 25])
+</code></pre><a id="more"></a> 
+<h2 id="递归函数"><a href="#递归函数" class="headerlink" title="递归函数"></a>递归函数</h2><h3 id="任务-汉诺塔-http-baike-baidu-com-view-191666-htm-的移动也可以看做是递归函数。"><a href="#任务-汉诺塔-http-baike-baidu-com-view-191666-htm-的移动也可以看做是递归函数。" class="headerlink" title="任务 汉诺塔 (http://baike.baidu.com/view/191666.htm) 的移动也可以看做是递归函数。"></a>任务 汉诺塔 (<a href="http://baike.baidu.com/view/191666.htm" target="_blank" rel="external">http://baike.baidu.com/view/191666.htm</a>) 的移动也可以看做是递归函数。</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">我们对柱子编号为a, b, c，将所有圆盘从a移到c可以描述为：</div><div class="line"></div><div class="line">如果a只有一个圆盘，可以直接移动到c；</div><div class="line"></div><div class="line">如果a有N个圆盘，可以看成a有1个圆盘（底盘） + (N-1)个圆盘，首先需要把 (N-1) 个圆盘移动到 b，然后，将 a的最后一个圆盘移动到c，再将b的(N-1)个圆盘移动到c。</div><div class="line"></div><div class="line">请编写一个函数，给定输入 n, a, b, c，打印出移动的步骤：</div><div class="line"></div><div class="line">move(n, a, b, c)</div><div class="line"></div><div class="line">例如，输入 move(2, &apos;A&apos;, &apos;B&apos;, &apos;C&apos;)，打印出：</div><div class="line"></div><div class="line">A --&gt; B</div><div class="line">A --&gt; C</div><div class="line">B --&gt; C</div></pre></td></tr></table></figure>
+<pre><code>def move(n, a, b, c):
+
+    if n==1:
+
+        print a, &quot;--&gt;&quot;, c
+
+        return
+
+    move(n-1, a, c, b)
+
+    print a,&quot;--&gt;&quot;,c
+
+    move(n-1, b , a, c)
+</code></pre><h2 id="定义默认参数"><a href="#定义默认参数" class="headerlink" title="定义默认参数"></a>定义默认参数</h2><h3 id="任务-请定义一个-greet-函数，它包含一个默认参数，如果没有传入，打印-‘Hello-world-’，如果传入，打印-‘Hello-xxx-’"><a href="#任务-请定义一个-greet-函数，它包含一个默认参数，如果没有传入，打印-‘Hello-world-’，如果传入，打印-‘Hello-xxx-’" class="headerlink" title="任务-请定义一个 greet() 函数，它包含一个默认参数，如果没有传入，打印 ‘Hello, world.’，如果传入，打印 ‘Hello, xxx.’"></a>任务-请定义一个 greet() 函数，它包含一个默认参数，如果没有传入，打印 ‘Hello, world.’，如果传入，打印 ‘Hello, xxx.’</h3><pre><code>def greet(b=&apos;world&apos;):
+
+
+
+    print &apos;hello, &apos;+b+&apos;.&apos;
+
+
+
+greet()
+
+greet(&apos;Bart&apos;)
+</code></pre><h2 id="定义多个参数"><a href="#定义多个参数" class="headerlink" title="定义多个参数"></a>定义多个参数</h2><pre><code>def fn(*args):
+print args
+</code></pre><ul>
+<li><p>假设我们要计算任意个数的平均值，就可以定义一个可变参数：</p>
+<p>  def average(*args):</p>
+<pre><code>sum = 0.0
+if len(args)==0:
+    return sum
+else:
+    for i in args:
+        sum+=i
+return sum / len(args)
+</code></pre></li>
+</ul>
+<pre><code>print average()
+print average(1, 2)
+print average(1, 2, 2, 3, 4)
+</code></pre><h2 id="range-函数可以创建一个数列："><a href="#range-函数可以创建一个数列：" class="headerlink" title="range()函数可以创建一个数列："></a>range()函数可以创建一个数列：</h2><pre><code>range(1, 101)
+[1, 2, 3, ..., 100]
+</code></pre><h2 id="slice对list进行切片"><a href="#slice对list进行切片" class="headerlink" title="slice对list进行切片"></a>slice对list进行切片</h2><ul>
+<li><p>对应上面的问题，取前3个元素，用一行代码就可以完成切片：</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>L[0:3]</p>
+</blockquote>
+</blockquote>
+</blockquote>
+</li>
+<li><p>如果第一个索引是0，还可以省略：</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>L[:3]</p>
+</blockquote>
+</blockquote>
+</blockquote>
+</li>
+<li><p>也可以从索引1开始，取出2个元素出来：</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>L[1:3]</p>
+</blockquote>
+</blockquote>
+</blockquote>
+</li>
+<li><p>只用一个 : ，表示从头到尾：</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>L[:]</p>
+</blockquote>
+</blockquote>
+</blockquote>
+</li>
+<li><p>切片操作还可以指定第三个参数：</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>L[::2]<br>[‘Adam’, ‘Bart’]第三个参数表示每N个取一个，上面的 L[::2] 会每两个元素取出一个来，也就是隔一个取一个。{第三个参数每隔N个数取第一个数}</p>
+</blockquote>
+</blockquote>
+</blockquote>
+</li>
+<li><p>字符串有个方法 upper() 可以把字符变成大写字母：</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>‘abc’.upper()</p>
+</blockquote>
+</blockquote>
+</blockquote>
+</li>
+</ul>
+<h3 id="任务：请设计一个函数，它接受一个字符串，然后返回一个仅首字母变成大写的字符串。"><a href="#任务：请设计一个函数，它接受一个字符串，然后返回一个仅首字母变成大写的字符串。" class="headerlink" title="任务：请设计一个函数，它接受一个字符串，然后返回一个仅首字母变成大写的字符串。"></a>任务：请设计一个函数，它接受一个字符串，然后返回一个仅首字母变成大写的字符串。</h3><pre><code>提示：利用切片操作简化字符串操作。
+def firstCharUpper(s):
+    return s[:1].upper()+s[1:]
+print firstCharUpper(&apos;hello&apos;)
+print firstCharUpper(&apos;sunday&apos;)
+print firstCharUpper(&apos;september&apos;)
+</code></pre><h2 id="迭代"><a href="#迭代" class="headerlink" title="迭代"></a>迭代</h2><pre><code>集合是指包含一组元素的数据结构，我们已经介绍的包括：
+1. 有序集合：list，tuple，str和unicode；
+2. 无序集合：set
+3. 无序集合并且具有 key-value 对：dict
+</code></pre><h3 id="任务-请用for循环迭代数列-1-100-并打印出7的倍数。"><a href="#任务-请用for循环迭代数列-1-100-并打印出7的倍数。" class="headerlink" title="任务-请用for循环迭代数列 1-100 并打印出7的倍数。"></a>任务-请用for循环迭代数列 1-100 并打印出7的倍数。</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">//第一种实现</div><div class="line">for i in range(1,101):</div><div class="line">    if(i%7==0):</div><div class="line">        print(i)</div><div class="line">```   </div><div class="line">```   </div><div class="line">//第二种实现  </div><div class="line">for i in range(1, 101)[6::7]:</div><div class="line"></div><div class="line">    print i</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">//第三种实现 ,range有步长功能，不需要切片 </div><div class="line">for i in range(1, 101,7):</div><div class="line"></div><div class="line">    print i</div></pre></td></tr></table></figure>
+<h2 id="索引迭代"><a href="#索引迭代" class="headerlink" title="索引迭代"></a>索引迭代</h2><ul>
+<li>Python中，迭代永远是取出元素本身，而非元素的索引。<br>  enum..<br>  使用 enumerate() 函数，我们可以在for循环中同时绑定索引index和元素name。但是，这不是 enumerate() 的特殊语法。实际上，enumerate() 函数把：<br>  [‘Adam’, ‘Lisa’, ‘Bart’, ‘Paul’]变成了类似：<br>  [(0, ‘Adam’), (1, ‘Lisa’), (2, ‘Bart’), (3, ‘Paul’)]</li>
+</ul>
+<h3 id="任务-zip-函数可以把两个-list-变成一个-list："><a href="#任务-zip-函数可以把两个-list-变成一个-list：" class="headerlink" title="任务 zip()函数可以把两个 list 变成一个 list："></a>任务 zip()函数可以把两个 list 变成一个 list：</h3><blockquote>
+<blockquote>
+<blockquote>
+<p>zip([10, 20, 30], [‘A’, ‘B’, ‘C’])<br>[(10, ‘A’), (20, ‘B’), (30, ‘C’)]在迭代 [‘Adam’, ‘Lisa’, ‘Bart’, ‘Paul’] 时，如果我们想打印出名次 - 名字（名次从1开始)，请考虑如何在迭代中打印出来。</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">L = [&apos;Adam&apos;, &apos;Lisa&apos;, &apos;Bart&apos;, &apos;Paul&apos;]</div><div class="line">for index, name in zip(range(1,6),L):</div><div class="line">    print index, &apos;-&apos;, name</div></pre></td></tr></table></figure>
+<h2 id="迭代dict的value"><a href="#迭代dict的value" class="headerlink" title="迭代dict的value"></a>迭代dict的value</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"> ① d.values</div><div class="line"> d = &#123; &apos;Adam&apos;: 95, &apos;Lisa&apos;: 85, &apos;Bart&apos;: 59 &#125;</div><div class="line"></div><div class="line"> for v in d.values():</div><div class="line">    print v </div><div class="line"> </div><div class="line"> ② itervalues</div><div class="line"> d = &#123; &apos;Adam&apos;: 95, &apos;Lisa&apos;: 85, &apos;Bart&apos;: 59 &#125;</div><div class="line"></div><div class="line">-- &lt;dictionary-valueiterator object at 0x106adbb50&gt;</div><div class="line">for v in d.itervalues():</div><div class="line">    print v</div></pre></td></tr></table></figure>
+<h2 id="迭代dict的key和value"><a href="#迭代dict的key和value" class="headerlink" title="迭代dict的key和value"></a>迭代dict的key和value</h2><ul>
+<li>item会把dict迭代成N个List[tuple{}],item有iteritems</li>
+</ul>
+<h3 id="任务-请根据dict打印内容："><a href="#任务-请根据dict打印内容：" class="headerlink" title="任务-请根据dict打印内容："></a>任务-请根据dict打印内容：</h3><pre><code>d = { &apos;Adam&apos;: 95, &apos;Lisa&apos;: 85, &apos;Bart&apos;: 59, &apos;Paul&apos;: 74 }
+打印出 name : score，最后再打印出平均分 average : score。
+
+
+d = { &apos;Adam&apos;: 95, &apos;Lisa&apos;: 85, &apos;Bart&apos;: 59, &apos;Paul&apos;: 74 }
+
+sum = 0.0
+for k, v in d.items():
+    sum = sum + v
+    print k,&quot;:&quot;,v
+print &apos;average&apos;, &apos;:&apos;, sum/len(d)
+</code></pre><h2 id="生成列表-列表生成式"><a href="#生成列表-列表生成式" class="headerlink" title="生成列表-列表生成式"></a>生成列表-列表生成式</h2><pre><code>任务
+请利用列表生成式生成列表 [1x2, 3x4, 5x6, 7x8, ..., 99x100]
+提示：range(1, 100, 2) 可以生成list [1, 3, 5, 7, 9,...]
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">print [x *(x+1) for x in range(1,101,2)]</div></pre></td></tr></table></figure>
+<h2 id="复杂表达式"><a href="#复杂表达式" class="headerlink" title="复杂表达式"></a>复杂表达式</h2><ul>
+<li>字符串可以通过 % 进行格式化，用指定的参数替代 %s。字符串的join()方法可以把一个 list 拼接成一个字符串。</li>
+</ul>
+<h3 id="在生成的表格中，对于没有及格的同学，请把分数标记为红色。"><a href="#在生成的表格中，对于没有及格的同学，请把分数标记为红色。" class="headerlink" title="在生成的表格中，对于没有及格的同学，请把分数标记为红色。"></a>在生成的表格中，对于没有及格的同学，请把分数标记为红色。</h3><p>-提示：红色可以用 <td style="color:red"> 实现。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">d = &#123; &apos;Adam&apos;: 95, &apos;Lisa&apos;: 85, &apos;Bart&apos;: 59 &#125;</div><div class="line">def generate_tr(name, score):</div><div class="line">    if score&gt;60:</div><div class="line">    return &apos;&lt;tr&gt;&lt;td&gt;%s&lt;/td&gt;&lt;td&gt;%s&lt;/td&gt;&lt;/tr&gt;&apos; % (name, score)</div><div class="line">    else:</div><div class="line">     return &apos;&lt;tr&gt;&lt;td&gt;%s&lt;/td&gt;&lt;td style=&quot;color:red&quot;&gt;%s&lt;/td&gt;&lt;/tr&gt;&apos; % (name, score)    </div><div class="line"></div><div class="line">tds = [generate_tr for name, score in d.iteritems()]</div><div class="line">print &apos;&lt;table border=&quot;1&quot;&gt;&apos;</div><div class="line">print &apos;&lt;tr&gt;&lt;th&gt;Name&lt;/th&gt;&lt;th&gt;Score&lt;/th&gt;&lt;tr&gt;&apos;</div><div class="line">print &apos;\n&apos;.join(tds)</div><div class="line">print &apos;&lt;/table&gt;&apos;</div><div class="line"></div><div class="line">--解释</div><div class="line">#先把&apos;&lt;tr&gt;&lt;td&gt;%s&lt;/td&gt;&lt;td&gt;%s&lt;/td&gt;&lt;/tr&gt;&apos; % (name, score)部分用gtr表示，</div><div class="line">则此代码可以表示为[gtr for name, score in d.iteritems()]</div><div class="line">我们先看gtr部分，字符串可以通过 % 进行格式化，用指定的参数替代 %s，所以gtr表示一个字符串。举个例子，如果name=Mike，score=90，那么gtr=&apos;&lt;tr&gt;&lt;td&gt;Mike&lt;/td&gt;&lt;td&gt;90&lt;/td&gt;&lt;/tr&gt;&apos;。</div><div class="line">再看整个这代码，这是个利用for循环迭代dict d的复杂表达式，取出的name，score将会一一带入gtr，构成一个元素为字符串的list。#</div></pre></td></tr></table></figure></td></p>
+<h2 id="条件过滤"><a href="#条件过滤" class="headerlink" title="条件过滤"></a>条件过滤</h2><pre><code>列表生成式的 for 循环后面还可以加上 if 判断。例如：
+&gt;&gt;&gt; [x * x for x in range(1, 11)]
+[1, 4, 9, 16, 25, 36, 49, 64, 81, 100]如果我们只想要偶数的平方，不改动 range()的情况下，可以加上 if 来筛选：
+&gt;&gt;&gt; [x * x for x in range(1, 11) if x % 2 == 0]
+[4, 16, 36, 64, 100]有了 if 条件，只有 if 判断为 True 的时候，才把循环的当前元素添加到列表中。
+</code></pre><h3 id="任务-请编写一个函数，它接受一个-list，然后把list中的所有字符串变成大写后返回，非字符串元素将被忽略。"><a href="#任务-请编写一个函数，它接受一个-list，然后把list中的所有字符串变成大写后返回，非字符串元素将被忽略。" class="headerlink" title="任务 请编写一个函数，它接受一个 list，然后把list中的所有字符串变成大写后返回，非字符串元素将被忽略。"></a>任务 请编写一个函数，它接受一个 list，然后把list中的所有字符串变成大写后返回，非字符串元素将被忽略。</h3><pre><code>提示：
+1. isinstance(x, str) 可以判断变量 x 是否是字符串；
+2. 字符串的 upper() 方法可以返回大写的字母。
+
+def toUppers(L):
+    return [s.upper() for s in L if isinstance(s, str)]
+
+print toUppers([&apos;Hello&apos;, &apos;world&apos;, 101])
+</code></pre><h2 id="多层表达式"><a href="#多层表达式" class="headerlink" title="多层表达式"></a>多层表达式</h2><ul>
+<li><p>for循环可以嵌套，因此，在列表生成式中，也可以用多层 for 循环来生成列表。</p>
+</li>
+<li><p>对于字符串 ‘ABC’ 和 ‘123’，可以使用两层循环，生成全排列：</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>[m + n for m in ‘ABC’ for n in ‘123’]<br>  [‘A1’, ‘A2’, ‘A3’, ‘B1’, ‘B2’, ‘B3’, ‘C1’, ‘C2’, ‘C3’]<br>  翻译成循环代码就像下面这样：</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<p>  L = []<br>  for m in ‘ABC’:</p>
+<pre><code>for n in &apos;123&apos;:
+    L.append(m + n)
+</code></pre></li>
+</ul>
+<h3 id="任务利用-3-层for循环的列表生成式，找出对称的-3-位数。例如，121-就是对称数，因为从右到左倒过来还是-121。"><a href="#任务利用-3-层for循环的列表生成式，找出对称的-3-位数。例如，121-就是对称数，因为从右到左倒过来还是-121。" class="headerlink" title="任务利用 3 层for循环的列表生成式，找出对称的 3 位数。例如，121 就是对称数，因为从右到左倒过来还是 121。"></a>任务利用 3 层for循环的列表生成式，找出对称的 3 位数。例如，121 就是对称数，因为从右到左倒过来还是 121。</h3><pre><code>print [a*100+b*10+c for a in range(1,10) for b in range(0,10) for c in range(0,10) if a==c]
+</code></pre>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>生活不止苟且,还有我喜爱的海岸.</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="http://7xpfpd.com1.z0.glb.clouddn.com/blog/donate/wxpay.jpg" alt="Bruce WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="http://7xpfpd.com1.z0.glb.clouddn.com/blog/donate/alipay.png" alt="Bruce Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/python/" rel="tag"># python</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/12/26/python01/" rel="next" title="python学习笔记01">
+                <i class="fa fa-chevron-left"></i> python学习笔记01
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/12/30/recovery/" rel="prev" title="mac os x 备份和恢复">
+                mac os x 备份和恢复 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8yNzgzNy80NDEz"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="Bruce" />
+          <p class="site-author-name" itemprop="name">Bruce</p>
+           
+              <p class="site-description motion-element" itemprop="description">人生苦短，及时行乐</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/">
+                <span class="site-state-item-count">64</span>
+                <span class="site-state-item-name">posts</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">60</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/liuhouer" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/liuhouer" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.facebook.com/bruce.mo.7" target="_blank" title="Facebook">
+                  
+                    <i class="fa fa-fw fa-facebook-square"></i>
+                  
+                  Facebook
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://northpark.cn/?,NorthPark-小清新的软件、影视、心情、图片互动公园" title="NorthPark" target="_blank">NorthPark</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://effine.cn/?,哈哈，他叫verphen，故给他起绰号挖粪男孩" title="挖粪の男孩" target="_blank">挖粪の男孩</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://lonelyrobots.cn/?,哈哈，他排行老六，又名撒币六子" title="OldのSix" target="_blank">OldのSix</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#python学习笔记02-2015-12-28"><span class="nav-number">1.</span> <span class="nav-text">python学习笔记02 [2015-12-28]</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#编写函数"><span class="nav-number">1.1.</span> <span class="nav-text">编写函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#任务-请定义一个-square-of-sum-函数，它接受一个list，返回list中每个元素平方的和。"><span class="nav-number">1.1.1.</span> <span class="nav-text">任务 请定义一个 square_of_sum 函数，它接受一个list，返回list中每个元素平方的和。</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#递归函数"><span class="nav-number">1.2.</span> <span class="nav-text">递归函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#任务-汉诺塔-http-baike-baidu-com-view-191666-htm-的移动也可以看做是递归函数。"><span class="nav-number">1.2.1.</span> <span class="nav-text">任务 汉诺塔 (http://baike.baidu.com/view/191666.htm) 的移动也可以看做是递归函数。</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#定义默认参数"><span class="nav-number">1.3.</span> <span class="nav-text">定义默认参数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#任务-请定义一个-greet-函数，它包含一个默认参数，如果没有传入，打印-‘Hello-world-’，如果传入，打印-‘Hello-xxx-’"><span class="nav-number">1.3.1.</span> <span class="nav-text">任务-请定义一个 greet() 函数，它包含一个默认参数，如果没有传入，打印 ‘Hello, world.’，如果传入，打印 ‘Hello, xxx.’</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#定义多个参数"><span class="nav-number">1.4.</span> <span class="nav-text">定义多个参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#range-函数可以创建一个数列："><span class="nav-number">1.5.</span> <span class="nav-text">range()函数可以创建一个数列：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#slice对list进行切片"><span class="nav-number">1.6.</span> <span class="nav-text">slice对list进行切片</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#任务：请设计一个函数，它接受一个字符串，然后返回一个仅首字母变成大写的字符串。"><span class="nav-number">1.6.1.</span> <span class="nav-text">任务：请设计一个函数，它接受一个字符串，然后返回一个仅首字母变成大写的字符串。</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#迭代"><span class="nav-number">1.7.</span> <span class="nav-text">迭代</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#任务-请用for循环迭代数列-1-100-并打印出7的倍数。"><span class="nav-number">1.7.1.</span> <span class="nav-text">任务-请用for循环迭代数列 1-100 并打印出7的倍数。</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#索引迭代"><span class="nav-number">1.8.</span> <span class="nav-text">索引迭代</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#任务-zip-函数可以把两个-list-变成一个-list："><span class="nav-number">1.8.1.</span> <span class="nav-text">任务 zip()函数可以把两个 list 变成一个 list：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#迭代dict的value"><span class="nav-number">1.9.</span> <span class="nav-text">迭代dict的value</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#迭代dict的key和value"><span class="nav-number">1.10.</span> <span class="nav-text">迭代dict的key和value</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#任务-请根据dict打印内容："><span class="nav-number">1.10.1.</span> <span class="nav-text">任务-请根据dict打印内容：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#生成列表-列表生成式"><span class="nav-number">1.11.</span> <span class="nav-text">生成列表-列表生成式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#复杂表达式"><span class="nav-number">1.12.</span> <span class="nav-text">复杂表达式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#在生成的表格中，对于没有及格的同学，请把分数标记为红色。"><span class="nav-number">1.12.1.</span> <span class="nav-text">在生成的表格中，对于没有及格的同学，请把分数标记为红色。</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#条件过滤"><span class="nav-number">1.13.</span> <span class="nav-text">条件过滤</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#任务-请编写一个函数，它接受一个-list，然后把list中的所有字符串变成大写后返回，非字符串元素将被忽略。"><span class="nav-number">1.13.1.</span> <span class="nav-text">任务 请编写一个函数，它接受一个 list，然后把list中的所有字符串变成大写后返回，非字符串元素将被忽略。</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#多层表达式"><span class="nav-number">1.14.</span> <span class="nav-text">多层表达式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#任务利用-3-层for循环的列表生成式，找出对称的-3-位数。例如，121-就是对称数，因为从右到左倒过来还是-121。"><span class="nav-number">1.14.1.</span> <span class="nav-text">任务利用 3 层for循环的列表生成式，找出对称的 3 位数。例如，121 就是对称数，因为从右到左倒过来还是 121。</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Bruce</span>
+</div>
+
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://northpark.cn/">NorthPark.cn</a>
+</div>
+
+
+<div class="powered-by">
+  MacSoft -
+  <a class="theme-link" href="https://northpark.cn/soft/mac">
+    NorthPark.soft
+  </a>
+</div>
+
+<div class="powered-by">
+ Movies.TV.Comic -
+  <a class="theme-link" href="https://northpark.cn/movies">
+    NorthPark.movies
+  </a>
+</div>
+
+<div class="theme-info">
+  Pua -
+  <a class="theme-link" href="https://northpark.cn/romeo">
+    NorthPark.pua
+  </a>
+</div>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i> &nbsp;   本站访客数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人次
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>  &nbsp; 本站总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+</body>
+</html>
