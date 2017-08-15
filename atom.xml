@@ -19,7 +19,7 @@
     <title>MySQL安全配置向导</title>
     <link href="http://liuhouer.github.io/2017/08/15/MySQL%E5%AE%89%E5%85%A8%E9%85%8D%E7%BD%AE%E5%90%91%E5%AF%BC/"/>
     <id>http://liuhouer.github.io/2017/08/15/MySQL安全配置向导/</id>
-    <published>2017-08-15T08:36:31.536Z</published>
+    <published>2017-08-15T08:58:17.545Z</published>
     <updated>2017-08-15T08:14:52.000Z</updated>
     
     <content type="html"><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><blockquote>
@@ -65,7 +65,7 @@
     <link href="http://liuhouer.github.io/2017/07/27/centos%206.5%20%E5%AE%89%E8%A3%85%20MySql%206.7/"/>
     <id>http://liuhouer.github.io/2017/07/27/centos 6.5 安装 MySql 6.7/</id>
     <published>2017-07-27T02:24:09.000Z</published>
-    <updated>2017-08-15T08:15:25.000Z</updated>
+    <updated>2017-08-15T08:57:42.000Z</updated>
     
     <content type="html"><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><blockquote>
 <p>之前尝试过3次centos安装mysql服务，都失败了，严重的时候，系统都挂了，所有服务重新撘~<br>我尝试了各种安装方式,例如:</p>
@@ -123,6 +123,7 @@
 <figure class="highlight maxima"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/etc/init.d/iptables <span class="built_in">save</span></div></pre></td></tr></table></figure>
 <figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">chkconfig</span> mysqld <span class="literal">on</span></div></pre></td></tr></table></figure>
 <figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mysql_secure_installation</div></pre></td></tr></table></figure>
+<p>了解更多增强MySQL安全设置来<a href="http://blog.northpark.cn/2017/08/15/MySQL%E5%AE%89%E5%85%A8%E9%85%8D%E7%BD%AE%E5%90%91%E5%AF%BC/" target="_blank" rel="external">Northpark博客</a></p>
 ]]></content>
     
     <summary type="html">
