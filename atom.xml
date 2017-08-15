@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://liuhouer.github.io/"/>
-  <updated>2017-03-23T03:21:57.750Z</updated>
+  <updated>2017-08-15T08:14:52.000Z</updated>
   <id>http://liuhouer.github.io/</id>
   
   <author>
@@ -16,11 +16,151 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>MySQL安全配置向导</title>
+    <link href="http://liuhouer.github.io/2017/08/15/MySQL%E5%AE%89%E5%85%A8%E9%85%8D%E7%BD%AE%E5%90%91%E5%AF%BC/"/>
+    <id>http://liuhouer.github.io/2017/08/15/MySQL安全配置向导/</id>
+    <published>2017-08-15T08:36:31.536Z</published>
+    <updated>2017-08-15T08:14:52.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><blockquote>
+<p>主要介绍了MySQL安全配置向导mysql_secure_installation各项配置的含义,并依据经验给予一了一些建议<br><strong>安装完mysql-server 会提示可以运行mysql_secure_installation。运行mysql_secure_installation会执行几个设置：</strong></p>
+<ul>
+<li>为root用户设置密码</li>
+<li>删除匿名账号</li>
+<li>取消root用户远程登录</li>
+<li>删除test库和对test库的访问权限</li>
+<li>刷新授权表使修改生效<br><strong>通过这几项的设置能够提高mysql库的安全。建议生产环境中mysql安装这完成后一定要运行一次mysql_secure_installation，详细步骤请参看下面的命令:</strong></li>
+</ul>
+</blockquote>
+<a id="more"></a>
+<figure class="highlight vbnet"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div></pre></td><td class="code"><pre><div class="line">[root@server1 ~]<span class="meta"># mysql_secure_installation</span></div><div class="line">NOTE: RUNNING ALL PARTS <span class="keyword">OF</span> THIS SCRIPT <span class="keyword">IS</span> RECOMMENDED <span class="keyword">FOR</span> ALL MySQL</div><div class="line">SERVERS <span class="keyword">IN</span> PRODUCTION USE! PLEASE READ <span class="keyword">EACH</span> <span class="keyword">STEP</span> CAREFULLY!</div><div class="line"><span class="keyword">In</span> <span class="keyword">order</span> <span class="keyword">to</span> log <span class="keyword">into</span> MySQL <span class="keyword">to</span> secure it, we<span class="comment">'ll need the current</span></div><div class="line">password <span class="keyword">for</span> the root user. <span class="keyword">If</span> you<span class="comment">'ve just installed MySQL, and</span></div><div class="line">you haven<span class="comment">'t set the root password yet, the password will be blank,</span></div><div class="line">so you should just press enter here.</div><div class="line">Enter current password <span class="keyword">for</span> root (enter <span class="keyword">for</span> none):&lt;–初次运行直接回车</div><div class="line">OK, successfully used password, moving <span class="keyword">on</span>…</div><div class="line">Setting the root password ensures that nobody can log <span class="keyword">into</span> the MySQL</div><div class="line">root user without the proper authorisation.</div><div class="line"><span class="keyword">Set</span> root password? [Y/n] ==&lt;– 是否设置root用户密码，输入y并回车或直接回车==</div><div class="line"><span class="keyword">New</span> password: ==&lt;– 设置root用户的密码==</div><div class="line">Re-enter <span class="keyword">new</span> password: ==&lt;– 再输入一次你设置的密码==</div><div class="line">Password updated successfully!</div><div class="line">Reloading privilege tables..</div><div class="line">… Success!</div><div class="line"><span class="keyword">By</span> <span class="keyword">default</span>, a MySQL installation has an anonymous user, allowing anyone</div><div class="line"><span class="keyword">to</span> log <span class="keyword">into</span> MySQL without having <span class="keyword">to</span> have a user account created <span class="keyword">for</span></div><div class="line">them. This <span class="keyword">is</span> intended only <span class="keyword">for</span> testing, <span class="keyword">and</span> <span class="keyword">to</span> make the installation</div><div class="line">go a bit smoother. You should remove them before moving <span class="keyword">into</span> a</div><div class="line">production environment.</div><div class="line">Remove anonymous users? [Y/n] ==&lt;– 是否删除匿名用户,生产环境建议删除，所以直接回车==</div><div class="line">… Success!</div><div class="line">Normally, root should only be allowed <span class="keyword">to</span> connect <span class="keyword">from</span> <span class="comment">'localhost'. This</span></div><div class="line">ensures that someone cannot guess at the root password <span class="keyword">from</span> the network.</div><div class="line">Disallow root login remotely? [Y/n] ==&lt;–是否禁止root远程登录,根据自己的需求选择Y/n并回车,建议禁止==</div><div class="line">… Success!</div><div class="line"><span class="keyword">By</span> <span class="keyword">default</span>, MySQL comes <span class="keyword">with</span> a database named <span class="comment">'test' that anyone can</span></div><div class="line">access. This <span class="keyword">is</span> also intended only <span class="keyword">for</span> testing, <span class="keyword">and</span> should be removed</div><div class="line">before moving <span class="keyword">into</span> a production environment.</div><div class="line">Remove test database <span class="keyword">and</span> access <span class="keyword">to</span> it? [Y/n] ==&lt;– 是否删除test数据库,直接回车==</div><div class="line">- Dropping test database…</div><div class="line">… Success!</div><div class="line">- Removing privileges <span class="keyword">on</span> test database…</div><div class="line">… Success!</div><div class="line">Reloading the privilege tables will ensure that all changes made so far</div><div class="line">will <span class="keyword">take</span> effect immediately.</div><div class="line">Reload privilege tables now? [Y/n] ==&lt;– 是否重新加载权限表，直接回车==</div><div class="line">… Success!</div><div class="line">Cleaning up…</div><div class="line">All done! <span class="keyword">If</span> you<span class="comment">'ve completed all of the above steps, your MySQL</span></div><div class="line">installation should now be secure.</div><div class="line">Thanks <span class="keyword">for</span> <span class="keyword">using</span> MySQL!</div><div class="line">[root@server1 ~]<span class="meta">#</span></div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;blockquote&gt;
+&lt;p&gt;主要介绍了MySQL安全配置向导mysql_secure_installation各项配置的含义,并依据经验给予一了一些建议&lt;br&gt;&lt;strong&gt;安装完mysql-server 会提示可以运行mysql_secure_installation。运行mysql_secure_installation会执行几个设置：&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;为root用户设置密码&lt;/li&gt;
+&lt;li&gt;删除匿名账号&lt;/li&gt;
+&lt;li&gt;取消root用户远程登录&lt;/li&gt;
+&lt;li&gt;删除test库和对test库的访问权限&lt;/li&gt;
+&lt;li&gt;刷新授权表使修改生效&lt;br&gt;&lt;strong&gt;通过这几项的设置能够提高mysql库的安全。建议生产环境中mysql安装这完成后一定要运行一次mysql_secure_installation，详细步骤请参看下面的命令:&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+    
+    </summary>
+    
+      <category term="mysql" scheme="http://liuhouer.github.io/categories/mysql/"/>
+    
+    
+      <category term="mysql" scheme="http://liuhouer.github.io/tags/mysql/"/>
+    
+      <category term="linux" scheme="http://liuhouer.github.io/tags/linux/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>centos 6.5 安装 MySql 6.7</title>
+    <link href="http://liuhouer.github.io/2017/07/27/centos%206.5%20%E5%AE%89%E8%A3%85%20MySql%206.7/"/>
+    <id>http://liuhouer.github.io/2017/07/27/centos 6.5 安装 MySql 6.7/</id>
+    <published>2017-07-27T02:24:09.000Z</published>
+    <updated>2017-08-15T08:15:25.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><blockquote>
+<p>之前尝试过3次centos安装mysql服务，都失败了，严重的时候，系统都挂了，所有服务重新撘~<br>我尝试了各种安装方式,例如:</p>
+<blockquote>
+<blockquote>
+<p>下载别人提供好的tag.gz，解压缩，按照人家的步骤一步步来，结果安装完后启动失败~<br> 这样指令安装：yum install -y mysql-server mysql mysql-devel，安装完后启动失败，fuck！！！</p>
+</blockquote>
+<p>希望有同样遭遇的小伙伴，可以按照我的方式来装一次，版本号相同的话，肯定是可以的，所有的雷我都替你们趟过了！！ </p>
+</blockquote>
+</blockquote>
+<h2 id="1-安装-MySQL-yum-资源库"><a href="#1-安装-MySQL-yum-资源库" class="headerlink" title="1.安装 MySQL yum 资源库"></a>1.安装 MySQL yum 资源库</h2><p> 找到需要下载的资源: <a href="http://dev.mysql.com/downloads/repo/yum/" target="_blank" rel="external">http://dev.mysql.com/downloads/repo/yum/</a></p>
+<p><img src="http://7xpfpd.com1.z0.glb.clouddn.com/1.png" alt="找到需要下载的资源"></p>
+<p>MySQL Yum 下载页面</p>
+<p><img src="http://7xpfpd.com1.z0.glb.clouddn.com/2.png" alt="MySQL Yum 下载页面"></p>
+<blockquote>
+<p>复制了下载链接，wget获取资源库，确保没有错误，用md5校验，确保和官网文件是一致没错误的</p>
+</blockquote>
+<a id="more"></a>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">wget <span class="string">http:</span><span class="comment">//dev.mysql.com/get/mysql57-community-release-el6-7.noarch.rpm</span></div></pre></td></tr></table></figure>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">md5sum mysql57-community-release-el6-<span class="number">7</span><span class="selector-class">.noarch</span><span class="selector-class">.rpm</span></div></pre></td></tr></table></figure>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">rpm -ivh mysql57-community-release-el6-<span class="number">7</span><span class="selector-class">.noarch</span><span class="selector-class">.rpm</span></div></pre></td></tr></table></figure>
+<p><img src="http://7xpfpd.com1.z0.glb.clouddn.com/3.jpg" alt="指令界面"></p>
+<h2 id="2-安装-MySQL-5-7服务端和客户端依赖包"><a href="#2-安装-MySQL-5-7服务端和客户端依赖包" class="headerlink" title="2. 安装 MySQL 5.7服务端和客户端依赖包"></a>2. 安装 MySQL 5.7服务端和客户端依赖包</h2><blockquote>
+<p>以上我们安装了mysql5.7的yum资源库，可以开始安装mysql服务端和客户端依赖包了</p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum <span class="keyword">install</span> -y mysql-community-<span class="keyword">client</span> mysql-community-<span class="keyword">server</span></div></pre></td></tr></table></figure>
+<p><img src="http://7xpfpd.com1.z0.glb.clouddn.com/4.jpg" alt="指令界面"></p>
+<h2 id="3-启动-MySQL-5-7-Server-配置连接"><a href="#3-启动-MySQL-5-7-Server-配置连接" class="headerlink" title="3. 启动 MySQL 5.7 Server 配置连接 !"></a>3. 启动 MySQL 5.7 Server 配置连接 !</h2><blockquote>
+<p>  Start MySQL 5.7 service<br>  打开mysql服务</p>
+</blockquote>
+<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">service mysqld start</span></div></pre></td></tr></table></figure>
+<blockquote>
+<p>And find initial mysql 5.7 root password from log file<br>找到初始化mysql的管理员密码，初始化密码在log文件中</p>
+</blockquote>
+<figure class="highlight maxima"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">grep -i temporary /<span class="built_in">var</span>/<span class="built_in">log</span>/mysqld.<span class="built_in">log</span></div></pre></td></tr></table></figure>
+<blockquote>
+<p>Login into MySQL 5.7 using password you got from temporary password<br>that you searched from above<br>利用初始化密码登录到mysql</p>
+</blockquote>
+<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">mysql -uroot -p</span></div></pre></td></tr></table></figure>
+<blockquote>
+<p>Only command MySQL 5.7 is going to let you run once you login with<br>your default password is password command<br>设置你的mysql管理员的新密码</p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">SET</span> <span class="keyword">PASSWORD</span> <span class="keyword">FOR</span> <span class="string">'root'</span>@<span class="string">'localhost'</span> = <span class="keyword">PASSWORD</span>(<span class="string">'Yourpassword1!'</span>);</div></pre></td></tr></table></figure>
+<p><img src="http://7xpfpd.com1.z0.glb.clouddn.com/5.jpg" alt="指令界面5-获取mysql初始化密码，设置管理员密码"></p>
+<blockquote>
+<p>这样就成功安装了MySQL 5.7 server<br>下面进行一些必要的配置</p>
+</blockquote>
+<h2 id="4-一些必要的配置"><a href="#4-一些必要的配置" class="headerlink" title="4.一些必要的配置"></a>4.一些必要的配置</h2><h3 id="1、-输入mysql管理员密码登录"><a href="#1、-输入mysql管理员密码登录" class="headerlink" title="1、 输入mysql管理员密码登录"></a>1、 输入mysql管理员密码登录</h3><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">mysql -uroot -p</span></div></pre></td></tr></table></figure>
+<h3 id="2、授权权限"><a href="#2、授权权限" class="headerlink" title="2、授权权限"></a>2、授权权限</h3><blockquote>
+<p>允许任何主机使用“myuser”账号和“mypwd”密码连接到 MySQL 服务器。</p>
+</blockquote>
+<figure class="highlight lasso"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">mysql&gt; </div><div class="line">GRANT <span class="literal">ALL</span> PRIVILEGES <span class="keyword">ON</span> *.* <span class="keyword">TO</span> <span class="string">'root'</span>@<span class="string">'%'</span> IDENTIFIED <span class="keyword">BY</span> <span class="string">'noface@@^'</span> <span class="keyword">WITH</span> GRANT OPTION;  </div><div class="line"></div><div class="line">GRANT <span class="literal">ALL</span> PRIVILEGES <span class="keyword">ON</span> *.* <span class="keyword">TO</span> <span class="string">'noface'</span>@<span class="string">'%'</span> IDENTIFIED <span class="keyword">BY</span> <span class="string">'noface@'</span> <span class="keyword">WITH</span> GRANT OPTION;</div></pre></td></tr></table></figure>
+<h3 id="3、立刻刷新生效"><a href="#3、立刻刷新生效" class="headerlink" title="3、立刻刷新生效"></a>3、立刻刷新生效</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mysql&gt; FLUSH PRIVILEGES;</div></pre></td></tr></table></figure>
+<h3 id="4、之后还可以放开防火墙、设定自启动、增强MySQL安全设置等。"><a href="#4、之后还可以放开防火墙、设定自启动、增强MySQL安全设置等。" class="headerlink" title="4、之后还可以放开防火墙、设定自启动、增强MySQL安全设置等。"></a>4、之后还可以放开防火墙、设定自启动、增强MySQL安全设置等。</h3><figure class="highlight pf"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">iptables -I INPUT -p tcp -m <span class="keyword">state</span> --state NEW -m tcp --dport <span class="number">3306</span> -j ACCEPT</div></pre></td></tr></table></figure>
+<figure class="highlight maxima"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/etc/init.d/iptables <span class="built_in">save</span></div></pre></td></tr></table></figure>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">chkconfig</span> mysqld <span class="literal">on</span></div></pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mysql_secure_installation</div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;blockquote&gt;
+&lt;p&gt;之前尝试过3次centos安装mysql服务，都失败了，严重的时候，系统都挂了，所有服务重新撘~&lt;br&gt;我尝试了各种安装方式,例如:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;下载别人提供好的tag.gz，解压缩，按照人家的步骤一步步来，结果安装完后启动失败~&lt;br&gt; 这样指令安装：yum install -y mysql-server mysql mysql-devel，安装完后启动失败，fuck！！！&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;希望有同样遭遇的小伙伴，可以按照我的方式来装一次，版本号相同的话，肯定是可以的，所有的雷我都替你们趟过了！！ &lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;1-安装-MySQL-yum-资源库&quot;&gt;&lt;a href=&quot;#1-安装-MySQL-yum-资源库&quot; class=&quot;headerlink&quot; title=&quot;1.安装 MySQL yum 资源库&quot;&gt;&lt;/a&gt;1.安装 MySQL yum 资源库&lt;/h2&gt;&lt;p&gt; 找到需要下载的资源: &lt;a href=&quot;http://dev.mysql.com/downloads/repo/yum/&quot;&gt;http://dev.mysql.com/downloads/repo/yum/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://7xpfpd.com1.z0.glb.clouddn.com/1.png&quot; alt=&quot;找到需要下载的资源&quot;&gt;&lt;/p&gt;
+&lt;p&gt;MySQL Yum 下载页面&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://7xpfpd.com1.z0.glb.clouddn.com/2.png&quot; alt=&quot;MySQL Yum 下载页面&quot;&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;复制了下载链接，wget获取资源库，确保没有错误，用md5校验，确保和官网文件是一致没错误的&lt;/p&gt;
+&lt;/blockquote&gt;
+    
+    </summary>
+    
+      <category term="mysql" scheme="http://liuhouer.github.io/categories/mysql/"/>
+    
+    
+      <category term="mysql" scheme="http://liuhouer.github.io/tags/mysql/"/>
+    
+      <category term="linux" scheme="http://liuhouer.github.io/tags/linux/"/>
+    
+  </entry>
+  
+  <entry>
     <title>西安春游攻略</title>
     <link href="http://liuhouer.github.io/2017/03/23/%E5%8D%8E%E5%B1%B1%E4%B9%8B%E5%B7%85%E6%94%BB%E7%95%A5/"/>
     <id>http://liuhouer.github.io/2017/03/23/华山之巅攻略/</id>
     <published>2017-03-23T02:24:09.000Z</published>
-    <updated>2017-03-23T03:21:57.750Z</updated>
+    <updated>2017-03-23T03:21:57.000Z</updated>
     
     <content type="html"><![CDATA[<h2 id="碎碎念"><a href="#碎碎念" class="headerlink" title="碎碎念"></a>碎碎念</h2><blockquote>
 <p>12月份mac系统升级，黑屏了，Genius Bar 客服告诉我只能格式化，重装新系统。我(。_°☆╲(- – )…..((/- -)/<br>我的博客代码也没备份，一直懒惰，这几个月也没更新博文了。 终于，今天勤奋一会，把博客代码重写重搭了~</p>
@@ -113,7 +253,7 @@
     <link href="http://liuhouer.github.io/2016/10/24/%E5%88%9B%E4%B8%9A%E6%88%90%E6%9C%AC%E4%BC%B0%E7%AE%97/"/>
     <id>http://liuhouer.github.io/2016/10/24/创业成本估算/</id>
     <published>2016-10-24T15:46:49.000Z</published>
-    <updated>2017-03-23T03:21:21.184Z</updated>
+    <updated>2017-03-23T03:21:21.000Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>作为一名苦逼的移动互联网创业者，经常会听到外行的朋友们问这样的问题：“做一个网站需要多少钱？”或者“做一个APP需要多少钱？”</p>
@@ -217,7 +357,7 @@
     <link href="http://liuhouer.github.io/2016/09/20/Spring%E9%85%8D%E7%BD%AE%E6%95%B0%E6%8D%AE%E6%BA%90%E7%9A%84%E5%87%A0%E7%A7%8D%E5%BD%A2%E5%BC%8F/"/>
     <id>http://liuhouer.github.io/2016/09/20/Spring配置数据源的几种形式/</id>
     <published>2016-09-20T15:46:49.000Z</published>
-    <updated>2017-03-23T02:13:26.173Z</updated>
+    <updated>2017-03-23T02:13:26.000Z</updated>
     
     <content type="html"><![CDATA[<h1 id="Spring配置数据源的几种形式"><a href="#Spring配置数据源的几种形式" class="headerlink" title="Spring配置数据源的几种形式"></a>Spring配置数据源的几种形式</h1><blockquote>
 <p>由于我的网站之前用的c3p0数据连接池配置，总是引发一些莫名其妙的错误，几次内存泄漏都和这个有关系，google之发现好多人都发现了这些bug.<br>于是了解了一下常见的数据源的配置，并改成了dbcp的配置方案。</p>
@@ -313,7 +453,7 @@
     <link href="http://liuhouer.github.io/2016/09/09/%E4%BD%BF%E7%94%A8%20django-blog-zinnia%20%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/"/>
     <id>http://liuhouer.github.io/2016/09/09/使用 django-blog-zinnia 搭建个人博客/</id>
     <published>2016-09-09T15:46:49.000Z</published>
-    <updated>2017-03-23T02:13:26.276Z</updated>
+    <updated>2017-03-23T02:13:26.000Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>目前网上搭建个人博客的方案很多，虽然使用诸如 Wordpress ( PHP )、Hexo ( Node.js )<br>等可以方便快速地搭建一款功能齐全的高性能个人博客，但是本文将尝试一种更为小众化的方案 —— 一款基于 django-blog-zinnia<br>( Python ) 的个人博客应用。 django-blog-zinnia<br>虽然小巧，但是具备了个人博客应用的全部基础功能，且具有很高的拓展性，并且开箱即用。以下是官方列出的一些特性：</p>
@@ -426,7 +566,7 @@
     <link href="http://liuhouer.github.io/2016/07/19/%E6%AF%94%E8%BE%83%E5%90%88%E9%80%82%E7%9A%84div+css%E7%9A%84%E5%91%BD%E5%90%8D/"/>
     <id>http://liuhouer.github.io/2016/07/19/比较合适的div+css的命名/</id>
     <published>2016-07-19T15:46:49.000Z</published>
-    <updated>2017-03-23T02:13:26.340Z</updated>
+    <updated>2017-03-23T02:13:26.000Z</updated>
     
     <content type="html"><![CDATA[<ul>
 <li>页头：header 登陆条：loginBar 注册：regsiter</li>
@@ -511,7 +651,7 @@
     <link href="http://liuhouer.github.io/2016/07/13/%E6%B0%B4%E9%AD%94%E6%96%B9%E6%B8%B8%E7%8E%A9%E6%94%BB%E7%95%A5/"/>
     <id>http://liuhouer.github.io/2016/07/13/水魔方游玩攻略/</id>
     <published>2016-07-13T15:46:49.000Z</published>
-    <updated>2017-03-23T02:13:26.344Z</updated>
+    <updated>2017-03-23T02:13:26.000Z</updated>
     
     <content type="html"><![CDATA[<h1 id="水魔方游玩提前须！（网上扒的，四哥copy、小五整理，必为精品！！！）"><a href="#水魔方游玩提前须！（网上扒的，四哥copy、小五整理，必为精品！！！）" class="headerlink" title="水魔方游玩提前须！（网上扒的，四哥copy、小五整理，必为精品！！！）"></a>水魔方游玩提前须！（网上扒的，四哥copy、小五整理，必为精品！！！）</h1><h2 id="网友旅游攻略-1"><a href="#网友旅游攻略-1" class="headerlink" title="网友旅游攻略(1):"></a>网友旅游攻略(1):</h2><ul>
 <li>我是2016.7.9号周六去玩的，9点半到的，晚上4点半走的，人比较多，但是能玩的基本都玩遍了，非常过瘾。<h3 id="时间把控"><a href="#时间把控" class="headerlink" title="- 时间把控"></a>- 时间把控</h3></li>
@@ -624,7 +764,7 @@
     <link href="http://liuhouer.github.io/2016/07/11/Springmvc%E8%87%AA%E5%AE%9A%E4%B9%89%E6%B3%A8%E8%A7%A3%E5%AE%9E%E7%8E%B0%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8B%A6%E6%88%AA/"/>
     <id>http://liuhouer.github.io/2016/07/11/Springmvc自定义注解实现自定义拦截/</id>
     <published>2016-07-11T15:46:49.000Z</published>
-    <updated>2017-03-23T02:13:26.172Z</updated>
+    <updated>2017-03-23T02:13:26.000Z</updated>
     
     <content type="html"><![CDATA[<p>我自己搭的springmvc的项目，想添加登陆校验。<br>最简易优雅的实现，在需要用户信息才可以操作的Controller的方法上面加上一个@CheckLogin就可以实现登陆校验。<br>假如未登录–&gt;跳转到登录页–&gt;登陆成功–&gt;自动跳回刚才要执行的动作方法。</p>
 <p>用springmvc的handlerinterceptor的来实现。</p>
@@ -680,7 +820,7 @@
     <link href="http://liuhouer.github.io/2016/05/26/%E5%AD%A4%E7%8B%AC%E5%A4%A7%E4%BE%A0/"/>
     <id>http://liuhouer.github.io/2016/05/26/孤独大侠/</id>
     <published>2016-05-26T15:46:49.000Z</published>
-    <updated>2017-03-23T02:13:26.310Z</updated>
+    <updated>2017-03-23T02:13:26.000Z</updated>
     
     <content type="html"><![CDATA[<p>作者：森目</p>
 <p>有一个大侠很孤独，孤独得不知道做什么好，于是决定去追杀一个恶霸。恶霸被追得满世界跑，跑着跑着，亲戚朋友都跑没了，于是恶霸也变得很孤独。为了方便，我们不妨称这两人为孤独大侠和孤独恶霸。</p>
@@ -715,7 +855,7 @@
     <link href="http://liuhouer.github.io/2016/05/23/%E8%9B%87%E5%85%88%E7%94%9F%C3%97%E5%B0%8F%E4%BB%93%E9%BC%A0/"/>
     <id>http://liuhouer.github.io/2016/05/23/蛇先生×小仓鼠/</id>
     <published>2016-05-23T15:46:49.000Z</published>
-    <updated>2017-03-23T02:13:26.355Z</updated>
+    <updated>2017-03-23T02:13:26.000Z</updated>
     
     <content type="html"><![CDATA[<h2 id="蛇先生×小仓鼠"><a href="#蛇先生×小仓鼠" class="headerlink" title="蛇先生×小仓鼠"></a>蛇先生×小仓鼠</h2><h3 id="1-蛇先生是动物园的蛇先生。"><a href="#1-蛇先生是动物园的蛇先生。" class="headerlink" title="1.蛇先生是动物园的蛇先生。"></a>1.蛇先生是动物园的蛇先生。</h3><p>小仓鼠是动物园里蛇先生的晚餐。<br>“蛇先生！你打算吃我吗！”<br>“……”<br>“蛇先生！你确定不先洗洗吗！”<br>“……”<br>“蛇先生！！你吃东西不拔毛吗！！”<br>“……”<br>“蛇先生！不拔毛的话……”<br>“闭嘴！再吵我就真的吃了你！”</p>
 <h3 id="2-反正蛇先生还是动物园里的蛇先生。"><a href="#2-反正蛇先生还是动物园里的蛇先生。" class="headerlink" title="2.反正蛇先生还是动物园里的蛇先生。"></a>2.反正蛇先生还是动物园里的蛇先生。</h3><p>小仓鼠却变成了蛇先生的储备粮。<br>“蛇先生！今天你饿了吗！”<br>“……”<br>“蛇先生！！那你现在饿吗！”<br>“……”<br>“蛇先生！你吃不吃玉米粒啊！”<br>“……”<br>“蛇先生！你……”<br>蛇先生张开蛇嘴，吐出蛇信子，露出凶煞的表情。<br>“……蛇先生你终于肯吃我了吗？”<br>“……”<br>“那你拔毛吗！”<br>“滚。”<br>蛇先生一个扫尾把小仓鼠咕噜咕噜滚走了。</p>
@@ -747,7 +887,7 @@
     <link href="http://liuhouer.github.io/2016/05/21/%E5%BE%AE%E5%8D%95%E5%BE%AE%E4%B8%96%E7%95%8C/"/>
     <id>http://liuhouer.github.io/2016/05/21/微单微世界/</id>
     <published>2016-05-21T07:41:15.000Z</published>
-    <updated>2017-03-23T02:13:26.321Z</updated>
+    <updated>2017-03-23T02:13:26.000Z</updated>
     
     <content type="html"><![CDATA[<p><strong>它并不是我的花 我只是恰好途经了它的盛放</strong><br><strong>同步更新到分类-微世界</strong></p>
 <p><img src="http://7xubu6.com1.z0.glb.clouddn.com/16-5-21/67923945.jpg" alt=""><br><img src="http://7xubu6.com1.z0.glb.clouddn.com/16-5-21/87724692.jpg" alt=""><br><img src="http://7xubu6.com1.z0.glb.clouddn.com/16-5-21/12485394.jpg" alt=""><br><img src="http://7xubu6.com1.z0.glb.clouddn.com/16-5-21/43890907.jpg" alt=""><br><img src="http://7xubu6.com1.z0.glb.clouddn.com/16-5-21/33553156.jpg" alt=""><br><img src="http://7xubu6.com1.z0.glb.clouddn.com/16-5-21/71478007.jpg" alt=""><br><img src="http://7xubu6.com1.z0.glb.clouddn.com/16-5-21/54986814.jpg" alt=""><br><img src="http://7xubu6.com1.z0.glb.clouddn.com/16-5-21/19144292.jpg" alt=""><br><img src="http://7xubu6.com1.z0.glb.clouddn.com/16-5-21/8199880.jpg" alt=""><br><img src="http://7xubu6.com1.z0.glb.clouddn.com/16-5-21/22002353.jpg" alt=""></p>
@@ -774,7 +914,7 @@
     <link href="http://liuhouer.github.io/2016/04/26/%E6%97%A5%E5%BF%97%E7%BB%B4%E5%BA%A6%E5%88%86%E6%9E%90%E4%BB%A5%E5%8F%8A%E8%87%AA%E5%8A%A8%E9%82%AE%E4%BB%B6%E5%8F%91%E9%80%81/"/>
     <id>http://liuhouer.github.io/2016/04/26/日志维度分析以及自动邮件发送/</id>
     <published>2016-04-26T07:41:15.000Z</published>
-    <updated>2017-03-23T02:13:26.335Z</updated>
+    <updated>2017-03-23T02:13:26.000Z</updated>
     
     <content type="html"><![CDATA[<h2 id="今天要统计下各种维度下的数据，访问量等等，写了几个方法，实现了维度分析，并将返回结果自动发送邮件到自定义邮箱"><a href="#今天要统计下各种维度下的数据，访问量等等，写了几个方法，实现了维度分析，并将返回结果自动发送邮件到自定义邮箱" class="headerlink" title="今天要统计下各种维度下的数据，访问量等等，写了几个方法，实现了维度分析，并将返回结果自动发送邮件到自定义邮箱"></a>今天要统计下各种维度下的数据，访问量等等，写了几个方法，实现了维度分析，并将返回结果自动发送邮件到自定义邮箱</h2><h3 id="主要实现类"><a href="#主要实现类" class="headerlink" title="主要实现类"></a>主要实现类</h3><figure class="highlight dart"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line">public <span class="keyword">static</span> <span class="keyword">void</span> main(<span class="built_in">String</span>[] args) &#123;</div><div class="line"><span class="keyword">try</span>&#123;</div><div class="line"></div><div class="line"><span class="built_in">List</span>&lt;trackVO&gt; tlist = <span class="keyword">new</span> ArrayList&lt;trackVO&gt;();</div><div class="line"><span class="built_in">List</span>&lt;<span class="built_in">String</span>&gt; list = ReadFile(<span class="string">"/Users/jeyy/Documents/test_pc.access.log.2016-04-25"</span>);</div><div class="line"><span class="comment">//System.out.println(JsonContext);</span></div><div class="line"><span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; list.size(); i++) &#123;</div><div class="line"></div><div class="line"><span class="comment">//System.out.println(list.get(i));</span></div><div class="line">trackVO model =  JsonUtil.jsonUtil.jsonToModel(list.<span class="keyword">get</span>(i), trackVO.<span class="keyword">class</span>);</div><div class="line">tlist.add(model);</div><div class="line"></div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line"> <span class="comment">//实现统计逻辑</span></div><div class="line"></div><div class="line"> <span class="built_in">Map</span>&lt;<span class="built_in">String</span>, Integer&gt; m = getCount(tlist,<span class="string">"pageUrl"</span>);</div><div class="line"></div><div class="line"></div><div class="line"> <span class="comment">//打印统计结果|发送邮件</span></div><div class="line"> <span class="built_in">String</span> rs = printMap(m);</div><div class="line"></div><div class="line"></div><div class="line"> EmailUtils.emailUtil.analyseLog(<span class="string">"test@qq.com"</span>, rs);</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line">&#125;<span class="keyword">catch</span>(Exception e)&#123;</div><div class="line">e.printStackTrace();</div><div class="line">&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <a id="more"></a>
@@ -805,7 +945,7 @@
     <link href="http://liuhouer.github.io/2016/04/11/Nodejs%E8%A7%84%E8%8C%83%E5%B7%A5%E5%85%B7-grunt/"/>
     <id>http://liuhouer.github.io/2016/04/11/Nodejs规范工具-grunt/</id>
     <published>2016-04-11T10:41:10.000Z</published>
-    <updated>2017-03-23T02:13:26.168Z</updated>
+    <updated>2017-03-23T02:13:26.000Z</updated>
     
     <content type="html"><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>一个应用开发到一定阶段，普遍会遇到一个问题。当功能越来越多，代码量越来越大，bug修复越来越频繁，开发人员一波一波的交替，…..应该用会向着越来越不可控发展。我们不能再准确估计新功能的开发时间，也不知道一个bug修复后是否会引发另一个bug出现。所有的程序开发，都会面临着这样的问题。</p>
 <p>C/C++程序通过makefile管理编译测试打包的过程，Java程序通过Maven,Ant实现项目构建管理功能，Python有pip，Ruby有gem。在Nodejs的领域，我们同样需要一个项目构建工具，这就是Grunt。Grunt可以执行像压缩, 编译, 单元测试, 代码检查以及打包发布的任务。</p>
@@ -1273,7 +1413,7 @@ tasks: [&apos;jshint&apos;, &apos;qunit&apos;]
     <link href="http://liuhouer.github.io/2016/04/05/Gradle%E4%BB%8B%E7%BB%8D%E5%8F%8A%E5%AE%89%E8%A3%85/"/>
     <id>http://liuhouer.github.io/2016/04/05/Gradle介绍及安装/</id>
     <published>2016-04-05T12:36:32.000Z</published>
-    <updated>2017-03-23T02:13:26.161Z</updated>
+    <updated>2017-03-23T02:13:26.000Z</updated>
     
     <content type="html"><![CDATA[<h1 id="对Gradle进行一个简单的介绍，以及它的安装。"><a href="#对Gradle进行一个简单的介绍，以及它的安装。" class="headerlink" title="对Gradle进行一个简单的介绍，以及它的安装。"></a>对Gradle进行一个简单的介绍，以及它的安装。</h1><h2 id="Gradle介绍"><a href="#Gradle介绍" class="headerlink" title="Gradle介绍"></a>Gradle介绍</h2><ul>
 <li>Gradle是一个基于JVM的构建工具，它提供了：</li>
@@ -1354,7 +1494,7 @@ tasks: [&apos;jshint&apos;, &apos;qunit&apos;]
     <link href="http://liuhouer.github.io/2016/03/26/%E6%81%B6%E6%A3%8D%E5%BF%AB%E8%BD%A6%E4%B9%8B%E6%97%85/"/>
     <id>http://liuhouer.github.io/2016/03/26/恶棍快车之旅/</id>
     <published>2016-03-26T15:46:49.000Z</published>
-    <updated>2017-03-23T02:13:26.325Z</updated>
+    <updated>2017-03-23T02:13:26.000Z</updated>
     
     <content type="html"><![CDATA[<p>万圣节，出没在小区里的快递员穿上了动物外套，一只毛茸茸的熊头出现在门禁对讲屏上，着实吓人一跳。最近，她并没有在网店上下过单，好奇心让她早早地打开门。一只“大灰熊”从电梯里出来，麻溜地摘下熊头套，递给她一封信。<br>关门，拆信，里面是一张明信片形式的参观券，上面印有一列火车。她想起来了，前几天去逛商场时，促销活动是“恶棍快车之旅”，她漫不经心地签上了自己的地址，随后就忘了这事儿了。还真的要去参观吗？她走向厨房，将明信片贴在冰箱门上，冰箱压缩器恰好轰鸣起来，不知怎地，她的视线恍惚了，冰箱不再是冰箱，而是一只卡住白鲸的长方形笼子，一头白鲸眼神悲哀地在其中扭动，她扶住冰箱门，定神一看，果然只是幻觉。</p>
 <p>“你知道方块鲸吗？一条鲸鱼卡在方块里了。”吃晚饭时，她不经意地说。</p>
@@ -1406,7 +1546,7 @@ tasks: [&apos;jshint&apos;, &apos;qunit&apos;]
     <link href="http://liuhouer.github.io/2016/03/17/%E4%B8%BA%E4%BB%80%E4%B9%88%E6%88%91%E4%BB%AC%E4%B8%8D%E4%BC%9A%E8%B0%88%E6%81%8B%E7%88%B1%E4%BA%86/"/>
     <id>http://liuhouer.github.io/2016/03/17/为什么我们不会谈恋爱了/</id>
     <published>2016-03-17T11:39:06.000Z</published>
-    <updated>2017-03-23T02:13:26.275Z</updated>
+    <updated>2017-03-23T02:13:26.000Z</updated>
     
     <content type="html"><![CDATA[<p>最近看到了一篇文章</p>
 <h1 id="《为什么我们不会谈恋爱了？》"><a href="#《为什么我们不会谈恋爱了？》" class="headerlink" title="《为什么我们不会谈恋爱了？》"></a>《为什么我们不会谈恋爱了？》</h1><p><strong>文丨烟波人长安</strong></p>
@@ -1441,7 +1581,7 @@ tasks: [&apos;jshint&apos;, &apos;qunit&apos;]
     <link href="http://liuhouer.github.io/2016/03/15/hibernate%E5%9F%BA%E4%BA%8E%E6%B3%A8%E8%A7%A3%E7%9A%84%E4%B8%BB%E9%94%AE%E7%94%9F%E6%88%90%E7%AD%96%E7%95%A5/"/>
     <id>http://liuhouer.github.io/2016/03/15/hibernate基于注解的主键生成策略/</id>
     <published>2016-03-15T07:18:21.000Z</published>
-    <updated>2017-03-23T02:13:26.216Z</updated>
+    <updated>2017-03-23T02:13:26.000Z</updated>
     
     <content type="html"><![CDATA[<h1 id="楔子"><a href="#楔子" class="headerlink" title="楔子"></a>楔子</h1><blockquote>
 <p><strong>最近想把UUID32位的主键策略改为6位的INT自增的主键，来改善个人网站的优雅和简洁性。于是找了些资料整理在这。由于我的网站用的注解，来减少xml配置文件带来的烦躁，所以主键策略一定要是基于注解的。</strong></p>
@@ -1511,7 +1651,7 @@ tasks: [&apos;jshint&apos;, &apos;qunit&apos;]
     <link href="http://liuhouer.github.io/2016/03/06/%E9%9B%A8%E5%B7%B7/"/>
     <id>http://liuhouer.github.io/2016/03/06/雨巷/</id>
     <published>2016-03-06T03:50:36.000Z</published>
-    <updated>2017-03-23T02:13:26.377Z</updated>
+    <updated>2017-03-23T02:13:26.000Z</updated>
     
     <content type="html"><![CDATA[<!-- <img src="http://7xpfpd.com1.z0.glb.clouddn.com/post_.dingxiang.jpg" style="width: 208px;height: 208px;"></img> -->
 <p><img src="http://7xpfpd.com1.z0.glb.clouddn.com/post_.dingxiang.jpg" alt="最喜欢的意境散文" title="最喜欢的意境散文"></p>
@@ -1546,7 +1686,7 @@ tasks: [&apos;jshint&apos;, &apos;qunit&apos;]
     <link href="http://liuhouer.github.io/2016/01/05/dream-record/"/>
     <id>http://liuhouer.github.io/2016/01/05/dream-record/</id>
     <published>2016-01-05T15:12:11.000Z</published>
-    <updated>2017-03-23T02:13:26.200Z</updated>
+    <updated>2017-03-23T02:13:26.000Z</updated>
     
     <content type="html"><![CDATA[<p><img src="http://7xpfpd.com1.z0.glb.clouddn.com/image%2Farticle%2Ftumblr_dream_record.jpg" alt="my fantasy dream record" title="my fantasy dream record"></p>
 <p>•   茫茫的人海中，你很难第一时间发现我。</p>
@@ -1572,330 +1712,6 @@ tasks: [&apos;jshint&apos;, &apos;qunit&apos;]
     
     
       <category term="思维" scheme="http://liuhouer.github.io/tags/%E6%80%9D%E7%BB%B4/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>mac os x 备份和恢复</title>
-    <link href="http://liuhouer.github.io/2015/12/30/recovery/"/>
-    <id>http://liuhouer.github.io/2015/12/30/recovery/</id>
-    <published>2015-12-30T11:15:14.000Z</published>
-    <updated>2017-03-23T02:13:26.260Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="备份和恢复"><a href="#备份和恢复" class="headerlink" title="备份和恢复"></a>备份和恢复</h1><p>第一次使用Mac OS X下的时光机器(Time Machine)，就被苹果如此完美贴心的备份恢复方案打动。数据无价，电脑里留下了岁月的痕迹和凝结了我们的心血，数据备份的重要性是怎么强调都不为过的。Time Machine是对这些数据最好的保护。只要你已经使用Time Machine备份过，设想一下：</p>
-<ul>
-<li>当你的Mac丢失或者硬件损坏了以后，你只要从苹果商店新买一台Mac，然后从Time Machine备份中恢复。你会看到一个和之前一模一样的系统，包括数据、设置、状态。</li>
-<li>当你给自己奖赏了一台新Mac时候，可以使用Time Machine将所有东西迁移过去。</li>
-<li>当你误删除一个文档，几个月以后再想起来，可以从Time Machine恢复。</li>
-<li>当你对一个文档做了多次修改，引入了一个错误，希望恢复某次正确的一个版本的时候，Time Machine可以帮助你。</li>
-</ul>
-<p>如果你熟悉git，那Time Machine简直就是一个操作系统级别的版本控制！</p>
-<p>当我安装好一个新的Mac OS X系统以后，第一件事情，就是设置Time Machine。</p>
-<p>现在云存储已经普及，容量也足够大，但是Time Machine还是有不可替代的优势：</p>
-<ul>
-<li>云存储没有版本历史，不能对之前的数据恢复。删除了就是删除了，也不能恢复之前某个时刻版本的数据资料。</li>
-<li>云存储有隐私泄露的问题，爱德华·斯诺登给我们好好上了一课。</li>
-<li>云存储不能解决恢复问题，仅仅只能做最基本的文件存储，不能在一台新的Mac上恢复所有数据和配置</li>
-</ul>
-<p>简单地说，云存储就是一个简单的Windows操作系统级别的拷贝备份，和Time Machine细颗粒度，多版本，包括数据、配置、状态的完整备份恢复方案相比，弱爆了。</p>
-<p>基于上述理由，郑重提醒，在设置Time Machine的exclude目录的时候，千万不要将云存储映射的目录排除在外。否则这些你认为已经被云存储保护过的资料，就不能享受Time Machine的保护，而这些资料往往是你最重要的资料。</p>
-<a id="more"></a>    
-<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><p>Time Machine可以使用下面一些方式进行，我还是选择简单、可靠、廉价的第一种方案：</p>
-<ul>
-<li>本地外接移动硬盘</li>
-</ul>
-<p>基于速度考虑，建议使用USB 3或者雷电高速接口，硬盘的大小可以选择1T或者2T，这个硬盘将伴随着你，保护你一生的数据资料。移动硬盘的分区方案，参见[安装]部分说明(<a href="https://github.com/liuhouer/macdev/blob/master/install.md" target="_blank" rel="external">https://github.com/liuhouer/macdev/blob/master/install.md</a>)</p>
-<ul>
-<li>使用Time Capsule</li>
-</ul>
-<p>无线方案，使用方便。缺点是Time Capsule发热量大，速度相对于有线方案也较慢。</p>
-<ul>
-<li>如果你有一台Linux服务器，可以安装netatalk软件</li>
-</ul>
-<p>看上去是一个理想的方案，但是设置好备份以后，不知道由于什么原因出现过几次备份无效，导致需要完全重新备份，后来丢弃了这个方案。</p>
-<h2 id="Time-Machine的设置"><a href="#Time-Machine的设置" class="headerlink" title="Time Machine的设置"></a>Time Machine的设置</h2><p>Time Machine这么强大的功能，设置其实很简单，苹果官方网站有详细的<a href="http://support.apple.com/kb/HT1427?viewlocale=zh_CN" target="_blank" rel="external">指南</a>，我在这里就不再重复。</p>
-<p>需要注意的是，Mac OS X会在运行中产生一些临时数据或者中间数据，这些数据往往占用空间较大，而没有保存价值，可以设置成exclude，常见的有：</p>
-<pre><code>/Library/Application Support/
-/Library/Caches/
-/private/var/log/
-/private/var/vm/
-/private/var/tmp/
-~/Downloads/
-~/Library/Caches
-~/Library/Application Support/MobileSync/
-~/.Trash/
-~/Documents/Virtual\ Machines.localized/
-~/Library/Parallels
-</code></pre><p>备份完毕以后，移动硬盘需要在Finder下umount才能拔出，否则有可能数据丢失。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;备份和恢复&quot;&gt;&lt;a href=&quot;#备份和恢复&quot; class=&quot;headerlink&quot; title=&quot;备份和恢复&quot;&gt;&lt;/a&gt;备份和恢复&lt;/h1&gt;&lt;p&gt;第一次使用Mac OS X下的时光机器(Time Machine)，就被苹果如此完美贴心的备份恢复方案打动。数据无价，电脑里留下了岁月的痕迹和凝结了我们的心血，数据备份的重要性是怎么强调都不为过的。Time Machine是对这些数据最好的保护。只要你已经使用Time Machine备份过，设想一下：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;当你的Mac丢失或者硬件损坏了以后，你只要从苹果商店新买一台Mac，然后从Time Machine备份中恢复。你会看到一个和之前一模一样的系统，包括数据、设置、状态。&lt;/li&gt;
-&lt;li&gt;当你给自己奖赏了一台新Mac时候，可以使用Time Machine将所有东西迁移过去。&lt;/li&gt;
-&lt;li&gt;当你误删除一个文档，几个月以后再想起来，可以从Time Machine恢复。&lt;/li&gt;
-&lt;li&gt;当你对一个文档做了多次修改，引入了一个错误，希望恢复某次正确的一个版本的时候，Time Machine可以帮助你。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;如果你熟悉git，那Time Machine简直就是一个操作系统级别的版本控制！&lt;/p&gt;
-&lt;p&gt;当我安装好一个新的Mac OS X系统以后，第一件事情，就是设置Time Machine。&lt;/p&gt;
-&lt;p&gt;现在云存储已经普及，容量也足够大，但是Time Machine还是有不可替代的优势：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;云存储没有版本历史，不能对之前的数据恢复。删除了就是删除了，也不能恢复之前某个时刻版本的数据资料。&lt;/li&gt;
-&lt;li&gt;云存储有隐私泄露的问题，爱德华·斯诺登给我们好好上了一课。&lt;/li&gt;
-&lt;li&gt;云存储不能解决恢复问题，仅仅只能做最基本的文件存储，不能在一台新的Mac上恢复所有数据和配置&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;简单地说，云存储就是一个简单的Windows操作系统级别的拷贝备份，和Time Machine细颗粒度，多版本，包括数据、配置、状态的完整备份恢复方案相比，弱爆了。&lt;/p&gt;
-&lt;p&gt;基于上述理由，郑重提醒，在设置Time Machine的exclude目录的时候，千万不要将云存储映射的目录排除在外。否则这些你认为已经被云存储保护过的资料，就不能享受Time Machine的保护，而这些资料往往是你最重要的资料。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="mac" scheme="http://liuhouer.github.io/categories/mac/"/>
-    
-    
-      <category term="mac" scheme="http://liuhouer.github.io/tags/mac/"/>
-    
-      <category term="recovery" scheme="http://liuhouer.github.io/tags/recovery/"/>
-    
-      <category term="备份和恢复" scheme="http://liuhouer.github.io/tags/%E5%A4%87%E4%BB%BD%E5%92%8C%E6%81%A2%E5%A4%8D/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>python学习笔记02</title>
-    <link href="http://liuhouer.github.io/2015/12/28/python02/"/>
-    <id>http://liuhouer.github.io/2015/12/28/python02/</id>
-    <published>2015-12-28T12:06:30.000Z</published>
-    <updated>2017-03-23T02:13:26.257Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="python学习笔记02-2015-12-28"><a href="#python学习笔记02-2015-12-28" class="headerlink" title="python学习笔记02 [2015-12-28]"></a>python学习笔记02 <em>[2015-12-28]</em></h1><h2 id="编写函数"><a href="#编写函数" class="headerlink" title="编写函数"></a>编写函数</h2><p>﻿</p>
-<ul>
-<li>在Python中，定义一个函数要使用 def 语句，依次写出函数名、括号、括号中的参数和冒号:，然后，在缩进块中编写函数体，函数的返回值用 return 语句返回。</li>
-</ul>
-<h3 id="任务-请定义一个-square-of-sum-函数，它接受一个list，返回list中每个元素平方的和。"><a href="#任务-请定义一个-square-of-sum-函数，它接受一个list，返回list中每个元素平方的和。" class="headerlink" title="任务 请定义一个 square_of_sum 函数，它接受一个list，返回list中每个元素平方的和。"></a>任务 请定义一个 square_of_sum 函数，它接受一个list，返回list中每个元素平方的和。</h3><pre><code>def square_of_sum(L):
-
-    sum = 0
-
-    for i in L:
-
-        sum += i * i
-
-    return sum
-
-
-
-print square_of_sum([1, 2, 3, 4, 5])
-
-print square_of_sum([-5, 0, 5, 15, 25])
-</code></pre><a id="more"></a> 
-<h2 id="递归函数"><a href="#递归函数" class="headerlink" title="递归函数"></a>递归函数</h2><h3 id="任务-汉诺塔-http-baike-baidu-com-view-191666-htm-的移动也可以看做是递归函数。"><a href="#任务-汉诺塔-http-baike-baidu-com-view-191666-htm-的移动也可以看做是递归函数。" class="headerlink" title="任务 汉诺塔 (http://baike.baidu.com/view/191666.htm) 的移动也可以看做是递归函数。"></a>任务 汉诺塔 (<a href="http://baike.baidu.com/view/191666.htm" target="_blank" rel="external">http://baike.baidu.com/view/191666.htm</a>) 的移动也可以看做是递归函数。</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">我们对柱子编号为a, b, c，将所有圆盘从a移到c可以描述为：</div><div class="line"></div><div class="line">如果a只有一个圆盘，可以直接移动到c；</div><div class="line"></div><div class="line">如果a有N个圆盘，可以看成a有1个圆盘（底盘） + (N-1)个圆盘，首先需要把 (N-1) 个圆盘移动到 b，然后，将 a的最后一个圆盘移动到c，再将b的(N-1)个圆盘移动到c。</div><div class="line"></div><div class="line">请编写一个函数，给定输入 n, a, b, c，打印出移动的步骤：</div><div class="line"></div><div class="line">move(n, a, b, c)</div><div class="line"></div><div class="line">例如，输入 move(2, &apos;A&apos;, &apos;B&apos;, &apos;C&apos;)，打印出：</div><div class="line"></div><div class="line">A --&gt; B</div><div class="line">A --&gt; C</div><div class="line">B --&gt; C</div></pre></td></tr></table></figure>
-<pre><code>def move(n, a, b, c):
-
-    if n==1:
-
-        print a, &quot;--&gt;&quot;, c
-
-        return
-
-    move(n-1, a, c, b)
-
-    print a,&quot;--&gt;&quot;,c
-
-    move(n-1, b , a, c)
-</code></pre><h2 id="定义默认参数"><a href="#定义默认参数" class="headerlink" title="定义默认参数"></a>定义默认参数</h2><h3 id="任务-请定义一个-greet-函数，它包含一个默认参数，如果没有传入，打印-‘Hello-world-’，如果传入，打印-‘Hello-xxx-’"><a href="#任务-请定义一个-greet-函数，它包含一个默认参数，如果没有传入，打印-‘Hello-world-’，如果传入，打印-‘Hello-xxx-’" class="headerlink" title="任务-请定义一个 greet() 函数，它包含一个默认参数，如果没有传入，打印 ‘Hello, world.’，如果传入，打印 ‘Hello, xxx.’"></a>任务-请定义一个 greet() 函数，它包含一个默认参数，如果没有传入，打印 ‘Hello, world.’，如果传入，打印 ‘Hello, xxx.’</h3><pre><code>def greet(b=&apos;world&apos;):
-
-
-
-    print &apos;hello, &apos;+b+&apos;.&apos;
-
-
-
-greet()
-
-greet(&apos;Bart&apos;)
-</code></pre><h2 id="定义多个参数"><a href="#定义多个参数" class="headerlink" title="定义多个参数"></a>定义多个参数</h2><pre><code>def fn(*args):
-print args
-</code></pre><ul>
-<li><p>假设我们要计算任意个数的平均值，就可以定义一个可变参数：</p>
-<p>  def average(*args):</p>
-<pre><code>sum = 0.0
-if len(args)==0:
-    return sum
-else:
-    for i in args:
-        sum+=i
-return sum / len(args)
-</code></pre></li>
-</ul>
-<pre><code>print average()
-print average(1, 2)
-print average(1, 2, 2, 3, 4)
-</code></pre><h2 id="range-函数可以创建一个数列："><a href="#range-函数可以创建一个数列：" class="headerlink" title="range()函数可以创建一个数列："></a>range()函数可以创建一个数列：</h2><pre><code>range(1, 101)
-[1, 2, 3, ..., 100]
-</code></pre><h2 id="slice对list进行切片"><a href="#slice对list进行切片" class="headerlink" title="slice对list进行切片"></a>slice对list进行切片</h2><ul>
-<li><p>对应上面的问题，取前3个元素，用一行代码就可以完成切片：</p>
-<blockquote>
-<blockquote>
-<blockquote>
-<p>L[0:3]</p>
-</blockquote>
-</blockquote>
-</blockquote>
-</li>
-<li><p>如果第一个索引是0，还可以省略：</p>
-<blockquote>
-<blockquote>
-<blockquote>
-<p>L[:3]</p>
-</blockquote>
-</blockquote>
-</blockquote>
-</li>
-<li><p>也可以从索引1开始，取出2个元素出来：</p>
-<blockquote>
-<blockquote>
-<blockquote>
-<p>L[1:3]</p>
-</blockquote>
-</blockquote>
-</blockquote>
-</li>
-<li><p>只用一个 : ，表示从头到尾：</p>
-<blockquote>
-<blockquote>
-<blockquote>
-<p>L[:]</p>
-</blockquote>
-</blockquote>
-</blockquote>
-</li>
-<li><p>切片操作还可以指定第三个参数：</p>
-<blockquote>
-<blockquote>
-<blockquote>
-<p>L[::2]<br>[‘Adam’, ‘Bart’]第三个参数表示每N个取一个，上面的 L[::2] 会每两个元素取出一个来，也就是隔一个取一个。{第三个参数每隔N个数取第一个数}</p>
-</blockquote>
-</blockquote>
-</blockquote>
-</li>
-<li><p>字符串有个方法 upper() 可以把字符变成大写字母：</p>
-<blockquote>
-<blockquote>
-<blockquote>
-<p>‘abc’.upper()</p>
-</blockquote>
-</blockquote>
-</blockquote>
-</li>
-</ul>
-<h3 id="任务：请设计一个函数，它接受一个字符串，然后返回一个仅首字母变成大写的字符串。"><a href="#任务：请设计一个函数，它接受一个字符串，然后返回一个仅首字母变成大写的字符串。" class="headerlink" title="任务：请设计一个函数，它接受一个字符串，然后返回一个仅首字母变成大写的字符串。"></a>任务：请设计一个函数，它接受一个字符串，然后返回一个仅首字母变成大写的字符串。</h3><pre><code>提示：利用切片操作简化字符串操作。
-def firstCharUpper(s):
-    return s[:1].upper()+s[1:]
-print firstCharUpper(&apos;hello&apos;)
-print firstCharUpper(&apos;sunday&apos;)
-print firstCharUpper(&apos;september&apos;)
-</code></pre><h2 id="迭代"><a href="#迭代" class="headerlink" title="迭代"></a>迭代</h2><pre><code>集合是指包含一组元素的数据结构，我们已经介绍的包括：
-1. 有序集合：list，tuple，str和unicode；
-2. 无序集合：set
-3. 无序集合并且具有 key-value 对：dict
-</code></pre><h3 id="任务-请用for循环迭代数列-1-100-并打印出7的倍数。"><a href="#任务-请用for循环迭代数列-1-100-并打印出7的倍数。" class="headerlink" title="任务-请用for循环迭代数列 1-100 并打印出7的倍数。"></a>任务-请用for循环迭代数列 1-100 并打印出7的倍数。</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">//第一种实现</div><div class="line">for i in range(1,101):</div><div class="line">    if(i%7==0):</div><div class="line">        print(i)</div><div class="line">```   </div><div class="line">```   </div><div class="line">//第二种实现  </div><div class="line">for i in range(1, 101)[6::7]:</div><div class="line"></div><div class="line">    print i</div></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">//第三种实现 ,range有步长功能，不需要切片 </div><div class="line">for i in range(1, 101,7):</div><div class="line"></div><div class="line">    print i</div></pre></td></tr></table></figure>
-<h2 id="索引迭代"><a href="#索引迭代" class="headerlink" title="索引迭代"></a>索引迭代</h2><ul>
-<li>Python中，迭代永远是取出元素本身，而非元素的索引。<br>  enum..<br>  使用 enumerate() 函数，我们可以在for循环中同时绑定索引index和元素name。但是，这不是 enumerate() 的特殊语法。实际上，enumerate() 函数把：<br>  [‘Adam’, ‘Lisa’, ‘Bart’, ‘Paul’]变成了类似：<br>  [(0, ‘Adam’), (1, ‘Lisa’), (2, ‘Bart’), (3, ‘Paul’)]</li>
-</ul>
-<h3 id="任务-zip-函数可以把两个-list-变成一个-list："><a href="#任务-zip-函数可以把两个-list-变成一个-list：" class="headerlink" title="任务 zip()函数可以把两个 list 变成一个 list："></a>任务 zip()函数可以把两个 list 变成一个 list：</h3><blockquote>
-<blockquote>
-<blockquote>
-<p>zip([10, 20, 30], [‘A’, ‘B’, ‘C’])<br>[(10, ‘A’), (20, ‘B’), (30, ‘C’)]在迭代 [‘Adam’, ‘Lisa’, ‘Bart’, ‘Paul’] 时，如果我们想打印出名次 - 名字（名次从1开始)，请考虑如何在迭代中打印出来。</p>
-</blockquote>
-</blockquote>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">L = [&apos;Adam&apos;, &apos;Lisa&apos;, &apos;Bart&apos;, &apos;Paul&apos;]</div><div class="line">for index, name in zip(range(1,6),L):</div><div class="line">    print index, &apos;-&apos;, name</div></pre></td></tr></table></figure>
-<h2 id="迭代dict的value"><a href="#迭代dict的value" class="headerlink" title="迭代dict的value"></a>迭代dict的value</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"> ① d.values</div><div class="line"> d = &#123; &apos;Adam&apos;: 95, &apos;Lisa&apos;: 85, &apos;Bart&apos;: 59 &#125;</div><div class="line"></div><div class="line"> for v in d.values():</div><div class="line">    print v </div><div class="line"> </div><div class="line"> ② itervalues</div><div class="line"> d = &#123; &apos;Adam&apos;: 95, &apos;Lisa&apos;: 85, &apos;Bart&apos;: 59 &#125;</div><div class="line"></div><div class="line">-- &lt;dictionary-valueiterator object at 0x106adbb50&gt;</div><div class="line">for v in d.itervalues():</div><div class="line">    print v</div></pre></td></tr></table></figure>
-<h2 id="迭代dict的key和value"><a href="#迭代dict的key和value" class="headerlink" title="迭代dict的key和value"></a>迭代dict的key和value</h2><ul>
-<li>item会把dict迭代成N个List[tuple{}],item有iteritems</li>
-</ul>
-<h3 id="任务-请根据dict打印内容："><a href="#任务-请根据dict打印内容：" class="headerlink" title="任务-请根据dict打印内容："></a>任务-请根据dict打印内容：</h3><pre><code>d = { &apos;Adam&apos;: 95, &apos;Lisa&apos;: 85, &apos;Bart&apos;: 59, &apos;Paul&apos;: 74 }
-打印出 name : score，最后再打印出平均分 average : score。
-
-
-d = { &apos;Adam&apos;: 95, &apos;Lisa&apos;: 85, &apos;Bart&apos;: 59, &apos;Paul&apos;: 74 }
-
-sum = 0.0
-for k, v in d.items():
-    sum = sum + v
-    print k,&quot;:&quot;,v
-print &apos;average&apos;, &apos;:&apos;, sum/len(d)
-</code></pre><h2 id="生成列表-列表生成式"><a href="#生成列表-列表生成式" class="headerlink" title="生成列表-列表生成式"></a>生成列表-列表生成式</h2><pre><code>任务
-请利用列表生成式生成列表 [1x2, 3x4, 5x6, 7x8, ..., 99x100]
-提示：range(1, 100, 2) 可以生成list [1, 3, 5, 7, 9,...]
-</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">print [x *(x+1) for x in range(1,101,2)]</div></pre></td></tr></table></figure>
-<h2 id="复杂表达式"><a href="#复杂表达式" class="headerlink" title="复杂表达式"></a>复杂表达式</h2><ul>
-<li>字符串可以通过 % 进行格式化，用指定的参数替代 %s。字符串的join()方法可以把一个 list 拼接成一个字符串。</li>
-</ul>
-<h3 id="在生成的表格中，对于没有及格的同学，请把分数标记为红色。"><a href="#在生成的表格中，对于没有及格的同学，请把分数标记为红色。" class="headerlink" title="在生成的表格中，对于没有及格的同学，请把分数标记为红色。"></a>在生成的表格中，对于没有及格的同学，请把分数标记为红色。</h3><p>-提示：红色可以用 <td style="color:red"> 实现。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">d = &#123; &apos;Adam&apos;: 95, &apos;Lisa&apos;: 85, &apos;Bart&apos;: 59 &#125;</div><div class="line">def generate_tr(name, score):</div><div class="line">    if score&gt;60:</div><div class="line">    return &apos;&lt;tr&gt;&lt;td&gt;%s&lt;/td&gt;&lt;td&gt;%s&lt;/td&gt;&lt;/tr&gt;&apos; % (name, score)</div><div class="line">    else:</div><div class="line">     return &apos;&lt;tr&gt;&lt;td&gt;%s&lt;/td&gt;&lt;td style=&quot;color:red&quot;&gt;%s&lt;/td&gt;&lt;/tr&gt;&apos; % (name, score)    </div><div class="line"></div><div class="line">tds = [generate_tr for name, score in d.iteritems()]</div><div class="line">print &apos;&lt;table border=&quot;1&quot;&gt;&apos;</div><div class="line">print &apos;&lt;tr&gt;&lt;th&gt;Name&lt;/th&gt;&lt;th&gt;Score&lt;/th&gt;&lt;tr&gt;&apos;</div><div class="line">print &apos;\n&apos;.join(tds)</div><div class="line">print &apos;&lt;/table&gt;&apos;</div><div class="line"></div><div class="line">--解释</div><div class="line">#先把&apos;&lt;tr&gt;&lt;td&gt;%s&lt;/td&gt;&lt;td&gt;%s&lt;/td&gt;&lt;/tr&gt;&apos; % (name, score)部分用gtr表示，</div><div class="line">则此代码可以表示为[gtr for name, score in d.iteritems()]</div><div class="line">我们先看gtr部分，字符串可以通过 % 进行格式化，用指定的参数替代 %s，所以gtr表示一个字符串。举个例子，如果name=Mike，score=90，那么gtr=&apos;&lt;tr&gt;&lt;td&gt;Mike&lt;/td&gt;&lt;td&gt;90&lt;/td&gt;&lt;/tr&gt;&apos;。</div><div class="line">再看整个这代码，这是个利用for循环迭代dict d的复杂表达式，取出的name，score将会一一带入gtr，构成一个元素为字符串的list。#</div></pre></td></tr></table></figure></td></p>
-<h2 id="条件过滤"><a href="#条件过滤" class="headerlink" title="条件过滤"></a>条件过滤</h2><pre><code>列表生成式的 for 循环后面还可以加上 if 判断。例如：
-&gt;&gt;&gt; [x * x for x in range(1, 11)]
-[1, 4, 9, 16, 25, 36, 49, 64, 81, 100]如果我们只想要偶数的平方，不改动 range()的情况下，可以加上 if 来筛选：
-&gt;&gt;&gt; [x * x for x in range(1, 11) if x % 2 == 0]
-[4, 16, 36, 64, 100]有了 if 条件，只有 if 判断为 True 的时候，才把循环的当前元素添加到列表中。
-</code></pre><h3 id="任务-请编写一个函数，它接受一个-list，然后把list中的所有字符串变成大写后返回，非字符串元素将被忽略。"><a href="#任务-请编写一个函数，它接受一个-list，然后把list中的所有字符串变成大写后返回，非字符串元素将被忽略。" class="headerlink" title="任务 请编写一个函数，它接受一个 list，然后把list中的所有字符串变成大写后返回，非字符串元素将被忽略。"></a>任务 请编写一个函数，它接受一个 list，然后把list中的所有字符串变成大写后返回，非字符串元素将被忽略。</h3><pre><code>提示：
-1. isinstance(x, str) 可以判断变量 x 是否是字符串；
-2. 字符串的 upper() 方法可以返回大写的字母。
-
-def toUppers(L):
-    return [s.upper() for s in L if isinstance(s, str)]
-
-print toUppers([&apos;Hello&apos;, &apos;world&apos;, 101])
-</code></pre><h2 id="多层表达式"><a href="#多层表达式" class="headerlink" title="多层表达式"></a>多层表达式</h2><ul>
-<li><p>for循环可以嵌套，因此，在列表生成式中，也可以用多层 for 循环来生成列表。</p>
-</li>
-<li><p>对于字符串 ‘ABC’ 和 ‘123’，可以使用两层循环，生成全排列：</p>
-<blockquote>
-<blockquote>
-<blockquote>
-<p>[m + n for m in ‘ABC’ for n in ‘123’]<br>  [‘A1’, ‘A2’, ‘A3’, ‘B1’, ‘B2’, ‘B3’, ‘C1’, ‘C2’, ‘C3’]<br>  翻译成循环代码就像下面这样：</p>
-</blockquote>
-</blockquote>
-</blockquote>
-<p>  L = []<br>  for m in ‘ABC’:</p>
-<pre><code>for n in &apos;123&apos;:
-    L.append(m + n)
-</code></pre></li>
-</ul>
-<h3 id="任务利用-3-层for循环的列表生成式，找出对称的-3-位数。例如，121-就是对称数，因为从右到左倒过来还是-121。"><a href="#任务利用-3-层for循环的列表生成式，找出对称的-3-位数。例如，121-就是对称数，因为从右到左倒过来还是-121。" class="headerlink" title="任务利用 3 层for循环的列表生成式，找出对称的 3 位数。例如，121 就是对称数，因为从右到左倒过来还是 121。"></a>任务利用 3 层for循环的列表生成式，找出对称的 3 位数。例如，121 就是对称数，因为从右到左倒过来还是 121。</h3><pre><code>print [a*100+b*10+c for a in range(1,10) for b in range(0,10) for c in range(0,10) if a==c]
-</code></pre>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;python学习笔记02-2015-12-28&quot;&gt;&lt;a href=&quot;#python学习笔记02-2015-12-28&quot; class=&quot;headerlink&quot; title=&quot;python学习笔记02 [2015-12-28]&quot;&gt;&lt;/a&gt;python学习笔记02 &lt;em&gt;[2015-12-28]&lt;/em&gt;&lt;/h1&gt;&lt;h2 id=&quot;编写函数&quot;&gt;&lt;a href=&quot;#编写函数&quot; class=&quot;headerlink&quot; title=&quot;编写函数&quot;&gt;&lt;/a&gt;编写函数&lt;/h2&gt;&lt;p&gt;﻿&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;在Python中，定义一个函数要使用 def 语句，依次写出函数名、括号、括号中的参数和冒号:，然后，在缩进块中编写函数体，函数的返回值用 return 语句返回。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;任务-请定义一个-square-of-sum-函数，它接受一个list，返回list中每个元素平方的和。&quot;&gt;&lt;a href=&quot;#任务-请定义一个-square-of-sum-函数，它接受一个list，返回list中每个元素平方的和。&quot; class=&quot;headerlink&quot; title=&quot;任务 请定义一个 square_of_sum 函数，它接受一个list，返回list中每个元素平方的和。&quot;&gt;&lt;/a&gt;任务 请定义一个 square_of_sum 函数，它接受一个list，返回list中每个元素平方的和。&lt;/h3&gt;&lt;pre&gt;&lt;code&gt;def square_of_sum(L):
-
-    sum = 0
-
-    for i in L:
-
-        sum += i * i
-
-    return sum
-
-
-
-print square_of_sum([1, 2, 3, 4, 5])
-
-print square_of_sum([-5, 0, 5, 15, 25])
-&lt;/code&gt;&lt;/pre&gt;
-    
-    </summary>
-    
-      <category term="python" scheme="http://liuhouer.github.io/categories/python/"/>
-    
-    
-      <category term="python" scheme="http://liuhouer.github.io/tags/python/"/>
     
   </entry>
   

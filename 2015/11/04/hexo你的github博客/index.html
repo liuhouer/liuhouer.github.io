@@ -124,7 +124,7 @@ hexo出自台湾大学生tommy351之手，是一个基于Node.js的静态博客�
 hexo出自台湾大学生tommy351之手，是一个基于Node.js的静态博客程序，其编译上百篇文字只需要几秒。hexo生成的静态网页可以直接放到GitHub Pages，BAE，SAE等平台上。先看看tommy是如何吐槽Octopress的 →＿→ Hexo颯爽登場">
 <meta property="og:image" content="http://7xpfpd.com1.z0.glb.clouddn.com/post_.githome.png">
 <meta property="og:image" content="http://7xpfpd.com1.z0.glb.clouddn.com/post_.gitset.png">
-<meta property="og:updated_time" content="2017-03-23T02:13:26.212Z">
+<meta property="og:updated_time" content="2017-08-15T08:36:21.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hexo你的github博客">
 <meta name="twitter:description" content="如果你跟我一样纠结哪里写博，那就来到GitHub吧，让我们一起hexo！Bruce绝对不会让你失望，相信很快hexo就会流行起来。
@@ -484,6 +484,11 @@ hexo出自台湾大学生tommy351之手，是一个基于Node.js的静态博客�
 </code></pre><p>cd 到你的init目录，执行如下命令，生成静态页面至hexo\public\目录。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hexo generate</div></pre></td></tr></table></figure>
 <p>命令必须在init目录下执行，否则不成功，但是也不报错。<br>当你修改文章Tag或内容，不能正确重新生成内容，可以删除hexo\db.json后重试，还不行就到public目录删除对应的文件，重新生成。</p>
+<pre><code>•    部署到github
+</code></pre><p>安装git deploy插件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install hexo-deployer-git --save</div></pre></td></tr></table></figure>
+<p>站点配置文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"># Deployment</div><div class="line">## Docs: https://hexo.io/docs/deployment.html</div><div class="line">deploy:</div><div class="line">  type: git</div><div class="line">  repository: git@github.com:liuhouer/liuhouer.github.io.git</div><div class="line">  branch: master</div></pre></td></tr></table></figure></p>
+<p>hexo d<br>部署上去</p>
 <pre><code>•    本地启动
 </code></pre><p>执行如下命令，启动本地服务，进行文章预览调试。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">```</div><div class="line">hexo server</div></pre></td></tr></table></figure>
@@ -726,7 +731,7 @@ hexo出自台湾大学生tommy351之手，是一个基于Node.js的静态博客�
           
             <div class="site-state-item site-state-posts">
               <a href="/">
-                <span class="site-state-item-count">66</span>
+                <span class="site-state-item-count">68</span>
                 <span class="site-state-item-name">posts</span>
               </a>
             </div>
@@ -737,7 +742,7 @@ hexo出自台湾大学生tommy351之手，是一个基于Node.js的静态博客�
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">37</span>
+                <span class="site-state-item-count">38</span>
                 <span class="site-state-item-name">categories</span>
               </a>
             </div>
@@ -748,7 +753,7 @@ hexo出自台湾大学生tommy351之手，是一个基于Node.js的静态博客�
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">62</span>
+                <span class="site-state-item-count">63</span>
                 <span class="site-state-item-name">tags</span>
               </a>
             </div>
