@@ -317,6 +317,302 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://liuhouer.github.io/2012/10/01/delphi使你的窗体保留在桌面的最上面/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Bruce">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Northpark博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2012/10/01/delphi使你的窗体保留在桌面的最上面/" itemprop="url">
+                  delphi使你的窗体保留在桌面的最上面
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2012-10-01T10:52:00+08:00">
+                2012-10-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/delphi/" itemprop="url" rel="index">
+                    <span itemprop="name">delphi</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>使你的窗体保留在桌面的最上面<br>当我们想让一个窗体保留在桌面的最上面时，可以定义窗体的FormStyle属性，使 </p>
+<p>窗体保持在最上面。但是，使用这种方法后，在切换窗体的模式时，窗体将闪烁。 </p>
+<p>为了避免切换窗体模式时的闪烁，可以使用Windows   API函数SetWindowPos来解决 </p>
+<p>这一问题，使用方法如下：<br>SetWindowPos(Form1.handle,   HWND_TOPMOST,   Form1.Left,   Form1.Top,   </p>
+<p>Form1.Width,   Form1.Height,0);<br>用实际窗体名称代替 “Form1 “，调用这个命令就可以将窗体设置为保留在桌面的最 </p>
+<p>上面。如要将窗体切换回正常的窗体，调用下面的命令：<br>        SetWindowPos(Form1.handle,   HWND_NOTOPMOST,   Form1.Left,   Form1.Top,   </p>
+<pre><code>Form1.Width,   Form1.Height,0);
+</code></pre>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://liuhouer.github.io/2012/08/14/小布静听/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Bruce">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Northpark博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2012/08/14/小布静听/" itemprop="url">
+                  原创音乐播放软件：小步静听
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2012-08-14T18:20:00+08:00">
+                2012-08-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/原创软件/" itemprop="url" rel="index">
+                    <span itemprop="name">原创软件</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>原创软件：小布静听 2014-7-10更新到1.9.0.1<br>最近几天很闲，把之前的不完善的地方都重新编写了。主要如下：<br>添加文件夹，会扫描目录<br>全面解析lrc歌词以及桌面歌词的一些操作逻辑<br>重构文件结构，去除冗余代码<br>tag信息的部分完善<br>添加/编辑歌词的操作逻辑调整<br>部分细节调整<br>下载地址： <a href="http://pan.baidu.com/s/1c01Vp5I">http://pan.baidu.com/s/1c01Vp5I</a></p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2012/08/14/小布静听/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://liuhouer.github.io/2012/06/16/Lessen Stress in Your Life/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -926,302 +1222,6 @@ type
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://liuhouer.github.io/2011/03/14/gta sancodes/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Bruce">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Northpark博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2011/03/14/gta sancodes/" itemprop="url">
-                  gta,San Andreas作弊码
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2011-03-14T16:58:02+08:00">
-                2011-03-14
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/游戏/" itemprop="url" rel="index">
-                    <span itemprop="name">游戏</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>在游戏状态下直接输入就可以了!</p>
-<p>baguvix = 无限健康<br>hesoyam = 恢复生命值, 防弹衣, $250k<br>xjvsnaj = 总是午夜的<br>aezakmi = 不被通缉<br>aeduwnv = 不会饥饿<br>ehibxqs = 最大性感max sex appeal<br>priebj = 玩趣屋主题<br>munasef = 肾上腺素模态<br>wanrltw = 无限弹药, 没有再装填<br>ncsgdag = 武器熟练度全满<br>vqimaha = 更好的驾驶技能<br>uzumymw = 超级武器<br>asnaeb = 清除警星(偷渡和闯如军事基地无效)<br>    　　  lxgiwyl = 一般武器<br>    　　kjkszpj = 暴力武器<br>ouiqdmw = 当驾驶的时候可以在车内使用准星瞄准攻击</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2011/03/14/gta sancodes/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://liuhouer.github.io/2010/11/22/醉倚微风/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Bruce">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Northpark博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2010/11/22/醉倚微风/" itemprop="url">
-                  醉倚微风
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2010-11-22T23:25:27+08:00">
-                2010-11-22
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/随笔/" itemprop="url" rel="index">
-                    <span itemprop="name">随笔</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>  欧美经典电影让我们沉醉，娴熟的技术，精彩的内容，无与伦比的对白，让我们如痴如醉，下面让我们重温一下经典电影中的经典对白。</p>
-<p>㈠《Shawshank Redemption肖申克的救赎》<br>1.You know some birds are not meant to be caged, their feathers are just too bright.<br>你知道，有些鸟儿是注定不会被关在牢笼里的，它们的每一片羽毛都闪耀着自由的光辉。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2010/11/22/醉倚微风/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1271,7 +1271,7 @@ type
           
             <div class="site-state-item site-state-posts">
               <a href="/">
-                <span class="site-state-item-count">68</span>
+                <span class="site-state-item-count">70</span>
                 <span class="site-state-item-name">posts</span>
               </a>
             </div>
@@ -1282,7 +1282,7 @@ type
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">38</span>
+                <span class="site-state-item-count">40</span>
                 <span class="site-state-item-name">categories</span>
               </a>
             </div>
@@ -1293,7 +1293,7 @@ type
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">63</span>
+                <span class="site-state-item-count">66</span>
                 <span class="site-state-item-name">tags</span>
               </a>
             </div>

@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://liuhouer.github.io/"/>
-  <updated>2017-08-15T08:14:52.000Z</updated>
+  <updated>2017-11-15T10:00:58.000Z</updated>
   <id>http://liuhouer.github.io/</id>
   
   <author>
@@ -16,11 +16,130 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>quartz定时任务操作job-java非web项目</title>
+    <link href="http://liuhouer.github.io/2017/11/15/quartz%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1%E6%93%8D%E4%BD%9Cjob-java%E9%9D%9Eweb%E9%A1%B9%E7%9B%AE/"/>
+    <id>http://liuhouer.github.io/2017/11/15/quartz定时任务操作job-java非web项目/</id>
+    <published>2017-11-15T09:46:45.000Z</published>
+    <updated>2017-11-15T10:00:58.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="命题"><a href="#命题" class="headerlink" title="命题"></a>命题</h2><blockquote>
+<p>最近有一个需求是：     实现一个java<br>standalone应用，定时处理一些数据，并且记录日志，假如定时任务停掉，就会报警<br>先实现各定时任务在java项目main运行，后边的再慢慢研究</p>
+</blockquote>
+<h2 id="实现-思路"><a href="#实现-思路" class="headerlink" title="实现 思路"></a>实现 思路</h2><blockquote>
+<ul>
+<li>创建我的job类</li>
+<li>创建test用于写测试调用job的代码</li>
+</ul>
+</blockquote>
+<a id="more"></a>
+<h2 id="具体实现"><a href="#具体实现" class="headerlink" title="具体实现"></a>具体实现</h2><h3 id="我的job类"><a href="#我的job类" class="headerlink" title="我的job类:"></a>我的job类:</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> cn.northpark.test.jobtask;</div><div class="line"></div><div class="line"><span class="keyword">import</span> org.quartz.Job;</div><div class="line"><span class="keyword">import</span> org.quartz.JobExecutionContext;</div><div class="line"><span class="keyword">import</span> org.quartz.JobExecutionException;</div><div class="line"></div><div class="line"><span class="keyword">import</span> cn.northpark.utils.TimeUtils;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">myjob</span> <span class="keyword">implements</span> <span class="title">Job</span> </span>&#123;</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="title">myjob</span><span class="params">()</span> </span>&#123;</div><div class="line">		<span class="comment">// TODO Auto-generated constructor stub</span></div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="meta">@Override</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">execute</span><span class="params">(JobExecutionContext arg0)</span> <span class="keyword">throws</span> JobExecutionException </span>&#123;</div><div class="line">		<span class="comment">// TODO Auto-generated method stub</span></div><div class="line">		System.out.println(TimeUtils.nowTime());</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="测试执行类："><a href="#测试执行类：" class="headerlink" title="测试执行类："></a>测试执行类：</h3><figure class="highlight processing"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> cn.northpark.test.jobtask;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.util.Date;</div><div class="line"></div><div class="line"><span class="keyword">import</span> org.quartz.CronScheduleBuilder;</div><div class="line"><span class="keyword">import</span> org.quartz.JobBuilder;</div><div class="line"><span class="keyword">import</span> org.quartz.JobDetail;</div><div class="line"><span class="keyword">import</span> org.quartz.JobKey;</div><div class="line"><span class="keyword">import</span> org.quartz.Scheduler;</div><div class="line"><span class="keyword">import</span> org.quartz.SimpleScheduleBuilder;</div><div class="line"><span class="keyword">import</span> org.quartz.Trigger;</div><div class="line"><span class="keyword">import</span> org.quartz.TriggerBuilder;</div><div class="line"><span class="keyword">import</span> org.quartz.impl.StdSchedulerFactory;</div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">public</span> class testjob &#123;</div><div class="line"></div><div class="line">	<span class="comment">//将每隔20秒执行一次 </span></div><div class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">String</span> cronExpression = <span class="string">"0/20 * * * * ?"</span>;</div><div class="line">	</div><div class="line">	</div><div class="line"></div><div class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> main(<span class="keyword">String</span>[] args) <span class="keyword">throws</span> Exception &#123; </div><div class="line">		<span class="comment">//CronTrigger用于处理quartz表达式任务 比如每天的几点执行</span></div><div class="line">		<span class="comment">//SimpleTrigger   主要用于处理格时间重复调度</span></div><div class="line"></div><div class="line">		<span class="comment">// 首先，必需要取得一个Scheduler的引用 </span></div><div class="line">		Scheduler scheduler = <span class="keyword">new</span> StdSchedulerFactory().getScheduler();</div><div class="line">		scheduler.start();</div><div class="line"></div><div class="line">		<span class="comment">//定义一个job</span></div><div class="line">		JobKey jobKey  = <span class="keyword">new</span> JobKey(<span class="string">"test"</span>, <span class="string">"test-1"</span>);</div><div class="line">		JobDetail jobDetail = JobBuilder.newJob(myjob.class).withIdentity(jobKey).build();</div><div class="line"></div><div class="line">		<span class="comment">//定义一个重复触发器 //2秒一次</span></div><div class="line">		Trigger trigger = TriggerBuilder.newTrigger()</div><div class="line">				.withIdentity(<span class="string">"test"</span>,<span class="string">"test"</span>)</div><div class="line">				.startAt(<span class="keyword">new</span> Date(System.currentTimeMillis()+<span class="number">1000</span>))</div><div class="line">				.withSchedule(SimpleScheduleBuilder.simpleSchedule().withIntervalInSeconds(<span class="number">2</span>).repeatForever())</div><div class="line">				.build();</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line">		<span class="comment">//定义一个job</span></div><div class="line">		JobKey jobKey2  = <span class="keyword">new</span> JobKey(<span class="string">"test2"</span>, <span class="string">"test-2"</span>);</div><div class="line">		JobDetail jobDetail2 = JobBuilder.newJob(myjob.class).withIdentity(jobKey2).build();</div><div class="line">		<span class="comment">//定义一个quartz表达式任务 比如每天的几点执行</span></div><div class="line">		Trigger crontrigger = TriggerBuilder.newTrigger()</div><div class="line">				.withIdentity(<span class="string">"test2"</span>,<span class="string">"test2"</span>)</div><div class="line">				.startAt(<span class="keyword">new</span> Date(System.currentTimeMillis()+<span class="number">1000</span>))</div><div class="line">				.withSchedule(CronScheduleBuilder.cronSchedule(cronExpression))</div><div class="line">				.build();</div><div class="line"></div><div class="line">		scheduler.scheduleJob(jobDetail, trigger);</div><div class="line">		scheduler.scheduleJob(jobDetail2, crontrigger);</div><div class="line"></div><div class="line">		<span class="comment">//Thread.sleep(5000); </span></div><div class="line"></div><div class="line"></div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="说明与总结："><a href="#说明与总结：" class="headerlink" title="说明与总结："></a>说明与总结：</h2><h3 id="2017年11月15日"><a href="#2017年11月15日" class="headerlink" title="2017年11月15日"></a>2017年11月15日</h3><ul>
+<li>运行testjob.java ，即可开启定时任务</li>
+<li><p>myjob为定义的job类</p>
+</li>
+<li><p>Job(接口)</p>
+</li>
+<li><p>JobDetail： 真正的任务内容，任务本身是集成Job接口的，但是真正的任务是JobBuilder通过反射的方式实例化的，</p>
+</li>
+<li>Trigger： 触发器，定义任务应当开始的时间，主要分为两类SimpleTrigger,CronTrigger;CronTrigger主要用于处理quartz表达式定义的任务，比如每个月20号，每个星期一之类的。</li>
+</ul>
+<blockquote>
+<p> CronTrigger用于处理quartz表达式任务 比如每天的几点执行<br> SimpleTrigger   主要用于处理格时间重复调度</p>
+</blockquote>
+<ul>
+<li>Scheduler：任务调度器, 计划执行者，现在我们有了要做的内容(jobdetail)，有了要做的时间(trigger)，接下来，就把这两个内容填充到计划任务Scheduler对象里面，到了时间它就可以自动运行了</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;命题&quot;&gt;&lt;a href=&quot;#命题&quot; class=&quot;headerlink&quot; title=&quot;命题&quot;&gt;&lt;/a&gt;命题&lt;/h2&gt;&lt;blockquote&gt;
+&lt;p&gt;最近有一个需求是：     实现一个java&lt;br&gt;standalone应用，定时处理一些数据，并且记录日志，假如定时任务停掉，就会报警&lt;br&gt;先实现各定时任务在java项目main运行，后边的再慢慢研究&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;实现-思路&quot;&gt;&lt;a href=&quot;#实现-思路&quot; class=&quot;headerlink&quot; title=&quot;实现 思路&quot;&gt;&lt;/a&gt;实现 思路&lt;/h2&gt;&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;创建我的job类&lt;/li&gt;
+&lt;li&gt;创建test用于写测试调用job的代码&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+    
+    </summary>
+    
+      <category term="java" scheme="http://liuhouer.github.io/categories/java/"/>
+    
+      <category term="定时任务" scheme="http://liuhouer.github.io/categories/java/%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/"/>
+    
+    
+      <category term="java" scheme="http://liuhouer.github.io/tags/java/"/>
+    
+      <category term="定时任务" scheme="http://liuhouer.github.io/tags/%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/"/>
+    
+      <category term="quartz" scheme="http://liuhouer.github.io/tags/quartz/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>多线程操作操作数据库</title>
+    <link href="http://liuhouer.github.io/2017/11/08/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E6%93%8D%E4%BD%9C%E6%93%8D%E4%BD%9C%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+    <id>http://liuhouer.github.io/2017/11/08/多线程操作操作数据库/</id>
+    <published>2017-11-08T09:04:10.000Z</published>
+    <updated>2017-11-15T09:42:07.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="命题"><a href="#命题" class="headerlink" title="命题"></a>命题</h2><blockquote>
+<p>最近有一个需求是：     实现一个java<br>standalone应用，开辟静态HashMap（1500），创建500个线程，序号从1到500，每个线程都会建立3次连接访问数据库test，<br>调用数据库函数cms.sp_get_fundasset，传入线程序号作为参数。数据库函数返回的账户净值按序号写入对应的静态HashMap。统计500个线程全部结束后消耗的时间总长；</p>
+</blockquote>
+<h2 id="实现-思路"><a href="#实现-思路" class="headerlink" title="实现 思路"></a>实现 思路</h2><blockquote>
+<ul>
+<li>创建调用传统创建线程的类</li>
+<li>创建db用于jdbc连接</li>
+<li>创建test用于写测试代码</li>
+</ul>
+</blockquote>
+<a id="more"></a>
+<h2 id="具体实现"><a href="#具体实现" class="headerlink" title="具体实现"></a>具体实现</h2><h3 id="线程类"><a href="#线程类" class="headerlink" title="线程类:"></a>线程类:</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> cn.northpark.test.multhread;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.util.concurrent.CountDownLatch;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConnThread</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</div><div class="line"></div><div class="line">	<span class="keyword">public</span>  <span class="keyword">int</span> threadNo;</div><div class="line">	<span class="keyword">public</span>  CountDownLatch latch;</div><div class="line"></div><div class="line">	<span class="comment">//设置线程的编号</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="title">ConnThread</span><span class="params">(<span class="keyword">int</span> threadNo,CountDownLatch latch)</span></span>&#123;</div><div class="line">		<span class="keyword">this</span>.threadNo = threadNo;</div><div class="line">		<span class="keyword">this</span>.latch = latch;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="meta">@Override</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">		<span class="comment">// TODO Auto-generated method stub</span></div><div class="line">		<span class="comment">// 建立连接，并且请求存储过程</span></div><div class="line"></div><div class="line">		<span class="keyword">try</span> &#123;</div><div class="line">			db.getConn();</div><div class="line"></div><div class="line">			<span class="comment">// 每个线程查询三次</span></div><div class="line">			<span class="comment">//调用存储过程 </span></div><div class="line">			<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">3</span>; i++) &#123;</div><div class="line"></div><div class="line">				String result = db.callProcedureYY(db.conn,<span class="string">"cms.sp_get_fundasset"</span>,threadNo + <span class="number">500</span>*i);</div><div class="line"></div><div class="line">				test.map.put(String.valueOf(threadNo + <span class="number">500</span>*i), result);</div><div class="line">			&#125;</div><div class="line">			<span class="comment">//存放结果</span></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line">		&#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">			e.printStackTrace();</div><div class="line">		&#125; <span class="keyword">finally</span> &#123;</div><div class="line">			<span class="comment">// db.closeConn();</span></div><div class="line">			latch.countDown();</div><div class="line">			System.out.println(<span class="string">"线程"</span>+threadNo+<span class="string">"执行完毕"</span>);</div><div class="line">		&#125;</div><div class="line"></div><div class="line">	&#125;</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		<span class="keyword">try</span> &#123;</div><div class="line">			db.getConn();</div><div class="line">			String result = db.callProcedureYY(db.conn,<span class="string">"cms.sp_get_fundasset"</span>,<span class="number">1</span>);</div><div class="line">			System.out.println(<span class="string">"result---&gt;"</span>+result);</div><div class="line">		&#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">			e.printStackTrace();</div><div class="line">		&#125; <span class="keyword">finally</span> &#123;</div><div class="line">			db.closeConn();</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="数据连接类"><a href="#数据连接类" class="headerlink" title="数据连接类:"></a>数据连接类:</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> cn.northpark.test.multhread;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.sql.CallableStatement;</div><div class="line"><span class="keyword">import</span> java.sql.Connection;</div><div class="line"><span class="keyword">import</span> java.sql.DriverManager;</div><div class="line"><span class="keyword">import</span> java.sql.ResultSet;</div><div class="line"><span class="keyword">import</span> java.sql.SQLException;</div><div class="line"></div><div class="line"><span class="keyword">import</span> oracle.jdbc.driver.OracleTypes;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">db</span>  </span>&#123;</div><div class="line">	<span class="keyword">public</span> <span class="keyword">static</span> Connection conn = <span class="keyword">null</span>; <span class="comment">// 数据库连接对象</span></div><div class="line">	<span class="keyword">public</span> <span class="keyword">static</span> CallableStatement cs = <span class="keyword">null</span>;<span class="comment">// 存储过程执行对象</span></div><div class="line">	<span class="keyword">public</span> <span class="keyword">static</span> ResultSet rs = <span class="keyword">null</span>;<span class="comment">// 结果集对象</span></div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span>  <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">getConn</span><span class="params">()</span> <span class="keyword">throws</span> ClassNotFoundException, SQLException </span>&#123;</div><div class="line">		Class.forName(<span class="string">"oracle.jdbc.driver.OracleDriver"</span>); <span class="comment">// 加载Oracle驱动程序</span></div><div class="line">		<span class="comment">// System.out.println("开始尝试连接数据库！");</span></div><div class="line">		String url = <span class="string">"jdbc:oracle:"</span> + <span class="string">"thin:@localhost:1521:test"</span>;<span class="comment">// 127.0.0.1是本机地址，XE是精简版Oracle的默认数据库名</span></div><div class="line">		String user = <span class="string">"test"</span>;<span class="comment">// 用户名,系统默认的账户名</span></div><div class="line">		String password = <span class="string">"test"</span>;<span class="comment">// 你安装时选设置的密码</span></div><div class="line">		conn = DriverManager.getConnection(url, user, password);<span class="comment">// 获取连接</span></div><div class="line">		<span class="comment">// System.out.println("连接成功！");</span></div><div class="line">	&#125;</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line">	<span class="comment">/**</span></div><div class="line">	 *</div><div class="line">	 * <span class="doctag">@Discription</span> 执行有参数，有返回值的存储过程</div><div class="line">	 * <span class="doctag">@return</span> void</div><div class="line">	 * <span class="doctag">@param</span> conn</div><div class="line">	 * <span class="doctag">@throws</span> Exception</div><div class="line">	 */</div><div class="line">	<span class="comment">/*</span></div><div class="line">	 * 对应的存储过程语句 --有参数，有返回值 create or replace procedure deleteLine(byNo in</div><div class="line">	 * number,getCount out number) as begin delete from emp e where e.empno =</div><div class="line">	 * byNo; select count(*) into getCount from emp e; end;</div><div class="line">	 */</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">synchronized</span> String <span class="title">callProcedureYY</span><span class="params">(Connection conn,String funcName,<span class="keyword">int</span> index)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">		<span class="comment">// 指定调用的存储过程</span></div><div class="line">		cs = conn.prepareCall(<span class="string">"&#123;?=call "</span>+funcName+<span class="string">"(?)&#125;"</span>);</div><div class="line">		<span class="comment">// 设置参数</span></div><div class="line">		cs.setInt(<span class="number">2</span>, index);</div><div class="line">		<span class="comment">// 这里需要配置OUT的参数新型</span></div><div class="line">		cs.registerOutParameter(<span class="number">1</span>, OracleTypes.FLOAT);</div><div class="line">		<span class="comment">// 执行调用</span></div><div class="line">		cs.execute();</div><div class="line">		<span class="comment">// 输入返回值</span></div><div class="line">		String result = String.valueOf(cs.getFloat(<span class="number">1</span>));</div><div class="line">		<span class="comment">// System.out.println(cs.getFloat(1));</span></div><div class="line"></div><div class="line">		<span class="keyword">return</span> result;</div><div class="line">	&#125;</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line">	<span class="comment">/**</span></div><div class="line">	 * 描述：</div><div class="line">	 * 关闭连接</div><div class="line">	 */</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">closeConn</span><span class="params">()</span></span>&#123;</div><div class="line">		<span class="keyword">try</span> &#123;</div><div class="line">			<span class="comment">// 逐一将上面的几个对象关闭，因为不关闭的话会影响性能、并且占用资源</span></div><div class="line">			<span class="comment">// 注意关闭的顺序，最后使用的最先关闭</span></div><div class="line">			<span class="keyword">if</span> (rs != <span class="keyword">null</span>)</div><div class="line">				rs.close();</div><div class="line">			<span class="keyword">if</span> (cs != <span class="keyword">null</span>)</div><div class="line">				cs.close();</div><div class="line">			<span class="keyword">if</span> (conn != <span class="keyword">null</span>)</div><div class="line">				conn.close();</div><div class="line">			<span class="comment">// System.out.println("数据库连接已关闭！");</span></div><div class="line">		&#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">			e.printStackTrace();</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="测试执行类："><a href="#测试执行类：" class="headerlink" title="测试执行类："></a>测试执行类：</h3><figure class="highlight processing"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> cn.northpark.test.multhread;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.util.ArrayList;</div><div class="line"><span class="keyword">import</span> java.util.<span class="keyword">HashMap</span>;</div><div class="line"><span class="keyword">import</span> java.util.Map;</div><div class="line"><span class="keyword">import</span> java.util.concurrent.CountDownLatch;</div><div class="line"></div><div class="line"><span class="keyword">import</span> org.quartz.JobExecutionException;</div><div class="line"></div><div class="line"><span class="keyword">import</span> cn.northpark.utils.TimeUtils;</div><div class="line"></div><div class="line"><span class="keyword">public</span> class test &#123;</div><div class="line"></div><div class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> Map&lt;<span class="keyword">String</span>,<span class="keyword">String</span>&gt; <span class="built_in">map</span>  = <span class="keyword">new</span> <span class="keyword">HashMap</span>&lt;<span class="keyword">String</span>,<span class="keyword">String</span>&gt;();</div><div class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="built_in">int</span> CONN_COUNT  = <span class="number">500</span>;</div><div class="line">	</div><div class="line"></div><div class="line"></div><div class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> main(<span class="keyword">String</span> arg0) <span class="keyword">throws</span> JobExecutionException &#123;</div><div class="line">		<span class="comment">// TODO Auto-generated method stub</span></div><div class="line">		<span class="keyword">try</span> &#123;</div><div class="line">			<span class="comment">//清空已有信息</span></div><div class="line">			<span class="built_in">map</span>.<span class="built_in">clear</span>();</div><div class="line"></div><div class="line">			<span class="keyword">String</span> start = TimeUtils.nowTime();</div><div class="line">			System.out.<span class="built_in">println</span>(<span class="string">"开始时间："</span>+start);</div><div class="line"></div><div class="line">			ArrayList&lt;Runnable&gt; threads = <span class="keyword">new</span> ArrayList&lt;Runnable&gt;();</div><div class="line"></div><div class="line">			CountDownLatch latch = <span class="keyword">new</span> CountDownLatch(CONN_COUNT);</div><div class="line"></div><div class="line">			<span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">1</span>; i &lt;= CONN_COUNT; i++) &#123;</div><div class="line">				threads.<span class="built_in">add</span>(<span class="keyword">new</span> ConnThread(i,latch));</div><div class="line">			&#125;</div><div class="line"></div><div class="line">			<span class="comment">// //开启线程</span></div><div class="line">			<span class="comment">//500 个线程  每个线程查询三次</span></div><div class="line">			<span class="keyword">for</span> (Runnable r:threads) &#123;</div><div class="line">				<span class="keyword">new</span> Thread(r).start();</div><div class="line">			&#125;</div><div class="line"></div><div class="line">			<span class="comment">//调用await方法阻塞当前线程，等待子线程完成再继续</span></div><div class="line">			latch.await();</div><div class="line"></div><div class="line">			<span class="comment">//释放连接</span></div><div class="line">			db.closeConn();</div><div class="line"></div><div class="line">			<span class="keyword">String</span> end = TimeUtils.nowTime();</div><div class="line">			System.out.<span class="built_in">println</span>(<span class="string">"结束时间："</span>+end);</div><div class="line"></div><div class="line">			System.out.<span class="built_in">println</span>(<span class="built_in">map</span>.<span class="built_in">size</span>()+<span class="string">"&gt;&gt;&gt;&gt;&gt;"</span>+<span class="built_in">map</span>);</div><div class="line">			System.out.<span class="built_in">println</span>(TimeUtils.getPastTime(end, start));</div><div class="line"></div><div class="line">		&#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">			<span class="comment">// TODO Auto-generated catch block</span></div><div class="line">			e.printStackTrace();</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="说明："><a href="#说明：" class="headerlink" title="说明："></a>说明：</h2><h3 id="2017年11月8日"><a href="#2017年11月8日" class="headerlink" title="2017年11月8日"></a>2017年11月8日</h3><ul>
+<li>运行test.java ，即可执行500个线程，分别调用函数返回结果，并且存放到map集合里.并且打印执行时间.</li>
+<li>db.java里面是连接数据库的方法和信息 </li>
+<li>ConnThread.java是线程类</li>
+<li>TimeUtils.java是时间工具类</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;命题&quot;&gt;&lt;a href=&quot;#命题&quot; class=&quot;headerlink&quot; title=&quot;命题&quot;&gt;&lt;/a&gt;命题&lt;/h2&gt;&lt;blockquote&gt;
+&lt;p&gt;最近有一个需求是：     实现一个java&lt;br&gt;standalone应用，开辟静态HashMap（1500），创建500个线程，序号从1到500，每个线程都会建立3次连接访问数据库test，&lt;br&gt;调用数据库函数cms.sp_get_fundasset，传入线程序号作为参数。数据库函数返回的账户净值按序号写入对应的静态HashMap。统计500个线程全部结束后消耗的时间总长；&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;实现-思路&quot;&gt;&lt;a href=&quot;#实现-思路&quot; class=&quot;headerlink&quot; title=&quot;实现 思路&quot;&gt;&lt;/a&gt;实现 思路&lt;/h2&gt;&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;创建调用传统创建线程的类&lt;/li&gt;
+&lt;li&gt;创建db用于jdbc连接&lt;/li&gt;
+&lt;li&gt;创建test用于写测试代码&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+    
+    </summary>
+    
+      <category term="java" scheme="http://liuhouer.github.io/categories/java/"/>
+    
+      <category term="多线程" scheme="http://liuhouer.github.io/categories/java/%E5%A4%9A%E7%BA%BF%E7%A8%8B/"/>
+    
+    
+      <category term="java" scheme="http://liuhouer.github.io/tags/java/"/>
+    
+      <category term="多线程" scheme="http://liuhouer.github.io/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/"/>
+    
+  </entry>
+  
+  <entry>
     <title>MySQL安全配置向导</title>
     <link href="http://liuhouer.github.io/2017/08/15/MySQL%E5%AE%89%E5%85%A8%E9%85%8D%E7%BD%AE%E5%90%91%E5%AF%BC/"/>
     <id>http://liuhouer.github.io/2017/08/15/MySQL安全配置向导/</id>
-    <published>2017-08-15T08:58:17.545Z</published>
-    <updated>2017-08-15T08:14:52.000Z</updated>
+    <published>2017-08-15T02:24:09.000Z</published>
+    <updated>2017-11-15T10:02:06.000Z</updated>
     
     <content type="html"><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><blockquote>
 <p>主要介绍了MySQL安全配置向导mysql_secure_installation各项配置的含义,并依据经验给予一了一些建议<br><strong>安装完mysql-server 会提示可以运行mysql_secure_installation。运行mysql_secure_installation会执行几个设置：</strong></p>
@@ -1644,75 +1763,6 @@ tasks: [&apos;jshint&apos;, &apos;qunit&apos;]
     
     
       <category term="hibernate" scheme="http://liuhouer.github.io/tags/hibernate/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>雨巷</title>
-    <link href="http://liuhouer.github.io/2016/03/06/%E9%9B%A8%E5%B7%B7/"/>
-    <id>http://liuhouer.github.io/2016/03/06/雨巷/</id>
-    <published>2016-03-06T03:50:36.000Z</published>
-    <updated>2017-03-23T02:13:26.000Z</updated>
-    
-    <content type="html"><![CDATA[<!-- <img src="http://7xpfpd.com1.z0.glb.clouddn.com/post_.dingxiang.jpg" style="width: 208px;height: 208px;"></img> -->
-<p><img src="http://7xpfpd.com1.z0.glb.clouddn.com/post_.dingxiang.jpg" alt="最喜欢的意境散文" title="最喜欢的意境散文"></p>
-<p>撑着油纸伞，独自<br>彷徨在悠长、悠长<br>又寂寥的雨巷<br>我希望逢着<br>一个丁香一样地<br>结着愁怨的姑娘 </p>
-<p>她是有<br>丁香一样的颜色<br>丁香一样的芬芳<br>丁香一样的忧愁<br>在雨中哀怨<br>哀怨又彷徨 </p>
-<a id="more"></a> 
-<p>她彷徨在这寂寥的雨巷<br>撑着油纸伞<br>像我一样<br>像我一样地<br>默默行着<br>寒漠、凄清，又惆怅 </p>
-<p>她默默地走近<br>走近，又投出<br>太息一般的眼光<br>她飘过<br>像梦一般地<br>像梦一般地凄婉迷茫 </p>
-<p>像梦中飘过<br>一枝丁香地<br>我身旁飘过这女郎<br>她静默地远了、远了<br>到了颓圮的篱墙<br>走尽这雨巷 </p>
-<p>在雨的哀曲里<br>消了她的颜色<br>散了她的芬芳<br>消散了，甚至她的<br>太息般的眼光<br>丁香般的惆怅 </p>
-<p>撑着油纸伞，独自<br>彷徨在悠长、悠长<br>又寂寥的雨巷<br>我希望飘过<br>一个丁香一样地<br>结着愁怨的姑娘</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;!-- &lt;img src=&quot;http://7xpfpd.com1.z0.glb.clouddn.com/post_.dingxiang.jpg&quot; style=&quot;width: 208px;height: 208px;&quot;&gt;&lt;/img&gt; --&gt;
-&lt;p&gt;&lt;img src=&quot;http://7xpfpd.com1.z0.glb.clouddn.com/post_.dingxiang.jpg&quot; alt=&quot;最喜欢的意境散文&quot; title=&quot;最喜欢的意境散文&quot;&gt;&lt;/p&gt;
-&lt;p&gt;撑着油纸伞，独自&lt;br&gt;彷徨在悠长、悠长&lt;br&gt;又寂寥的雨巷&lt;br&gt;我希望逢着&lt;br&gt;一个丁香一样地&lt;br&gt;结着愁怨的姑娘 &lt;/p&gt;
-&lt;p&gt;她是有&lt;br&gt;丁香一样的颜色&lt;br&gt;丁香一样的芬芳&lt;br&gt;丁香一样的忧愁&lt;br&gt;在雨中哀怨&lt;br&gt;哀怨又彷徨 &lt;/p&gt;
-    
-    </summary>
-    
-      <category term="碎碎念" scheme="http://liuhouer.github.io/categories/%E7%A2%8E%E7%A2%8E%E5%BF%B5/"/>
-    
-    
-      <category term="碎碎念" scheme="http://liuhouer.github.io/tags/%E7%A2%8E%E7%A2%8E%E5%BF%B5/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>记梦有感</title>
-    <link href="http://liuhouer.github.io/2016/01/05/dream-record/"/>
-    <id>http://liuhouer.github.io/2016/01/05/dream-record/</id>
-    <published>2016-01-05T15:12:11.000Z</published>
-    <updated>2017-03-23T02:13:26.000Z</updated>
-    
-    <content type="html"><![CDATA[<p><img src="http://7xpfpd.com1.z0.glb.clouddn.com/image%2Farticle%2Ftumblr_dream_record.jpg" alt="my fantasy dream record" title="my fantasy dream record"></p>
-<p>•   茫茫的人海中，你很难第一时间发现我。</p>
-<p>•   有时候我希望我是一个胖子，这样我可以多占点地方，有时候我希望我能赶紧秃顶，这样还会显得与众不同，可是我就是一个过着安安静静，一成不变生活的男人。</p>
-<p>•   所以我期待改变，如果我注定改变不了自己，我希望我能改变下你的生活，带给你点依靠，让我有点责任。带给你些帮助，让我有点动力。带给你些温暖，让我有点充实。</p>
-<a id="more"></a> 
-<p>•   我可能会喜欢你的任性，矫情，蛮不讲理，也可能会喜欢你的无赖，泼皮，漫不经心。 亦或者，我会喜欢你的唠唠叨叨，黏黏糊糊。</p>
-<p>•   请原谅的我笨拙，因为我实在描绘不出你的样子，但是我知道，一定有生气时撅起的嘴，一定要开心时放肆的笑，如果一定要在我们的画布上填上一点元素，可不可以有害羞的捶胸，埋首的娇嗔，不舍得凝望和对于上天赐予彼此的感恩.如果可以选择不要，可不可以让我偷偷的把眼泪，失望，怨恨，分离丢弃到垃圾桶里，让城市化妆师带他们去离我们遥远的深山老林，要么焚烧，要么深埋。</p>
-<p>•   我期待，暂时也只是期待，因为我不知道我能不能令人满意，我唯一确定的就是我会努力，无论结果怎么样，我期待我能成为你清晨的一缕阳光，我期待我能成为你寒冬的一袭暖风，我期待我是你干涸时刻的一阵清露，我期待我是你孤独无助之际的一怀拥抱。</p>
-<p>•   新的一年沉淀我的孤独，等待你的出现，因为我又积攒够了勇气再次出发。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;img src=&quot;http://7xpfpd.com1.z0.glb.clouddn.com/image%2Farticle%2Ftumblr_dream_record.jpg&quot; alt=&quot;my fantasy dream record&quot; title=&quot;my fantasy dream record&quot;&gt;&lt;/p&gt;
-&lt;p&gt;•   茫茫的人海中，你很难第一时间发现我。&lt;/p&gt;
-&lt;p&gt;•   有时候我希望我是一个胖子，这样我可以多占点地方，有时候我希望我能赶紧秃顶，这样还会显得与众不同，可是我就是一个过着安安静静，一成不变生活的男人。&lt;/p&gt;
-&lt;p&gt;•   所以我期待改变，如果我注定改变不了自己，我希望我能改变下你的生活，带给你点依靠，让我有点责任。带给你些帮助，让我有点动力。带给你些温暖，让我有点充实。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="随笔" scheme="http://liuhouer.github.io/categories/%E9%9A%8F%E7%AC%94/"/>
-    
-    
-      <category term="思维" scheme="http://liuhouer.github.io/tags/%E6%80%9D%E7%BB%B4/"/>
     
   </entry>
   
