@@ -317,6 +317,495 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://liuhouer.github.io/2016/04/11/Nodejs规范工具-grunt/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Bruce">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Northpark博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/04/11/Nodejs规范工具-grunt/" itemprop="url">
+                  nodejs规范工具grunt
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-04-11T18:41:10+08:00">
+                2016-04-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/nodejs/" itemprop="url" rel="index">
+                    <span itemprop="name">nodejs</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/nodejs/grunt/" itemprop="url" rel="index">
+                    <span itemprop="name">grunt</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>一个应用开发到一定阶段，普遍会遇到一个问题。当功能越来越多，代码量越来越大，bug修复越来越频繁，开发人员一波一波的交替，…..应该用会向着越来越不可控发展。我们不能再准确估计新功能的开发时间，也不知道一个bug修复后是否会引发另一个bug出现。所有的程序开发，都会面临着这样的问题。</p>
+<p>C/C++程序通过makefile管理编译测试打包的过程，Java程序通过Maven,Ant实现项目构建管理功能，Python有pip，Ruby有gem。在Nodejs的领域，我们同样需要一个项目构建工具，这就是Grunt。Grunt可以执行像压缩, 编译, 单元测试, 代码检查以及打包发布的任务。</p>
+<h1 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h1><ul>
+<li>Grunt介绍</li>
+<li>Grunt安装</li>
+<li>Grunt使用</li>
+<li>Grunt常用插件：<br>1).grunt-contrib-uglify：压缩js代码<br>2).grunt-contrib-concat：合并js文件<br>3).grunt-contrib-qunit：单元测试<br>4).grunt-contrib-jshint：js代码检查<br>5).grunt-contrib-watch：文件监控</li>
+</ul>
+<h2 id="1-Grunt介绍"><a href="#1-Grunt介绍" class="headerlink" title="1.Grunt介绍"></a>1.Grunt介绍</h2><p>Grunt是一个自动化的项目构建工具. 如果你需要重复的执行像压缩, 编译, 单元测试, 代码检查以及打包发布的任务. 那么你可以使用Grunt来处理这些任务, 你所需要做的只是配置好Grunt, 这样能很大程度的简化你的工作.</p>
+<p>如果在团队中使用Grunt, 你只需要与其他人员约定好使用Grunt应该规避的问题, 就能够很方便的自动化的处理大部分的常见工作任务, 你所付出的努力几乎为0.</p>
+<p><img src="http://7xpfpd.com1.z0.glb.clouddn.com/post.adbbde95-83cf-4f20-95ad-353123b4f3e7.jpg" alt=""></p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2016/04/11/Nodejs规范工具-grunt/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://liuhouer.github.io/2016/04/05/Gradle介绍及安装/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Bruce">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Northpark博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/04/05/Gradle介绍及安装/" itemprop="url">
+                  Gradle介绍及安装
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-04-05T20:36:32+08:00">
+                2016-04-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Gradle/" itemprop="url" rel="index">
+                    <span itemprop="name">Gradle</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h1 id="对Gradle进行一个简单的介绍，以及它的安装。"><a href="#对Gradle进行一个简单的介绍，以及它的安装。" class="headerlink" title="对Gradle进行一个简单的介绍，以及它的安装。"></a>对Gradle进行一个简单的介绍，以及它的安装。</h1><h2 id="Gradle介绍"><a href="#Gradle介绍" class="headerlink" title="Gradle介绍"></a>Gradle介绍</h2><ul>
+<li>Gradle是一个基于JVM的构建工具，它提供了：</li>
+<li>像Ant一样，通用灵活的构建工具</li>
+<li>可以切换的，基于约定的构建框架</li>
+<li>强大的多工程构建支持</li>
+<li>基于Apache Ivy的强大的依赖管理</li>
+<li>支持maven, Ivy仓库</li>
+<li>支持传递性依赖管理，而不需要远程仓库或者是pom.xml和ivy.xml配置文件。</li>
+<li>对Ant的任务做了很好的集成</li>
+<li>基于Groovy，build脚本使用Groovy编写</li>
+<li>有广泛的领域模型支持构建<h2 id="Gradle-概述"><a href="#Gradle-概述" class="headerlink" title="Gradle 概述"></a>Gradle 概述</h2></li>
+<li>基于声明和基于约定的构建。</li>
+<li>依赖型的编程语言。</li>
+<li>可以结构化构建，易于维护和理解。</li>
+<li>有高级的API允许你在构建执行的整个过程当中，对它的核心进行监视，或者是配置它的行为。</li>
+<li>有良好的扩展性。有增量构建功能来克服性能瓶颈问题。</li>
+<li>多项目构建的支持。</li>
+<li>多种方式的依赖管理。</li>
+<li>是第一个构建集成工具。集成了Ant, maven的功能。</li>
+<li>易于移值。</li>
+<li>脚本采用Groovy编写，易于维护。</li>
+<li>通过Gradle Wrapper允许你在没有安装Gradle的机器上进行Gradle构建。</li>
+<li>自由，开源。</li>
+</ul>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2016/04/05/Gradle介绍及安装/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://liuhouer.github.io/2016/03/26/恶棍快车之旅/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Bruce">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Northpark博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/03/26/恶棍快车之旅/" itemprop="url">
+                  恶棍快车之旅
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-03-26T23:46:49+08:00">
+                2016-03-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/碎碎念/" itemprop="url" rel="index">
+                    <span itemprop="name">碎碎念</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>万圣节，出没在小区里的快递员穿上了动物外套，一只毛茸茸的熊头出现在门禁对讲屏上，着实吓人一跳。最近，她并没有在网店上下过单，好奇心让她早早地打开门。一只“大灰熊”从电梯里出来，麻溜地摘下熊头套，递给她一封信。<br>关门，拆信，里面是一张明信片形式的参观券，上面印有一列火车。她想起来了，前几天去逛商场时，促销活动是“恶棍快车之旅”，她漫不经心地签上了自己的地址，随后就忘了这事儿了。还真的要去参观吗？她走向厨房，将明信片贴在冰箱门上，冰箱压缩器恰好轰鸣起来，不知怎地，她的视线恍惚了，冰箱不再是冰箱，而是一只卡住白鲸的长方形笼子，一头白鲸眼神悲哀地在其中扭动，她扶住冰箱门，定神一看，果然只是幻觉。</p>
+<p>“你知道方块鲸吗？一条鲸鱼卡在方块里了。”吃晚饭时，她不经意地说。</p>
+<p>“下午办公室里还在聊这个呢。”丈夫疲倦的脸上，闪出兴奋的光，对神秘的事情，他一向热衷，“说是恶棍快车进入终点站时，会发出一种鲸鱼的叫声，就像一头鲸鱼卡在方块里，慢慢地，慢慢地窒息……”丈夫夸张地做了一个掉脑袋的动作，随后总结：即使是机器人，面对死亡，也是会被痛苦折磨的，所以，他们最好别干坏事。<br>胃不太舒服，她不想继续这个话题了。</p>
+<p>晚上，他们早早地躺下。她睡了一小会儿，眼皮又睁开了，陷入了所谓的对自己完全无能为力的失眠的长夜。思绪拉扯得很开，散漫，像血瘀女子脸上的红血丝。肚子里不知发生了什么事情，不断有咕噜噜的叫声，焦躁与烦闷一阵阵地涌上来，脸颊像傍晚的天边，堆满了绚烂的火烧云。后来，月光透过窗帘缝洒到被子上，她安静了下来，一遍遍地想到海，如果那辆列车真的在终点站掉下去的话，会不会径直掉到大海里，如果是在海水里，鲸鱼就不会被卡住了吧。头一回，她对身边人的呼噜声没有反感，聆听着，像在海边住着的人，呼噜声只是海浪，她从未去过海边——现在，她对海可以一遍又一遍地猜想。</p>
+<p><img src="http://7xpfpd.com1.z0.glb.clouddn.com/manga.tumblr_o46qpvKaN51rrzs5no1_1280.png" alt=""><br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2016/03/26/恶棍快车之旅/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://liuhouer.github.io/2016/03/17/为什么我们不会谈恋爱了/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -764,490 +1253,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://liuhouer.github.io/2016/01/05/dream-record/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Bruce">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Northpark博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/01/05/dream-record/" itemprop="url">
-                  记梦有感
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-01-05T23:12:11+08:00">
-                2016-01-05
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/随笔/" itemprop="url" rel="index">
-                    <span itemprop="name">随笔</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p><img src="http://7xpfpd.com1.z0.glb.clouddn.com/image%2Farticle%2Ftumblr_dream_record.jpg" alt="my fantasy dream record" title="my fantasy dream record"></p>
-<p>•   茫茫的人海中，你很难第一时间发现我。</p>
-<p>•   有时候我希望我是一个胖子，这样我可以多占点地方，有时候我希望我能赶紧秃顶，这样还会显得与众不同，可是我就是一个过着安安静静，一成不变生活的男人。</p>
-<p>•   所以我期待改变，如果我注定改变不了自己，我希望我能改变下你的生活，带给你点依靠，让我有点责任。带给你些帮助，让我有点动力。带给你些温暖，让我有点充实。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2016/01/05/dream-record/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://liuhouer.github.io/2015/12/30/recovery/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Bruce">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Northpark博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/12/30/recovery/" itemprop="url">
-                  mac os x 备份和恢复
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2015-12-30T19:15:14+08:00">
-                2015-12-30
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/mac/" itemprop="url" rel="index">
-                    <span itemprop="name">mac</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="备份和恢复"><a href="#备份和恢复" class="headerlink" title="备份和恢复"></a>备份和恢复</h1><p>第一次使用Mac OS X下的时光机器(Time Machine)，就被苹果如此完美贴心的备份恢复方案打动。数据无价，电脑里留下了岁月的痕迹和凝结了我们的心血，数据备份的重要性是怎么强调都不为过的。Time Machine是对这些数据最好的保护。只要你已经使用Time Machine备份过，设想一下：</p>
-<ul>
-<li>当你的Mac丢失或者硬件损坏了以后，你只要从苹果商店新买一台Mac，然后从Time Machine备份中恢复。你会看到一个和之前一模一样的系统，包括数据、设置、状态。</li>
-<li>当你给自己奖赏了一台新Mac时候，可以使用Time Machine将所有东西迁移过去。</li>
-<li>当你误删除一个文档，几个月以后再想起来，可以从Time Machine恢复。</li>
-<li>当你对一个文档做了多次修改，引入了一个错误，希望恢复某次正确的一个版本的时候，Time Machine可以帮助你。</li>
-</ul>
-<p>如果你熟悉git，那Time Machine简直就是一个操作系统级别的版本控制！</p>
-<p>当我安装好一个新的Mac OS X系统以后，第一件事情，就是设置Time Machine。</p>
-<p>现在云存储已经普及，容量也足够大，但是Time Machine还是有不可替代的优势：</p>
-<ul>
-<li>云存储没有版本历史，不能对之前的数据恢复。删除了就是删除了，也不能恢复之前某个时刻版本的数据资料。</li>
-<li>云存储有隐私泄露的问题，爱德华·斯诺登给我们好好上了一课。</li>
-<li>云存储不能解决恢复问题，仅仅只能做最基本的文件存储，不能在一台新的Mac上恢复所有数据和配置</li>
-</ul>
-<p>简单地说，云存储就是一个简单的Windows操作系统级别的拷贝备份，和Time Machine细颗粒度，多版本，包括数据、配置、状态的完整备份恢复方案相比，弱爆了。</p>
-<p>基于上述理由，郑重提醒，在设置Time Machine的exclude目录的时候，千万不要将云存储映射的目录排除在外。否则这些你认为已经被云存储保护过的资料，就不能享受Time Machine的保护，而这些资料往往是你最重要的资料。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2015/12/30/recovery/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://liuhouer.github.io/2015/12/28/python02/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Bruce">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Northpark博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/12/28/python02/" itemprop="url">
-                  python学习笔记02
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2015-12-28T20:06:30+08:00">
-                2015-12-28
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/python/" itemprop="url" rel="index">
-                    <span itemprop="name">python</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="python学习笔记02-2015-12-28"><a href="#python学习笔记02-2015-12-28" class="headerlink" title="python学习笔记02 [2015-12-28]"></a>python学习笔记02 <em>[2015-12-28]</em></h1><h2 id="编写函数"><a href="#编写函数" class="headerlink" title="编写函数"></a>编写函数</h2><p>﻿</p>
-<ul>
-<li>在Python中，定义一个函数要使用 def 语句，依次写出函数名、括号、括号中的参数和冒号:，然后，在缩进块中编写函数体，函数的返回值用 return 语句返回。</li>
-</ul>
-<h3 id="任务-请定义一个-square-of-sum-函数，它接受一个list，返回list中每个元素平方的和。"><a href="#任务-请定义一个-square-of-sum-函数，它接受一个list，返回list中每个元素平方的和。" class="headerlink" title="任务 请定义一个 square_of_sum 函数，它接受一个list，返回list中每个元素平方的和。"></a>任务 请定义一个 square_of_sum 函数，它接受一个list，返回list中每个元素平方的和。</h3><pre><code>def square_of_sum(L):
-
-    sum = 0
-
-    for i in L:
-
-        sum += i * i
-
-    return sum
-
-
-
-print square_of_sum([1, 2, 3, 4, 5])
-
-print square_of_sum([-5, 0, 5, 15, 25])
-</code></pre>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2015/12/28/python02/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/5/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/5/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1292,7 +1302,7 @@ print square_of_sum([-5, 0, 5, 15, 25])
           
             <div class="site-state-item site-state-posts">
               <a href="/">
-                <span class="site-state-item-count">70</span>
+                <span class="site-state-item-count">73</span>
                 <span class="site-state-item-name">posts</span>
               </a>
             </div>
@@ -1303,7 +1313,7 @@ print square_of_sum([-5, 0, 5, 15, 25])
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">40</span>
+                <span class="site-state-item-count">41</span>
                 <span class="site-state-item-name">categories</span>
               </a>
             </div>
@@ -1314,7 +1324,7 @@ print square_of_sum([-5, 0, 5, 15, 25])
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">66</span>
+                <span class="site-state-item-count">70</span>
                 <span class="site-state-item-name">tags</span>
               </a>
             </div>
@@ -1414,7 +1424,7 @@ print square_of_sum([-5, 0, 5, 15, 25])
         <div class="copyright" >
   
   &copy;  2015 - 
-  <span itemprop="copyrightYear">2017</span>
+  <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

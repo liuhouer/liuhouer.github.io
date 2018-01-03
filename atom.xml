@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://liuhouer.github.io/"/>
-  <updated>2017-11-15T10:00:58.000Z</updated>
+  <updated>2018-01-03T08:56:09.000Z</updated>
   <id>http://liuhouer.github.io/</id>
   
   <author>
@@ -14,6 +14,449 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>css盒子模型</title>
+    <link href="http://liuhouer.github.io/2017/12/27/css%E7%9B%92%E5%AD%90%E6%A8%A1%E5%9E%8B/"/>
+    <id>http://liuhouer.github.io/2017/12/27/css盒子模型/</id>
+    <published>2017-12-27T02:24:09.000Z</published>
+    <updated>2018-01-03T08:56:09.000Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="元素分类"><a href="#元素分类" class="headerlink" title="元素分类"></a>元素分类</h1><blockquote>
+<p>在讲解CSS布局之前，我们需要提前知道一些知识，在CSS中，html中的标签元素大体被分为三种不同的类型：块状元素、内联元素(又叫行内元素)和内联块状元素。<br>常用的块状元素有：</p>
+</blockquote>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span>、<span class="tag">&lt;<span class="name">p</span>&gt;</span>、<span class="tag">&lt;<span class="name">h1</span>&gt;</span>...<span class="tag">&lt;<span class="name">h6</span>&gt;</span>、<span class="tag">&lt;<span class="name">ol</span>&gt;</span>、<span class="tag">&lt;<span class="name">ul</span>&gt;</span>、<span class="tag">&lt;<span class="name">dl</span>&gt;</span>、<span class="tag">&lt;<span class="name">table</span>&gt;</span>、<span class="tag">&lt;<span class="name">address</span>&gt;</span>、<span class="tag">&lt;<span class="name">blockquote</span>&gt;</span> 、<span class="tag">&lt;<span class="name">form</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>常用的内联元素有：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">a</span>&gt;</span>、<span class="tag">&lt;<span class="name">span</span>&gt;</span>、<span class="tag">&lt;<span class="name">br</span>&gt;</span>、<span class="tag">&lt;<span class="name">i</span>&gt;</span>、<span class="tag">&lt;<span class="name">em</span>&gt;</span>、<span class="tag">&lt;<span class="name">strong</span>&gt;</span>、<span class="tag">&lt;<span class="name">label</span>&gt;</span>、<span class="tag">&lt;<span class="name">q</span>&gt;</span>、<span class="tag">&lt;<span class="name">var</span>&gt;</span>、<span class="tag">&lt;<span class="name">cite</span>&gt;</span>、<span class="tag">&lt;<span class="name">code</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>常用的内联块状元素有：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">img</span>&gt;</span>、<span class="tag">&lt;<span class="name">input</span>&gt;</span></div></pre></td></tr></table></figure>
+<h2 id="元素分类–块级元素"><a href="#元素分类–块级元素" class="headerlink" title="元素分类–块级元素"></a>元素分类–块级元素</h2><figure class="highlight pf"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">什么是块级元素？在html中<span class="variable">&lt;div&gt;</span>、 <span class="variable">&lt;p&gt;</span>、<span class="variable">&lt;h1&gt;</span>、<span class="variable">&lt;form&gt;</span>、<span class="variable">&lt;ul&gt;</span> 和 <span class="variable">&lt;li&gt;</span>就是块级元素。设置display:<span class="built_in">block</span>就是将元素显示为块级元素。如下代码就是将内联元素a转换为块状元素，从而使a元素具有块状元素特点。</div><div class="line">a&#123;display:<span class="built_in">block</span>;&#125;</div><div class="line">块级元素特点：</div><div class="line"><span class="number">1</span>、每个块级元素都从新的一行开始，并且其后的元素也另起一行。（真霸道，一个块级元素独占一行）</div><div class="line"><span class="number">2</span>、元素的高度、宽度、行高以及顶和底边距都可设置。</div><div class="line"><span class="number">3</span>、元素宽度在不设置的情况下，是它本身父容器的<span class="number">100</span>%（和父元素的宽度一致），除非设定一个宽度。</div></pre></td></tr></table></figure>
+<h2 id="元素分类–内联元素"><a href="#元素分类–内联元素" class="headerlink" title="元素分类–内联元素"></a>元素分类–内联元素</h2><figure class="highlight dts"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">在html中，<span class="params">&lt;span&gt;</span>、<span class="params">&lt;a&gt;</span>、<span class="params">&lt;label&gt;</span>、 <span class="params">&lt;strong&gt;</span> 和<span class="params">&lt;em&gt;</span>就是典型的内联元素（行内元素）（inline）元素。当然块状元素也可以通过代码display:inline将元素设置为内联元素。如下代码就是将块状元素div转换为内联元素，从而使 div 元素具有内联元素特点。</div><div class="line">div&#123;</div><div class="line"><span class="symbol">display:</span>inline;</div><div class="line">&#125;</div><div class="line"></div><div class="line">......</div><div class="line"></div><div class="line"><span class="params">&lt;div&gt;</span>我要变成内联元素<span class="params">&lt;/div&gt;</span></div></pre></td></tr></table></figure>
+<p><strong>内联元素特点</strong>：</p>
+<blockquote>
+<p> 1、和其他元素都在一行上；<br> 2、元素的高度、宽度及顶部和底部边距不可设置；<br> 3、元素的宽度就是它包含的文字或图片的宽度，不可改变。</p>
+</blockquote>
+<h2 id="元素分类–内联块状元素"><a href="#元素分类–内联块状元素" class="headerlink" title="元素分类–内联块状元素"></a>元素分类–内联块状元素</h2><figure class="highlight oxygene"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">内联块状元素（<span class="keyword">inline</span>-<span class="keyword">block</span>）就是同时具备内联元素、块状元素的特点，代码display:<span class="keyword">inline</span>-<span class="keyword">block</span>就是将元素设置为内联块状元素。(css2.<span class="number">1</span>新增)，&lt;img&gt;、&lt;input&gt;标签就是这种内联块状标签。</div></pre></td></tr></table></figure>
+<p><strong>inline-block 元素特点</strong>：</p>
+<blockquote>
+<p>1、和其他元素都在一行上；</p>
+<p>2、元素的高度、宽度、行高以及顶和底边距都可设置。</p>
+</blockquote>
+<h1 id="盒模型"><a href="#盒模型" class="headerlink" title="盒模型"></a>盒模型</h1><h2 id="盒模型–边框（一）"><a href="#盒模型–边框（一）" class="headerlink" title="盒模型–边框（一）"></a>盒模型–边框（一）</h2><p>盒子模型的边框就是围绕着内容及补白的线，这条线你可以设置它的粗细、样式和颜色(边框三个属性)。<br>如下面代码为 div 来设置边框粗细为 2px、样式为实心的、颜色为红色的边框：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">div</span>&#123;</div><div class="line"><span class="attribute">border</span>:<span class="number">2px</span> solid red;</div><div class="line">&#125;</div><div class="line">上面是 <span class="selector-tag">border</span> 代码的缩写形式，可以分开写：</div><div class="line"><span class="selector-tag">div</span>&#123;</div><div class="line"><span class="attribute">border-width</span>:<span class="number">2px</span>;</div><div class="line"><span class="attribute">border-style</span>:solid;</div><div class="line"><span class="attribute">border-color</span>:red;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>注意：</p>
+<blockquote>
+<p>1、border-style（边框样式）常见样式有： dashed（虚线）| dotted（点线）| solid（实线）。</p>
+<p>2、border-color（边框颜色）中的颜色可设置为十六进制颜色，如: border-color:#888;//前面的井号不要忘掉。</p>
+<p>3、border-width（边框宽度）中的宽度也可以设置为： thin | medium |<br>thick（但不是很常用），最常还是用象素（px）。</p>
+</blockquote>
+<h2 id="盒模型–边框（二）"><a href="#盒模型–边框（二）" class="headerlink" title="盒模型–边框（二）"></a>盒模型–边框（二）</h2><p>现在有一个问题，如果有想为 p 标签单独设置下边框，而其它三边都不设置边框样式怎么办呢？css 样式中允许只为一个方向的边框设置样式：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">div</span>&#123;<span class="attribute">border-bottom</span>:<span class="number">1px</span> solid red;&#125;</div></pre></td></tr></table></figure>
+<p>同样可以使用下面代码实现其它三边(上、右、左)边框的设置：</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">border-top</span>:<span class="number">1px</span> solid red;</div><div class="line"><span class="attribute">border-right</span>:<span class="number">1px</span> solid red;</div><div class="line"><span class="attribute">border-left</span>:<span class="number">1px</span> solid red;</div></pre></td></tr></table></figure>
+<a id="more"></a>
+<h2 id="盒模型–宽度和高度"><a href="#盒模型–宽度和高度" class="headerlink" title="盒模型–宽度和高度"></a>盒模型–宽度和高度</h2><p>盒模型宽度和高度和我们平常所说的物体的宽度和高度理解是不一样的，css内定义的宽（width）和高（height），指的是填充以里的内容范围。<br>因此一个元素实际宽度（盒子的宽度）=左边界+左边框+左填充+内容宽度+右填充+右边框+右边界。</p>
+<p><img src="http://7xpfpd.com1.z0.glb.clouddn.com/Image1.jpg" alt="enter description here"></p>
+<h2 id="盒模型–填充"><a href="#盒模型–填充" class="headerlink" title="盒模型–填充"></a>盒模型–填充</h2><p>元素内容与边框之间是可以设置距离的，称之为“填充”。填充也可分为上、右、下、左(顺时针)。如下代码：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">div</span>&#123;<span class="attribute">padding</span>:<span class="number">20px</span> <span class="number">10px</span> <span class="number">15px</span> <span class="number">30px</span>;&#125;</div></pre></td></tr></table></figure>
+<p>顺序一定不要搞混。可以分开写上面代码：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">div</span>&#123;</div><div class="line"><span class="attribute">padding-top</span>:<span class="number">20px</span>;</div><div class="line"><span class="attribute">padding-right</span>:<span class="number">10px</span>;</div><div class="line"><span class="attribute">padding-bottom</span>:<span class="number">15px</span>;</div><div class="line"><span class="attribute">padding-left</span>:<span class="number">30px</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>如果上、右、下、左的填充都为10px;可以这么写</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">div</span>&#123;<span class="attribute">padding</span>:<span class="number">10px</span>;&#125;</div></pre></td></tr></table></figure>
+<p>如果上下填充一样为10px，左右一样为20px，可以这么写：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">div</span>&#123;<span class="attribute">padding</span>:<span class="number">10px</span> <span class="number">20px</span>;&#125;</div></pre></td></tr></table></figure>
+<p><strong>总结一下：padding和margin的区别，padding在边框里，margin在边框外。</strong></p>
+<h1 id="css布局模型"><a href="#css布局模型" class="headerlink" title="css布局模型"></a>css布局模型</h1><p>清楚了CSS 盒模型的基本概念、 盒模型类型， 我们就可以深入探讨网页布局的基本模型了。布局模型与盒模型一样都是 CSS 最基本、 最核心的概念。 但布局模型是建立在盒模型基础之上，又不同于我们常说的 CSS 布局样式或 CSS 布局模板。如果说布局模型是本，那么 CSS 布局模板就是末了，是外在的表现形式。<br>CSS包含3种基本的布局模型，用英文概括为：Flow、Layer 和 Float。<br>在网页中，元素有三种布局模型：</p>
+<blockquote>
+<p>1、流动模型（Flow）<br>2、浮动模型 (Float)<br>3、层模型（Layer）</p>
+</blockquote>
+<h2 id="流动模型（一）"><a href="#流动模型（一）" class="headerlink" title="流动模型（一）"></a>流动模型（一）</h2><p>先来说一说流动模型，流动（Flow）是默认的网页布局模式。也就是说网页在默认状态下的 HTML 网页元素都是根据流动模型来分布网页内容的。<br>流动布局模型具有2个比较典型的特征：</p>
+<blockquote>
+<p>第一点，块状元素都会在所处的包含元素内自上而下按顺序垂直延伸分布，因为在默认状态下，块状元素的宽度都为100%。实际上，块状元素都会以行的形式占据位置。如右侧代码编辑器中三个块状元素标签(div，h1，p)宽度显示为100%。</p>
+</blockquote>
+<h2 id="流动模型（二）"><a href="#流动模型（二）" class="headerlink" title="流动模型（二）"></a>流动模型（二）</h2><blockquote>
+<p>第二点，在流动模型下，内联元素都会在所处的包含元素内从左到右水平分布显示。（内联元素可不像块状元素这么霸道独占一行）<br>右侧代码编辑器中内联元素标签a、span、em、strong都是内联元素。</p>
+</blockquote>
+<h2 id="浮动模型"><a href="#浮动模型" class="headerlink" title="浮动模型"></a>浮动模型</h2><p>块状元素这么霸道都是独占一行，如果现在我们想让两个块状元素并排显示，怎么办呢？不要着急，设置元素浮动就可以实现这一愿望。<br>任何元素在默认情况下是不能浮动的，但可以用 CSS 定义为浮动，如 div、p、table、img 等元素都可以被定义为浮动。如下代码可以实现两个 div 元素一行显示。</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">div&#123;</div><div class="line"><span class="attribute">width</span>:<span class="number">200px</span>;</div><div class="line"><span class="attribute">height</span>:<span class="number">200px</span>;</div><div class="line"><span class="attribute">border</span>:<span class="number">2px</span> red solid;</div><div class="line"><span class="attribute">float</span>:left;</div><div class="line">&#125;</div><div class="line">&lt;<span class="selector-tag">div</span> id=<span class="string">"div1"</span>&gt;&lt;/div&gt;</div><div class="line">&lt;<span class="selector-tag">div</span> id=<span class="string">"div2"</span>&gt;&lt;/div&gt;</div></pre></td></tr></table></figure>
+<h2 id="什么是层模型？"><a href="#什么是层模型？" class="headerlink" title="什么是层模型？"></a>什么是层模型？</h2><blockquote>
+<p>什么是层布局模型？层布局模型就像是图像软件PhotoShop中非常流行的图层编辑功能一样，每个图层能够精确定位操作，但在网页设计领域，由于网页大小的活动性，层布局没能受到热捧。但是在网页上局部使用层布局还是有其方便之处的。下面我们来学习一下html中的层布局。<br>如何让html元素在网页中精确定位，就像图像软件PhotoShop中的图层一样可以对每个图层能够精确定位操作。CSS定义了一组定位（positioning）属性来支持层布局模型。</p>
+</blockquote>
+<p>==层模型有三种形式：<br>1、绝对定位(position: absolute)<br>2、相对定位(position: relative)<br>3、固定定位(position: fixed)==</p>
+<h3 id="层模型–绝对定位"><a href="#层模型–绝对定位" class="headerlink" title="层模型–绝对定位"></a>层模型–绝对定位</h3><p>如果想为元素设置层模型中的绝对定位，需要设置position:absolute(表示绝对定位)，这条语句的作用将元素从文档流中拖出来，然后使用left、right、top、bottom属性相对于其最接近的一个具有定位属性的父包含块进行绝对定位。如果不存在这样的包含块，则相对于body元素，即相对于浏览器窗口。<br>如下面代码可以实现div元素相对于浏览器窗口向右移动100px，向下移动50px。</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">div&#123;</div><div class="line"><span class="attribute">width</span>:<span class="number">200px</span>;</div><div class="line"><span class="attribute">height</span>:<span class="number">200px</span>;</div><div class="line"><span class="attribute">border</span>:<span class="number">2px</span> red solid;</div><div class="line"><span class="attribute">position</span>:absolute;</div><div class="line"><span class="attribute">left</span>:<span class="number">100px</span>;</div><div class="line"><span class="attribute">top</span>:<span class="number">50px</span>;</div><div class="line">&#125;</div><div class="line">&lt;<span class="selector-tag">div</span> id=<span class="string">"div1"</span>&gt;&lt;/div&gt;</div></pre></td></tr></table></figure>
+<p>效果如下：<br><img src="http://7xpfpd.com1.z0.glb.clouddn.com/Image2.jpg" alt="enter description here"></p>
+<h3 id="层模型–固定定位"><a href="#层模型–固定定位" class="headerlink" title="层模型–固定定位"></a>层模型–固定定位</h3><p>fixed：表示固定定位，与absolute定位类型类似，但它的相对移动的坐标是视图（屏幕内的网页窗口）本身。由于视图本身是固定的，它不会随浏览器窗口的滚动条滚动而变化，除非你在屏幕中移动浏览器窗口的屏幕位置，或改变浏览器窗口的显示大小，因此固定定位的元素会始终位于浏览器窗口内视图的某个位置，不会受文档流动影响，这与<code>background-attachment:fixed;</code>属性功能相同。以下代码可以实现相对于浏览器视图向右移动100px，向下移动50px。并且拖动滚动条时位置固定不变。</p>
+<figure class="highlight dts"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#div1&#123;</span></div><div class="line"><span class="symbol">width:</span><span class="number">200</span>px;</div><div class="line"><span class="symbol">height:</span><span class="number">200</span>px;</div><div class="line"><span class="symbol">border:</span><span class="number">2</span>px red solid;</div><div class="line"><span class="symbol">position:</span>fixed;</div><div class="line"><span class="symbol">left:</span><span class="number">100</span>px;</div><div class="line"><span class="symbol">top:</span><span class="number">50</span>px;</div><div class="line">&#125;</div><div class="line"><span class="params">&lt;p&gt;</span>文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本。<span class="params">&lt;/p&gt;</span></div><div class="line">....</div></pre></td></tr></table></figure>
+<p><img src="http://7xpfpd.com1.z0.glb.clouddn.com/Image3.png" alt="enter description here"></p>
+<h2 id="Relative与Absolute组合使用"><a href="#Relative与Absolute组合使用" class="headerlink" title="Relative与Absolute组合使用"></a>Relative与Absolute组合使用</h2><p>小伙伴们学习了12-6小节的绝对定位的方法：使用position:absolute可以实现被设置元素相对于浏览器（body）设置定位以后，大家有没有想过可不可以相对于其它元素进行定位呢？答案是肯定的，当然可以。使用position:relative来帮忙，但是必须遵守下面规范：<br>1、参照定位的元素必须是相对定位元素的前辈元素：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"box1"</span>&gt;</span><span class="comment">&lt;!--参照定位的元素--&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"box2"</span>&gt;</span>相对参照元素进行定位<span class="tag">&lt;/<span class="name">div</span>&gt;</span><span class="comment">&lt;!--相对定位元素--&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>从上面代码可以看出box1是box2的父元素（父元素当然也是前辈元素了）。<br>2、参照定位的元素必须加入position:relative;</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="selector-id">#box1</span>&#123;</div><div class="line"><span class="attribute">width</span>:<span class="number">200px</span>;</div><div class="line"><span class="attribute">height</span>:<span class="number">200px</span>;</div><div class="line"><span class="attribute">position</span>:relative;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>3、定位元素加入position:absolute，便可以使用top、bottom、left、right来进行偏移定位了。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="selector-id">#box2</span>&#123;</div><div class="line"><span class="attribute">position</span>:absolute;</div><div class="line"><span class="attribute">top</span>:<span class="number">20px</span>;</div><div class="line"><span class="attribute">left</span>:<span class="number">30px</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这样box2就可以相对于父元素box1定位了（这里注意参照物就可以不是浏览器了，而可以自由设置了）。</p>
+<h2 id="颜色值缩写"><a href="#颜色值缩写" class="headerlink" title="颜色值缩写"></a>颜色值缩写</h2><p>关于颜色的css样式也是可以缩写的，当你设置的颜色是16进制的色彩值时，如果每两位的值相同，可以缩写一半。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">例子1：</div><div class="line"><span class="selector-tag">p</span>&#123;<span class="attribute">color</span>:<span class="number">#000000</span>;&#125;</div><div class="line">可以缩写为：</div><div class="line"><span class="selector-tag">p</span>&#123;<span class="attribute">color</span>: <span class="number">#000</span>;&#125;</div><div class="line">例子2：</div><div class="line"><span class="selector-tag">p</span>&#123;<span class="attribute">color</span>: <span class="number">#336699</span>;&#125;</div><div class="line">可以缩写为：</div><div class="line"><span class="selector-tag">p</span>&#123;<span class="attribute">color</span>: <span class="number">#369</span>;&#125;</div></pre></td></tr></table></figure>
+<h2 id="字体缩写"><a href="#字体缩写" class="headerlink" title="字体缩写"></a>字体缩写</h2><p>网页中的字体css样式代码也有他自己的缩写方式，下面是给网页设置字体的代码：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">body</span>&#123;</div><div class="line"><span class="attribute">font-style</span>:italic;</div><div class="line"><span class="attribute">font-variant</span>:small-caps;</div><div class="line"><span class="attribute">font-weight</span>:bold;</div><div class="line"><span class="attribute">font-size</span>:<span class="number">12px</span>;</div><div class="line"><span class="attribute">line-height</span>:<span class="number">1.5em</span>;</div><div class="line"><span class="attribute">font-family</span>:<span class="string">"宋体"</span>,sans-serif;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这么多行的代码其实可以缩写为一句：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">body</span>&#123;</div><div class="line"><span class="attribute">font</span>:italic small-caps bold <span class="number">12px</span>/<span class="number">1.5em</span> <span class="string">"宋体"</span>,sans-serif;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>注意：<br>1、使用这一简写方式你至少要指定 font-size 和 font-family 属性，其他的属性(如 font-weight、font-style、font-variant、line-height)如未指定将自动使用默认值。<br>2、在缩写时 font-size 与 line-height 中间要加入“/”斜扛。<br>一般情况下因为对于中文网站，英文还是比较少的，所以下面缩写代码比较常用：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">body</span>&#123;</div><div class="line"><span class="attribute">font</span>:<span class="number">12px</span>/<span class="number">1.5em</span> <span class="string">"宋体"</span>,sans-serif;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>只是有字号、行间距、中文字体、英文字体设置。</p>
+<h2 id="颜色值"><a href="#颜色值" class="headerlink" title="颜色值"></a>颜色值</h2><p>在网页中的颜色设置是非常重要，有字体颜色（color）、背景颜色（background-color）、边框颜色（border）等，设置颜色的方法也有很多种：</p>
+<h3 id="1、英文命令颜色"><a href="#1、英文命令颜色" class="headerlink" title="1、英文命令颜色"></a>1、英文命令颜色</h3><p>前面几个小节中经常用到的就是这种设置方法：<br>p{color:red;}</p>
+<h3 id="2、RGB颜色"><a href="#2、RGB颜色" class="headerlink" title="2、RGB颜色"></a>2、RGB颜色</h3><p>这个与 photoshop 中的 RGB 颜色是一致的，由 R(red)、G(green)、B(blue) 三种颜色的比例来配色。<br>p{color:rgb(133,45,200);}<br>每一项的值可以是 0~255 之间的整数，也可以是 0%~100% 的百分数。如：<br>p{color:rgb(20%,33%,25%);}</p>
+<h3 id="3、十六进制颜色"><a href="#3、十六进制颜色" class="headerlink" title="3、十六进制颜色"></a>3、十六进制颜色</h3><p>这种颜色设置方法是现在比较普遍使用的方法，其原理其实也是 RGB 设置，但是其每一项的值由 0-255 变成了十六进制 00-ff。<br>p{color:#00ffff;}<br>配色表：</p>
+<p><img src="http://7xpfpd.com1.z0.glb.clouddn.com/Image4.jpg" alt="enter description here"></p>
+<h2 id="长度值"><a href="#长度值" class="headerlink" title="长度值"></a>长度值</h2><p>长度单位总结一下，目前比较常用到px（像素）、em、% 百分比，要注意其实这三种单位都是相对单位。</p>
+<h3 id="1、像素"><a href="#1、像素" class="headerlink" title="1、像素"></a>1、像素</h3><p>像素为什么是相对单位呢？因为像素指的是显示器上的小点（CSS规范中假设“90像素=1英寸”）。实际情况是浏览器会使用显示器的实际像素值有关，在目前大多数的设计者都倾向于使用像素（px）作为单位。</p>
+<h3 id="2、em"><a href="#2、em" class="headerlink" title="2、em"></a>2、em</h3><p>就是本元素给定字体的 font-size 值，如果元素的 font-size 为 14px ，那么 1em = 14px；如果 font-size 为 18px，那么 1em = 18px。如下代码：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">p</span>&#123;<span class="attribute">font-size</span>:<span class="number">12px</span>;<span class="attribute">text-indent</span>:<span class="number">2em</span>;&#125;</div></pre></td></tr></table></figure>
+<p>上面代码就是可以实现段落首行缩进 24px（也就是两个字体大小的距离）。<br>下面注意一个特殊情况：<br>但当给 font-size 设置单位为 em 时，此时计算的标准以 p 的父元素的 font-size 为基础。如下代码：</p>
+<figure class="highlight dts"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="symbol">html:</span></div><div class="line"><span class="params">&lt;p&gt;</span>以这个<span class="params">&lt;span&gt;</span>例子<span class="params">&lt;/span&gt;</span>为例。<span class="params">&lt;/p&gt;</span></div><div class="line"><span class="symbol">css:</span></div><div class="line">p&#123;font-size:<span class="number">14</span>px&#125;</div><div class="line">span&#123;font-size:<span class="number">0.8</span>em;&#125;</div></pre></td></tr></table></figure>
+<p>结果 span 中的字体“例子”字体大小就为 11.2px（14 * 0.8 = 11.2px）。</p>
+<h3 id="3、百分比"><a href="#3、百分比" class="headerlink" title="3、百分比"></a>3、百分比</h3><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">p</span>&#123;<span class="attribute">font-size</span>:<span class="number">12px</span>;<span class="attribute">line-height</span>:<span class="number">130%</span>&#125;</div></pre></td></tr></table></figure>
+<p>设置行高（行间距）为字体的130%（12 * 1.3 = 15.6px）。</p>
+<h2 id="水平居中设置-行内元素"><a href="#水平居中设置-行内元素" class="headerlink" title="水平居中设置-行内元素"></a>水平居中设置-行内元素</h2><p>我们在实际工作中常会遇到需要设置水平居中的场景，比如为了美观，文章的标题一般都是水平居中显示的。<br>这里我们又得分两种情况：行内元素 还是 块状元素 ，块状元素里面又分为定宽块状元素，以及不定宽块状元素。今天我们先来了解一下行内元素怎么进行水平居中？<br>如果被设置元素为文本、图片等行内元素时，水平居中是通过给父元素设置 text-align:center 来实现的。(父元素和子元素：如下面的html代码中，div是“我想要在父容器中水平居中显示”这个文本的父元素。反之这个文本是div的子元素 )如下代码：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">html代码：</div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"txtCenter"</span>&gt;</span>我想要在父容器中水平居中显示。<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line">css代码：</div><div class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="css"></span></div><div class="line"><span class="selector-class">.txtCenter</span>&#123;</div><div class="line"><span class="attribute">text-align</span>:center;</div><div class="line">&#125;</div><div class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></div></pre></td></tr></table></figure>
+<h2 id="水平居中设置-定宽块状元素"><a href="#水平居中设置-定宽块状元素" class="headerlink" title="水平居中设置-定宽块状元素"></a>水平居中设置-定宽块状元素</h2><p>当被设置元素为 块状元素 时用 text-align：center 就不起作用了，这时也分两种情况：定宽块状元素和不定宽块状元素。<br>这一小节我们先来讲一讲定宽块状元素。(定宽块状元素：块状元素的宽度width为固定值。)<br>满足定宽和块状两个条件的元素是可以通过设置“左右margin”值为“auto”来实现居中的。我们来看个例子就是设置 div 这个块状元素水平居中：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">html代码：</div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span>我是定宽块状元素，哈哈，我要水平居中显示。<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line">css代码：</div><div class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="css"></span></div><div class="line"><span class="selector-tag">div</span>&#123;</div><div class="line"><span class="attribute">border</span>:<span class="number">1px</span> solid red;<span class="comment">/*为了显示居中效果明显为 div 设置了边框*/</span></div><div class="line"><span class="attribute">width</span>:<span class="number">200px</span>;<span class="comment">/*定宽*/</span></div><div class="line"><span class="attribute">margin</span>:<span class="number">20px</span> auto;<span class="comment">/* margin-left 与 margin-right 设置为 auto */</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line">也可以写成：</div><div class="line">margin-left:auto;</div><div class="line">margin-right:auto;</div><div class="line">注意：元素的“上下 margin” 是可以随意设置的。</div></pre></td></tr></table></figure>
+<h2 id="水平居中总结-不定宽块状元素方法（一）"><a href="#水平居中总结-不定宽块状元素方法（一）" class="headerlink" title="水平居中总结-不定宽块状元素方法（一）"></a>水平居中总结-不定宽块状元素方法（一）</h2><p>在实际工作中我们会遇到需要为“不定宽度的块状元素”设置居中，比如网页上的分页导航，因为分页的数量是不确定的，所以我们不能通过设置宽度来限制它的弹性。(不定宽块状元素：块状元素的宽度width不固定。)<br>不定宽度的块状元素有三种方法居中（这三种方法目前使用的都很多）：</p>
+<pre><code>1. 加入 table 标签
+2. 设置 display: inline 方法：与第一种类似，显示类型设为 行内元素，进行不定宽元素的属性设置
+3. 设置 position:relative 和 left:50%：利用 相对定位 的方式，将元素向左偏移 50% ，即达到居中的目的
+</code></pre><p>这一小节我们来讲一下第一种方法：<br>为什么选择方法一加入table标签? 是利用table标签的长度自适应性—即不定义其长度也不默认父元素body的长度（table其长度根据其内文本长度决定），因此可以看做一个定宽度块元素，然后再利用定宽度块状居中的margin的方法，使其水平居中。<br>第一步：为需要设置的居中的元素外面加入一个 table 标签 ( 包括 <tbody>、<tr>、<td> )。<br>第二步：为这个 table 设置“左右 margin 居中”（这个和定宽块状元素的方法一样）。<br>举例如下：</td></tr></tbody></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">html代码：</div><div class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">table</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">tbody</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">tr</span>&gt;</span><span class="tag">&lt;<span class="name">td</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">ul</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">li</span>&gt;</span>我是第一行文本<span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">li</span>&gt;</span>我是第二行文本<span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">li</span>&gt;</span>我是第三行文本<span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">td</span>&gt;</span><span class="tag">&lt;/<span class="name">tr</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">tbody</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">table</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">css代码：</div><div class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="css"></span></div><div class="line"><span class="selector-tag">table</span>&#123;</div><div class="line"><span class="attribute">border</span>:<span class="number">1px</span> solid;</div><div class="line"><span class="attribute">margin</span>:<span class="number">0</span> auto;</div><div class="line">&#125;</div><div class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>任务<br>我来试试：补充代码实现右侧中的 class 为 wrap 的 div 水平居中显示（要注意是这个 div元素 居中，而不是里面的文本居中啊）。（记得点击右上角的全屏按钮查看效果哦！）<br>备注:这一小节没有正确性验证，请查看结果窗口，从而判断输入代码是否正确。</p>
+<h2 id="水平居中总结-不定宽块状元素方法（二）"><a href="#水平居中总结-不定宽块状元素方法（二）" class="headerlink" title="水平居中总结-不定宽块状元素方法（二）"></a>水平居中总结-不定宽块状元素方法（二）</h2><p>除了上一节讲到的插入table标签，可以使不定宽块状元素水平居中之外，本节介绍第2种实现这种效果的方法，改变元素的display类型为行内元素，利用其属性直接设置。<br>第二种方法：<strong>改变块级元素的 display 为 inline 类型</strong>（设置为 行内元素 显示），然后使用 <strong>text-align:center</strong> 来实现居中效果。如下例子：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">html代码：</div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"container"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">ul</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"#"</span>&gt;</span>1<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"#"</span>&gt;</span>2<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"#"</span>&gt;</span>3<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line">css代码：</div><div class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="css"></span></div><div class="line"><span class="selector-class">.container</span>&#123;</div><div class="line"><span class="attribute">text-align</span>:center;</div><div class="line">&#125;</div><div class="line"><span class="comment">/* margin:0;padding:0（消除文本与div边框之间的间隙）*/</span></div><div class="line"><span class="selector-class">.container</span> <span class="selector-tag">ul</span>&#123;</div><div class="line"><span class="attribute">list-style</span>:none;</div><div class="line"><span class="attribute">margin</span>:<span class="number">0</span>;</div><div class="line"><span class="attribute">padding</span>:<span class="number">0</span>;</div><div class="line"><span class="attribute">display</span>:inline;</div><div class="line">&#125;</div><div class="line"><span class="comment">/* margin-right:8px（设置li文本之间的间隔）*/</span></div><div class="line"><span class="selector-class">.container</span> <span class="selector-tag">li</span>&#123;</div><div class="line"><span class="attribute">margin-right</span>:<span class="number">8px</span>;</div><div class="line"><span class="attribute">display</span>:inline;</div><div class="line">&#125;</div><div class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>这种方法相比第一种方法的优势是不用增加无语义标签，但也存在着一些问题：它将块状元素的 display 类型改为 inline，变成了<strong>行内元素</strong>，所以==少了一些功能，比如设定长度值。==</p>
+<h2 id="水平居中总结-不定宽块状元素方法（三）"><a href="#水平居中总结-不定宽块状元素方法（三）" class="headerlink" title="水平居中总结-不定宽块状元素方法（三）"></a>水平居中总结-不定宽块状元素方法（三）</h2><p>除了前两节讲到的插入table标签，以及改变元素的display类型，可以使不定宽块状元素水平居中之外，本节介绍第3种实现这种效果的方法，设置浮动和相对定位来实现。<br><strong>方法三：通过给父元素设置 float，然后给父元素设置 position:relative 和 left:50%，子元素设置 position:relative 和 left: -50% 来实现水平居中。</strong></p>
+<blockquote>
+<p>我们可以这样理解：假想ul层的父层（即下面例子中的div层）中间有条平分线将ul层的父层（div层）平均分为两份，ul层的css代码是将ul层的最左端与ul层的父层（div层）的平分线对齐；而li层的css代码则是将li层的平分线与ul层的最左端（也是div层的平分线）对齐，从而实现li层的居中。</p>
+</blockquote>
+<p>代码如下：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"container"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">ul</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"#"</span>&gt;</span>1<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"#"</span>&gt;</span>2<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"#"</span>&gt;</span>3<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line">css代码：</div><div class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="css"></span></div><div class="line"><span class="selector-class">.container</span>&#123;</div><div class="line"><span class="attribute">float</span>:left;</div><div class="line"><span class="attribute">position</span>:relative;</div><div class="line"><span class="attribute">left</span>:<span class="number">50%</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="selector-class">.container</span> <span class="selector-tag">ul</span>&#123;</div><div class="line"><span class="attribute">list-style</span>:none;</div><div class="line"><span class="attribute">margin</span>:<span class="number">0</span>;</div><div class="line"><span class="attribute">padding</span>:<span class="number">0</span>;</div><div class="line"><span class="attribute">position</span>:relative;</div><div class="line"><span class="attribute">left</span>:-<span class="number">50%</span>;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.container</span> <span class="selector-tag">li</span>&#123;<span class="attribute">float</span>:left;<span class="attribute">display</span>:inline;<span class="attribute">margin-right</span>:<span class="number">8px</span>;&#125;</div><div class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>这三种方法使用得都非常广泛，各有优缺点，具体选用哪种方法，可以视具体情况而定。<br>任务<br>我来试试：添加代码为任务区中的 class 为 wrap-center 的div设置水平居中。（记得点击右上角的全屏按钮查看效果哦！）</p>
+<h2 id="垂直居中-父元素高度确定的单行文本"><a href="#垂直居中-父元素高度确定的单行文本" class="headerlink" title="垂直居中-父元素高度确定的单行文本"></a>垂直居中-父元素高度确定的单行文本</h2><p>我们在实际工作中也会遇到需要设置垂直居中的场景，比如好多报纸的文章标题在左右一侧时，常常会设置为垂直居中，为了用户体验性好。<br>这里我们又得分两种情况：父元素高度确定的单行文本，以及父元素高度确定的多行文本。<br>本节我们先来看第一种父元素高度确定的单行文本, 怎么设置它为垂直居中呢？<br>父元素高度确定的单行文本的竖直居中的方法是通过设置父元素的 height 和 line-height 高度一致来实现的。(height: 该元素的高度，line-height: 顾名思义，行高（行间距），指在文本中，行与行之间的 基线间的距离 )。<br>line-height 与 font-size 的计算值之差，在 CSS 中成为“行间距”。分为两半，分别加到一个文本行内容的顶部和底部。<br>这种文字行高与块高一致带来了一个弊端：==当文字内容的长度大于块的宽时，就有内容脱离了块。==<br>如下代码：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"container"</span>&gt;</span></div><div class="line">hi,imooc!</div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">css代码：</div><div class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="css"></span></div><div class="line"><span class="selector-class">.container</span>&#123;</div><div class="line"><span class="attribute">height</span>:<span class="number">100px</span>;</div><div class="line"><span class="attribute">line-height</span>:<span class="number">100px</span>;</div><div class="line"><span class="attribute">background</span>:<span class="number">#999</span>;</div><div class="line">&#125;</div><div class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>任务<br>我来试试：补充右侧代码使 h2 中的文本垂直方向居中。（记得点击右上角的全屏按钮查看效果哦！）</p>
+<h2 id="垂直居中-父元素高度确定的多行文本（方法一）"><a href="#垂直居中-父元素高度确定的多行文本（方法一）" class="headerlink" title="垂直居中-父元素高度确定的多行文本（方法一）"></a>垂直居中-父元素高度确定的多行文本（方法一）</h2><p>父元素高度确定的多行文本、图片等的竖直居中的方法有两种：<br>方法一：<strong>使用插入 table</strong>  (包括tbody、tr、td)标签，同时<strong>设置 vertical-align：middle。</strong><br>css 中有一个用于竖直居中的属性 vertical-align，在父元素设置此样式时，会对inline-block类型的子元素都有用。下面看一下例子：<br>html代码：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">table</span>&gt;</span><span class="tag">&lt;<span class="name">tbody</span>&gt;</span><span class="tag">&lt;<span class="name">tr</span>&gt;</span><span class="tag">&lt;<span class="name">td</span> <span class="attr">class</span>=<span class="string">"wrap"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>看我是否可以居中。<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">td</span>&gt;</span><span class="tag">&lt;/<span class="name">tr</span>&gt;</span><span class="tag">&lt;/<span class="name">tbody</span>&gt;</span><span class="tag">&lt;/<span class="name">table</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>css代码：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">table</span> <span class="selector-tag">td</span>&#123;<span class="attribute">height</span>:<span class="number">500px</span>;<span class="attribute">background</span>:<span class="number">#ccc</span>&#125;</div></pre></td></tr></table></figure>
+<p>因为 td 标签默认情况下就默认设置了 vertical-align 为 middle，所以我们不需要显式地设置了。<br>任务<br>我来试试：把右侧的小女生图片设置 为相对于浏览器窗口垂直居中。（记得点击右上角的全屏按钮查看效果哦！）</p>
+<h2 id="垂直居中-父元素高度确定的多行文本（方法二）"><a href="#垂直居中-父元素高度确定的多行文本（方法二）" class="headerlink" title="垂直居中-父元素高度确定的多行文本（方法二）"></a>垂直居中-父元素高度确定的多行文本（方法二）</h2><p>除了上一节讲到的插入table标签，可以使父元素高度确定的多行文本垂直居中之外，本节介绍另外一种实现这种效果的方法。但这种方法兼容性比较差，只是提供大家学习参考。<br>在 chrome、firefox 及 IE8 以上的浏览器下可以设置块级元素的 display 为 table-cell（设置为表格单元显示），激活 <strong>vertical-align</strong> 属性，但注意 IE6、7 并不支持这个样式, 兼容性比较差。<br>html代码：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"container"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>看我是否可以居中。<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>看我是否可以居中。<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>看我是否可以居中。<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">css代码：</div><div class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="css"></span></div><div class="line"><span class="selector-class">.container</span>&#123;</div><div class="line"><span class="attribute">height</span>:<span class="number">300px</span>;</div><div class="line"><span class="attribute">background</span>:<span class="number">#ccc</span>;</div><div class="line"><span class="attribute">display</span>:table-cell;<span class="comment">/*IE8以上及Chrome、Firefox*/</span></div><div class="line"><span class="attribute">vertical-align</span>:middle;<span class="comment">/*IE8以上及Chrome、Firefox*/</span></div><div class="line">&#125;</div><div class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>这种方法的好处是不用添加多余的==无意义的标签，但缺点也很明显，它的兼容性不是很好，不兼容 IE6、7==而且这样修改display的block变成了table-cell，破坏了原有的块状元素的性质。<br>任务<br>我来试试：如果你使用的是 chrome、firefox 及 IE8 以上的浏览器，你可以使用本小节的方法把右小女生的图片设置为垂直居中。（记得点击右上角的全屏按钮查看效果哦！）</p>
+<h2 id="隐性改变display类型"><a href="#隐性改变display类型" class="headerlink" title="隐性改变display类型"></a>隐性改变display类型</h2><p>有一个有趣的现象就是当为元素（不论之前是什么类型元素，display:none 除外）设置以下 2 个句之一：</p>
+<ol>
+<li>position : absolute </li>
+<li>float : left 或 float:right<br>简单来说，只要html代码中出现以上两句之一，元素的display显示类型就会自动变为以 display:inline-block（块状元素）的方式显示，当然就可以设置元素的 width 和 height 了，且默认宽度不占满父元素。<br>如下面的代码，小伙伴们都知道 a 标签是 行内元素 ，所以设置它的 width 是 没有效果的，但是设置为 position:absolute 以后，就可以了。</li>
+</ol>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"container"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"#"</span> <span class="attr">title</span>=<span class="string">""</span>&gt;</span>进入课程请单击这里<span class="tag">&lt;/<span class="name">a</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">css代码</div><div class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="css"></span></div><div class="line"><span class="selector-class">.container</span> <span class="selector-tag">a</span>&#123;</div><div class="line"><span class="attribute">position</span>:absolute;</div><div class="line"><span class="attribute">width</span>:<span class="number">200px</span>;</div><div class="line"><span class="attribute">background</span>:<span class="number">#ccc</span>;</div><div class="line">&#125;</div><div class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>想不起 display:inline-block 是做什么的小伙伴们，单击“元素分类–内联块状元素”可返回到前面小节进行复习。</p>
+<p>任务<br>我来试试：下面我们来试试 float 有没有这种功能。（记得点击右上角的全屏按钮查看效果哦！）<br>把右侧代码编辑器中的第 8 行改为 float:left ;看是否 width:200px 还起作用。</p>
+<h2 id="属性-描述"><a href="#属性-描述" class="headerlink" title="属性 描述"></a>属性 描述</h2><blockquote>
+<p>position<br> 把元素放置到一个静态的、相对的、绝对的、或固定的位置中。<br> top<br>定义了一个定位元素的上外边距边界与其包含块上边界之间的偏移。<br>right<br>定义了定位元素右外边距边界与其包含块右边界之间的偏移。<br>bottom<br>定义了定位元素下外边距边界与其包含块下边界之间的偏移。<br>left<br>定义了定位元素左外边距边界与其包含块左边界之间的偏移。<br>overflow<br>设置当元素的内容溢出其区域时发生的事情。<br>clip<br>设置元素的形状。元素被剪入这个形状之中，然后显示出来。<br>vertical-align<br>设置元素的垂直对齐方式。<br>z-index<br>设置元素的堆叠顺序</p>
+</blockquote>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;元素分类&quot;&gt;&lt;a href=&quot;#元素分类&quot; class=&quot;headerlink&quot; title=&quot;元素分类&quot;&gt;&lt;/a&gt;元素分类&lt;/h1&gt;&lt;blockquote&gt;
+&lt;p&gt;在讲解CSS布局之前，我们需要提前知道一些知识，在CSS中，html中的标签元素大体被分为三种不同的类型：块状元素、内联元素(又叫行内元素)和内联块状元素。&lt;br&gt;常用的块状元素有：&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;figure class=&quot;highlight xml&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;、&lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;p&lt;/span&gt;&amp;gt;&lt;/span&gt;、&lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;h1&lt;/span&gt;&amp;gt;&lt;/span&gt;...&lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;h6&lt;/span&gt;&amp;gt;&lt;/span&gt;、&lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;ol&lt;/span&gt;&amp;gt;&lt;/span&gt;、&lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;ul&lt;/span&gt;&amp;gt;&lt;/span&gt;、&lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;dl&lt;/span&gt;&amp;gt;&lt;/span&gt;、&lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;table&lt;/span&gt;&amp;gt;&lt;/span&gt;、&lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;address&lt;/span&gt;&amp;gt;&lt;/span&gt;、&lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;blockquote&lt;/span&gt;&amp;gt;&lt;/span&gt; 、&lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;form&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;常用的内联元素有：&lt;/p&gt;
+&lt;figure class=&quot;highlight xml&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;a&lt;/span&gt;&amp;gt;&lt;/span&gt;、&lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;span&lt;/span&gt;&amp;gt;&lt;/span&gt;、&lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;br&lt;/span&gt;&amp;gt;&lt;/span&gt;、&lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;i&lt;/span&gt;&amp;gt;&lt;/span&gt;、&lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;em&lt;/span&gt;&amp;gt;&lt;/span&gt;、&lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;strong&lt;/span&gt;&amp;gt;&lt;/span&gt;、&lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;label&lt;/span&gt;&amp;gt;&lt;/span&gt;、&lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;q&lt;/span&gt;&amp;gt;&lt;/span&gt;、&lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;var&lt;/span&gt;&amp;gt;&lt;/span&gt;、&lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;cite&lt;/span&gt;&amp;gt;&lt;/span&gt;、&lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;code&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;常用的内联块状元素有：&lt;/p&gt;
+&lt;figure class=&quot;highlight xml&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;img&lt;/span&gt;&amp;gt;&lt;/span&gt;、&lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;input&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h2 id=&quot;元素分类–块级元素&quot;&gt;&lt;a href=&quot;#元素分类–块级元素&quot; class=&quot;headerlink&quot; title=&quot;元素分类–块级元素&quot;&gt;&lt;/a&gt;元素分类–块级元素&lt;/h2&gt;&lt;figure class=&quot;highlight pf&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;4&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;5&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;6&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;什么是块级元素？在html中&lt;span class=&quot;variable&quot;&gt;&amp;lt;div&amp;gt;&lt;/span&gt;、 &lt;span class=&quot;variable&quot;&gt;&amp;lt;p&amp;gt;&lt;/span&gt;、&lt;span class=&quot;variable&quot;&gt;&amp;lt;h1&amp;gt;&lt;/span&gt;、&lt;span class=&quot;variable&quot;&gt;&amp;lt;form&amp;gt;&lt;/span&gt;、&lt;span class=&quot;variable&quot;&gt;&amp;lt;ul&amp;gt;&lt;/span&gt; 和 &lt;span class=&quot;variable&quot;&gt;&amp;lt;li&amp;gt;&lt;/span&gt;就是块级元素。设置display:&lt;span class=&quot;built_in&quot;&gt;block&lt;/span&gt;就是将元素显示为块级元素。如下代码就是将内联元素a转换为块状元素，从而使a元素具有块状元素特点。&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;a&amp;#123;display:&lt;span class=&quot;built_in&quot;&gt;block&lt;/span&gt;;&amp;#125;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;块级元素特点：&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;、每个块级元素都从新的一行开始，并且其后的元素也另起一行。（真霸道，一个块级元素独占一行）&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;number&quot;&gt;2&lt;/span&gt;、元素的高度、宽度、行高以及顶和底边距都可设置。&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;number&quot;&gt;3&lt;/span&gt;、元素宽度在不设置的情况下，是它本身父容器的&lt;span class=&quot;number&quot;&gt;100&lt;/span&gt;%（和父元素的宽度一致），除非设定一个宽度。&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h2 id=&quot;元素分类–内联元素&quot;&gt;&lt;a href=&quot;#元素分类–内联元素&quot; class=&quot;headerlink&quot; title=&quot;元素分类–内联元素&quot;&gt;&lt;/a&gt;元素分类–内联元素&lt;/h2&gt;&lt;figure class=&quot;highlight dts&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;4&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;5&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;6&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;7&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;8&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;在html中，&lt;span class=&quot;params&quot;&gt;&amp;lt;span&amp;gt;&lt;/span&gt;、&lt;span class=&quot;params&quot;&gt;&amp;lt;a&amp;gt;&lt;/span&gt;、&lt;span class=&quot;params&quot;&gt;&amp;lt;label&amp;gt;&lt;/span&gt;、 &lt;span class=&quot;params&quot;&gt;&amp;lt;strong&amp;gt;&lt;/span&gt; 和&lt;span class=&quot;params&quot;&gt;&amp;lt;em&amp;gt;&lt;/span&gt;就是典型的内联元素（行内元素）（inline）元素。当然块状元素也可以通过代码display:inline将元素设置为内联元素。如下代码就是将块状元素div转换为内联元素，从而使 div 元素具有内联元素特点。&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;div&amp;#123;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;symbol&quot;&gt;display:&lt;/span&gt;inline;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&amp;#125;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;......&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;params&quot;&gt;&amp;lt;div&amp;gt;&lt;/span&gt;我要变成内联元素&lt;span class=&quot;params&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;&lt;strong&gt;内联元素特点&lt;/strong&gt;：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt; 1、和其他元素都在一行上；&lt;br&gt; 2、元素的高度、宽度及顶部和底部边距不可设置；&lt;br&gt; 3、元素的宽度就是它包含的文字或图片的宽度，不可改变。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;元素分类–内联块状元素&quot;&gt;&lt;a href=&quot;#元素分类–内联块状元素&quot; class=&quot;headerlink&quot; title=&quot;元素分类–内联块状元素&quot;&gt;&lt;/a&gt;元素分类–内联块状元素&lt;/h2&gt;&lt;figure class=&quot;highlight oxygene&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;内联块状元素（&lt;span class=&quot;keyword&quot;&gt;inline&lt;/span&gt;-&lt;span class=&quot;keyword&quot;&gt;block&lt;/span&gt;）就是同时具备内联元素、块状元素的特点，代码display:&lt;span class=&quot;keyword&quot;&gt;inline&lt;/span&gt;-&lt;span class=&quot;keyword&quot;&gt;block&lt;/span&gt;就是将元素设置为内联块状元素。(css2.&lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;新增)，&amp;lt;img&amp;gt;、&amp;lt;input&amp;gt;标签就是这种内联块状标签。&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;&lt;strong&gt;inline-block 元素特点&lt;/strong&gt;：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;1、和其他元素都在一行上；&lt;/p&gt;
+&lt;p&gt;2、元素的高度、宽度、行高以及顶和底边距都可设置。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h1 id=&quot;盒模型&quot;&gt;&lt;a href=&quot;#盒模型&quot; class=&quot;headerlink&quot; title=&quot;盒模型&quot;&gt;&lt;/a&gt;盒模型&lt;/h1&gt;&lt;h2 id=&quot;盒模型–边框（一）&quot;&gt;&lt;a href=&quot;#盒模型–边框（一）&quot; class=&quot;headerlink&quot; title=&quot;盒模型–边框（一）&quot;&gt;&lt;/a&gt;盒模型–边框（一）&lt;/h2&gt;&lt;p&gt;盒子模型的边框就是围绕着内容及补白的线，这条线你可以设置它的粗细、样式和颜色(边框三个属性)。&lt;br&gt;如下面代码为 div 来设置边框粗细为 2px、样式为实心的、颜色为红色的边框：&lt;/p&gt;
+&lt;figure class=&quot;highlight css&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;4&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;5&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;6&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;7&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;8&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;9&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;selector-tag&quot;&gt;div&lt;/span&gt;&amp;#123;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;attribute&quot;&gt;border&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;2px&lt;/span&gt; solid red;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&amp;#125;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;上面是 &lt;span class=&quot;selector-tag&quot;&gt;border&lt;/span&gt; 代码的缩写形式，可以分开写：&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;selector-tag&quot;&gt;div&lt;/span&gt;&amp;#123;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;attribute&quot;&gt;border-width&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;2px&lt;/span&gt;;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;attribute&quot;&gt;border-style&lt;/span&gt;:solid;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;attribute&quot;&gt;border-color&lt;/span&gt;:red;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&amp;#125;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;注意：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;1、border-style（边框样式）常见样式有： dashed（虚线）| dotted（点线）| solid（实线）。&lt;/p&gt;
+&lt;p&gt;2、border-color（边框颜色）中的颜色可设置为十六进制颜色，如: border-color:#888;//前面的井号不要忘掉。&lt;/p&gt;
+&lt;p&gt;3、border-width（边框宽度）中的宽度也可以设置为： thin | medium |&lt;br&gt;thick（但不是很常用），最常还是用象素（px）。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;盒模型–边框（二）&quot;&gt;&lt;a href=&quot;#盒模型–边框（二）&quot; class=&quot;headerlink&quot; title=&quot;盒模型–边框（二）&quot;&gt;&lt;/a&gt;盒模型–边框（二）&lt;/h2&gt;&lt;p&gt;现在有一个问题，如果有想为 p 标签单独设置下边框，而其它三边都不设置边框样式怎么办呢？css 样式中允许只为一个方向的边框设置样式：&lt;/p&gt;
+&lt;figure class=&quot;highlight css&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;selector-tag&quot;&gt;div&lt;/span&gt;&amp;#123;&lt;span class=&quot;attribute&quot;&gt;border-bottom&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;1px&lt;/span&gt; solid red;&amp;#125;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;同样可以使用下面代码实现其它三边(上、右、左)边框的设置：&lt;/p&gt;
+&lt;figure class=&quot;highlight scss&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;attribute&quot;&gt;border-top&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;1px&lt;/span&gt; solid red;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;attribute&quot;&gt;border-right&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;1px&lt;/span&gt; solid red;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;attribute&quot;&gt;border-left&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;1px&lt;/span&gt; solid red;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+    
+    </summary>
+    
+      <category term="css" scheme="http://liuhouer.github.io/categories/css/"/>
+    
+    
+      <category term="css" scheme="http://liuhouer.github.io/tags/css/"/>
+    
+      <category term="盒子模型" scheme="http://liuhouer.github.io/tags/%E7%9B%92%E5%AD%90%E6%A8%A1%E5%9E%8B/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>css结构和布局</title>
+    <link href="http://liuhouer.github.io/2017/12/26/css%E7%BB%93%E6%9E%84%E5%92%8C%E5%B8%83%E5%B1%80/"/>
+    <id>http://liuhouer.github.io/2017/12/26/css结构和布局/</id>
+    <published>2017-12-26T02:24:09.000Z</published>
+    <updated>2018-01-03T08:56:22.000Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="css结构和布局"><a href="#css结构和布局" class="headerlink" title="css结构和布局"></a>css结构和布局</h1><blockquote>
+<p>css 样式由选择符和声明组成，而声明又由属性和值组成，如下图所示：</p>
+</blockquote>
+<p><img src="http://img.mukewang.com/52fde5c30001b0fe03030117.jpg" alt=""></p>
+<ul>
+<li><strong>选择符</strong>：又称选择器，指明网页中要应用样式规则的元素，如本例中是网页中所有的段（p）的文字将变成蓝色，而其他的元素（如ol）不会受到影响。</li>
+<li><strong>声明</strong>：在英文大括号“｛｝”中的的就是声明，属性和值之间用英文冒号“：”分隔。当有多条声明时，中间可以英文分号“;”分隔，如下所示：<br>p{font-size:12px;color:red;}</li>
+</ul>
+<h2 id="css样式种类"><a href="#css样式种类" class="headerlink" title="css样式种类"></a>css样式种类</h2><blockquote>
+<p>CSS样式可以写在哪些地方呢？从CSS 样式代码插入的形式来看基本可以分为以下3种：<strong>内联式</strong>、<strong>嵌入式</strong>和<strong>外部式</strong>三种。这一小节先来讲解内联式。</p>
+</blockquote>
+<ul>
+<li>内联式css样式表就是把css代码直接写在现有的HTML标签中</li>
+</ul>
+<blockquote>
+<pre><code>&lt;p style=&quot;color:red&quot;&gt;这里文字是红色。&lt;/p&gt;
+</code></pre></blockquote>
+<ul>
+<li><p>嵌入式css样式，就是可以把css样式代码写在<code>&lt;style type=&quot;text/css&quot;&gt;&lt;/style&gt;</code>标签之间。</p>
+<blockquote>
+<pre><code>如下面代码实现把三个&lt;span&gt;标签中的文字设置为红色：
+            &lt;style type=&quot;text/css&quot;&gt;
+            span{
+            color:red;
+            }
+            &lt;/style&gt;
+</code></pre></blockquote>
+<ul>
+<li>外部式css样式，写在单独的一个文件中</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<pre><code>外部式css样式(也可称为外联式)就是把css代码写一个单独的外部文件中，这个css样式
+
+  文件以“.css”为扩展名，在&lt;head&gt;内（不是在&lt;style&gt;标签内）使用&lt;link&gt;标签将css样式文件链接到HTML文件内，如下面代码：
+        &lt;link href=&quot;base.css&quot; rel=&quot;stylesheet&quot; type=&quot;text/css&quot; /&gt;
+</code></pre></blockquote>
+<p><strong>三种方法的优先级</strong><br>有的小伙伴问了，如果有一种情况：对于同一个元素我们同时用了三种方法设置css样式，那么哪种方法真正有效呢？在右边编辑器就出现了这种情况<br>1、使用内联式CSS设置“超酷的互联网”文字为粉色。<br>2、然后使用嵌入式CSS来设置文字为红色。<br>3、最后又使用外部式设置文字为蓝色（style.css文件中设置）。<br>但最终你可以观察到“超酷的互联网”这个短词的文本被设置为了粉色。因为这三种样式是有优先级的，记住他们的优先级：</p>
+<p><strong>内联式 &gt; 嵌入式 &gt; 外部式</strong></p>
+<h2 id="选择器"><a href="#选择器" class="headerlink" title="选择器"></a>选择器</h2><h3 id="标签选择器"><a href="#标签选择器" class="headerlink" title="标签选择器"></a>标签选择器</h3><p>p img body</p>
+<h3 id="类选择器"><a href="#类选择器" class="headerlink" title="类选择器"></a>类选择器</h3><p>类选择器在css样式编码中是最常用到的，如右侧代码编辑器中的代码:可以实现为“胆小如鼠”、“勇气”字体设置为红色。<br>语法：<br>.类选器名称{css样式代码;}<br>注意：<br>1、英文圆点开头<br>2、其中类选器名称可以任意起名（但不要起中文噢）<br>使用方法：<br>第一步：使用合适的标签把要修饰的内容标记起来，如下：<br><span>胆小如鼠</span><br>第二步：使用class=”类选择器名称”为标签设置一个类，如下：<br><span class="stress">胆小如鼠</span><br>第三步：设置类选器css样式，如下：<br>.stress{color:red;}/<em>类前面要加入一个英文圆点</em>/</p>
+<h3 id="ID选择器"><a href="#ID选择器" class="headerlink" title="ID选择器"></a>ID选择器</h3><p>在很多方面，ID选择器都类似于类选择符，但也有一些重要的区别：<br>1、为标签设置id=”ID名称”，而不是class=”类名称”。<br>2、ID选择符的前面是井号（#）号，而不是英文圆点（.）。<br>右侧代码编辑器中就是一个ID选择符的完整实例。<br>子选择器<br>还有一个比较有用的选择器子选择器，即大于符号(&gt;),用于选择指定标签元素的第一代子元素。如右侧代码编辑器中的代码：<br>.food&gt;li{border:1px solid red;}<br>这行代码会使class名为food下的子元素li（水果、蔬菜）加入红色实线边框。</p>
+<blockquote>
+<p>这个“选择指定标签元素的第一代子元素”就是让样式只作用于它的孩子，不作用与他的孙子。</p>
+</blockquote>
+<p>包含(后代)选择器<br>包含选择器，即加入空格,用于选择指定标签元素下的后辈元素。如右侧代码编辑器中的代码：<br>.first span{color:red;}</p>
+<p>总结：<strong>&gt;作用于元素的第一代后代，空格作用于元素的所有后代。</strong></p>
+<a id="more"></a>
+<h3 id="通用选择器"><a href="#通用选择器" class="headerlink" title="通用选择器"></a>通用选择器</h3><p>通用选择器是功能最强大的选择器，它使用一个（*）号指定，它的作用是匹配html中所有标签元素，如下使用下面代码使用html中任意标签元素字体颜色全部设置为红色：</p>
+<ul>
+<li>{color:red;}<br>伪类选择符<br>更有趣的是伪类选择符，为什么叫做伪类选择符，它允许给html不存在的标签（标签的某种状态）设置样式，比如说我们给html中一个标签元素的鼠标滑过的状态来设置字体颜色：<br>a:hover{color:red;}<br>上面一行代码就是为 a 标签鼠标滑过的状态设置字体颜色变红。这样就会使第一段文字内容中的“胆小如鼠”文字加入鼠标滑过字体颜色变为红色特效。<br>关于伪选择符：<br>  关于伪类选择符，到目前为止，可以兼容所有浏鉴器的“伪类选择符”就是 a 标签上使用 :hover 了（其实伪类选择符还有很多，尤其是 css3 中，但是因为不能兼容所有浏览器，本教程只是讲了这一种最常用的）。其实 :hover 可以放在任意的标签上，比如说 p:hover，但是它们的兼容性也是很不好的，所以现在比较常用的还是 a:hover 的组合。</li>
+</ul>
+<h2 id="分组选择符"><a href="#分组选择符" class="headerlink" title="分组选择符"></a>分组选择符</h2><p>当你想为html中多个标签元素设置同一个样式时，可以使用<strong>分组选择符</strong>（，），如下代码为右侧代码编辑器中的h1、span标签同时设置字体颜色为红色：<br>h1,span{color:red;}<br>有一些css样式是不具有继承性的，有一些具有继承性的，例如字体系列属性</p>
+<h2 id="权值"><a href="#权值" class="headerlink" title="权值"></a>权值</h2><p>标签的权值为1，类选择符的权值为10，ID选择符的权值最高为100<br>-继承也有权值但很低，有的文献提出它只有0.1，所以可以理解为继承的权值最低。</p>
+<h2 id="层叠"><a href="#层叠" class="headerlink" title="层叠"></a>层叠</h2><p>我们来思考一个问题：如果在html文件中对于同一个元素可以有多个css样式存在并且这多个css样式具有相同权重值怎么办？好，这一小节中的层叠帮你解决这个问题。<br>层叠就是在html文件中对于同一个元素可以有多个css样式存在，当有相同权重的样式存在时，会根据这些css样式的前后顺序来决定，处于最后面的css样式会被应用。<br>如下面代码:</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">p&#123;color:red;&#125;</div><div class="line">p&#123;color:green;&#125;</div><div class="line"><span class="tag">&lt;<span class="name">p</span> <span class="attr">class</span>=<span class="string">"first"</span>&gt;</span>三年级时，我还是一个<span class="tag">&lt;<span class="name">span</span>&gt;</span>胆小如鼠<span class="tag">&lt;/<span class="name">span</span>&gt;</span>的小女孩。<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>最后 p 中的文本会设置为green，这个层叠很好理解，理解为后面的样式会覆盖前面的样式。<br>所以前面的css样式优先级就不难理解了：<br><strong>内联样式表（标签内部）&gt; 嵌入样式表（当前文件中）&gt; 外部样式表（外部文件中）</strong></p>
+<h2 id="重要性"><a href="#重要性" class="headerlink" title="重要性"></a>重要性</h2><p>我们在做网页代码的时，有些特殊的情况需要为某些样式设置具有最高权值，怎么办？这时候我们可以使用!important来解决。<br>如下代码：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">p&#123;color:red!important;&#125;</div><div class="line">p&#123;color:green;&#125;</div><div class="line"><span class="tag">&lt;<span class="name">p</span> <span class="attr">class</span>=<span class="string">"first"</span>&gt;</span>三年级时，我还是一个<span class="tag">&lt;<span class="name">span</span>&gt;</span>胆小如鼠<span class="tag">&lt;/<span class="name">span</span>&gt;</span>的小女孩。<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>这时 p 段落中的文本会显示的red红色。<br>注意：!important要写在分号的前面</p>
+<h2 id="文字排版–字体"><a href="#文字排版–字体" class="headerlink" title="文字排版–字体"></a>文字排版–字体</h2><p>我们可以使用css样式为网页中的文字设置字体、字号、颜色等样式属性。下面我们来看一个例子，下面代码实现：为网页中的文字设置字体为宋体。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">body</span>&#123;<span class="attribute">font-family</span>:<span class="string">"宋体"</span>;&#125;</div></pre></td></tr></table></figure>
+<h3 id="文字排版–删除线"><a href="#文字排版–删除线" class="headerlink" title="文字排版–删除线"></a>文字排版–删除线</h3><p>上图中的原价上的删除线使用下面代码就可以实现：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.oldPrice</span>&#123;<span class="attribute">text-decoration</span>:line-through;&#125;</div></pre></td></tr></table></figure>
+<h3 id="段落排版–缩进"><a href="#段落排版–缩进" class="headerlink" title="段落排版–缩进"></a>段落排版–缩进</h3><p>中文文字中的段前习惯空两个文字的空白，这个特殊的样式可以用下面代码来实现：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">p&#123;text-indent:2em;&#125;</div><div class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>1922年的春天，一个想要成名名叫尼克卡拉威（托比?马奎尔Tobey Maguire 饰）的作家，离开了美国中西部，来到了纽约。那是一个道德感渐失，爵士乐流行，走私为王，股票飞涨的时代。为了追寻他的美国梦，他搬入纽约附近一海湾居住。<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>注意：2em的意思就是文字的2倍大小。</p>
+<h3 id="段落排版–中文字间距、字母间距"><a href="#段落排版–中文字间距、字母间距" class="headerlink" title="段落排版–中文字间距、字母间距"></a>段落排版–中文字间距、字母间距</h3><h4 id="中文字间隔、字母间隔设置："><a href="#中文字间隔、字母间隔设置：" class="headerlink" title="中文字间隔、字母间隔设置："></a>中文字间隔、字母间隔设置：</h4><p>如果想在网页排版中设置文字间隔或者字母间隔就可以使用    letter-spacing 来实现，如下面代码：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">h1&#123;</div><div class="line">letter-spacing:50px;</div><div class="line">&#125;</div><div class="line">...</div><div class="line"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>了不起的盖茨比<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>注意：这个样式使用在英文单词时，是设置字母与字母之间的间距。</p>
+<h4 id="单词间距设置："><a href="#单词间距设置：" class="headerlink" title="单词间距设置："></a>单词间距设置：</h4><p>如果我想设置英文单词之间的间距呢？可以使用 word-spacing 来实现。如下代码：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">h1&#123;</div><div class="line">word-spacing:50px;</div><div class="line">&#125;</div><div class="line">...</div><div class="line"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>welcome to imooc!<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></div></pre></td></tr></table></figure>
+<h3 id="段落排版–对齐"><a href="#段落排版–对齐" class="headerlink" title="段落排版–对齐"></a>段落排版–对齐</h3><p>想为块状元素中的文本、图片设置居中样式吗？可以使用text-align样式代码，如下代码可实现文本居中显示。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">h1&#123;</div><div class="line">text-align:center;</div><div class="line">&#125;</div><div class="line"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>了不起的盖茨比<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></div><div class="line">同样可以设置居左：</div><div class="line">h1&#123;</div><div class="line">text-align:left;</div><div class="line">&#125;</div><div class="line"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>了不起的盖茨比<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></div><div class="line">还可以设置居右：</div><div class="line">h1&#123;</div><div class="line">text-align:right;</div><div class="line">&#125;</div><div class="line"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>了不起的盖茨比<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;css结构和布局&quot;&gt;&lt;a href=&quot;#css结构和布局&quot; class=&quot;headerlink&quot; title=&quot;css结构和布局&quot;&gt;&lt;/a&gt;css结构和布局&lt;/h1&gt;&lt;blockquote&gt;
+&lt;p&gt;css 样式由选择符和声明组成，而声明又由属性和值组成，如下图所示：&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;img src=&quot;http://img.mukewang.com/52fde5c30001b0fe03030117.jpg&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;选择符&lt;/strong&gt;：又称选择器，指明网页中要应用样式规则的元素，如本例中是网页中所有的段（p）的文字将变成蓝色，而其他的元素（如ol）不会受到影响。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;声明&lt;/strong&gt;：在英文大括号“｛｝”中的的就是声明，属性和值之间用英文冒号“：”分隔。当有多条声明时，中间可以英文分号“;”分隔，如下所示：&lt;br&gt;p{font-size:12px;color:red;}&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;css样式种类&quot;&gt;&lt;a href=&quot;#css样式种类&quot; class=&quot;headerlink&quot; title=&quot;css样式种类&quot;&gt;&lt;/a&gt;css样式种类&lt;/h2&gt;&lt;blockquote&gt;
+&lt;p&gt;CSS样式可以写在哪些地方呢？从CSS 样式代码插入的形式来看基本可以分为以下3种：&lt;strong&gt;内联式&lt;/strong&gt;、&lt;strong&gt;嵌入式&lt;/strong&gt;和&lt;strong&gt;外部式&lt;/strong&gt;三种。这一小节先来讲解内联式。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;内联式css样式表就是把css代码直接写在现有的HTML标签中&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;p style=&amp;quot;color:red&amp;quot;&amp;gt;这里文字是红色。&amp;lt;/p&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;嵌入式css样式，就是可以把css样式代码写在&lt;code&gt;&amp;lt;style type=&amp;quot;text/css&amp;quot;&amp;gt;&amp;lt;/style&amp;gt;&lt;/code&gt;标签之间。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;pre&gt;&lt;code&gt;如下面代码实现把三个&amp;lt;span&amp;gt;标签中的文字设置为红色：
+            &amp;lt;style type=&amp;quot;text/css&amp;quot;&amp;gt;
+            span{
+            color:red;
+            }
+            &amp;lt;/style&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;外部式css样式，写在单独的一个文件中&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;pre&gt;&lt;code&gt;外部式css样式(也可称为外联式)就是把css代码写一个单独的外部文件中，这个css样式
+
+  文件以“.css”为扩展名，在&amp;lt;head&amp;gt;内（不是在&amp;lt;style&amp;gt;标签内）使用&amp;lt;link&amp;gt;标签将css样式文件链接到HTML文件内，如下面代码：
+        &amp;lt;link href=&amp;quot;base.css&amp;quot; rel=&amp;quot;stylesheet&amp;quot; type=&amp;quot;text/css&amp;quot; /&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;三种方法的优先级&lt;/strong&gt;&lt;br&gt;有的小伙伴问了，如果有一种情况：对于同一个元素我们同时用了三种方法设置css样式，那么哪种方法真正有效呢？在右边编辑器就出现了这种情况&lt;br&gt;1、使用内联式CSS设置“超酷的互联网”文字为粉色。&lt;br&gt;2、然后使用嵌入式CSS来设置文字为红色。&lt;br&gt;3、最后又使用外部式设置文字为蓝色（style.css文件中设置）。&lt;br&gt;但最终你可以观察到“超酷的互联网”这个短词的文本被设置为了粉色。因为这三种样式是有优先级的，记住他们的优先级：&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;内联式 &amp;gt; 嵌入式 &amp;gt; 外部式&lt;/strong&gt;&lt;/p&gt;
+&lt;h2 id=&quot;选择器&quot;&gt;&lt;a href=&quot;#选择器&quot; class=&quot;headerlink&quot; title=&quot;选择器&quot;&gt;&lt;/a&gt;选择器&lt;/h2&gt;&lt;h3 id=&quot;标签选择器&quot;&gt;&lt;a href=&quot;#标签选择器&quot; class=&quot;headerlink&quot; title=&quot;标签选择器&quot;&gt;&lt;/a&gt;标签选择器&lt;/h3&gt;&lt;p&gt;p img body&lt;/p&gt;
+&lt;h3 id=&quot;类选择器&quot;&gt;&lt;a href=&quot;#类选择器&quot; class=&quot;headerlink&quot; title=&quot;类选择器&quot;&gt;&lt;/a&gt;类选择器&lt;/h3&gt;&lt;p&gt;类选择器在css样式编码中是最常用到的，如右侧代码编辑器中的代码:可以实现为“胆小如鼠”、“勇气”字体设置为红色。&lt;br&gt;语法：&lt;br&gt;.类选器名称{css样式代码;}&lt;br&gt;注意：&lt;br&gt;1、英文圆点开头&lt;br&gt;2、其中类选器名称可以任意起名（但不要起中文噢）&lt;br&gt;使用方法：&lt;br&gt;第一步：使用合适的标签把要修饰的内容标记起来，如下：&lt;br&gt;&lt;span&gt;胆小如鼠&lt;/span&gt;&lt;br&gt;第二步：使用class=”类选择器名称”为标签设置一个类，如下：&lt;br&gt;&lt;span class=&quot;stress&quot;&gt;胆小如鼠&lt;/span&gt;&lt;br&gt;第三步：设置类选器css样式，如下：&lt;br&gt;.stress{color:red;}/&lt;em&gt;类前面要加入一个英文圆点&lt;/em&gt;/&lt;/p&gt;
+&lt;h3 id=&quot;ID选择器&quot;&gt;&lt;a href=&quot;#ID选择器&quot; class=&quot;headerlink&quot; title=&quot;ID选择器&quot;&gt;&lt;/a&gt;ID选择器&lt;/h3&gt;&lt;p&gt;在很多方面，ID选择器都类似于类选择符，但也有一些重要的区别：&lt;br&gt;1、为标签设置id=”ID名称”，而不是class=”类名称”。&lt;br&gt;2、ID选择符的前面是井号（#）号，而不是英文圆点（.）。&lt;br&gt;右侧代码编辑器中就是一个ID选择符的完整实例。&lt;br&gt;子选择器&lt;br&gt;还有一个比较有用的选择器子选择器，即大于符号(&amp;gt;),用于选择指定标签元素的第一代子元素。如右侧代码编辑器中的代码：&lt;br&gt;.food&amp;gt;li{border:1px solid red;}&lt;br&gt;这行代码会使class名为food下的子元素li（水果、蔬菜）加入红色实线边框。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;这个“选择指定标签元素的第一代子元素”就是让样式只作用于它的孩子，不作用与他的孙子。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;包含(后代)选择器&lt;br&gt;包含选择器，即加入空格,用于选择指定标签元素下的后辈元素。如右侧代码编辑器中的代码：&lt;br&gt;.first span{color:red;}&lt;/p&gt;
+&lt;p&gt;总结：&lt;strong&gt;&amp;gt;作用于元素的第一代后代，空格作用于元素的所有后代。&lt;/strong&gt;&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="css" scheme="http://liuhouer.github.io/categories/css/"/>
+    
+    
+      <category term="css" scheme="http://liuhouer.github.io/tags/css/"/>
+    
+      <category term="布局" scheme="http://liuhouer.github.io/tags/%E5%B8%83%E5%B1%80/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>html容易忽略的标签和结构</title>
+    <link href="http://liuhouer.github.io/2017/12/25/html%E5%AE%B9%E6%98%93%E5%BF%BD%E7%95%A5%E7%9A%84%E6%A0%87%E7%AD%BE%E5%92%8C%E7%BB%93%E6%9E%84/"/>
+    <id>http://liuhouer.github.io/2017/12/25/html容易忽略的标签和结构/</id>
+    <published>2017-12-25T02:24:09.000Z</published>
+    <updated>2018-01-03T08:51:33.000Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<ol>
+<li>HTML是网页内容的载体。内容就是网页制作者放在页面上想要让用户浏览的信息，可以包含文字、图片、视频等。</li>
+<li>CSS样式是表现。就像网页的外衣。比如，标题字体、颜色变化，或为标题加入背景图片、边框等。所有这些用来改变内容外观的东西称之为表现。</li>
+<li>JavaScript是用来实现网页上的特效效果。如：鼠标滑过弹出下拉菜单。或鼠标滑过表格的背景颜色改变。还有焦点新闻（新闻图片）的轮换。可以这么理解，有动画的，有交互的一般都是用JavaScript来实现的。<br>下面给大家布置一个任务，在完成任务的时候，每输入一行代码，代码窗口就会立即显示出效果。</li>
+</ol>
+<p>下面我们来了解一下<head>标签的作用。文档的头部描述了文档的各种属性和信息，包括文档的标题等。绝大多数文档头部包含的数据都不会真正作为内容显示给读者。<br>下面这些标签可用在 head 部分：</head></p>
+</blockquote>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">title</span>&gt;</span>...<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">meta</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">link</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined">...</span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined">...</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div></pre></td></tr></table></figure>
+<blockquote>
+<p><code>&lt;title&gt;</code>标签：在<code>&lt;title&gt;</code>和<code>&lt;/title&gt;</code>标签之间的文字内容是网页的标题信息，它会出现在浏览器的标题栏中。网页的title标签用于告诉用户和搜索引擎这个网页的主要内容是什么，搜索引擎可以通过网页标题，迅速的判断出网页的主题。每个网页的内容都是不同的，每个网页都应该有一个独一无二的title。</p>
+<p><code>&lt;em&gt;</code>的内容在浏览中显示为斜体，<strong>显示为加粗。如果不喜欢这种样式，没有关系，以后可以使用css样式去改变它。</strong></p>
+<p><code>&lt;q&gt;</code>标签，==短文本引用==<br>      想在你的html中加一段引用吗？比如在你的网页的文章里想引用某个作家的一句诗，这样会使你的文章更加出彩，那么<q>标签是你所需要的。<br>语法：<br><code>&lt;q&gt;</code>引用文本<code>&lt;/q&gt;</code><br>不需要双引号</q></p>
+<pre><code>`&lt;blockquote&gt;`的作用也是引用别人的文本。但它是对长文本的引用，如在文章中引入大段某知名作家的文字，这时需要这个标签。
+  等等，上一节`&lt;q&gt;`标签不是也是对文本的引用吗？不要忘记`&lt;q&gt;`标签是对简短文本的引用，比如说引用一句话就用到`&lt;q&gt;`标签。
+  如想在我的文章中引用李白《关山月》中的诗句，因为引用文本比较长，所以使用`&lt;blockquote&gt;`。
+</code></pre><p>语法: <code>&lt;blockquote&gt;</code>引用文本<code>&lt;/blockquote&gt;</code></p>
+<pre><code>认识&lt;hr&gt;标签，添加水平横线
+&lt;address&gt;标签，为网页加入地址信息
+
+想加入一行代码吗？使用&lt;code&gt;标签
+
+单行&lt;code&gt;&lt;/code&gt;;
+多行代码，&lt;pre&gt;
+
+注意：&lt;pre&gt; 标签不只是为显示计算机的源代码时用的，在你需要在网页中预显示格&gt;     式时都可以使用它，只是&lt;pre&gt;标签的一个常见应用就是用来展示计算机的源代码。
+
+ul标签是圆点
+ol是数字 可以使用&lt;ol&gt;标签来制作有序列表来展示。
+</code></pre></blockquote>
+<pre><code>&lt;table&gt;(表格标签)
+&lt;tbody&gt;（不加tbody表格将加载完再显示，加tbody表格将逐行显示，还有另外两个thead&gt;&lt;tfooter&gt;）
+&lt;tr&gt;（行标签）
+&lt;th&gt;&lt;/th&gt;（表头标签）
+&lt;td&gt;&lt;/td&gt;（单元格标签）
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+caption标签，为表格添加标题和摘要
+表格还是需要添加一些标签进行优化，可以添加标题和摘要。代码如下：
+
+摘要
+摘要的内容是不会在浏览器中显示出来的。它的作用是增加表格的可读性(语义化)，使搜索引擎更好的读懂表格内容，还可以使屏幕阅读器更好的帮助特殊用户读取表格内容。
+    语法：&lt;table summary=&quot;表格简介文本&quot;&gt;
+
+标题
+用以描述表格内容，标题的显示位置：表格上方。
+     语法：
+&lt;table&gt;
+&lt;caption&gt;标题文本&lt;/caption&gt;
+&lt;tr&gt;
+&lt;td&gt;…&lt;/td&gt;
+&lt;td&gt;…&lt;/td&gt;
+…
+&lt;/tr&gt;
+…
+&lt;/table&gt;
+
+
+使用mailto在网页中链接Email地址
+
+在网页的制作中为使网页炫丽美观，肯定是缺少不了图片，可以使用&lt;img&gt;标签来插入图片。
+语法：
+&lt;img src=&quot;图片地址&quot; alt=&quot;下载失败时的替换文本&quot; title = &quot;提示文本&quot;&gt;
+举例：
+&lt;img src = &quot;myimage.gif&quot; alt = &quot;My Image&quot; title = &quot;My Image&quot; /&gt;
+文本域，支持多行文本输入
+当用户需要在表单中输入大段文字时，需要用到文本输入域。
+语法：
+&lt;textarea rows=&quot;行数&quot; cols=&quot;列数&quot;&gt;文本&lt;/textarea&gt;
+
+
+使用下拉列表框进行多选
+下拉列表也可以进行多选操作，在&lt;select&gt;标签中设置multiple=&quot;multiple&quot;属性，就可以实现多选功能，在 windows 操作系统下，进行多选时按下Ctrl键同时进行单击（在 Mac下使用 Command +单击），可以选择多个选项。
+</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;ol&gt;
+&lt;li&gt;HTML是网页内容的载体。内容就是网页制作者放在页面上想要让用户浏览的信息，可以包含文字、图片、视频等。&lt;/li&gt;
+&lt;li&gt;CSS样式是表现。就像网页的外衣。比如，标题字体、颜色变化，或为标题加入背景图片、边框等。所有这些用来改变内容外
+    
+    </summary>
+    
+      <category term="html" scheme="http://liuhouer.github.io/categories/html/"/>
+    
+    
+      <category term="html" scheme="http://liuhouer.github.io/tags/html/"/>
+    
+      <category term="标签" scheme="http://liuhouer.github.io/tags/%E6%A0%87%E7%AD%BE/"/>
+    
+  </entry>
   
   <entry>
     <title>quartz定时任务操作job-java非web项目</title>
@@ -1606,163 +2049,6 @@ tasks: [&apos;jshint&apos;, &apos;qunit&apos;]
     
     
       <category term="Gradle" scheme="http://liuhouer.github.io/tags/Gradle/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>恶棍快车之旅</title>
-    <link href="http://liuhouer.github.io/2016/03/26/%E6%81%B6%E6%A3%8D%E5%BF%AB%E8%BD%A6%E4%B9%8B%E6%97%85/"/>
-    <id>http://liuhouer.github.io/2016/03/26/恶棍快车之旅/</id>
-    <published>2016-03-26T15:46:49.000Z</published>
-    <updated>2017-03-23T02:13:26.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>万圣节，出没在小区里的快递员穿上了动物外套，一只毛茸茸的熊头出现在门禁对讲屏上，着实吓人一跳。最近，她并没有在网店上下过单，好奇心让她早早地打开门。一只“大灰熊”从电梯里出来，麻溜地摘下熊头套，递给她一封信。<br>关门，拆信，里面是一张明信片形式的参观券，上面印有一列火车。她想起来了，前几天去逛商场时，促销活动是“恶棍快车之旅”，她漫不经心地签上了自己的地址，随后就忘了这事儿了。还真的要去参观吗？她走向厨房，将明信片贴在冰箱门上，冰箱压缩器恰好轰鸣起来，不知怎地，她的视线恍惚了，冰箱不再是冰箱，而是一只卡住白鲸的长方形笼子，一头白鲸眼神悲哀地在其中扭动，她扶住冰箱门，定神一看，果然只是幻觉。</p>
-<p>“你知道方块鲸吗？一条鲸鱼卡在方块里了。”吃晚饭时，她不经意地说。</p>
-<p>“下午办公室里还在聊这个呢。”丈夫疲倦的脸上，闪出兴奋的光，对神秘的事情，他一向热衷，“说是恶棍快车进入终点站时，会发出一种鲸鱼的叫声，就像一头鲸鱼卡在方块里，慢慢地，慢慢地窒息……”丈夫夸张地做了一个掉脑袋的动作，随后总结：即使是机器人，面对死亡，也是会被痛苦折磨的，所以，他们最好别干坏事。<br>胃不太舒服，她不想继续这个话题了。</p>
-<p>晚上，他们早早地躺下。她睡了一小会儿，眼皮又睁开了，陷入了所谓的对自己完全无能为力的失眠的长夜。思绪拉扯得很开，散漫，像血瘀女子脸上的红血丝。肚子里不知发生了什么事情，不断有咕噜噜的叫声，焦躁与烦闷一阵阵地涌上来，脸颊像傍晚的天边，堆满了绚烂的火烧云。后来，月光透过窗帘缝洒到被子上，她安静了下来，一遍遍地想到海，如果那辆列车真的在终点站掉下去的话，会不会径直掉到大海里，如果是在海水里，鲸鱼就不会被卡住了吧。头一回，她对身边人的呼噜声没有反感，聆听着，像在海边住着的人，呼噜声只是海浪，她从未去过海边——现在，她对海可以一遍又一遍地猜想。</p>
-<p><img src="http://7xpfpd.com1.z0.glb.clouddn.com/manga.tumblr_o46qpvKaN51rrzs5no1_1280.png" alt=""><br><a id="more"></a></p>
-<p>海是浓烈的，可能裹住人就不松动，紧紧地缠绕着；海是稀松的，像晒干了的棉花，轻的在被面下一抖，都能看到棉丝之间的空隙；海是僵硬的，像被烧得通红的铁块突然面对一盆冷水，发出咝咝声，接着便缩小了自己的热度，老老实实地固化了……<br>嘴角有一个小泡泡嘟出来，她舔了一下，满不在乎地起床去厨房取上明信片，收拾了一个挎包，掂了掂房间钥匙，甩进包里，关上门，就向地铁走去。搭乘驶向郊区的地铁，一小时后就能转站到恶棍快车。她为什么会知道这条路线？光线昏暗的车厢里，她挖出了一件少女时代的往事。高考那年，父母专门租了一个家教机器人来家里，辅导她的功课，除了晚上陪她做作业到深夜，其它时候他就跟一个暂住她家的远方亲戚没什么两样。她经常偷偷看他，他去洗手间时，她也从门缝里瞄看，他用热水洗脸，刮幼嫩的胡子，还喜欢喷佛手柑味的古龙香水；为了让自己看上去显得老成一点，他总是故意地耷拉下嘴角，拉出两条本来没有的法令纹。本来一切都会顺利，租期一到，她会准备一样小礼物送给他做纪念，在他所属的AI公司接他回去之后，她还要给他写电子邮件，保持联系。然而接近考期的某一天，他带了一个另一家AI公司的女机器人回来，旁若无人地与她在家里天台上呆了一个晚上，她所服务的家庭因为她的失踪报了警，AI管理局派了警察过来，带走了他，罪名是诱拐与破坏服务。那个女机器人也被带走了，据说她是被动犯罪的一方，返厂维修就可以了。他也去维修了吗？她问过父母，他们安慰她说应该是的，但她心里隐约有另一个答案，当时电视新闻里播放过AI管理局道德伦理委员会的声明：即将制定AI惩戒细则，将一些干坏事的机器人直接送往监狱。</p>
-<p>夜浓得化不开，从黎明到破晓之间的距离特别漫长，她坐在候车室里，不停地看手表，数着秒针的滴答，直到她车票上显示的那个时间。</p>
-<p>根据明信片上的介绍，作为参观者，她应该去最后一节车厢，在快到终点站时，这节车厢会与前面的车厢脱节，停留在铁轨上，车厢里的参观者能透过车窗看到其他车厢一节节地掉入深渊状的地下监狱。这种设置能让AI使用者们放心，清楚地看到那些“彻底坏掉了”的机器人会得到什么样的下场。可是，一些使用者并不喜欢车厢下落过程中，机器人的惨叫声，毕竟，如今的他们长得跟真实人类没什么差别，谁是机器人谁是真实人类，平时就很容易搞错，更别提参观时了。而更多的人还是乐意去看一看，多少像古代抱着极大热情观看绞刑实施的人，对死亡与厄运有着奇怪的痴迷。上车时，她先上了最后一节车厢，又迅速溜下来，去到前面一节。  </p>
-<p>是卧铺车厢，她找到一个空铺，躺上去。火车开动的瞬间，她睡着了。醒来时，黎明的光线照亮了一切，她看到对面床上的一个男人睡姿不雅，呈大字型地躺着，窄小的床容不下他的一条胳膊与腿，它们铃铛一般晃荡在床沿。阳光从窗户外伸入大手，紧紧握住他的身体，他像一株旷野上的藤蔓，强悍而骄傲地炫耀着不被干扰的优越感。这时，她反而被阳光中的阴影部分打动，鼻子抽吸起来，对即将发生的各种想象使她无法平静下来。</p>
-<p>他醒了。他把手掌摊在她面前，他拿眼角余光看她，似乎掌握了她的秘密，他把她当成一个专攻星座、塔罗、梅花心易的占卜机器人了。</p>
-<p>算个命吧。他说。</p>
-<p>他的手掌大而松软，她的手指划过那几条纹路时，一股青草混杂着牛马的粪便味升腾，她没有捂住鼻子，反而深深地吸了口气，胸腔与鼻翼舒爽地抽动了一下。“你放过牛？骑过马？你有一个农场？”她试探性地问。他哈哈大笑，她认为那是嘲笑。但这想法阻止不了他把她的手指卷起来，卷得完整，仿佛烟丝被卷在纸中。在她的手心里，是他刚放入的一瓶淡绿色药水，上面的标签写着“LSD通用型”。“喝下去。”他命令她。她没有拒绝。随后，他们并肩坐在床上，等药力开始作用，“感觉到了没有？”他问。“什么？”她的脑袋已经开始变得庞大，耳膜上是大自然的各种声音，夜深人静时听到的天籁的放大声，一张薄雾拉丝的面罩徐缓地从额头顶端下落，一层层地，不断地下落，面罩却没有因此变得更厚，依旧朦胧与透明，映照出一幕幕她熟悉与陌生的画面，她不由自主地大笑起来，她听到他也在笑，“好好享受吧，”他说，“以后想尝试就再也没有了。”双手贴住她的太阳穴，他将她的脑袋向自己拉近，抵到自己的额头上，充满红血丝的眼睛盯着她的眼睛，“那下面，什么也没有，但你一下子摔不死，没有供给，没有检修，你的身体会慢慢生锈、断裂、成为瘸子、瞎子与聋子，最后，你再也爬不动了，一动也不能动，大脑死机了。死了。”他叨叨着，抱住她，开始亲她。</p>
-<p>接下来，她经历的似乎是：火车呜咽一声停下，他带她去了一个陌生城市的一间陌生的屋子；又或者是，他们所在的这节车厢脱离了其他车厢，从铁轨上滚下山坡。地点不确定，她清晰地记得，在一个封闭的空间里，他和她在一起，睡觉，做爱，说话，喝水，吃一点点东西，在一种难以分辨是快乐还是痛苦的情绪作用下，她哭了很长时间。而他的脸呈狮子状，张口的样子像是随时准备咆哮。她无法不屈从。</p>
-<p>   “你害怕什么？”他问。</p>
-<p>   “害怕你害怕的。”她说。  </p>
-<p>   “骗子，你害怕暴露身份，你压根就不是我的同类。”他试探她。</p>
-<p>   “我是。”</p>
-<p>   “你不是。”</p>
-<p>争辩很无谓。他们用身体解决。冷感的乳头被抚摩坚硬后，他便进入了，不等她略微潮湿。但是，那突如其来的冲击激发了她喉咙里的怒火，她后来居上地成了主控者。这点让他很惬意，并发出享受的哼哼唧唧。</p>
-<p>   “你果然是我们中的一个。”他说，“但你像在逃避什么？”</p>
-<p>   “逃避本身。”她说。</p>
-<p>她很不自信地说出“逃避本身”四字。任何词语都有一个身体。逃避本身是一条没有尽头的巷子，巷子里躲藏着无数被驱逐的千奇百怪的人，有他的同类，也包括她的同类。</p>
-<p>   “逃避本身与现实中的你关联在哪里？”</p>
-<p>   “关联就是我真的不是你们的同类。”她哆嗦着，终于喊了出来。</p>
-<p>   “骗子！”他不信任地看着她，摇晃她，“如果你真的不是我的同类，你就不会在这节车厢里。”</p>
-<p>她不知该怎么向他道歉，好在，浑身的晕眩被新升涌的血流击退，她已有力气驱赶幻觉。甩开他，她跑向紧急隔离门，用明信片上的二维码扫过电子眼，进入火车的最后一节车厢。药力仍有残余，到终点站时，她如一只收紧的海葵蜷缩在角落里。前面的车厢开始下坠，发出惊心动魄的巨响，她听到身旁几个站立的参观者发出啧啧声，一个人说：“真壮观啊！”另一个人说：“安全了，那些恶棍再也不会来打扰我们了。”她勉强站起来，去看他们看着的景象，一个巨大的深渊暗黑无边，一节节车厢像断裂的巨人肢体落下去，她分明被一种“整个人类历史的阴影”穿过，影子向地心陷落，她分明听到一种鲸鱼的哀鸣。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;万圣节，出没在小区里的快递员穿上了动物外套，一只毛茸茸的熊头出现在门禁对讲屏上，着实吓人一跳。最近，她并没有在网店上下过单，好奇心让她早早地打开门。一只“大灰熊”从电梯里出来，麻溜地摘下熊头套，递给她一封信。&lt;br&gt;关门，拆信，里面是一张明信片形式的参观券，上面印有一列火车。她想起来了，前几天去逛商场时，促销活动是“恶棍快车之旅”，她漫不经心地签上了自己的地址，随后就忘了这事儿了。还真的要去参观吗？她走向厨房，将明信片贴在冰箱门上，冰箱压缩器恰好轰鸣起来，不知怎地，她的视线恍惚了，冰箱不再是冰箱，而是一只卡住白鲸的长方形笼子，一头白鲸眼神悲哀地在其中扭动，她扶住冰箱门，定神一看，果然只是幻觉。&lt;/p&gt;
-&lt;p&gt;“你知道方块鲸吗？一条鲸鱼卡在方块里了。”吃晚饭时，她不经意地说。&lt;/p&gt;
-&lt;p&gt;“下午办公室里还在聊这个呢。”丈夫疲倦的脸上，闪出兴奋的光，对神秘的事情，他一向热衷，“说是恶棍快车进入终点站时，会发出一种鲸鱼的叫声，就像一头鲸鱼卡在方块里，慢慢地，慢慢地窒息……”丈夫夸张地做了一个掉脑袋的动作，随后总结：即使是机器人，面对死亡，也是会被痛苦折磨的，所以，他们最好别干坏事。&lt;br&gt;胃不太舒服，她不想继续这个话题了。&lt;/p&gt;
-&lt;p&gt;晚上，他们早早地躺下。她睡了一小会儿，眼皮又睁开了，陷入了所谓的对自己完全无能为力的失眠的长夜。思绪拉扯得很开，散漫，像血瘀女子脸上的红血丝。肚子里不知发生了什么事情，不断有咕噜噜的叫声，焦躁与烦闷一阵阵地涌上来，脸颊像傍晚的天边，堆满了绚烂的火烧云。后来，月光透过窗帘缝洒到被子上，她安静了下来，一遍遍地想到海，如果那辆列车真的在终点站掉下去的话，会不会径直掉到大海里，如果是在海水里，鲸鱼就不会被卡住了吧。头一回，她对身边人的呼噜声没有反感，聆听着，像在海边住着的人，呼噜声只是海浪，她从未去过海边——现在，她对海可以一遍又一遍地猜想。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;http://7xpfpd.com1.z0.glb.clouddn.com/manga.tumblr_o46qpvKaN51rrzs5no1_1280.png&quot; alt=&quot;&quot;&gt;&lt;br&gt;
-    
-    </summary>
-    
-      <category term="碎碎念" scheme="http://liuhouer.github.io/categories/%E7%A2%8E%E7%A2%8E%E5%BF%B5/"/>
-    
-    
-      <category term="碎碎念" scheme="http://liuhouer.github.io/tags/%E7%A2%8E%E7%A2%8E%E5%BF%B5/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>为什么我们不会谈恋爱了</title>
-    <link href="http://liuhouer.github.io/2016/03/17/%E4%B8%BA%E4%BB%80%E4%B9%88%E6%88%91%E4%BB%AC%E4%B8%8D%E4%BC%9A%E8%B0%88%E6%81%8B%E7%88%B1%E4%BA%86/"/>
-    <id>http://liuhouer.github.io/2016/03/17/为什么我们不会谈恋爱了/</id>
-    <published>2016-03-17T11:39:06.000Z</published>
-    <updated>2017-03-23T02:13:26.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>最近看到了一篇文章</p>
-<h1 id="《为什么我们不会谈恋爱了？》"><a href="#《为什么我们不会谈恋爱了？》" class="headerlink" title="《为什么我们不会谈恋爱了？》"></a>《为什么我们不会谈恋爱了？》</h1><p><strong>文丨烟波人长安</strong></p>
-<p>   我有一个朋友，单身好些年，最近看了几场爱情电影，少女心勃发，哭着喊着要谈恋爱。我说这个简单啊，满世界是男人，总有一个你看上眼的吧？难不成你看上的是吴彦祖？<br>朋友说不是啊，你不觉得谈恋爱很难吗？<br>哪里难了？我反问，喜欢就表白，成功了就在一起，不成功找下一个，不难啊。<br>你说得轻松。朋友说，第一眼看上了，要找机会说话吧？万一聊不到一块儿怎么办？两个人都不说话，给谁默哀呢？有了共同话题，就要考虑将来一起生活，是不是又一堆问题？到我这年纪，恋爱多数都是奔着结婚去的，我总不能等结婚了，发现不合适，再离婚吧？<br>哦，她今年27，家里催婚，已经催了两年。<br>真的，都快不会谈恋爱了。朋友说。<br>这种时候，一般都应该我出马，告诉她爱情很美好恋爱很温馨喜欢就要上一类的话，灌一碗鸡汤，打一打鸡血，安慰加鼓励。<br>但我仔细想想她那一连串问句，发现我没有办法说些这样的话。<br>再仔细想想，周围单身的朋友一大把，年龄相仿境遇相似，每年的愿望都是脱单，但他娘的，一直没有实现过。也不是没有“好像还挺合适的”那个人，但都没有走到一起。<br>什么时候，谈恋爱变得这么难了？</p>
-<p><img src="http://7xpfpd.com1.z0.glb.clouddn.com/tumblr_o44wjcP5Jq1rrzs5no1_1280.png" alt="(～﹃～)~zZ" title="(～﹃～)~zZ"></p>
-<a id="more"></a> 
-<p>想想我们上学的时候，好像一切都很容易。<br>小学对一个人有好感，可能就因为他是班长、她辫子长，初中对一个人有好感，可能就因为他个子高、她喜欢笑，高中对一个人有好感，可能就因为他学习好、她爱看书。那会儿世界很单纯，不着急表白，不指望回报，看他一眼都觉得开心，天天幻想上学路上会不会偶遇、食堂排队他会不会就在前头，上午出操偶尔打个照面，都面红耳热、心跳能停两分钟。<br>那会儿的恋爱也很容易，偷偷传个纸条、课间在楼梯拐角说说话、躲着家长把那些小心思写在有锁的日记里，一起出去买个头绳，能做到敢拉个手的，我操，那都是英雄。<br>到了大学，“恋爱”这件事就开始复杂了，而且随着学龄见长，还在递增。大一，他够不够体贴、能不能全宿舍组队下副本的时候接你电话；大二，他情人节送你什么礼物、用不用心；大三，他暑假会不会陪你、每天的晚安短信有没有忘；大四，他对未来有没有规划、出国考研还是工作、需不需要异地、异地多久……<br>转眼到了工作，问题又发生了质变，他工资多少、花销多大、我们在哪里开始将来的生活、什么时候结婚、能不能买得起房、他家长怎么看我、要不要孩子、要几个……<br>这就好像学游泳，一开始只要不淹死就行，后来开始讲究姿势，姿势对了，还要力度，力度对了，就要追求速度（对我说的是游泳，你们不要想歪），发展到最后，标准泳池里不能一口气一个来回，你好意思说你会游泳？</p>
-<p>甚至“喜欢”这个词，都会发生变化。年少时候喜欢一个人是“找不同”，越标新立异的，越招人喜欢；越是和自己不一样的，就越吸引你的注意。你活泼，他安静，他坐在那里，身上就有一道光。他抱着个篮球拍拍打打，你在教室一待就是一天，你一拢头发，他就看你一眼。<br>而一旦到了适婚的年纪，喜欢一个人就变成了“找相同”，兴趣、爱好、性格、家庭背景，有一点相悖，就多一道坎儿。你抱着电脑看韩剧，他说你俗不可耐；他一回家就打游戏，你说他没有上进心。说多了必然争吵，吵多了，一拍两散。<br>所以歌里唱的“我不想我不想不想长大”，不是唬人的。年龄越大，谈恋爱就越难，因为已经不再是你喜欢我我喜欢你就可以在一起的情况，他背后有他的父母，你背后有你的诉求，两个人站在一块儿，拿着笔画未来，结果一不小心，画出了两条不相交的平行线。</p>
-<p>听别人说过一个故事。真假不知道，但很耐琢磨。<br>一个朋友的朋友，女孩，刚过二十五岁，一场旷日持久的恋爱惨淡收场，从此叫嚣一定要找个有钱的，多老都行。后来真的找到了一个。男方大她十岁，不过她不介意，欢天喜地地，搬进了别墅。<br>不到半年，女孩自己提出分手，又搬了出来。<br>不是男的不好，据她说，也是温柔体贴善解人意那种，但就有一个问题，两个人的生活方式相差太远。<br>男的大学没毕业就自己闯荡，拼到三十五岁，有两家公司，平时忙进忙出，很少有休息时间，休闲娱乐以深夜看球为主。女孩美国读的硕士，原则性不加班，工作绝对不带回家，电影话剧如数家珍。两个人一天说不了几句话，一说话就闹矛盾。她不明白他为什么没有时间陪她哪怕逛一次街，他不明白为什么她要看一些不搞笑、不刺激，全程都没几句台词的电影。<br>不是不理解，是没有办法理解。<br>女孩以为，为了别墅，她可以无条件忍让，后来发现如鲠在喉，吐不出来，咽不下去。<br>朋友们都羡慕她找了个有钱的，下半辈子吃穿不愁。她羡慕她们的男朋友虽然工薪一族，但每天都可以坐在一起，吃一顿晚饭。</p>
-<p>一提到谈恋爱，我们每个人都说自己要求不高，有钱就可以、有胸就可以、一米八就可以、软妹子就可以，可真的要一起走下去，这些都变成了附加题，答对了加分，但能不能通过考试，看的反而不是这些。<br>有时候一想前路艰难，我们就退缩了。反正一个人好像也挺舒服，犯不着拿两个人生活的繁琐和磨合来折腾自己。<br>于是很长时间都是一个人。于是每一年结束，“脱单”后头都画着一个叉。<br>于是情人节闺密爽约去陪她临时取消加班的男朋友，你带着刚画好的妆缩在沙发里刷手机，外卖叫了一份单人餐。于是酒局未能成行好哥们儿在家哄老婆，你重新打开电脑鼠标停在熟悉的游戏上，犹豫是不是再打一盘。<br>于是你又翻开了朋友圈、微博，看看那个人在干什么。<br>看到Ta也是一个人过，你长出了一口气。<br>“情人节快乐！”你留言。</p>
-<p>﻿</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;最近看到了一篇文章&lt;/p&gt;
-&lt;h1 id=&quot;《为什么我们不会谈恋爱了？》&quot;&gt;&lt;a href=&quot;#《为什么我们不会谈恋爱了？》&quot; class=&quot;headerlink&quot; title=&quot;《为什么我们不会谈恋爱了？》&quot;&gt;&lt;/a&gt;《为什么我们不会谈恋爱了？》&lt;/h1&gt;&lt;p&gt;&lt;strong&gt;文丨烟波人长安&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;   我有一个朋友，单身好些年，最近看了几场爱情电影，少女心勃发，哭着喊着要谈恋爱。我说这个简单啊，满世界是男人，总有一个你看上眼的吧？难不成你看上的是吴彦祖？&lt;br&gt;朋友说不是啊，你不觉得谈恋爱很难吗？&lt;br&gt;哪里难了？我反问，喜欢就表白，成功了就在一起，不成功找下一个，不难啊。&lt;br&gt;你说得轻松。朋友说，第一眼看上了，要找机会说话吧？万一聊不到一块儿怎么办？两个人都不说话，给谁默哀呢？有了共同话题，就要考虑将来一起生活，是不是又一堆问题？到我这年纪，恋爱多数都是奔着结婚去的，我总不能等结婚了，发现不合适，再离婚吧？&lt;br&gt;哦，她今年27，家里催婚，已经催了两年。&lt;br&gt;真的，都快不会谈恋爱了。朋友说。&lt;br&gt;这种时候，一般都应该我出马，告诉她爱情很美好恋爱很温馨喜欢就要上一类的话，灌一碗鸡汤，打一打鸡血，安慰加鼓励。&lt;br&gt;但我仔细想想她那一连串问句，发现我没有办法说些这样的话。&lt;br&gt;再仔细想想，周围单身的朋友一大把，年龄相仿境遇相似，每年的愿望都是脱单，但他娘的，一直没有实现过。也不是没有“好像还挺合适的”那个人，但都没有走到一起。&lt;br&gt;什么时候，谈恋爱变得这么难了？&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;http://7xpfpd.com1.z0.glb.clouddn.com/tumblr_o44wjcP5Jq1rrzs5no1_1280.png&quot; alt=&quot;(～﹃～)~zZ&quot; title=&quot;(～﹃～)~zZ&quot;&gt;&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="碎碎念" scheme="http://liuhouer.github.io/categories/%E7%A2%8E%E7%A2%8E%E5%BF%B5/"/>
-    
-    
-      <category term="碎碎念" scheme="http://liuhouer.github.io/tags/%E7%A2%8E%E7%A2%8E%E5%BF%B5/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>hibernate基于注解的主键生成策略</title>
-    <link href="http://liuhouer.github.io/2016/03/15/hibernate%E5%9F%BA%E4%BA%8E%E6%B3%A8%E8%A7%A3%E7%9A%84%E4%B8%BB%E9%94%AE%E7%94%9F%E6%88%90%E7%AD%96%E7%95%A5/"/>
-    <id>http://liuhouer.github.io/2016/03/15/hibernate基于注解的主键生成策略/</id>
-    <published>2016-03-15T07:18:21.000Z</published>
-    <updated>2017-03-23T02:13:26.000Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="楔子"><a href="#楔子" class="headerlink" title="楔子"></a>楔子</h1><blockquote>
-<p><strong>最近想把UUID32位的主键策略改为6位的INT自增的主键，来改善个人网站的优雅和简洁性。于是找了些资料整理在这。由于我的网站用的注解，来减少xml配置文件带来的烦躁，所以主键策略一定要是基于注解的。</strong></p>
-</blockquote>
-<h1 id="一-自定义主键生成策略，由-GenericGenerator实现。"><a href="#一-自定义主键生成策略，由-GenericGenerator实现。" class="headerlink" title="一. 自定义主键生成策略，由@GenericGenerator实现。**"></a>一. 自定义主键生成策略，由<em>@GenericGenerator</em>实现。**</h1><p><em>hibernate</em>在<em>JPA</em>的基础上进行了扩展，可以用一下方式引入<em>hibernate</em>独有的主键生成策略，就是通过<em>@GenericGenerator</em>加入的。**</p>
-<p>比如说，<em>JPA</em>标准用法**<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">@Id  </div><div class="line">@GeneratedValue(GenerationType.AUTO)  </div><div class="line"></div><div class="line">就可以用hibernate特有以下用法来实现</div><div class="line"></div><div class="line">@GeneratedValue(generator = &quot;paymentableGenerator&quot;)     </div><div class="line">@GenericGenerator(name = &quot;paymentableGenerator&quot;, strategy = &quot;assigned&quot;)  </div><div class="line"></div><div class="line"></div><div class="line">@GenericGenerator的定义:</div><div class="line"></div><div class="line">@Target(&#123;PACKAGE, TYPE, METHOD, FIELD&#125;)   </div><div class="line">@Retention(RUNTIME)   </div><div class="line">public @interface GenericGenerator &#123;   </div><div class="line">  </div><div class="line">String name();   </div><div class="line">  </div><div class="line">String strategy();   </div><div class="line">  </div><div class="line">Parameter[] parameters() default &#123;&#125;;   </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<ul>
-<li>name属性指定生成器名称。</li>
-<li>strategy属性指定具体生成器的类名。</li>
-<li>parameters得到strategy指定的具体生成器所用到的参数。</li>
-</ul>
-<a id="more"></a>
-<p>对于这些<em>hibernate</em>主键生成策略和各自的具体生成器之间的关系<em>,</em>在<em>org.hibernate.id.IdentifierGeneratorFactory</em>中指定了<em>,</em></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">static &#123;   </div><div class="line">   GENERATORS.put(&quot;uuid&quot;, UUIDHexGenerator.class);   </div><div class="line">   GENERATORS.put(&quot;hilo&quot;, TableHiLoGenerator.class);   </div><div class="line">   GENERATORS.put(&quot;assigned&quot;, Assigned.class);   </div><div class="line">   GENERATORS.put(&quot;identity&quot;, IdentityGenerator.class);   </div><div class="line">   GENERATORS.put(&quot;select&quot;, SelectGenerator.class);   </div><div class="line">   GENERATORS.put(&quot;sequence&quot;, SequenceGenerator.class);   </div><div class="line">   GENERATORS.put(&quot;seqhilo&quot;, SequenceHiLoGenerator.class);   </div><div class="line">   GENERATORS.put(&quot;increment&quot;, IncrementGenerator.class);   </div><div class="line">   GENERATORS.put(&quot;foreign&quot;, ForeignGenerator.class);   </div><div class="line">   GENERATORS.put(&quot;guid&quot;, GUIDGenerator.class);   </div><div class="line">   GENERATORS.put(&quot;uuid.hex&quot;, UUIDHexGenerator.class); //uuid.hex is deprecated   </div><div class="line">   GENERATORS.put(&quot;sequence-identity&quot;, SequenceIdentityGenerator.class);   </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h1 id="二-上面十二种策略，加上native，hibernate一共默认支持十三种生成策略。"><a href="#二-上面十二种策略，加上native，hibernate一共默认支持十三种生成策略。" class="headerlink" title="二. 上面十二种策略，加上native，hibernate一共默认支持十三种生成策略。"></a>二. 上面十二种策略，加上<em>native</em>，<em>hibernate</em>一共默认支持十三种生成策略。</h1><h2 id="1、native"><a href="#1、native" class="headerlink" title="1、native"></a>1、native</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">@GeneratedValue(generator = &quot;paymentableGenerator&quot;)     </div><div class="line">@GenericGenerator(name = &quot;paymentableGenerator&quot;, strategy = &quot;native&quot;)</div></pre></td></tr></table></figure>
-<h2 id="2、uuid"><a href="#2、uuid" class="headerlink" title="2、uuid"></a>2、uuid</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">@GeneratedValue(generator = &quot;paymentableGenerator&quot;)     </div><div class="line">@GenericGenerator(name = &quot;paymentableGenerator&quot;, strategy = &quot;uuid&quot;)</div></pre></td></tr></table></figure>
-<h2 id="3、hilo"><a href="#3、hilo" class="headerlink" title="3、hilo"></a>3、hilo</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">@GeneratedValue(generator = &quot;paymentableGenerator&quot;)     </div><div class="line">@GenericGenerator(name = &quot;paymentableGenerator&quot;, strategy = &quot;hilo&quot;)</div></pre></td></tr></table></figure>
-<h2 id="4、assigned"><a href="#4、assigned" class="headerlink" title="4、assigned"></a>4、assigned</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">@GeneratedValue(generator = &quot;paymentableGenerator&quot;)     </div><div class="line">@GenericGenerator(name = &quot;paymentableGenerator&quot;, strategy = &quot;assigned&quot;)</div></pre></td></tr></table></figure>
-<h2 id="5、identity"><a href="#5、identity" class="headerlink" title="5、identity"></a>5、identity</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">@GeneratedValue(generator = &quot;paymentableGenerator&quot;)     </div><div class="line">@GenericGenerator(name = &quot;paymentableGenerator&quot;, strategy = &quot;identity&quot;)</div></pre></td></tr></table></figure>
-<h2 id="6、select"><a href="#6、select" class="headerlink" title="6、select"></a>6、select</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">@GeneratedValue(generator = &quot;paymentableGenerator&quot;)   </div><div class="line">@GenericGenerator(name=&quot;select&quot;, strategy=&quot;select&quot;,   </div><div class="line">      parameters = &#123; @Parameter(name = &quot;key&quot;, value = &quot;idstoerung&quot;) &#125;)</div></pre></td></tr></table></figure>
-<h2 id="7、sequence"><a href="#7、sequence" class="headerlink" title="7、sequence"></a>7、sequence</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">@GeneratedValue(generator = &quot;paymentableGenerator&quot;)   </div><div class="line">@GenericGenerator(name = &quot;paymentableGenerator&quot;, strategy = &quot;sequence&quot;,   </div><div class="line">          parameters = &#123; @Parameter(name = &quot;sequence&quot;, value = &quot;seq_payablemoney&quot;) &#125;)</div></pre></td></tr></table></figure>
-<h2 id="8、seqhilo"><a href="#8、seqhilo" class="headerlink" title="8、seqhilo"></a>8、seqhilo</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">@GeneratedValue(generator = &quot;paymentableGenerator&quot;)   </div><div class="line">@GenericGenerator(name = &quot;paymentableGenerator&quot;, strategy = &quot;seqhilo&quot;,   </div><div class="line">          parameters = &#123; @Parameter(name = &quot;max_lo&quot;, value = &quot;5&quot;) &#125;)</div></pre></td></tr></table></figure>
-<h2 id="9、increment"><a href="#9、increment" class="headerlink" title="9、increment"></a>9、increment</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">@GeneratedValue(generator = &quot;paymentableGenerator&quot;)     </div><div class="line">@GenericGenerator(name = &quot;paymentableGenerator&quot;, strategy = &quot;increment&quot;)</div></pre></td></tr></table></figure>
-<h2 id="10、foreign"><a href="#10、foreign" class="headerlink" title="10、foreign"></a>10、foreign</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line">@GeneratedValue(generator = &quot;idGenerator&quot;)   </div><div class="line">@GenericGenerator(name = &quot;idGenerator&quot;, strategy = &quot;foreign&quot;,parameters = &#123; @Parameter(name = &quot;property&quot;, value = &quot;employee&quot;) &#125;)  </div><div class="line"></div><div class="line"></div><div class="line">注意：直接使用@PrimaryKeyJoinColumn 报错（?）</div><div class="line"></div><div class="line">@OneToOne(cascade = CascadeType.ALL)   </div><div class="line">@PrimaryKeyJoinColumn   </div><div class="line">例如</div><div class="line"></div><div class="line">@Entity  </div><div class="line">public class Employee &#123;   </div><div class="line">  @Id Integer id;   </div><div class="line">       </div><div class="line">  @OneToOne @PrimaryKeyJoinColumn  </div><div class="line">   EmployeeInfo info;   </div><div class="line">      </div><div class="line">&#125;  </div><div class="line">应该为</div><div class="line"></div><div class="line">@Entity  </div><div class="line">public class Employee &#123;   </div><div class="line">  @Id   </div><div class="line">  @GeneratedValue(generator = &quot;idGenerator&quot;)   </div><div class="line">  @GenericGenerator(name = &quot;idGenerator&quot;, strategy = &quot;foreign&quot;,   </div><div class="line">          parameters = &#123; @Parameter(name = &quot;property&quot;, value = &quot;info&quot;) &#125;)   </div><div class="line">   Integer id;   </div><div class="line">       </div><div class="line">  @OneToOne  </div><div class="line">   EmployeeInfo info;   </div><div class="line">      </div><div class="line">&#125; </div><div class="line">``` </div><div class="line">## 11、guid</div></pre></td></tr></table></figure>
-<p>@GeneratedValue(generator = “paymentableGenerator”)<br>@GenericGenerator(name = “paymentableGenerator”, strategy = “guid”)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">## 12、uuid.hex</div></pre></td></tr></table></figure></p>
-<p>@GeneratedValue(generator = “paymentableGenerator”)<br>@GenericGenerator(name = “paymentableGenerator”, strategy = “uuid.hex”)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">## 13、sequence-identity</div></pre></td></tr></table></figure></p>
-<p>@GeneratedValue(generator = “paymentableGenerator”)<br>@GenericGenerator(name = “paymentableGenerator”, strategy = “sequence-identity”,<br>          parameters = { @Parameter(name = “sequence”, value = “seq_payablemoney”) })  </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"># 三、通过@GenericGenerator自定义主键生成策略</div><div class="line">如果实际应用中，主键策略为程序指定了就用程序指定的主键（*assigned*），没有指定就从*sequence*中取。**</div><div class="line">明显上面所讨论的策略都不满足，只好自己扩展了，集成*assigned*和*sequence*两种策略。</div></pre></td></tr></table></figure>
-<p>public class AssignedSequenceGenerator extends SequenceGenerator implements<br>PersistentIdentifierGenerator, Configurable {<br>private String entityName;   </p>
-<p>public void configure(Type type, Properties params, Dialect dialect) throws MappingException {<br>   entityName = params.getProperty(ENTITY_NAME);<br>  if (entityName==null) {<br>   throw new MappingException(“no entity name”);<br>   }   </p>
-<p>  super.configure(type, params, dialect);<br>}   </p>
-<p>public Serializable generate(SessionImplementor session, Object obj)<br>  throws HibernateException {   </p>
-<p>   Serializable id = session.getEntityPersister( entityName, obj )<br>     .getIdentifier( obj, session.getEntityMode() );   </p>
-<p>  if (id==null) {<br>    id = super.generate(session, obj);<br>   }   </p>
-<p>  return id;<br>}<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">实际应用中，定义同sequence。</div></pre></td></tr></table></figure></p>
-<p>@GeneratedValue(generator = “paymentableGenerator”)<br>@GenericGenerator(name = “paymentableGenerator”, strategy = “AssignedSequenceGenerator”,<br>      parameters = { @Parameter(name = “sequence”, value = “seq_payablemoney”) })  </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line">值得注意的是，定义的这种策略，就像打开了潘多拉魔盒，非常不可控。正常情况下，不建议这么做。</div><div class="line"> </div><div class="line">策略解释</div><div class="line"></div><div class="line">``` </div><div class="line"></div><div class="line">* “assigned”  </div><div class="line">  主键由外部程序负责生成，在   save()   之前指定一个。  </div><div class="line">  </div><div class="line">*  “hilo”  </div><div class="line">  通过hi/lo   算法实现的主键生成机制，需要额外的数据库表或字段提供高位值来源 </div><div class="line">   </div><div class="line">*  “seqhilo”  </div><div class="line">  与hilo   类似，通过hi/lo   算法实现的主键生成机制，需要数据库中的   Sequence，适用于支持   Sequence   的数据库，如Oracle。  </div><div class="line">  </div><div class="line">*  “increment”  </div><div class="line">  主键按数值顺序递增。此方式的实现机制为在当前应用实例中维持一个变量，以保存着当前的最大值，之后每次需要生成主键的时候将此值加1作为主键。这种方式可能产生的问题是：不能在集群下使用。  </div><div class="line">  </div><div class="line">*  “identity”  </div><div class="line">  采用数据库提供的主键生成机制。如DB2、SQL   Server、MySQL   中的主键生成机制。  </div><div class="line">  </div><div class="line">*  “sequence”  </div><div class="line">  采用数据库提供的   sequence   机制生成主键。如   Oralce   中的Sequence。  </div><div class="line">  </div><div class="line">*  “native”  </div><div class="line">  由   Hibernate  根据使用的数据库自行判断采用   identity、hilo、sequence   其中一种作为主键生成方式。    </div><div class="line">  </div><div class="line">*  “uuid.hex”  </div><div class="line">  由   Hibernate   基于128   位   UUID   算法   生成16   进制数值（编码后以长度32   的字符串表示）作为主键。  </div><div class="line">  </div><div class="line">*  “uuid.string”  </div><div class="line">  与uuid.hex   类似，只是生成的主键未进行编码（长度16），不能应用在   PostgreSQL   数据库中。  </div><div class="line">  </div><div class="line">*  “foreign”  </div><div class="line">  使用另外一个相关联的对象的标识符作为主键。</div></pre></td></tr></table></figure>
-<hr>
-<p>设置自增长主键的初始值</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">alter table test AUTO_INCREMENT = 500000;</div></pre></td></tr></table></figure>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;楔子&quot;&gt;&lt;a href=&quot;#楔子&quot; class=&quot;headerlink&quot; title=&quot;楔子&quot;&gt;&lt;/a&gt;楔子&lt;/h1&gt;&lt;blockquote&gt;
-&lt;p&gt;&lt;strong&gt;最近想把UUID32位的主键策略改为6位的INT自增的主键，来改善个人网站的优雅和简洁性。于是找了些资料整理在这。由于我的网站用的注解，来减少xml配置文件带来的烦躁，所以主键策略一定要是基于注解的。&lt;/strong&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h1 id=&quot;一-自定义主键生成策略，由-GenericGenerator实现。&quot;&gt;&lt;a href=&quot;#一-自定义主键生成策略，由-GenericGenerator实现。&quot; class=&quot;headerlink&quot; title=&quot;一. 自定义主键生成策略，由@GenericGenerator实现。**&quot;&gt;&lt;/a&gt;一. 自定义主键生成策略，由&lt;em&gt;@GenericGenerator&lt;/em&gt;实现。**&lt;/h1&gt;&lt;p&gt;&lt;em&gt;hibernate&lt;/em&gt;在&lt;em&gt;JPA&lt;/em&gt;的基础上进行了扩展，可以用一下方式引入&lt;em&gt;hibernate&lt;/em&gt;独有的主键生成策略，就是通过&lt;em&gt;@GenericGenerator&lt;/em&gt;加入的。**&lt;/p&gt;
-&lt;p&gt;比如说，&lt;em&gt;JPA&lt;/em&gt;标准用法**&lt;br&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;4&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;5&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;6&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;7&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;8&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;9&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;10&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;11&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;12&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;13&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;14&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;15&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;16&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;17&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;18&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;19&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;20&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;21&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;22&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;@Id  &lt;/div&gt;&lt;div class=&quot;line&quot;&gt;@GeneratedValue(GenerationType.AUTO)  &lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;就可以用hibernate特有以下用法来实现&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;@GeneratedValue(generator = &amp;quot;paymentableGenerator&amp;quot;)     &lt;/div&gt;&lt;div class=&quot;line&quot;&gt;@GenericGenerator(name = &amp;quot;paymentableGenerator&amp;quot;, strategy = &amp;quot;assigned&amp;quot;)  &lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;@GenericGenerator的定义:&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;@Target(&amp;#123;PACKAGE, TYPE, METHOD, FIELD&amp;#125;)   &lt;/div&gt;&lt;div class=&quot;line&quot;&gt;@Retention(RUNTIME)   &lt;/div&gt;&lt;div class=&quot;line&quot;&gt;public @interface GenericGenerator &amp;#123;   &lt;/div&gt;&lt;div class=&quot;line&quot;&gt;  &lt;/div&gt;&lt;div class=&quot;line&quot;&gt;String name();   &lt;/div&gt;&lt;div class=&quot;line&quot;&gt;  &lt;/div&gt;&lt;div class=&quot;line&quot;&gt;String strategy();   &lt;/div&gt;&lt;div class=&quot;line&quot;&gt;  &lt;/div&gt;&lt;div class=&quot;line&quot;&gt;Parameter[] parameters() default &amp;#123;&amp;#125;;   &lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&amp;#125;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;name属性指定生成器名称。&lt;/li&gt;
-&lt;li&gt;strategy属性指定具体生成器的类名。&lt;/li&gt;
-&lt;li&gt;parameters得到strategy指定的具体生成器所用到的参数。&lt;/li&gt;
-&lt;/ul&gt;
-    
-    </summary>
-    
-      <category term="hibernate" scheme="http://liuhouer.github.io/categories/hibernate/"/>
-    
-    
-      <category term="hibernate" scheme="http://liuhouer.github.io/tags/hibernate/"/>
     
   </entry>
   
