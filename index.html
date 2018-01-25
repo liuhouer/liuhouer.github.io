@@ -317,6 +317,173 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://liuhouer.github.io/2018/01/25/java接收邮件的探索之旅/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Bruce">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Northpark博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2018/01/25/java接收邮件的探索之旅/" itemprop="url">
+                  java接收邮件的探索之旅
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-25T00:00:00+08:00">
+                2018-01-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/邮件/" itemprop="url" rel="index">
+                    <span itemprop="name">邮件</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/邮件/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>场景：目前需要定时收取<strong>某个账户</strong>的<strong>未读</strong>邮件，保存到<strong>elasticsearch doc</strong>中去。</p>
+<blockquote>
+<p>使用javaMail收邮件主要有两种协议，一种是pop3，一种是imap。这两种协议都可以用来收邮件，但是在其中的处理上是有区别的。pop3是不支持判断邮件是否为已读的，也就是说你不能直接从收件箱里面取到未读邮件，这需要自己进行判断，然而imap就提供了这样的功能，使用imap时可以很轻松的判断该邮件是否为已读或未读或其他。<br>由此看来，pop3不适合我的需求【通过每次检索全部，然后判断subject也可以实现，不过每次都需要遍历对比，比较麻烦】<br>那么我就用imap协议来收取了，pop3和imap只是配置email的url有点区别 其他地方是一样的</p>
+</blockquote>
+<p><em>pop3和imap主要区别就是能否判断邮件状态的问题，其他的操作都差不多.</em></p>
+<h2 id="准备工作："><a href="#准备工作：" class="headerlink" title="准备工作："></a>准备工作：</h2><h3 id="邮箱设置打开pop3、imap、smtp收发协议"><a href="#邮箱设置打开pop3、imap、smtp收发协议" class="headerlink" title="邮箱设置打开pop3、imap、smtp收发协议"></a>邮箱设置打开pop3、imap、smtp收发协议</h3><p>去你的126|163|qq邮箱 打开设置-pop3 如图<br>注意重点：</p>
+<ul>
+<li><strong>全部接收</strong>，不然30天以前的收不到还以为代码有问题</li>
+<li>配置<strong>授权码</strong>，目前163和qq邮箱都是<strong>授权码形式</strong>，代码里的password位置填写的都是<strong>授权码</strong>而<strong>不是邮箱密码</strong>哦<br><img src="http://7xpfpd.com1.z0.glb.clouddn.com/pop3setting.png" alt="enter description here"><h3 id="协议的端口和协议规则"><a href="#协议的端口和协议规则" class="headerlink" title="协议的端口和协议规则"></a>协议的端口和协议规则</h3>//协议的内容端口等区别，对应关系如图：<br><img src="http://7xpfpd.com1.z0.glb.clouddn.com/pop3%20port.png" alt="enter description here"></li>
+</ul>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/01/25/java接收邮件的探索之旅/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://liuhouer.github.io/2017/12/27/css盒子模型/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1230,162 +1397,6 @@ caption标签，为表格添加标题和摘要
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://liuhouer.github.io/2017/08/15/MySQL安全配置向导/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Bruce">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Northpark博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/08/15/MySQL安全配置向导/" itemprop="url">
-                  MySQL安全配置向导
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-15T10:24:09+08:00">
-                2017-08-15
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/mysql/" itemprop="url" rel="index">
-                    <span itemprop="name">mysql</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><blockquote>
-<p>主要介绍了MySQL安全配置向导mysql_secure_installation各项配置的含义,并依据经验给予一了一些建议<br><strong>安装完mysql-server 会提示可以运行mysql_secure_installation。运行mysql_secure_installation会执行几个设置：</strong></p>
-<ul>
-<li>为root用户设置密码</li>
-<li>删除匿名账号</li>
-<li>取消root用户远程登录</li>
-<li>删除test库和对test库的访问权限</li>
-<li>刷新授权表使修改生效<br><strong>通过这几项的设置能够提高mysql库的安全。建议生产环境中mysql安装这完成后一定要运行一次mysql_secure_installation，详细步骤请参看下面的命令:</strong></li>
-</ul>
-</blockquote>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/08/15/MySQL安全配置向导/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1435,7 +1446,7 @@ caption标签，为表格添加标题和摘要
           
             <div class="site-state-item site-state-posts">
               <a href="/">
-                <span class="site-state-item-count">73</span>
+                <span class="site-state-item-count">74</span>
                 <span class="site-state-item-name">posts</span>
               </a>
             </div>
@@ -1446,7 +1457,7 @@ caption标签，为表格添加标题和摘要
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">41</span>
+                <span class="site-state-item-count">44</span>
                 <span class="site-state-item-name">categories</span>
               </a>
             </div>
@@ -1457,7 +1468,7 @@ caption标签，为表格添加标题和摘要
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">70</span>
+                <span class="site-state-item-count">72</span>
                 <span class="site-state-item-name">tags</span>
               </a>
             </div>
@@ -1566,26 +1577,23 @@ caption标签，为表格添加标题和摘要
 
 
 <div class="powered-by">
-  Powered by <a class="theme-link" href="https://northpark.cn/">NorthPark.cn</a>
+  Powered by <a class="theme-link" href="https://northpark.cn/">NorthPark中文网</a>
 </div>
 
 
 <div class="powered-by">
-  MacSoft -
   <a class="theme-link" href="https://northpark.cn/soft/mac">
    <i class="fa fa-apple" aria-hidden="true"></i>
   </a>
 </div>
 
 <div class="powered-by">
- Movies.TV.Comic -
   <a class="theme-link" href="https://northpark.cn/movies">
     <i class="fa fa-film" aria-hidden="true"></i>
   </a>
 </div>
 
 <div class="theme-info">
-  Pua -
   <a class="theme-link" href="https://northpark.cn/romeo">
     <i class="fa fa-gratipay" aria-hidden="true"></i>
   </a>
