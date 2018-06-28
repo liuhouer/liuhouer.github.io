@@ -12,7 +12,7 @@
 
 
 
-<html class="mac-soft mist use-motion" lang="en">
+<html class="mac-soft mist use-motion" lang="">
 <head>
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -107,29 +107,24 @@
 
 
 
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+  <link rel="shortcut icon" type="image/x-icon" href="/octopus.png?v=5.1.0" />
 
 
 
 
 
 
-<meta name="description" content="先上代码实例：
-
-Spring 配置id=”myScheduler”这个是定义了一个类似于触发器的容器，pool-size是定义容器最多执行的任务数。上面scheduler=”myScheduler”指向这个容器，里面最多定义pool-size个任务，每个任务指向一个Aciton。里面大概有2种定时，一种是按照时间点来的{cron=”0 0 12,20   ?”}【下面会有具体的语法repx介绍】">
+<meta name="description" content="先上代码实例：  Spring 配置id=”myScheduler”这个是定义了一个类似于触发器的容器，pool-size是定义容器最多执行的任务数。上面scheduler=”myScheduler”指向这个容器，里面最多定义pool-size个任务，每个任务指向一个Aciton。里面大概有2种定时，一种是按照时间点来的{cron=”0 0 12,20   ?”}【下面会有具体的语法repx介绍】">
+<meta name="keywords" content="spring,task">
 <meta property="og:type" content="article">
 <meta property="og:title" content="spring定时任务最简单实现">
 <meta property="og:url" content="http://liuhouer.github.io/2015/11/10/spring定时任务最简单实现/index.html">
 <meta property="og:site_name" content="Northpark博客">
-<meta property="og:description" content="先上代码实例：
-
-Spring 配置id=”myScheduler”这个是定义了一个类似于触发器的容器，pool-size是定义容器最多执行的任务数。上面scheduler=”myScheduler”指向这个容器，里面最多定义pool-size个任务，每个任务指向一个Aciton。里面大概有2种定时，一种是按照时间点来的{cron=”0 0 12,20   ?”}【下面会有具体的语法repx介绍】">
-<meta property="og:updated_time" content="2017-03-23T02:13:26.000Z">
+<meta property="og:description" content="先上代码实例：  Spring 配置id=”myScheduler”这个是定义了一个类似于触发器的容器，pool-size是定义容器最多执行的任务数。上面scheduler=”myScheduler”指向这个容器，里面最多定义pool-size个任务，每个任务指向一个Aciton。里面大概有2种定时，一种是按照时间点来的{cron=”0 0 12,20   ?”}【下面会有具体的语法repx介绍】">
+<meta property="og:updated_time" content="2018-05-28T01:23:29.961Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="spring定时任务最简单实现">
-<meta name="twitter:description" content="先上代码实例：
-
-Spring 配置id=”myScheduler”这个是定义了一个类似于触发器的容器，pool-size是定义容器最多执行的任务数。上面scheduler=”myScheduler”指向这个容器，里面最多定义pool-size个任务，每个任务指向一个Aciton。里面大概有2种定时，一种是按照时间点来的{cron=”0 0 12,20   ?”}【下面会有具体的语法repx介绍】">
+<meta name="twitter:description" content="先上代码实例：  Spring 配置id=”myScheduler”这个是定义了一个类似于触发器的容器，pool-size是定义容器最多执行的任务数。上面scheduler=”myScheduler”指向这个容器，里面最多定义pool-size个任务，每个任务指向一个Aciton。里面大概有2种定时，一种是按照时间点来的{cron=”0 0 12,20   ?”}【下面会有具体的语法repx介绍】">
 
 
 
@@ -149,7 +144,7 @@ Spring 配置id=”myScheduler”这个是定义了一个类似于触发器的�
       applicationID: '',
       apiKey: '',
       indexName: '',
-      hits: {"per_page":10},
+      hits: {"per_page":6},
       labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
     }
   };
@@ -166,7 +161,7 @@ Spring 配置id=”myScheduler”这个是定义了一个类似于触发器的�
   <title> spring定时任务最简单实现 | Northpark博客 </title>
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+<body itemscope itemtype="http://schema.org/WebPage" lang="">
 
   
 
@@ -427,7 +422,7 @@ Spring 配置id=”myScheduler”这个是定义了一个类似于触发器的�
 </li>
 </ul>
 <a id="more"></a>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">&lt;bean id=&quot;starTask&quot; class=&quot;com.mai.task.StarTask&quot;&gt;&lt;/bean&gt;</div><div class="line"> </div><div class="line">     </div><div class="line">	 &lt;!--要定时执行的方法--&gt; </div><div class="line">	&lt;task:scheduled-tasks scheduler=&quot;myScheduler&quot;&gt;</div><div class="line">        &lt;task:scheduled ref=&quot;starTask&quot; method=&quot;runTask&quot;  cron=&quot;0 0 12,20 * * ?&quot;/&gt;</div><div class="line">            &lt;/task:scheduled-tasks&gt;</div><div class="line">    &lt;task:scheduler id=&quot;myScheduler&quot; pool-size=&quot;5&quot;/&gt;</div><div class="line">     &lt;!--要定时执行的方法--&gt;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;bean id=&quot;starTask&quot; class=&quot;com.mai.task.StarTask&quot;&gt;&lt;/bean&gt;</span><br><span class="line"> </span><br><span class="line">     </span><br><span class="line">	 &lt;!--要定时执行的方法--&gt; </span><br><span class="line">	&lt;task:scheduled-tasks scheduler=&quot;myScheduler&quot;&gt;</span><br><span class="line">        &lt;task:scheduled ref=&quot;starTask&quot; method=&quot;runTask&quot;  cron=&quot;0 0 12,20 * * ?&quot;/&gt;</span><br><span class="line">            &lt;/task:scheduled-tasks&gt;</span><br><span class="line">    &lt;task:scheduler id=&quot;myScheduler&quot; pool-size=&quot;5&quot;/&gt;</span><br><span class="line">     &lt;!--要定时执行的方法--&gt;</span><br></pre></td></tr></table></figure>
 <ul>
 <li><p>Action：StarTask.java</p>
 <p>  public class StarTask {</p>
@@ -727,7 +722,7 @@ Year:可出现&quot;, - * /&quot;四个字符，有效范围为1970-2099年
                alt="Bruce" />
           <p class="site-author-name" itemprop="name">Bruce</p>
            
-              <p class="site-description motion-element" itemprop="description">人生苦短，及时行乐</p>
+              <p class="site-description motion-element" itemprop="description">Extreme ways</p>
           
         </div>
         <nav class="site-state motion-element">
@@ -735,7 +730,7 @@ Year:可出现&quot;, - * /&quot;四个字符，有效范围为1970-2099年
           
             <div class="site-state-item site-state-posts">
               <a href="/">
-                <span class="site-state-item-count">74</span>
+                <span class="site-state-item-count">80</span>
                 <span class="site-state-item-name">posts</span>
               </a>
             </div>
@@ -757,7 +752,7 @@ Year:可出现&quot;, - * /&quot;四个字符，有效范围为1970-2099年
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">72</span>
+                <span class="site-state-item-count">81</span>
                 <span class="site-state-item-name">tags</span>
               </a>
             </div>
@@ -831,10 +826,6 @@ Year:可出现&quot;, - * /&quot;四个字符，有效范围为1970-2099年
                   <a href="http://lonelyrobots.cn/?,哈哈，他排行老六，又名撒币六子" title="OldのSix" target="_blank">OldのSix</a>
                 </li>
               
-                <li class="links-of-blogroll-item">
-                  <a href="http://www.yecao.xyz?,野草博客-电影群主的休闲之作" title="野草博客" target="_blank">野草博客</a>
-                </li>
-              
             </ul>
           </div>
         
@@ -870,34 +861,28 @@ Year:可出现&quot;, - * /&quot;四个字符，有效范围为1970-2099年
 
 
 <div class="powered-by">
-  Powered by <a class="theme-link" href="http://hexo.io">hexo</a>
-</div>
-<div class="powered-by">
-   <a class="theme-link" href="http://theme-next.iissnan.com/">theme-next
-  </a>
-</div>
-
-<div class="powered-by"> 
-  <a class="theme-link" href="https://northpark.cn/">NorthPark中文网
-  </a>
+  Powered by <a class="theme-link" href="https://northpark.cn/">NorthPark.cn</a>
 </div>
 
 
 <div class="powered-by">
+  MacSoft -
   <a class="theme-link" href="https://northpark.cn/soft/mac">
-   <i class="fa fa-apple" aria-hidden="true"></i>
+    NorthPark.soft
   </a>
 </div>
 
 <div class="powered-by">
+ Movies.TV.Comic -
   <a class="theme-link" href="https://northpark.cn/movies">
-    <i class="fa fa-film" aria-hidden="true"></i>
+    NorthPark.movies
   </a>
 </div>
 
 <div class="theme-info">
+  Pua -
   <a class="theme-link" href="https://northpark.cn/romeo">
-    <i class="fa fa-gratipay" aria-hidden="true"></i>
+    NorthPark.pua
   </a>
 </div>
 

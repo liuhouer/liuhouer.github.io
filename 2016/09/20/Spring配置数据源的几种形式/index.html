@@ -12,7 +12,7 @@
 
 
 
-<html class="mac-soft mist use-motion" lang="en">
+<html class="mac-soft mist use-motion" lang="">
 <head>
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -107,44 +107,24 @@
 
 
 
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+  <link rel="shortcut icon" type="image/x-icon" href="/octopus.png?v=5.1.0" />
 
 
 
 
 
 
-<meta name="description" content="Spring配置数据源的几种形式
-由于我的网站之前用的c3p0数据连接池配置，总是引发一些莫名其妙的错误，几次内存泄漏都和这个有关系，google之发现好多人都发现了这些bug.于是了解了一下常见的数据源的配置，并改成了dbcp的配置方案。
-
-Spring中提供了4种不同形式的数据源配置方式：
-
-1、Spring自带的数据源(DriverMangerDataSource);
-
-2、DBCP数据源;">
+<meta name="description" content="Spring配置数据源的几种形式 由于我的网站之前用的c3p0数据连接池配置，总是引发一些莫名其妙的错误，几次内存泄漏都和这个有关系，google之发现好多人都发现了这些bug.于是了解了一下常见的数据源的配置，并改成了dbcp的配置方案。  Spring中提供了4种不同形式的数据源配置方式：  1、Spring自带的数据源(DriverMangerDataSource);  2、DBCP数据源;">
+<meta name="keywords" content="java">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Spring配置数据源的几种形式">
 <meta property="og:url" content="http://liuhouer.github.io/2016/09/20/Spring配置数据源的几种形式/index.html">
 <meta property="og:site_name" content="Northpark博客">
-<meta property="og:description" content="Spring配置数据源的几种形式
-由于我的网站之前用的c3p0数据连接池配置，总是引发一些莫名其妙的错误，几次内存泄漏都和这个有关系，google之发现好多人都发现了这些bug.于是了解了一下常见的数据源的配置，并改成了dbcp的配置方案。
-
-Spring中提供了4种不同形式的数据源配置方式：
-
-1、Spring自带的数据源(DriverMangerDataSource);
-
-2、DBCP数据源;">
-<meta property="og:updated_time" content="2017-03-23T02:13:26.000Z">
+<meta property="og:description" content="Spring配置数据源的几种形式 由于我的网站之前用的c3p0数据连接池配置，总是引发一些莫名其妙的错误，几次内存泄漏都和这个有关系，google之发现好多人都发现了这些bug.于是了解了一下常见的数据源的配置，并改成了dbcp的配置方案。  Spring中提供了4种不同形式的数据源配置方式：  1、Spring自带的数据源(DriverMangerDataSource);  2、DBCP数据源;">
+<meta property="og:updated_time" content="2018-05-28T01:23:30.613Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spring配置数据源的几种形式">
-<meta name="twitter:description" content="Spring配置数据源的几种形式
-由于我的网站之前用的c3p0数据连接池配置，总是引发一些莫名其妙的错误，几次内存泄漏都和这个有关系，google之发现好多人都发现了这些bug.于是了解了一下常见的数据源的配置，并改成了dbcp的配置方案。
-
-Spring中提供了4种不同形式的数据源配置方式：
-
-1、Spring自带的数据源(DriverMangerDataSource);
-
-2、DBCP数据源;">
+<meta name="twitter:description" content="Spring配置数据源的几种形式 由于我的网站之前用的c3p0数据连接池配置，总是引发一些莫名其妙的错误，几次内存泄漏都和这个有关系，google之发现好多人都发现了这些bug.于是了解了一下常见的数据源的配置，并改成了dbcp的配置方案。  Spring中提供了4种不同形式的数据源配置方式：  1、Spring自带的数据源(DriverMangerDataSource);  2、DBCP数据源;">
 
 
 
@@ -164,7 +144,7 @@ Spring中提供了4种不同形式的数据源配置方式：
       applicationID: '',
       apiKey: '',
       indexName: '',
-      hits: {"per_page":10},
+      hits: {"per_page":6},
       labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
     }
   };
@@ -181,7 +161,7 @@ Spring中提供了4种不同形式的数据源配置方式：
   <title> Spring配置数据源的几种形式 | Northpark博客 </title>
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+<body itemscope itemtype="http://schema.org/WebPage" lang="">
 
   
 
@@ -450,19 +430,19 @@ Spring中提供了4种不同形式的数据源配置方式：
 <li><p>4、JNDI数据源。</p>
 </li>
 </ul>
-<p>以上数据源配置需要用的Jar包在<a href="http://www.java2s.com/Code/Jar/c/Catalogc.htm中都可以下载到" target="_blank" rel="external">http://www.java2s.com/Code/Jar/c/Catalogc.htm中都可以下载到</a></p>
+<p>以上数据源配置需要用的Jar包在<a href="http://www.java2s.com/Code/Jar/c/Catalogc.htm中都可以下载到" target="_blank" rel="noopener">http://www.java2s.com/Code/Jar/c/Catalogc.htm中都可以下载到</a></p>
 <p>下面详细介绍这四种数据源配置方式：</p>
 <h2 id="1-DriverMangerDataSource"><a href="#1-DriverMangerDataSource" class="headerlink" title="1. DriverMangerDataSource"></a>1. DriverMangerDataSource</h2><blockquote>
 <p>使用org.springframework.jdbc.datasource.DriverManagerDataSource<br>说明：DriverManagerDataSource建立连接是只要有连接就新建一个connection,根本没有连接池的作用。</p>
 </blockquote>
 <p>XML代码</p>
-<figure class="highlight vbscript-html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&lt;bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"&gt; </div><div class="line">          &lt;property name="driverClassName"&gt;&lt;value&gt;$&#123;jdbc.driverClassName&#125;&lt;/value&gt;&lt;/property&gt; </div><div class="line">          &lt;property name="url"&gt;&lt;value&gt;$&#123;jdbc.url&#125;&lt;/value&gt;&lt;/property&gt; </div><div class="line">          &lt;property name="username"&gt;&lt;value&gt;$&#123;jdbc.username&#125;&lt;/value&gt;&lt;/property&gt; </div><div class="line">          &lt;property name="password"&gt;&lt;value&gt;$&#123;jdbc.password&#125;&lt;/value&gt;&lt;/property&gt; </div><div class="line"></div><div class="line">&lt;/bean&gt;</div></pre></td></tr></table></figure>
+<figure class="highlight vbscript-html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"&gt; </span><br><span class="line">          &lt;property name="driverClassName"&gt;&lt;value&gt;$&#123;jdbc.driverClassName&#125;&lt;/value&gt;&lt;/property&gt; </span><br><span class="line">          &lt;property name="url"&gt;&lt;value&gt;$&#123;jdbc.url&#125;&lt;/value&gt;&lt;/property&gt; </span><br><span class="line">          &lt;property name="username"&gt;&lt;value&gt;$&#123;jdbc.username&#125;&lt;/value&gt;&lt;/property&gt; </span><br><span class="line">          &lt;property name="password"&gt;&lt;value&gt;$&#123;jdbc.password&#125;&lt;/value&gt;&lt;/property&gt; </span><br><span class="line"></span><br><span class="line">&lt;/bean&gt;</span><br></pre></td></tr></table></figure>
 <h2 id="2-DBCP数据源"><a href="#2-DBCP数据源" class="headerlink" title="2.DBCP数据源"></a>2.DBCP数据源</h2><blockquote>
 <p>使用org.apache.commons.dbcp.BasicDataSource<br>说明:这是一种推荐说明的数据源配置方式，它真正使用了连接池技术</p>
 <p>DBCP的配置依赖于2个jar包commons-dbcp.jar，commons-pool.jar。</p>
 </blockquote>
 <p>XML代码：</p>
-<figure class="highlight vbscript-html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line">&lt;!-- 使用org.apache.commons.dbcp.BasicDataSource   </div><div class="line">         说明:这是一种推荐说明的数据源配置方式，它真正使用了连接池技术 --&gt;</div><div class="line">&lt;bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"</div><div class="line">destroy-method="close"&gt;</div><div class="line">&lt;property name="driverClassName" value="$&#123;jdbc.driver&#125;" /&gt;</div><div class="line">&lt;property name="url" value="$&#123;jdbc.url&#125;" /&gt;</div><div class="line">&lt;property name="username" value="$&#123;jdbc.username&#125;" /&gt;</div><div class="line">&lt;property name="password" value="$&#123;jdbc.password&#125;" /&gt;</div><div class="line">&lt;!--maxActive: 最大连接数量 --&gt;</div><div class="line">&lt;property name="maxActive" value="150" /&gt;</div><div class="line">&lt;!--minIdle: 最小空闲连接 --&gt;</div><div class="line">&lt;property name="minIdle" value="5" /&gt;</div><div class="line">&lt;!--maxIdle: 最大空闲连接 --&gt;</div><div class="line">&lt;property name="maxIdle" value="20" /&gt;</div><div class="line">&lt;!--initialSize: 初始化连接 --&gt;</div><div class="line">&lt;property name="initialSize" value="30" /&gt;</div><div class="line">&lt;!-- 连接被泄露时是否打印 --&gt;</div><div class="line">&lt;property name="logAbandoned" value="true" /&gt;</div><div class="line">&lt;!--removeAbandoned: 是否自动回收超时连接 --&gt;</div><div class="line">&lt;property name="removeAbandoned" value="true" /&gt;</div><div class="line">&lt;!--removeAbandonedTimeout: 超时时间(以秒数为单位) --&gt;</div><div class="line">&lt;property name="removeAbandonedTimeout" value="10" /&gt;</div><div class="line">&lt;!--maxWait: 超时等待时间以毫秒为单位 1000等于60秒 --&gt;</div><div class="line">&lt;property name="maxWait" value="1000" /&gt;</div><div class="line">&lt;!-- 在空闲连接回收器线程运行期间休眠的时间值,以毫秒为单位. --&gt;</div><div class="line">&lt;property name="timeBetweenEvictionRunsMillis" value="10000" /&gt;</div><div class="line">&lt;!-- 在每次空闲连接回收器线程(如果有)运行时检查的连接数量 --&gt;</div><div class="line">&lt;property name="numTestsPerEvictionRun" value="10" /&gt;</div><div class="line">&lt;!-- 1000 * 60 * 30 连接在池中保持空闲而不被空闲连接回收器线程 --&gt;</div><div class="line">&lt;property name="minEvictableIdleTimeMillis" value="10000" /&gt;</div><div class="line">&lt;property name="validationQuery" value="SELECT NOW() FROM DUAL" /&gt;</div><div class="line">&lt;/bean&gt;</div></pre></td></tr></table></figure>
+<figure class="highlight vbscript-html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 使用org.apache.commons.dbcp.BasicDataSource   </span><br><span class="line">         说明:这是一种推荐说明的数据源配置方式，它真正使用了连接池技术 --&gt;</span><br><span class="line">&lt;bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"</span><br><span class="line">destroy-method="close"&gt;</span><br><span class="line">&lt;property name="driverClassName" value="$&#123;jdbc.driver&#125;" /&gt;</span><br><span class="line">&lt;property name="url" value="$&#123;jdbc.url&#125;" /&gt;</span><br><span class="line">&lt;property name="username" value="$&#123;jdbc.username&#125;" /&gt;</span><br><span class="line">&lt;property name="password" value="$&#123;jdbc.password&#125;" /&gt;</span><br><span class="line">&lt;!--maxActive: 最大连接数量 --&gt;</span><br><span class="line">&lt;property name="maxActive" value="150" /&gt;</span><br><span class="line">&lt;!--minIdle: 最小空闲连接 --&gt;</span><br><span class="line">&lt;property name="minIdle" value="5" /&gt;</span><br><span class="line">&lt;!--maxIdle: 最大空闲连接 --&gt;</span><br><span class="line">&lt;property name="maxIdle" value="20" /&gt;</span><br><span class="line">&lt;!--initialSize: 初始化连接 --&gt;</span><br><span class="line">&lt;property name="initialSize" value="30" /&gt;</span><br><span class="line">&lt;!-- 连接被泄露时是否打印 --&gt;</span><br><span class="line">&lt;property name="logAbandoned" value="true" /&gt;</span><br><span class="line">&lt;!--removeAbandoned: 是否自动回收超时连接 --&gt;</span><br><span class="line">&lt;property name="removeAbandoned" value="true" /&gt;</span><br><span class="line">&lt;!--removeAbandonedTimeout: 超时时间(以秒数为单位) --&gt;</span><br><span class="line">&lt;property name="removeAbandonedTimeout" value="10" /&gt;</span><br><span class="line">&lt;!--maxWait: 超时等待时间以毫秒为单位 1000等于60秒 --&gt;</span><br><span class="line">&lt;property name="maxWait" value="1000" /&gt;</span><br><span class="line">&lt;!-- 在空闲连接回收器线程运行期间休眠的时间值,以毫秒为单位. --&gt;</span><br><span class="line">&lt;property name="timeBetweenEvictionRunsMillis" value="10000" /&gt;</span><br><span class="line">&lt;!-- 在每次空闲连接回收器线程(如果有)运行时检查的连接数量 --&gt;</span><br><span class="line">&lt;property name="numTestsPerEvictionRun" value="10" /&gt;</span><br><span class="line">&lt;!-- 1000 * 60 * 30 连接在池中保持空闲而不被空闲连接回收器线程 --&gt;</span><br><span class="line">&lt;property name="minEvictableIdleTimeMillis" value="10000" /&gt;</span><br><span class="line">&lt;property name="validationQuery" value="SELECT NOW() FROM DUAL" /&gt;</span><br><span class="line">&lt;/bean&gt;</span><br></pre></td></tr></table></figure>
 <p>上面代码的解释：</p>
 <blockquote>
 <p>BasicDataSource提供了close()方法关闭数据源，所以必须设定destroy-method=”close”属性，<br>以便Spring容器关闭时，数据源能够正常关闭。除以上必须的数据源属性外，还有一些常用的属性：</p>
@@ -473,12 +453,12 @@ Spring中提供了4种不同形式的数据源配置方式：
 <p>C3P0是一个开放源代码的JDBC数据源实现项目，C3P0依赖于jar包c3p0.jar。</p>
 </blockquote>
 <p>XML代码：</p>
-<figure class="highlight vbscript-html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line">&lt;!-- 配置数据源 c3p0 --&gt;</div><div class="line">&lt;bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"</div><div class="line">destroy-method="close"&gt;</div><div class="line">&lt;property name="driverClass" value="$&#123;jdbc.driver&#125;" /&gt;</div><div class="line">&lt;property name="jdbcUrl" value="$&#123;jdbc.url&#125;" /&gt;</div><div class="line">&lt;property name="user" value="$&#123;jdbc.username&#125;" /&gt;</div><div class="line">&lt;property name="password" value="$&#123;jdbc.password&#125;" /&gt;</div><div class="line"></div><div class="line">&lt;!-- 请求超时时间 --&gt;</div><div class="line">&lt;!--当连接池用完时客户端调用getConnection()后等待获取新连接的时间，超时后将抛出</div><div class="line">SQLException,如设为0则无限期等待。单位毫秒。Default: 0 --&gt;</div><div class="line">&lt;property name="checkoutTimeout" value="5000" /&gt;</div><div class="line">&lt;!-- 每60秒检查所有连接池中的空闲连接。默认值: 0，不检查 --&gt;</div><div class="line">&lt;property name="idleConnectionTestPeriod" value="60" /&gt;</div><div class="line">&lt;!-- 连接数据库连接池最大空闲时间 --&gt;</div><div class="line">&lt;property name="maxIdleTime" value="30" /&gt;</div><div class="line">&lt;!-- 连接池初始化连接数 --&gt;</div><div class="line">&lt;property name="initialPoolSize" value="5" /&gt;</div><div class="line">&lt;property name="minPoolSize" value="5" /&gt;</div><div class="line">&lt;property name="maxPoolSize" value="20" /&gt;</div><div class="line">&lt;!--当连接池中的连接耗尽的时候c3p0一次同时获取的连接数。默认值: 3 --&gt;</div><div class="line">&lt;property name="acquireIncrement" value="5" /&gt;</div><div class="line">&lt;!--定义在从数据库获取新连接失败后重复尝试的次数。Default: 30 --&gt;</div><div class="line">&lt;property name="acquireRetryAttempts" value="10" /&gt;</div><div class="line">&lt;!--获取连接失败将会引起所有等待连接池来获取连接的线程抛出异常。但是数据源仍有效</div><div class="line">保留，并在下次调用getConnection()的时候继续尝试获取连接。如果设为true，那么在尝试</div><div class="line">获取连接失败后该数据源将申明已断开并永久关闭。Default: false--&gt;</div><div class="line">&lt;property name="breakAfterAcquireFailure" value="true" /&gt;</div><div class="line">&lt;!--因性能消耗大请只在需要的时候使用它。如果设为true那么在每个connection提交的</div><div class="line">时候都将校验其有效性。建议使用idleConnectionTestPeriod或automaticTestTable</div><div class="line">等方法来提升连接测试的性能。Default: false --&gt;</div><div class="line">&lt;property name="testConnectionOnCheckout" value="false" /&gt;</div><div class="line">&lt;/bean&gt;</div></pre></td></tr></table></figure>
+<figure class="highlight vbscript-html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 配置数据源 c3p0 --&gt;</span><br><span class="line">&lt;bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"</span><br><span class="line">destroy-method="close"&gt;</span><br><span class="line">&lt;property name="driverClass" value="$&#123;jdbc.driver&#125;" /&gt;</span><br><span class="line">&lt;property name="jdbcUrl" value="$&#123;jdbc.url&#125;" /&gt;</span><br><span class="line">&lt;property name="user" value="$&#123;jdbc.username&#125;" /&gt;</span><br><span class="line">&lt;property name="password" value="$&#123;jdbc.password&#125;" /&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- 请求超时时间 --&gt;</span><br><span class="line">&lt;!--当连接池用完时客户端调用getConnection()后等待获取新连接的时间，超时后将抛出</span><br><span class="line">SQLException,如设为0则无限期等待。单位毫秒。Default: 0 --&gt;</span><br><span class="line">&lt;property name="checkoutTimeout" value="5000" /&gt;</span><br><span class="line">&lt;!-- 每60秒检查所有连接池中的空闲连接。默认值: 0，不检查 --&gt;</span><br><span class="line">&lt;property name="idleConnectionTestPeriod" value="60" /&gt;</span><br><span class="line">&lt;!-- 连接数据库连接池最大空闲时间 --&gt;</span><br><span class="line">&lt;property name="maxIdleTime" value="30" /&gt;</span><br><span class="line">&lt;!-- 连接池初始化连接数 --&gt;</span><br><span class="line">&lt;property name="initialPoolSize" value="5" /&gt;</span><br><span class="line">&lt;property name="minPoolSize" value="5" /&gt;</span><br><span class="line">&lt;property name="maxPoolSize" value="20" /&gt;</span><br><span class="line">&lt;!--当连接池中的连接耗尽的时候c3p0一次同时获取的连接数。默认值: 3 --&gt;</span><br><span class="line">&lt;property name="acquireIncrement" value="5" /&gt;</span><br><span class="line">&lt;!--定义在从数据库获取新连接失败后重复尝试的次数。Default: 30 --&gt;</span><br><span class="line">&lt;property name="acquireRetryAttempts" value="10" /&gt;</span><br><span class="line">&lt;!--获取连接失败将会引起所有等待连接池来获取连接的线程抛出异常。但是数据源仍有效</span><br><span class="line">保留，并在下次调用getConnection()的时候继续尝试获取连接。如果设为true，那么在尝试</span><br><span class="line">获取连接失败后该数据源将申明已断开并永久关闭。Default: false--&gt;</span><br><span class="line">&lt;property name="breakAfterAcquireFailure" value="true" /&gt;</span><br><span class="line">&lt;!--因性能消耗大请只在需要的时候使用它。如果设为true那么在每个connection提交的</span><br><span class="line">时候都将校验其有效性。建议使用idleConnectionTestPeriod或automaticTestTable</span><br><span class="line">等方法来提升连接测试的性能。Default: false --&gt;</span><br><span class="line">&lt;property name="testConnectionOnCheckout" value="false" /&gt;</span><br><span class="line">&lt;/bean&gt;</span><br></pre></td></tr></table></figure>
 <h2 id="4-JNDI数据源"><a href="#4-JNDI数据源" class="headerlink" title="4.JNDI数据源"></a>4.JNDI数据源</h2><blockquote>
 <p>使用org.springframework.jndi.JndiObjectFactoryBean<br>说明:JndiObjectFactoryBean 能够通过JNDI获取DataSource<br>如果应用配置在高性能的应用服务器（如WebLogic或Websphere,tomcat等）上，我们可能更希望使用应用服务器本身提供的数据源。应用服务器的数据源<br>使用JNDI开放调用者使用，Spring为此专门提供引用JNDI资源的JndiObjectFactoryBean类。</p>
 </blockquote>
 <p>xml 代码：</p>
-<figure class="highlight nix"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">&lt;bean <span class="attr">id="dataSource"</span> <span class="attr">class="org.springframework.jndi.JndiObjectFactoryBean"&gt;</span></div><div class="line"></div><div class="line">&lt;property <span class="attr">name="jndiName"</span> <span class="attr">value="java:comp/env/jdbc/orclight"/&gt;</span>        </div><div class="line"></div><div class="line">&lt;/bean&gt;</div><div class="line"></div><div class="line">&lt;beans <span class="attr">xmlns=http://www.springframework.org/schema/beans</span></div><div class="line"></div><div class="line">xmlns:<span class="attr">xsi=http://www.w3.org/2001/XMLSchema-instance</span></div><div class="line"></div><div class="line">xmlns:<span class="attr">jee=http://www.springframework.org/schema/jee</span></div><div class="line"></div><div class="line">xsi:<span class="attr">schemaLocation="http://www.springframework.org/schema/beans</span></div><div class="line"></div><div class="line">http://www.springframework.org/schema/beans/spring-beans-<span class="number">2.0</span>.xsd</div><div class="line"></div><div class="line">http://www.springframework.org/schema/jee</div><div class="line"></div><div class="line">http://www.springframework.org/schema/jee/spring-jee-<span class="number">2.0</span>.xsd<span class="string">"&gt;</span></div><div class="line"></div><div class="line">&lt;jee:jndi-lookup id="dataSource<span class="string">" jndi-name="</span> java:comp/env/jdbc/orclight<span class="string">"/&gt;</span></div><div class="line"></div><div class="line">&lt;/beans\&gt;</div></pre></td></tr></table></figure>
+<figure class="highlight nix"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&lt;bean <span class="attr">id="dataSource"</span> <span class="attr">class="org.springframework.jndi.JndiObjectFactoryBean"&gt;</span></span><br><span class="line"></span><br><span class="line">&lt;property <span class="attr">name="jndiName"</span> <span class="attr">value="java:comp/env/jdbc/orclight"/&gt;</span>        </span><br><span class="line"></span><br><span class="line">&lt;/bean&gt;</span><br><span class="line"></span><br><span class="line">&lt;beans <span class="attr">xmlns=http://www.springframework.org/schema/beans</span></span><br><span class="line"></span><br><span class="line">xmlns:<span class="attr">xsi=http://www.w3.org/2001/XMLSchema-instance</span></span><br><span class="line"></span><br><span class="line">xmlns:<span class="attr">jee=http://www.springframework.org/schema/jee</span></span><br><span class="line"></span><br><span class="line">xsi:<span class="attr">schemaLocation="http://www.springframework.org/schema/beans</span></span><br><span class="line"></span><br><span class="line">http://www.springframework.org/schema/beans/spring-beans-<span class="number">2.0</span>.xsd</span><br><span class="line"></span><br><span class="line">http://www.springframework.org/schema/jee</span><br><span class="line"></span><br><span class="line">http://www.springframework.org/schema/jee/spring-jee-<span class="number">2.0</span>.xsd<span class="string">"&gt;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">&lt;jee:jndi-lookup id="</span>dataSource<span class="string">" jndi-name="</span> java:comp/env/jdbc/orclight<span class="string">"/&gt;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">&lt;/beans\&gt;</span></span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -620,7 +600,7 @@ Spring中提供了4种不同形式的数据源配置方式：
                alt="Bruce" />
           <p class="site-author-name" itemprop="name">Bruce</p>
            
-              <p class="site-description motion-element" itemprop="description">人生苦短，及时行乐</p>
+              <p class="site-description motion-element" itemprop="description">Extreme ways</p>
           
         </div>
         <nav class="site-state motion-element">
@@ -628,7 +608,7 @@ Spring中提供了4种不同形式的数据源配置方式：
           
             <div class="site-state-item site-state-posts">
               <a href="/">
-                <span class="site-state-item-count">74</span>
+                <span class="site-state-item-count">80</span>
                 <span class="site-state-item-name">posts</span>
               </a>
             </div>
@@ -650,7 +630,7 @@ Spring中提供了4种不同形式的数据源配置方式：
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">72</span>
+                <span class="site-state-item-count">81</span>
                 <span class="site-state-item-name">tags</span>
               </a>
             </div>
@@ -724,10 +704,6 @@ Spring中提供了4种不同形式的数据源配置方式：
                   <a href="http://lonelyrobots.cn/?,哈哈，他排行老六，又名撒币六子" title="OldのSix" target="_blank">OldのSix</a>
                 </li>
               
-                <li class="links-of-blogroll-item">
-                  <a href="http://www.yecao.xyz?,野草博客-电影群主的休闲之作" title="野草博客" target="_blank">野草博客</a>
-                </li>
-              
             </ul>
           </div>
         
@@ -779,34 +755,28 @@ Spring中提供了4种不同形式的数据源配置方式：
 
 
 <div class="powered-by">
-  Powered by <a class="theme-link" href="http://hexo.io">hexo</a>
-</div>
-<div class="powered-by">
-   <a class="theme-link" href="http://theme-next.iissnan.com/">theme-next
-  </a>
-</div>
-
-<div class="powered-by"> 
-  <a class="theme-link" href="https://northpark.cn/">NorthPark中文网
-  </a>
+  Powered by <a class="theme-link" href="https://northpark.cn/">NorthPark.cn</a>
 </div>
 
 
 <div class="powered-by">
+  MacSoft -
   <a class="theme-link" href="https://northpark.cn/soft/mac">
-   <i class="fa fa-apple" aria-hidden="true"></i>
+    NorthPark.soft
   </a>
 </div>
 
 <div class="powered-by">
+ Movies.TV.Comic -
   <a class="theme-link" href="https://northpark.cn/movies">
-    <i class="fa fa-film" aria-hidden="true"></i>
+    NorthPark.movies
   </a>
 </div>
 
 <div class="theme-info">
+  Pua -
   <a class="theme-link" href="https://northpark.cn/romeo">
-    <i class="fa fa-gratipay" aria-hidden="true"></i>
+    NorthPark.pua
   </a>
 </div>
 

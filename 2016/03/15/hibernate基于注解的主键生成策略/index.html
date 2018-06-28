@@ -12,7 +12,7 @@
 
 
 
-<html class="mac-soft mist use-motion" lang="en">
+<html class="mac-soft mist use-motion" lang="">
 <head>
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -107,32 +107,24 @@
 
 
 
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+  <link rel="shortcut icon" type="image/x-icon" href="/octopus.png?v=5.1.0" />
 
 
 
 
 
 
-<meta name="description" content="楔子
-最近想把UUID32位的主键策略改为6位的INT自增的主键，来改善个人网站的优雅和简洁性。于是找了些资料整理在这。由于我的网站用的注解，来减少xml配置文件带来的烦躁，所以主键策略一定要是基于注解的。
-
-一. 自定义主键生成策略，由@GenericGenerator实现。**hibernate在JPA的基础上进行了扩展，可以用一下方式引入hibernate独有的主键生成策略，就是通过@Gen">
+<meta name="description" content="楔子 最近想把UUID32位的主键策略改为6位的INT自增的主键，来改善个人网站的优雅和简洁性。于是找了些资料整理在这。由于我的网站用的注解，来减少xml配置文件带来的烦躁，所以主键策略一定要是基于注解的。  一. 自定义主键生成策略，由@GenericGenerator实现。**hibernate在JPA的基础上进行了扩展，可以用一下方式引入hibernate独有的主键生成策略，就是通过@Gen">
+<meta name="keywords" content="hibernate">
 <meta property="og:type" content="article">
 <meta property="og:title" content="hibernate基于注解的主键生成策略">
 <meta property="og:url" content="http://liuhouer.github.io/2016/03/15/hibernate基于注解的主键生成策略/index.html">
 <meta property="og:site_name" content="Northpark博客">
-<meta property="og:description" content="楔子
-最近想把UUID32位的主键策略改为6位的INT自增的主键，来改善个人网站的优雅和简洁性。于是找了些资料整理在这。由于我的网站用的注解，来减少xml配置文件带来的烦躁，所以主键策略一定要是基于注解的。
-
-一. 自定义主键生成策略，由@GenericGenerator实现。**hibernate在JPA的基础上进行了扩展，可以用一下方式引入hibernate独有的主键生成策略，就是通过@Gen">
-<meta property="og:updated_time" content="2017-03-23T02:13:26.000Z">
+<meta property="og:description" content="楔子 最近想把UUID32位的主键策略改为6位的INT自增的主键，来改善个人网站的优雅和简洁性。于是找了些资料整理在这。由于我的网站用的注解，来减少xml配置文件带来的烦躁，所以主键策略一定要是基于注解的。  一. 自定义主键生成策略，由@GenericGenerator实现。**hibernate在JPA的基础上进行了扩展，可以用一下方式引入hibernate独有的主键生成策略，就是通过@Gen">
+<meta property="og:updated_time" content="2018-05-28T01:23:13.410Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="hibernate基于注解的主键生成策略">
-<meta name="twitter:description" content="楔子
-最近想把UUID32位的主键策略改为6位的INT自增的主键，来改善个人网站的优雅和简洁性。于是找了些资料整理在这。由于我的网站用的注解，来减少xml配置文件带来的烦躁，所以主键策略一定要是基于注解的。
-
-一. 自定义主键生成策略，由@GenericGenerator实现。**hibernate在JPA的基础上进行了扩展，可以用一下方式引入hibernate独有的主键生成策略，就是通过@Gen">
+<meta name="twitter:description" content="楔子 最近想把UUID32位的主键策略改为6位的INT自增的主键，来改善个人网站的优雅和简洁性。于是找了些资料整理在这。由于我的网站用的注解，来减少xml配置文件带来的烦躁，所以主键策略一定要是基于注解的。  一. 自定义主键生成策略，由@GenericGenerator实现。**hibernate在JPA的基础上进行了扩展，可以用一下方式引入hibernate独有的主键生成策略，就是通过@Gen">
 
 
 
@@ -152,7 +144,7 @@
       applicationID: '',
       apiKey: '',
       indexName: '',
-      hits: {"per_page":10},
+      hits: {"per_page":6},
       labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
     }
   };
@@ -169,7 +161,7 @@
   <title> hibernate基于注解的主键生成策略 | Northpark博客 </title>
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+<body itemscope itemtype="http://schema.org/WebPage" lang="">
 
   
 
@@ -428,7 +420,7 @@
 <p><strong>最近想把UUID32位的主键策略改为6位的INT自增的主键，来改善个人网站的优雅和简洁性。于是找了些资料整理在这。由于我的网站用的注解，来减少xml配置文件带来的烦躁，所以主键策略一定要是基于注解的。</strong></p>
 </blockquote>
 <h1 id="一-自定义主键生成策略，由-GenericGenerator实现。"><a href="#一-自定义主键生成策略，由-GenericGenerator实现。" class="headerlink" title="一. 自定义主键生成策略，由@GenericGenerator实现。**"></a>一. 自定义主键生成策略，由<em>@GenericGenerator</em>实现。**</h1><p><em>hibernate</em>在<em>JPA</em>的基础上进行了扩展，可以用一下方式引入<em>hibernate</em>独有的主键生成策略，就是通过<em>@GenericGenerator</em>加入的。**</p>
-<p>比如说，<em>JPA</em>标准用法**<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">@Id  </div><div class="line">@GeneratedValue(GenerationType.AUTO)  </div><div class="line"></div><div class="line">就可以用hibernate特有以下用法来实现</div><div class="line"></div><div class="line">@GeneratedValue(generator = &quot;paymentableGenerator&quot;)     </div><div class="line">@GenericGenerator(name = &quot;paymentableGenerator&quot;, strategy = &quot;assigned&quot;)  </div><div class="line"></div><div class="line"></div><div class="line">@GenericGenerator的定义:</div><div class="line"></div><div class="line">@Target(&#123;PACKAGE, TYPE, METHOD, FIELD&#125;)   </div><div class="line">@Retention(RUNTIME)   </div><div class="line">public @interface GenericGenerator &#123;   </div><div class="line">  </div><div class="line">String name();   </div><div class="line">  </div><div class="line">String strategy();   </div><div class="line">  </div><div class="line">Parameter[] parameters() default &#123;&#125;;   </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>比如说，<em>JPA</em>标准用法**<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">@Id  </span><br><span class="line">@GeneratedValue(GenerationType.AUTO)  </span><br><span class="line"></span><br><span class="line">就可以用hibernate特有以下用法来实现</span><br><span class="line"></span><br><span class="line">@GeneratedValue(generator = &quot;paymentableGenerator&quot;)     </span><br><span class="line">@GenericGenerator(name = &quot;paymentableGenerator&quot;, strategy = &quot;assigned&quot;)  </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@GenericGenerator的定义:</span><br><span class="line"></span><br><span class="line">@Target(&#123;PACKAGE, TYPE, METHOD, FIELD&#125;)   </span><br><span class="line">@Retention(RUNTIME)   </span><br><span class="line">public @interface GenericGenerator &#123;   </span><br><span class="line">  </span><br><span class="line">String name();   </span><br><span class="line">  </span><br><span class="line">String strategy();   </span><br><span class="line">  </span><br><span class="line">Parameter[] parameters() default &#123;&#125;;   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <ul>
 <li>name属性指定生成器名称。</li>
 <li>strategy属性指定具体生成器的类名。</li>
@@ -436,33 +428,33 @@
 </ul>
 <a id="more"></a>
 <p>对于这些<em>hibernate</em>主键生成策略和各自的具体生成器之间的关系<em>,</em>在<em>org.hibernate.id.IdentifierGeneratorFactory</em>中指定了<em>,</em></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">static &#123;   </div><div class="line">   GENERATORS.put(&quot;uuid&quot;, UUIDHexGenerator.class);   </div><div class="line">   GENERATORS.put(&quot;hilo&quot;, TableHiLoGenerator.class);   </div><div class="line">   GENERATORS.put(&quot;assigned&quot;, Assigned.class);   </div><div class="line">   GENERATORS.put(&quot;identity&quot;, IdentityGenerator.class);   </div><div class="line">   GENERATORS.put(&quot;select&quot;, SelectGenerator.class);   </div><div class="line">   GENERATORS.put(&quot;sequence&quot;, SequenceGenerator.class);   </div><div class="line">   GENERATORS.put(&quot;seqhilo&quot;, SequenceHiLoGenerator.class);   </div><div class="line">   GENERATORS.put(&quot;increment&quot;, IncrementGenerator.class);   </div><div class="line">   GENERATORS.put(&quot;foreign&quot;, ForeignGenerator.class);   </div><div class="line">   GENERATORS.put(&quot;guid&quot;, GUIDGenerator.class);   </div><div class="line">   GENERATORS.put(&quot;uuid.hex&quot;, UUIDHexGenerator.class); //uuid.hex is deprecated   </div><div class="line">   GENERATORS.put(&quot;sequence-identity&quot;, SequenceIdentityGenerator.class);   </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h1 id="二-上面十二种策略，加上native，hibernate一共默认支持十三种生成策略。"><a href="#二-上面十二种策略，加上native，hibernate一共默认支持十三种生成策略。" class="headerlink" title="二. 上面十二种策略，加上native，hibernate一共默认支持十三种生成策略。"></a>二. 上面十二种策略，加上<em>native</em>，<em>hibernate</em>一共默认支持十三种生成策略。</h1><h2 id="1、native"><a href="#1、native" class="headerlink" title="1、native"></a>1、native</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">@GeneratedValue(generator = &quot;paymentableGenerator&quot;)     </div><div class="line">@GenericGenerator(name = &quot;paymentableGenerator&quot;, strategy = &quot;native&quot;)</div></pre></td></tr></table></figure>
-<h2 id="2、uuid"><a href="#2、uuid" class="headerlink" title="2、uuid"></a>2、uuid</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">@GeneratedValue(generator = &quot;paymentableGenerator&quot;)     </div><div class="line">@GenericGenerator(name = &quot;paymentableGenerator&quot;, strategy = &quot;uuid&quot;)</div></pre></td></tr></table></figure>
-<h2 id="3、hilo"><a href="#3、hilo" class="headerlink" title="3、hilo"></a>3、hilo</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">@GeneratedValue(generator = &quot;paymentableGenerator&quot;)     </div><div class="line">@GenericGenerator(name = &quot;paymentableGenerator&quot;, strategy = &quot;hilo&quot;)</div></pre></td></tr></table></figure>
-<h2 id="4、assigned"><a href="#4、assigned" class="headerlink" title="4、assigned"></a>4、assigned</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">@GeneratedValue(generator = &quot;paymentableGenerator&quot;)     </div><div class="line">@GenericGenerator(name = &quot;paymentableGenerator&quot;, strategy = &quot;assigned&quot;)</div></pre></td></tr></table></figure>
-<h2 id="5、identity"><a href="#5、identity" class="headerlink" title="5、identity"></a>5、identity</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">@GeneratedValue(generator = &quot;paymentableGenerator&quot;)     </div><div class="line">@GenericGenerator(name = &quot;paymentableGenerator&quot;, strategy = &quot;identity&quot;)</div></pre></td></tr></table></figure>
-<h2 id="6、select"><a href="#6、select" class="headerlink" title="6、select"></a>6、select</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">@GeneratedValue(generator = &quot;paymentableGenerator&quot;)   </div><div class="line">@GenericGenerator(name=&quot;select&quot;, strategy=&quot;select&quot;,   </div><div class="line">      parameters = &#123; @Parameter(name = &quot;key&quot;, value = &quot;idstoerung&quot;) &#125;)</div></pre></td></tr></table></figure>
-<h2 id="7、sequence"><a href="#7、sequence" class="headerlink" title="7、sequence"></a>7、sequence</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">@GeneratedValue(generator = &quot;paymentableGenerator&quot;)   </div><div class="line">@GenericGenerator(name = &quot;paymentableGenerator&quot;, strategy = &quot;sequence&quot;,   </div><div class="line">          parameters = &#123; @Parameter(name = &quot;sequence&quot;, value = &quot;seq_payablemoney&quot;) &#125;)</div></pre></td></tr></table></figure>
-<h2 id="8、seqhilo"><a href="#8、seqhilo" class="headerlink" title="8、seqhilo"></a>8、seqhilo</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">@GeneratedValue(generator = &quot;paymentableGenerator&quot;)   </div><div class="line">@GenericGenerator(name = &quot;paymentableGenerator&quot;, strategy = &quot;seqhilo&quot;,   </div><div class="line">          parameters = &#123; @Parameter(name = &quot;max_lo&quot;, value = &quot;5&quot;) &#125;)</div></pre></td></tr></table></figure>
-<h2 id="9、increment"><a href="#9、increment" class="headerlink" title="9、increment"></a>9、increment</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">@GeneratedValue(generator = &quot;paymentableGenerator&quot;)     </div><div class="line">@GenericGenerator(name = &quot;paymentableGenerator&quot;, strategy = &quot;increment&quot;)</div></pre></td></tr></table></figure>
-<h2 id="10、foreign"><a href="#10、foreign" class="headerlink" title="10、foreign"></a>10、foreign</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line">@GeneratedValue(generator = &quot;idGenerator&quot;)   </div><div class="line">@GenericGenerator(name = &quot;idGenerator&quot;, strategy = &quot;foreign&quot;,parameters = &#123; @Parameter(name = &quot;property&quot;, value = &quot;employee&quot;) &#125;)  </div><div class="line"></div><div class="line"></div><div class="line">注意：直接使用@PrimaryKeyJoinColumn 报错（?）</div><div class="line"></div><div class="line">@OneToOne(cascade = CascadeType.ALL)   </div><div class="line">@PrimaryKeyJoinColumn   </div><div class="line">例如</div><div class="line"></div><div class="line">@Entity  </div><div class="line">public class Employee &#123;   </div><div class="line">  @Id Integer id;   </div><div class="line">       </div><div class="line">  @OneToOne @PrimaryKeyJoinColumn  </div><div class="line">   EmployeeInfo info;   </div><div class="line">      </div><div class="line">&#125;  </div><div class="line">应该为</div><div class="line"></div><div class="line">@Entity  </div><div class="line">public class Employee &#123;   </div><div class="line">  @Id   </div><div class="line">  @GeneratedValue(generator = &quot;idGenerator&quot;)   </div><div class="line">  @GenericGenerator(name = &quot;idGenerator&quot;, strategy = &quot;foreign&quot;,   </div><div class="line">          parameters = &#123; @Parameter(name = &quot;property&quot;, value = &quot;info&quot;) &#125;)   </div><div class="line">   Integer id;   </div><div class="line">       </div><div class="line">  @OneToOne  </div><div class="line">   EmployeeInfo info;   </div><div class="line">      </div><div class="line">&#125; </div><div class="line">``` </div><div class="line">## 11、guid</div></pre></td></tr></table></figure>
-<p>@GeneratedValue(generator = “paymentableGenerator”)<br>@GenericGenerator(name = “paymentableGenerator”, strategy = “guid”)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">## 12、uuid.hex</div></pre></td></tr></table></figure></p>
-<p>@GeneratedValue(generator = “paymentableGenerator”)<br>@GenericGenerator(name = “paymentableGenerator”, strategy = “uuid.hex”)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">## 13、sequence-identity</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">static &#123;   </span><br><span class="line">   GENERATORS.put(&quot;uuid&quot;, UUIDHexGenerator.class);   </span><br><span class="line">   GENERATORS.put(&quot;hilo&quot;, TableHiLoGenerator.class);   </span><br><span class="line">   GENERATORS.put(&quot;assigned&quot;, Assigned.class);   </span><br><span class="line">   GENERATORS.put(&quot;identity&quot;, IdentityGenerator.class);   </span><br><span class="line">   GENERATORS.put(&quot;select&quot;, SelectGenerator.class);   </span><br><span class="line">   GENERATORS.put(&quot;sequence&quot;, SequenceGenerator.class);   </span><br><span class="line">   GENERATORS.put(&quot;seqhilo&quot;, SequenceHiLoGenerator.class);   </span><br><span class="line">   GENERATORS.put(&quot;increment&quot;, IncrementGenerator.class);   </span><br><span class="line">   GENERATORS.put(&quot;foreign&quot;, ForeignGenerator.class);   </span><br><span class="line">   GENERATORS.put(&quot;guid&quot;, GUIDGenerator.class);   </span><br><span class="line">   GENERATORS.put(&quot;uuid.hex&quot;, UUIDHexGenerator.class); //uuid.hex is deprecated   </span><br><span class="line">   GENERATORS.put(&quot;sequence-identity&quot;, SequenceIdentityGenerator.class);   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="二-上面十二种策略，加上native，hibernate一共默认支持十三种生成策略。"><a href="#二-上面十二种策略，加上native，hibernate一共默认支持十三种生成策略。" class="headerlink" title="二. 上面十二种策略，加上native，hibernate一共默认支持十三种生成策略。"></a>二. 上面十二种策略，加上<em>native</em>，<em>hibernate</em>一共默认支持十三种生成策略。</h1><h2 id="1、native"><a href="#1、native" class="headerlink" title="1、native"></a>1、native</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">@GeneratedValue(generator = &quot;paymentableGenerator&quot;)     </span><br><span class="line">@GenericGenerator(name = &quot;paymentableGenerator&quot;, strategy = &quot;native&quot;)</span><br></pre></td></tr></table></figure>
+<h2 id="2、uuid"><a href="#2、uuid" class="headerlink" title="2、uuid"></a>2、uuid</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">@GeneratedValue(generator = &quot;paymentableGenerator&quot;)     </span><br><span class="line">@GenericGenerator(name = &quot;paymentableGenerator&quot;, strategy = &quot;uuid&quot;)</span><br></pre></td></tr></table></figure>
+<h2 id="3、hilo"><a href="#3、hilo" class="headerlink" title="3、hilo"></a>3、hilo</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">@GeneratedValue(generator = &quot;paymentableGenerator&quot;)     </span><br><span class="line">@GenericGenerator(name = &quot;paymentableGenerator&quot;, strategy = &quot;hilo&quot;)</span><br></pre></td></tr></table></figure>
+<h2 id="4、assigned"><a href="#4、assigned" class="headerlink" title="4、assigned"></a>4、assigned</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">@GeneratedValue(generator = &quot;paymentableGenerator&quot;)     </span><br><span class="line">@GenericGenerator(name = &quot;paymentableGenerator&quot;, strategy = &quot;assigned&quot;)</span><br></pre></td></tr></table></figure>
+<h2 id="5、identity"><a href="#5、identity" class="headerlink" title="5、identity"></a>5、identity</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">@GeneratedValue(generator = &quot;paymentableGenerator&quot;)     </span><br><span class="line">@GenericGenerator(name = &quot;paymentableGenerator&quot;, strategy = &quot;identity&quot;)</span><br></pre></td></tr></table></figure>
+<h2 id="6、select"><a href="#6、select" class="headerlink" title="6、select"></a>6、select</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@GeneratedValue(generator = &quot;paymentableGenerator&quot;)   </span><br><span class="line">@GenericGenerator(name=&quot;select&quot;, strategy=&quot;select&quot;,   </span><br><span class="line">      parameters = &#123; @Parameter(name = &quot;key&quot;, value = &quot;idstoerung&quot;) &#125;)</span><br></pre></td></tr></table></figure>
+<h2 id="7、sequence"><a href="#7、sequence" class="headerlink" title="7、sequence"></a>7、sequence</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@GeneratedValue(generator = &quot;paymentableGenerator&quot;)   </span><br><span class="line">@GenericGenerator(name = &quot;paymentableGenerator&quot;, strategy = &quot;sequence&quot;,   </span><br><span class="line">          parameters = &#123; @Parameter(name = &quot;sequence&quot;, value = &quot;seq_payablemoney&quot;) &#125;)</span><br></pre></td></tr></table></figure>
+<h2 id="8、seqhilo"><a href="#8、seqhilo" class="headerlink" title="8、seqhilo"></a>8、seqhilo</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@GeneratedValue(generator = &quot;paymentableGenerator&quot;)   </span><br><span class="line">@GenericGenerator(name = &quot;paymentableGenerator&quot;, strategy = &quot;seqhilo&quot;,   </span><br><span class="line">          parameters = &#123; @Parameter(name = &quot;max_lo&quot;, value = &quot;5&quot;) &#125;)</span><br></pre></td></tr></table></figure>
+<h2 id="9、increment"><a href="#9、increment" class="headerlink" title="9、increment"></a>9、increment</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">@GeneratedValue(generator = &quot;paymentableGenerator&quot;)     </span><br><span class="line">@GenericGenerator(name = &quot;paymentableGenerator&quot;, strategy = &quot;increment&quot;)</span><br></pre></td></tr></table></figure>
+<h2 id="10、foreign"><a href="#10、foreign" class="headerlink" title="10、foreign"></a>10、foreign</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">@GeneratedValue(generator = &quot;idGenerator&quot;)   </span><br><span class="line">@GenericGenerator(name = &quot;idGenerator&quot;, strategy = &quot;foreign&quot;,parameters = &#123; @Parameter(name = &quot;property&quot;, value = &quot;employee&quot;) &#125;)  </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">注意：直接使用@PrimaryKeyJoinColumn 报错（?）</span><br><span class="line"></span><br><span class="line">@OneToOne(cascade = CascadeType.ALL)   </span><br><span class="line">@PrimaryKeyJoinColumn   </span><br><span class="line">例如</span><br><span class="line"></span><br><span class="line">@Entity  </span><br><span class="line">public class Employee &#123;   </span><br><span class="line">  @Id Integer id;   </span><br><span class="line">       </span><br><span class="line">  @OneToOne @PrimaryKeyJoinColumn  </span><br><span class="line">   EmployeeInfo info;   </span><br><span class="line">      </span><br><span class="line">&#125;  </span><br><span class="line">应该为</span><br><span class="line"></span><br><span class="line">@Entity  </span><br><span class="line">public class Employee &#123;   </span><br><span class="line">  @Id   </span><br><span class="line">  @GeneratedValue(generator = &quot;idGenerator&quot;)   </span><br><span class="line">  @GenericGenerator(name = &quot;idGenerator&quot;, strategy = &quot;foreign&quot;,   </span><br><span class="line">          parameters = &#123; @Parameter(name = &quot;property&quot;, value = &quot;info&quot;) &#125;)   </span><br><span class="line">   Integer id;   </span><br><span class="line">       </span><br><span class="line">  @OneToOne  </span><br><span class="line">   EmployeeInfo info;   </span><br><span class="line">      </span><br><span class="line">&#125; </span><br><span class="line">``` </span><br><span class="line">## 11、guid</span><br></pre></td></tr></table></figure>
+<p>@GeneratedValue(generator = “paymentableGenerator”)<br>@GenericGenerator(name = “paymentableGenerator”, strategy = “guid”)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">## 12、uuid.hex</span><br></pre></td></tr></table></figure></p>
+<p>@GeneratedValue(generator = “paymentableGenerator”)<br>@GenericGenerator(name = “paymentableGenerator”, strategy = “uuid.hex”)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">## 13、sequence-identity</span><br></pre></td></tr></table></figure></p>
 <p>@GeneratedValue(generator = “paymentableGenerator”)<br>@GenericGenerator(name = “paymentableGenerator”, strategy = “sequence-identity”,<br>          parameters = { @Parameter(name = “sequence”, value = “seq_payablemoney”) })  </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"># 三、通过@GenericGenerator自定义主键生成策略</div><div class="line">如果实际应用中，主键策略为程序指定了就用程序指定的主键（*assigned*），没有指定就从*sequence*中取。**</div><div class="line">明显上面所讨论的策略都不满足，只好自己扩展了，集成*assigned*和*sequence*两种策略。</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># 三、通过@GenericGenerator自定义主键生成策略</span><br><span class="line">如果实际应用中，主键策略为程序指定了就用程序指定的主键（*assigned*），没有指定就从*sequence*中取。**</span><br><span class="line">明显上面所讨论的策略都不满足，只好自己扩展了，集成*assigned*和*sequence*两种策略。</span><br></pre></td></tr></table></figure>
 <p>public class AssignedSequenceGenerator extends SequenceGenerator implements<br>PersistentIdentifierGenerator, Configurable {<br>private String entityName;   </p>
 <p>public void configure(Type type, Properties params, Dialect dialect) throws MappingException {<br>   entityName = params.getProperty(ENTITY_NAME);<br>  if (entityName==null) {<br>   throw new MappingException(“no entity name”);<br>   }   </p>
 <p>  super.configure(type, params, dialect);<br>}   </p>
 <p>public Serializable generate(SessionImplementor session, Object obj)<br>  throws HibernateException {   </p>
 <p>   Serializable id = session.getEntityPersister( entityName, obj )<br>     .getIdentifier( obj, session.getEntityMode() );   </p>
 <p>  if (id==null) {<br>    id = super.generate(session, obj);<br>   }   </p>
-<p>  return id;<br>}<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">实际应用中，定义同sequence。</div></pre></td></tr></table></figure></p>
+<p>  return id;<br>}<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">实际应用中，定义同sequence。</span><br></pre></td></tr></table></figure></p>
 <p>@GeneratedValue(generator = “paymentableGenerator”)<br>@GenericGenerator(name = “paymentableGenerator”, strategy = “AssignedSequenceGenerator”,<br>      parameters = { @Parameter(name = “sequence”, value = “seq_payablemoney”) })  </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line">值得注意的是，定义的这种策略，就像打开了潘多拉魔盒，非常不可控。正常情况下，不建议这么做。</div><div class="line"> </div><div class="line">策略解释</div><div class="line"></div><div class="line">``` </div><div class="line"></div><div class="line">* “assigned”  </div><div class="line">  主键由外部程序负责生成，在   save()   之前指定一个。  </div><div class="line">  </div><div class="line">*  “hilo”  </div><div class="line">  通过hi/lo   算法实现的主键生成机制，需要额外的数据库表或字段提供高位值来源 </div><div class="line">   </div><div class="line">*  “seqhilo”  </div><div class="line">  与hilo   类似，通过hi/lo   算法实现的主键生成机制，需要数据库中的   Sequence，适用于支持   Sequence   的数据库，如Oracle。  </div><div class="line">  </div><div class="line">*  “increment”  </div><div class="line">  主键按数值顺序递增。此方式的实现机制为在当前应用实例中维持一个变量，以保存着当前的最大值，之后每次需要生成主键的时候将此值加1作为主键。这种方式可能产生的问题是：不能在集群下使用。  </div><div class="line">  </div><div class="line">*  “identity”  </div><div class="line">  采用数据库提供的主键生成机制。如DB2、SQL   Server、MySQL   中的主键生成机制。  </div><div class="line">  </div><div class="line">*  “sequence”  </div><div class="line">  采用数据库提供的   sequence   机制生成主键。如   Oralce   中的Sequence。  </div><div class="line">  </div><div class="line">*  “native”  </div><div class="line">  由   Hibernate  根据使用的数据库自行判断采用   identity、hilo、sequence   其中一种作为主键生成方式。    </div><div class="line">  </div><div class="line">*  “uuid.hex”  </div><div class="line">  由   Hibernate   基于128   位   UUID   算法   生成16   进制数值（编码后以长度32   的字符串表示）作为主键。  </div><div class="line">  </div><div class="line">*  “uuid.string”  </div><div class="line">  与uuid.hex   类似，只是生成的主键未进行编码（长度16），不能应用在   PostgreSQL   数据库中。  </div><div class="line">  </div><div class="line">*  “foreign”  </div><div class="line">  使用另外一个相关联的对象的标识符作为主键。</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">值得注意的是，定义的这种策略，就像打开了潘多拉魔盒，非常不可控。正常情况下，不建议这么做。</span><br><span class="line"> </span><br><span class="line">策略解释</span><br><span class="line"></span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line">* “assigned”  </span><br><span class="line">  主键由外部程序负责生成，在   save()   之前指定一个。  </span><br><span class="line">  </span><br><span class="line">*  “hilo”  </span><br><span class="line">  通过hi/lo   算法实现的主键生成机制，需要额外的数据库表或字段提供高位值来源 </span><br><span class="line">   </span><br><span class="line">*  “seqhilo”  </span><br><span class="line">  与hilo   类似，通过hi/lo   算法实现的主键生成机制，需要数据库中的   Sequence，适用于支持   Sequence   的数据库，如Oracle。  </span><br><span class="line">  </span><br><span class="line">*  “increment”  </span><br><span class="line">  主键按数值顺序递增。此方式的实现机制为在当前应用实例中维持一个变量，以保存着当前的最大值，之后每次需要生成主键的时候将此值加1作为主键。这种方式可能产生的问题是：不能在集群下使用。  </span><br><span class="line">  </span><br><span class="line">*  “identity”  </span><br><span class="line">  采用数据库提供的主键生成机制。如DB2、SQL   Server、MySQL   中的主键生成机制。  </span><br><span class="line">  </span><br><span class="line">*  “sequence”  </span><br><span class="line">  采用数据库提供的   sequence   机制生成主键。如   Oralce   中的Sequence。  </span><br><span class="line">  </span><br><span class="line">*  “native”  </span><br><span class="line">  由   Hibernate  根据使用的数据库自行判断采用   identity、hilo、sequence   其中一种作为主键生成方式。    </span><br><span class="line">  </span><br><span class="line">*  “uuid.hex”  </span><br><span class="line">  由   Hibernate   基于128   位   UUID   算法   生成16   进制数值（编码后以长度32   的字符串表示）作为主键。  </span><br><span class="line">  </span><br><span class="line">*  “uuid.string”  </span><br><span class="line">  与uuid.hex   类似，只是生成的主键未进行编码（长度16），不能应用在   PostgreSQL   数据库中。  </span><br><span class="line">  </span><br><span class="line">*  “foreign”  </span><br><span class="line">  使用另外一个相关联的对象的标识符作为主键。</span><br></pre></td></tr></table></figure>
 <hr>
 <p>设置自增长主键的初始值</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">alter table test AUTO_INCREMENT = 500000;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">alter table test AUTO_INCREMENT = 500000;</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -604,7 +596,7 @@
                alt="Bruce" />
           <p class="site-author-name" itemprop="name">Bruce</p>
            
-              <p class="site-description motion-element" itemprop="description">人生苦短，及时行乐</p>
+              <p class="site-description motion-element" itemprop="description">Extreme ways</p>
           
         </div>
         <nav class="site-state motion-element">
@@ -612,7 +604,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/">
-                <span class="site-state-item-count">74</span>
+                <span class="site-state-item-count">80</span>
                 <span class="site-state-item-name">posts</span>
               </a>
             </div>
@@ -634,7 +626,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">72</span>
+                <span class="site-state-item-count">81</span>
                 <span class="site-state-item-name">tags</span>
               </a>
             </div>
@@ -708,10 +700,6 @@
                   <a href="http://lonelyrobots.cn/?,哈哈，他排行老六，又名撒币六子" title="OldのSix" target="_blank">OldのSix</a>
                 </li>
               
-                <li class="links-of-blogroll-item">
-                  <a href="http://www.yecao.xyz?,野草博客-电影群主的休闲之作" title="野草博客" target="_blank">野草博客</a>
-                </li>
-              
             </ul>
           </div>
         
@@ -763,34 +751,28 @@
 
 
 <div class="powered-by">
-  Powered by <a class="theme-link" href="http://hexo.io">hexo</a>
-</div>
-<div class="powered-by">
-   <a class="theme-link" href="http://theme-next.iissnan.com/">theme-next
-  </a>
-</div>
-
-<div class="powered-by"> 
-  <a class="theme-link" href="https://northpark.cn/">NorthPark中文网
-  </a>
+  Powered by <a class="theme-link" href="https://northpark.cn/">NorthPark.cn</a>
 </div>
 
 
 <div class="powered-by">
+  MacSoft -
   <a class="theme-link" href="https://northpark.cn/soft/mac">
-   <i class="fa fa-apple" aria-hidden="true"></i>
+    NorthPark.soft
   </a>
 </div>
 
 <div class="powered-by">
+ Movies.TV.Comic -
   <a class="theme-link" href="https://northpark.cn/movies">
-    <i class="fa fa-film" aria-hidden="true"></i>
+    NorthPark.movies
   </a>
 </div>
 
 <div class="theme-info">
+  Pua -
   <a class="theme-link" href="https://northpark.cn/romeo">
-    <i class="fa fa-gratipay" aria-hidden="true"></i>
+    NorthPark.pua
   </a>
 </div>
 

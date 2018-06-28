@@ -12,7 +12,7 @@
 
 
 
-<html class="mac-soft mist use-motion" lang="en">
+<html class="mac-soft mist use-motion" lang="">
 <head>
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -107,41 +107,24 @@
 
 
 
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+  <link rel="shortcut icon" type="image/x-icon" href="/octopus.png?v=5.1.0" />
 
 
 
 
 
 
-<meta name="description" content="命题
-最近有一个需求是：     实现一个javastandalone应用，定时处理一些数据，并且记录日志，假如定时任务停掉，就会报警先实现各定时任务在java项目main运行，后边的再慢慢研究
-
-实现 思路
-
-创建我的job类
-创建test用于写测试调用job的代码">
+<meta name="description" content="命题 最近有一个需求是：     实现一个javastandalone应用，定时处理一些数据，并且记录日志，假如定时任务停掉，就会报警先实现各定时任务在java项目main运行，后边的再慢慢研究  实现 思路  创建我的job类 创建test用于写测试调用job的代码">
+<meta name="keywords" content="java,定时任务,quartz">
 <meta property="og:type" content="article">
 <meta property="og:title" content="quartz定时任务操作job-java非web项目">
 <meta property="og:url" content="http://liuhouer.github.io/2017/11/15/quartz定时任务操作job-java非web项目/index.html">
 <meta property="og:site_name" content="Northpark博客">
-<meta property="og:description" content="命题
-最近有一个需求是：     实现一个javastandalone应用，定时处理一些数据，并且记录日志，假如定时任务停掉，就会报警先实现各定时任务在java项目main运行，后边的再慢慢研究
-
-实现 思路
-
-创建我的job类
-创建test用于写测试调用job的代码">
-<meta property="og:updated_time" content="2017-11-15T10:00:58.000Z">
+<meta property="og:description" content="命题 最近有一个需求是：     实现一个javastandalone应用，定时处理一些数据，并且记录日志，假如定时任务停掉，就会报警先实现各定时任务在java项目main运行，后边的再慢慢研究  实现 思路  创建我的job类 创建test用于写测试调用job的代码">
+<meta property="og:updated_time" content="2018-06-11T01:21:04.037Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="quartz定时任务操作job-java非web项目">
-<meta name="twitter:description" content="命题
-最近有一个需求是：     实现一个javastandalone应用，定时处理一些数据，并且记录日志，假如定时任务停掉，就会报警先实现各定时任务在java项目main运行，后边的再慢慢研究
-
-实现 思路
-
-创建我的job类
-创建test用于写测试调用job的代码">
+<meta name="twitter:description" content="命题 最近有一个需求是：     实现一个javastandalone应用，定时处理一些数据，并且记录日志，假如定时任务停掉，就会报警先实现各定时任务在java项目main运行，后边的再慢慢研究  实现 思路  创建我的job类 创建test用于写测试调用job的代码">
 
 
 
@@ -161,7 +144,7 @@
       applicationID: '',
       apiKey: '',
       indexName: '',
-      hits: {"per_page":10},
+      hits: {"per_page":6},
       labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
     }
   };
@@ -178,7 +161,7 @@
   <title> quartz定时任务操作job-java非web项目 | Northpark博客 </title>
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+<body itemscope itemtype="http://schema.org/WebPage" lang="">
 
   
 
@@ -454,8 +437,8 @@
 </ul>
 </blockquote>
 <a id="more"></a>
-<h2 id="具体实现"><a href="#具体实现" class="headerlink" title="具体实现"></a>具体实现</h2><h3 id="我的job类"><a href="#我的job类" class="headerlink" title="我的job类:"></a>我的job类:</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> cn.northpark.test.jobtask;</div><div class="line"></div><div class="line"><span class="keyword">import</span> org.quartz.Job;</div><div class="line"><span class="keyword">import</span> org.quartz.JobExecutionContext;</div><div class="line"><span class="keyword">import</span> org.quartz.JobExecutionException;</div><div class="line"></div><div class="line"><span class="keyword">import</span> cn.northpark.utils.TimeUtils;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">myjob</span> <span class="keyword">implements</span> <span class="title">Job</span> </span>&#123;</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="title">myjob</span><span class="params">()</span> </span>&#123;</div><div class="line">		<span class="comment">// TODO Auto-generated constructor stub</span></div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="meta">@Override</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">execute</span><span class="params">(JobExecutionContext arg0)</span> <span class="keyword">throws</span> JobExecutionException </span>&#123;</div><div class="line">		<span class="comment">// TODO Auto-generated method stub</span></div><div class="line">		System.out.println(TimeUtils.nowTime());</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="测试执行类："><a href="#测试执行类：" class="headerlink" title="测试执行类："></a>测试执行类：</h3><figure class="highlight processing"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> cn.northpark.test.jobtask;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.util.Date;</div><div class="line"></div><div class="line"><span class="keyword">import</span> org.quartz.CronScheduleBuilder;</div><div class="line"><span class="keyword">import</span> org.quartz.JobBuilder;</div><div class="line"><span class="keyword">import</span> org.quartz.JobDetail;</div><div class="line"><span class="keyword">import</span> org.quartz.JobKey;</div><div class="line"><span class="keyword">import</span> org.quartz.Scheduler;</div><div class="line"><span class="keyword">import</span> org.quartz.SimpleScheduleBuilder;</div><div class="line"><span class="keyword">import</span> org.quartz.Trigger;</div><div class="line"><span class="keyword">import</span> org.quartz.TriggerBuilder;</div><div class="line"><span class="keyword">import</span> org.quartz.impl.StdSchedulerFactory;</div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">public</span> class testjob &#123;</div><div class="line"></div><div class="line">	<span class="comment">//将每隔20秒执行一次 </span></div><div class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">String</span> cronExpression = <span class="string">"0/20 * * * * ?"</span>;</div><div class="line">	</div><div class="line">	</div><div class="line"></div><div class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> main(<span class="keyword">String</span>[] args) <span class="keyword">throws</span> Exception &#123; </div><div class="line">		<span class="comment">//CronTrigger用于处理quartz表达式任务 比如每天的几点执行</span></div><div class="line">		<span class="comment">//SimpleTrigger   主要用于处理格时间重复调度</span></div><div class="line"></div><div class="line">		<span class="comment">// 首先，必需要取得一个Scheduler的引用 </span></div><div class="line">		Scheduler scheduler = <span class="keyword">new</span> StdSchedulerFactory().getScheduler();</div><div class="line">		scheduler.start();</div><div class="line"></div><div class="line">		<span class="comment">//定义一个job</span></div><div class="line">		JobKey jobKey  = <span class="keyword">new</span> JobKey(<span class="string">"test"</span>, <span class="string">"test-1"</span>);</div><div class="line">		JobDetail jobDetail = JobBuilder.newJob(myjob.class).withIdentity(jobKey).build();</div><div class="line"></div><div class="line">		<span class="comment">//定义一个重复触发器 //2秒一次</span></div><div class="line">		Trigger trigger = TriggerBuilder.newTrigger()</div><div class="line">				.withIdentity(<span class="string">"test"</span>,<span class="string">"test"</span>)</div><div class="line">				.startAt(<span class="keyword">new</span> Date(System.currentTimeMillis()+<span class="number">1000</span>))</div><div class="line">				.withSchedule(SimpleScheduleBuilder.simpleSchedule().withIntervalInSeconds(<span class="number">2</span>).repeatForever())</div><div class="line">				.build();</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line">		<span class="comment">//定义一个job</span></div><div class="line">		JobKey jobKey2  = <span class="keyword">new</span> JobKey(<span class="string">"test2"</span>, <span class="string">"test-2"</span>);</div><div class="line">		JobDetail jobDetail2 = JobBuilder.newJob(myjob.class).withIdentity(jobKey2).build();</div><div class="line">		<span class="comment">//定义一个quartz表达式任务 比如每天的几点执行</span></div><div class="line">		Trigger crontrigger = TriggerBuilder.newTrigger()</div><div class="line">				.withIdentity(<span class="string">"test2"</span>,<span class="string">"test2"</span>)</div><div class="line">				.startAt(<span class="keyword">new</span> Date(System.currentTimeMillis()+<span class="number">1000</span>))</div><div class="line">				.withSchedule(CronScheduleBuilder.cronSchedule(cronExpression))</div><div class="line">				.build();</div><div class="line"></div><div class="line">		scheduler.scheduleJob(jobDetail, trigger);</div><div class="line">		scheduler.scheduleJob(jobDetail2, crontrigger);</div><div class="line"></div><div class="line">		<span class="comment">//Thread.sleep(5000); </span></div><div class="line"></div><div class="line"></div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="具体实现"><a href="#具体实现" class="headerlink" title="具体实现"></a>具体实现</h2><h3 id="我的job类"><a href="#我的job类" class="headerlink" title="我的job类:"></a>我的job类:</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> cn.northpark.test.jobtask;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.quartz.Job;</span><br><span class="line"><span class="keyword">import</span> org.quartz.JobExecutionContext;</span><br><span class="line"><span class="keyword">import</span> org.quartz.JobExecutionException;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> cn.northpark.utils.TimeUtils;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">myjob</span> <span class="keyword">implements</span> <span class="title">Job</span> </span>&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">myjob</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated constructor stub</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">execute</span><span class="params">(JobExecutionContext arg0)</span> <span class="keyword">throws</span> JobExecutionException </span>&#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">		System.out.println(TimeUtils.nowTime());</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="测试执行类："><a href="#测试执行类：" class="headerlink" title="测试执行类："></a>测试执行类：</h3><figure class="highlight processing"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> cn.northpark.test.jobtask;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.Date;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.quartz.CronScheduleBuilder;</span><br><span class="line"><span class="keyword">import</span> org.quartz.JobBuilder;</span><br><span class="line"><span class="keyword">import</span> org.quartz.JobDetail;</span><br><span class="line"><span class="keyword">import</span> org.quartz.JobKey;</span><br><span class="line"><span class="keyword">import</span> org.quartz.Scheduler;</span><br><span class="line"><span class="keyword">import</span> org.quartz.SimpleScheduleBuilder;</span><br><span class="line"><span class="keyword">import</span> org.quartz.Trigger;</span><br><span class="line"><span class="keyword">import</span> org.quartz.TriggerBuilder;</span><br><span class="line"><span class="keyword">import</span> org.quartz.impl.StdSchedulerFactory;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> class testjob &#123;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//将每隔20秒执行一次 </span></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">String</span> cronExpression = <span class="string">"0/20 * * * * ?"</span>;</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line"></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> main(<span class="keyword">String</span>[] args) <span class="keyword">throws</span> Exception &#123; </span><br><span class="line">		<span class="comment">//CronTrigger用于处理quartz表达式任务 比如每天的几点执行</span></span><br><span class="line">		<span class="comment">//SimpleTrigger   主要用于处理格时间重复调度</span></span><br><span class="line"></span><br><span class="line">		<span class="comment">// 首先，必需要取得一个Scheduler的引用 </span></span><br><span class="line">		Scheduler scheduler = <span class="keyword">new</span> StdSchedulerFactory().getScheduler();</span><br><span class="line">		scheduler.start();</span><br><span class="line"></span><br><span class="line">		<span class="comment">//定义一个job</span></span><br><span class="line">		JobKey jobKey  = <span class="keyword">new</span> JobKey(<span class="string">"test"</span>, <span class="string">"test-1"</span>);</span><br><span class="line">		JobDetail jobDetail = JobBuilder.newJob(myjob.class).withIdentity(jobKey).build();</span><br><span class="line"></span><br><span class="line">		<span class="comment">//定义一个重复触发器 //2秒一次</span></span><br><span class="line">		Trigger trigger = TriggerBuilder.newTrigger()</span><br><span class="line">				.withIdentity(<span class="string">"test"</span>,<span class="string">"test"</span>)</span><br><span class="line">				.startAt(<span class="keyword">new</span> Date(System.currentTimeMillis()+<span class="number">1000</span>))</span><br><span class="line">				.withSchedule(SimpleScheduleBuilder.simpleSchedule().withIntervalInSeconds(<span class="number">2</span>).repeatForever())</span><br><span class="line">				.build();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">		<span class="comment">//定义一个job</span></span><br><span class="line">		JobKey jobKey2  = <span class="keyword">new</span> JobKey(<span class="string">"test2"</span>, <span class="string">"test-2"</span>);</span><br><span class="line">		JobDetail jobDetail2 = JobBuilder.newJob(myjob.class).withIdentity(jobKey2).build();</span><br><span class="line">		<span class="comment">//定义一个quartz表达式任务 比如每天的几点执行</span></span><br><span class="line">		Trigger crontrigger = TriggerBuilder.newTrigger()</span><br><span class="line">				.withIdentity(<span class="string">"test2"</span>,<span class="string">"test2"</span>)</span><br><span class="line">				.startAt(<span class="keyword">new</span> Date(System.currentTimeMillis()+<span class="number">1000</span>))</span><br><span class="line">				.withSchedule(CronScheduleBuilder.cronSchedule(cronExpression))</span><br><span class="line">				.build();</span><br><span class="line"></span><br><span class="line">		scheduler.scheduleJob(jobDetail, trigger);</span><br><span class="line">		scheduler.scheduleJob(jobDetail2, crontrigger);</span><br><span class="line"></span><br><span class="line">		<span class="comment">//Thread.sleep(5000); </span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="说明与总结："><a href="#说明与总结：" class="headerlink" title="说明与总结："></a>说明与总结：</h2><h3 id="2017年11月15日"><a href="#2017年11月15日" class="headerlink" title="2017年11月15日"></a>2017年11月15日</h3><ul>
 <li>运行testjob.java ，即可开启定时任务</li>
 <li><p>myjob为定义的job类</p>
@@ -617,7 +600,7 @@
                alt="Bruce" />
           <p class="site-author-name" itemprop="name">Bruce</p>
            
-              <p class="site-description motion-element" itemprop="description">人生苦短，及时行乐</p>
+              <p class="site-description motion-element" itemprop="description">Extreme ways</p>
           
         </div>
         <nav class="site-state motion-element">
@@ -625,7 +608,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/">
-                <span class="site-state-item-count">74</span>
+                <span class="site-state-item-count">80</span>
                 <span class="site-state-item-name">posts</span>
               </a>
             </div>
@@ -647,7 +630,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">72</span>
+                <span class="site-state-item-count">81</span>
                 <span class="site-state-item-name">tags</span>
               </a>
             </div>
@@ -721,10 +704,6 @@
                   <a href="http://lonelyrobots.cn/?,哈哈，他排行老六，又名撒币六子" title="OldのSix" target="_blank">OldのSix</a>
                 </li>
               
-                <li class="links-of-blogroll-item">
-                  <a href="http://www.yecao.xyz?,野草博客-电影群主的休闲之作" title="野草博客" target="_blank">野草博客</a>
-                </li>
-              
             </ul>
           </div>
         
@@ -776,34 +755,28 @@
 
 
 <div class="powered-by">
-  Powered by <a class="theme-link" href="http://hexo.io">hexo</a>
-</div>
-<div class="powered-by">
-   <a class="theme-link" href="http://theme-next.iissnan.com/">theme-next
-  </a>
-</div>
-
-<div class="powered-by"> 
-  <a class="theme-link" href="https://northpark.cn/">NorthPark中文网
-  </a>
+  Powered by <a class="theme-link" href="https://northpark.cn/">NorthPark.cn</a>
 </div>
 
 
 <div class="powered-by">
+  MacSoft -
   <a class="theme-link" href="https://northpark.cn/soft/mac">
-   <i class="fa fa-apple" aria-hidden="true"></i>
+    NorthPark.soft
   </a>
 </div>
 
 <div class="powered-by">
+ Movies.TV.Comic -
   <a class="theme-link" href="https://northpark.cn/movies">
-    <i class="fa fa-film" aria-hidden="true"></i>
+    NorthPark.movies
   </a>
 </div>
 
 <div class="theme-info">
+  Pua -
   <a class="theme-link" href="https://northpark.cn/romeo">
-    <i class="fa fa-gratipay" aria-hidden="true"></i>
+    NorthPark.pua
   </a>
 </div>
 

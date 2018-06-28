@@ -12,7 +12,7 @@
 
 
 
-<html class="mac-soft mist use-motion" lang="en">
+<html class="mac-soft mist use-motion" lang="">
 <head>
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -107,35 +107,24 @@
 
 
 
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+  <link rel="shortcut icon" type="image/x-icon" href="/octopus.png?v=5.1.0" />
 
 
 
 
 
 
-<meta name="description" content="edx-platform搭建[Ubuntu 12.04.2 LTS]
-
-Ubuntu下的默认软件包格式是deb，所以下载的Vagrant和VirtualBox最好是deb格式的，另外要根据自己电脑的硬件配置和系统环境选择正确的安装包。
-
-PS：如果想要在虚拟机中安装Ubuntu12.04，然后再使用Vagrant方式搭建开发环境，请确保这个虚拟机可以使用2GB的内存，否则容易报一个IOError。">
+<meta name="description" content="edx-platform搭建[Ubuntu 12.04.2 LTS]  Ubuntu下的默认软件包格式是deb，所以下载的Vagrant和VirtualBox最好是deb格式的，另外要根据自己电脑的硬件配置和系统环境选择正确的安装包。  PS：如果想要在虚拟机中安装Ubuntu12.04，然后再使用Vagrant方式搭建开发环境，请确保这个虚拟机可以使用2GB的内存，否则容易报一个IOError。">
+<meta name="keywords" content="edx,mooc">
 <meta property="og:type" content="article">
 <meta property="og:title" content="edx-platform搭建">
 <meta property="og:url" content="http://liuhouer.github.io/2014/05/24/edx-platform搭建/index.html">
 <meta property="og:site_name" content="Northpark博客">
-<meta property="og:description" content="edx-platform搭建[Ubuntu 12.04.2 LTS]
-
-Ubuntu下的默认软件包格式是deb，所以下载的Vagrant和VirtualBox最好是deb格式的，另外要根据自己电脑的硬件配置和系统环境选择正确的安装包。
-
-PS：如果想要在虚拟机中安装Ubuntu12.04，然后再使用Vagrant方式搭建开发环境，请确保这个虚拟机可以使用2GB的内存，否则容易报一个IOError。">
-<meta property="og:updated_time" content="2017-03-23T02:13:26.000Z">
+<meta property="og:description" content="edx-platform搭建[Ubuntu 12.04.2 LTS]  Ubuntu下的默认软件包格式是deb，所以下载的Vagrant和VirtualBox最好是deb格式的，另外要根据自己电脑的硬件配置和系统环境选择正确的安装包。  PS：如果想要在虚拟机中安装Ubuntu12.04，然后再使用Vagrant方式搭建开发环境，请确保这个虚拟机可以使用2GB的内存，否则容易报一个IOError。">
+<meta property="og:updated_time" content="2018-05-28T01:23:11.707Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="edx-platform搭建">
-<meta name="twitter:description" content="edx-platform搭建[Ubuntu 12.04.2 LTS]
-
-Ubuntu下的默认软件包格式是deb，所以下载的Vagrant和VirtualBox最好是deb格式的，另外要根据自己电脑的硬件配置和系统环境选择正确的安装包。
-
-PS：如果想要在虚拟机中安装Ubuntu12.04，然后再使用Vagrant方式搭建开发环境，请确保这个虚拟机可以使用2GB的内存，否则容易报一个IOError。">
+<meta name="twitter:description" content="edx-platform搭建[Ubuntu 12.04.2 LTS]  Ubuntu下的默认软件包格式是deb，所以下载的Vagrant和VirtualBox最好是deb格式的，另外要根据自己电脑的硬件配置和系统环境选择正确的安装包。  PS：如果想要在虚拟机中安装Ubuntu12.04，然后再使用Vagrant方式搭建开发环境，请确保这个虚拟机可以使用2GB的内存，否则容易报一个IOError。">
 
 
 
@@ -155,7 +144,7 @@ PS：如果想要在虚拟机中安装Ubuntu12.04，然后再使用Vagrant方式
       applicationID: '',
       apiKey: '',
       indexName: '',
-      hits: {"per_page":10},
+      hits: {"per_page":6},
       labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
     }
   };
@@ -172,7 +161,7 @@ PS：如果想要在虚拟机中安装Ubuntu12.04，然后再使用Vagrant方式
   <title> edx-platform搭建 | Northpark博客 </title>
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+<body itemscope itemtype="http://schema.org/WebPage" lang="">
 
   
 
@@ -443,28 +432,28 @@ PS：如果想要在虚拟机中安装Ubuntu12.04，然后再使用Vagrant方式
 <li>Ubuntu下的默认软件包格式是deb，所以下载的Vagrant和VirtualBox最好是deb格式的，另外要根据自己电脑的硬件配置和系统环境选择正确的安装包。</li>
 </ol>
 <p>PS：如果想要在虚拟机中安装Ubuntu12.04，然后再使用Vagrant方式搭建开发环境，请确保这个虚拟机可以使用2GB的内存，否则容易报一个IOError。上一篇EdX搭建教程结尾便是使用的虚拟机，感兴趣的可以看下里面的出错：</p>
-<p>（<a href="http://hujiaweiyinger.diandian.com/post/2013-07-16/edx_build_edx_platform）" target="_blank" rel="external">http://hujiaweiyinger.diandian.com/post/2013-07-16/edx_build_edx_platform）</a></p>
+<p>（<a href="http://hujiaweiyinger.diandian.com/post/2013-07-16/edx_build_edx_platform）" target="_blank" rel="noopener">http://hujiaweiyinger.diandian.com/post/2013-07-16/edx_build_edx_platform）</a></p>
 <a id="more"></a>
 <p>参考网址：</p>
 <p>（1）在Ubuntu中安装RPM格式软件包的方法：</p>
-<p><a href="http://my.oschina.net/renyuansoft/blog/28187" target="_blank" rel="external">http://my.oschina.net/renyuansoft/blog/28187</a></p>
+<p><a href="http://my.oschina.net/renyuansoft/blog/28187" target="_blank" rel="noopener">http://my.oschina.net/renyuansoft/blog/28187</a></p>
 <p>（2）在ubuntu中开启root用户并实现root登录问题的解决方法：</p>
-<p><a href="http://os.51cto.com/art/200709/56719.htm" target="_blank" rel="external">http://os.51cto.com/art/200709/56719.htm</a></p>
+<p><a href="http://os.51cto.com/art/200709/56719.htm" target="_blank" rel="noopener">http://os.51cto.com/art/200709/56719.htm</a></p>
 <p>（3）在ubuntu 12.04中设置root登录的办法：</p>
-<p><a href="http://blog.chinaunix.net/uid-26517277-id-3217839.html" target="_blank" rel="external">http://blog.chinaunix.net/uid-26517277-id-3217839.html</a></p>
+<p><a href="http://blog.chinaunix.net/uid-26517277-id-3217839.html" target="_blank" rel="noopener">http://blog.chinaunix.net/uid-26517277-id-3217839.html</a></p>
 <p>（4）Linux中uname命令的使用详解：</p>
-<p><a href="http://baike.baidu.com/view/1374878.htm" target="_blank" rel="external">http://baike.baidu.com/view/1374878.htm</a></p>
+<p><a href="http://baike.baidu.com/view/1374878.htm" target="_blank" rel="noopener">http://baike.baidu.com/view/1374878.htm</a></p>
 <ol>
 <li>下载内容</li>
 </ol>
 <p>（1）precise32.box  （提前下载好虚拟机）</p>
-<p>网址：<a href="http://files.vagrantup.com/precise32.box" target="_blank" rel="external">http://files.vagrantup.com/precise32.box</a></p>
+<p>网址：<a href="http://files.vagrantup.com/precise32.box" target="_blank" rel="noopener">http://files.vagrantup.com/precise32.box</a></p>
 <p>（2）vagrant  1.2.2  （虽然最新的是1.2.5了，但是还是推荐使用1.2.2）</p>
-<p>网址：<a href="http://downloads.vagrantup.com/tags/v1.2.2" target="_blank" rel="external">http://downloads.vagrantup.com/tags/v1.2.2</a></p>
+<p>网址：<a href="http://downloads.vagrantup.com/tags/v1.2.2" target="_blank" rel="noopener">http://downloads.vagrantup.com/tags/v1.2.2</a></p>
 <p>我选择的是 vagrant_1.2.2_i686.deb</p>
 <p>（3）virtualbox  4.2.12  （千万不要使用最新的4.2.16，注意版本！）</p>
-<p>网址：<a href="http://download.virtualbox.org/virtualbox/4.2.12/" target="_blank" rel="external">http://download.virtualbox.org/virtualbox/4.2.12/</a></p>
-<p>或者是 <a href="https://www.virtualbox.org/wiki/Download_Old_Builds_4_2" target="_blank" rel="external">https://www.virtualbox.org/wiki/Download_Old_Builds_4_2</a></p>
+<p>网址：<a href="http://download.virtualbox.org/virtualbox/4.2.12/" target="_blank" rel="noopener">http://download.virtualbox.org/virtualbox/4.2.12/</a></p>
+<p>或者是 <a href="https://www.virtualbox.org/wiki/Download_Old_Builds_4_2" target="_blank" rel="noopener">https://www.virtualbox.org/wiki/Download_Old_Builds_4_2</a></p>
 <p>需要两个：</p>
 <p>① 对应系统的virtualbox安装包</p>
 <p>   virtualbox-4.2_4.2.12-84980~Ubuntu~precise_i386.deb</p>
@@ -486,11 +475,11 @@ PS：如果想要在虚拟机中安装Ubuntu12.04，然后再使用Vagrant方式
 <p>① 找到 requirements目录下的 base.txt 中的 “polib = 1.0.3” ，把这一行注释掉或者删除；</p>
 <p>② 找到 requirements目录下的 github.txt 中的 Third-party 项目，将 前面的 “git” 改成 “git+https”</p>
 <p>例如：原来是 ”-e git://github.com/edx/django-staticfiles.git@6d2504e5c8#egg=django-staticfiles“</p>
-<p>改成 ”-e git+<a href="https://github.com/edx/django-staticfiles.git@6d2504e5c8#egg=django-staticfiles“" target="_blank" rel="external">https://github.com/edx/django-staticfiles.git@6d2504e5c8#egg=django-staticfiles“</a></p>
+<p>改成 ”-e git+<a href="https://github.com/edx/django-staticfiles.git@6d2504e5c8#egg=django-staticfiles“" target="_blank" rel="noopener">https://github.com/edx/django-staticfiles.git@6d2504e5c8#egg=django-staticfiles“</a></p>
 <p>③ 找到scripts目录下的create_dev_env.sh文件，找到</p>
 <p>”pip install -r $BASE/edx-platform/requirements/edx/pre.txt“，在后面添加一行</p>
-<p>”pip install <a href="http://bitbucket.org/izi/polib/get/1.0.3.tar.gz“" target="_blank" rel="external">http://bitbucket.org/izi/polib/get/1.0.3.tar.gz“</a></p>
-<p><strong><em> 原因：polib依赖项经过pypi的解析得到的下载地址是：<a href="http://bitbucket.org/izi/polib/downloads/polib-1.0.3.tar.gz，但是在天朝，这个地址上访问不上的，然而前面的downloads是可以的，polib是必须的依赖项，所以只能是使用变相的方式将其安装上去。详细内容可见我的这个问题（https://github.com/edx/edx-platform/issues/427）" target="_blank" rel="external">http://bitbucket.org/izi/polib/downloads/polib-1.0.3.tar.gz，但是在天朝，这个地址上访问不上的，然而前面的downloads是可以的，polib是必须的依赖项，所以只能是使用变相的方式将其安装上去。详细内容可见我的这个问题（https://github.com/edx/edx-platform/issues/427）</a> </em></strong></p>
+<p>”pip install <a href="http://bitbucket.org/izi/polib/get/1.0.3.tar.gz“" target="_blank" rel="noopener">http://bitbucket.org/izi/polib/get/1.0.3.tar.gz“</a></p>
+<p><strong><em> 原因：polib依赖项经过pypi的解析得到的下载地址是：<a href="http://bitbucket.org/izi/polib/downloads/polib-1.0.3.tar.gz，但是在天朝，这个地址上访问不上的，然而前面的downloads是可以的，polib是必须的依赖项，所以只能是使用变相的方式将其安装上去。详细内容可见我的这个问题（https://github.com/edx/edx-platform/issues/427）" target="_blank" rel="noopener">http://bitbucket.org/izi/polib/downloads/polib-1.0.3.tar.gz，但是在天朝，这个地址上访问不上的，然而前面的downloads是可以的，polib是必须的依赖项，所以只能是使用变相的方式将其安装上去。详细内容可见我的这个问题（https://github.com/edx/edx-platform/issues/427）</a> </em></strong></p>
 <p>（8）添加box，运行 “cd edx-platform” -&gt; “vagrant box add precise32 ../precise32.box”</p>
 <p><strong><em> 之所以直接下载下来然后添加是为了防止网络不稳定出现故障而导致下载失败 </em></strong></p>
 <p>（9）开始运行”vagrant up”，一定要保证过程中网络稳定！</p>
@@ -631,7 +620,7 @@ PS：如果想要在虚拟机中安装Ubuntu12.04，然后再使用Vagrant方式
                alt="Bruce" />
           <p class="site-author-name" itemprop="name">Bruce</p>
            
-              <p class="site-description motion-element" itemprop="description">人生苦短，及时行乐</p>
+              <p class="site-description motion-element" itemprop="description">Extreme ways</p>
           
         </div>
         <nav class="site-state motion-element">
@@ -639,7 +628,7 @@ PS：如果想要在虚拟机中安装Ubuntu12.04，然后再使用Vagrant方式
           
             <div class="site-state-item site-state-posts">
               <a href="/">
-                <span class="site-state-item-count">74</span>
+                <span class="site-state-item-count">80</span>
                 <span class="site-state-item-name">posts</span>
               </a>
             </div>
@@ -661,7 +650,7 @@ PS：如果想要在虚拟机中安装Ubuntu12.04，然后再使用Vagrant方式
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">72</span>
+                <span class="site-state-item-count">81</span>
                 <span class="site-state-item-name">tags</span>
               </a>
             </div>
@@ -735,10 +724,6 @@ PS：如果想要在虚拟机中安装Ubuntu12.04，然后再使用Vagrant方式
                   <a href="http://lonelyrobots.cn/?,哈哈，他排行老六，又名撒币六子" title="OldのSix" target="_blank">OldのSix</a>
                 </li>
               
-                <li class="links-of-blogroll-item">
-                  <a href="http://www.yecao.xyz?,野草博客-电影群主的休闲之作" title="野草博客" target="_blank">野草博客</a>
-                </li>
-              
             </ul>
           </div>
         
@@ -774,34 +759,28 @@ PS：如果想要在虚拟机中安装Ubuntu12.04，然后再使用Vagrant方式
 
 
 <div class="powered-by">
-  Powered by <a class="theme-link" href="http://hexo.io">hexo</a>
-</div>
-<div class="powered-by">
-   <a class="theme-link" href="http://theme-next.iissnan.com/">theme-next
-  </a>
-</div>
-
-<div class="powered-by"> 
-  <a class="theme-link" href="https://northpark.cn/">NorthPark中文网
-  </a>
+  Powered by <a class="theme-link" href="https://northpark.cn/">NorthPark.cn</a>
 </div>
 
 
 <div class="powered-by">
+  MacSoft -
   <a class="theme-link" href="https://northpark.cn/soft/mac">
-   <i class="fa fa-apple" aria-hidden="true"></i>
+    NorthPark.soft
   </a>
 </div>
 
 <div class="powered-by">
+ Movies.TV.Comic -
   <a class="theme-link" href="https://northpark.cn/movies">
-    <i class="fa fa-film" aria-hidden="true"></i>
+    NorthPark.movies
   </a>
 </div>
 
 <div class="theme-info">
+  Pua -
   <a class="theme-link" href="https://northpark.cn/romeo">
-    <i class="fa fa-gratipay" aria-hidden="true"></i>
+    NorthPark.pua
   </a>
 </div>
 

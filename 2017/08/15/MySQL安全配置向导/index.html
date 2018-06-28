@@ -12,7 +12,7 @@
 
 
 
-<html class="mac-soft mist use-motion" lang="en">
+<html class="mac-soft mist use-motion" lang="">
 <head>
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -107,41 +107,24 @@
 
 
 
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+  <link rel="shortcut icon" type="image/x-icon" href="/octopus.png?v=5.1.0" />
 
 
 
 
 
 
-<meta name="description" content="前言
-主要介绍了MySQL安全配置向导mysql_secure_installation各项配置的含义,并依据经验给予一了一些建议安装完mysql-server 会提示可以运行mysql_secure_installation。运行mysql_secure_installation会执行几个设置：
-
-为root用户设置密码
-删除匿名账号
-取消root用户远程登录
-删除test库和对test库的访问">
+<meta name="description" content="前言 主要介绍了MySQL安全配置向导mysql_secure_installation各项配置的含义,并依据经验给予一了一些建议安装完mysql-server 会提示可以运行mysql_secure_installation。运行mysql_secure_installation会执行几个设置：  为root用户设置密码 删除匿名账号 取消root用户远程登录 删除test库和对test库的访问">
+<meta name="keywords" content="mysql,linux">
 <meta property="og:type" content="article">
 <meta property="og:title" content="MySQL安全配置向导">
 <meta property="og:url" content="http://liuhouer.github.io/2017/08/15/MySQL安全配置向导/index.html">
 <meta property="og:site_name" content="Northpark博客">
-<meta property="og:description" content="前言
-主要介绍了MySQL安全配置向导mysql_secure_installation各项配置的含义,并依据经验给予一了一些建议安装完mysql-server 会提示可以运行mysql_secure_installation。运行mysql_secure_installation会执行几个设置：
-
-为root用户设置密码
-删除匿名账号
-取消root用户远程登录
-删除test库和对test库的访问">
-<meta property="og:updated_time" content="2017-11-15T10:02:06.000Z">
+<meta property="og:description" content="前言 主要介绍了MySQL安全配置向导mysql_secure_installation各项配置的含义,并依据经验给予一了一些建议安装完mysql-server 会提示可以运行mysql_secure_installation。运行mysql_secure_installation会执行几个设置：  为root用户设置密码 删除匿名账号 取消root用户远程登录 删除test库和对test库的访问">
+<meta property="og:updated_time" content="2018-06-11T01:21:03.824Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MySQL安全配置向导">
-<meta name="twitter:description" content="前言
-主要介绍了MySQL安全配置向导mysql_secure_installation各项配置的含义,并依据经验给予一了一些建议安装完mysql-server 会提示可以运行mysql_secure_installation。运行mysql_secure_installation会执行几个设置：
-
-为root用户设置密码
-删除匿名账号
-取消root用户远程登录
-删除test库和对test库的访问">
+<meta name="twitter:description" content="前言 主要介绍了MySQL安全配置向导mysql_secure_installation各项配置的含义,并依据经验给予一了一些建议安装完mysql-server 会提示可以运行mysql_secure_installation。运行mysql_secure_installation会执行几个设置：  为root用户设置密码 删除匿名账号 取消root用户远程登录 删除test库和对test库的访问">
 
 
 
@@ -161,7 +144,7 @@
       applicationID: '',
       apiKey: '',
       indexName: '',
-      hits: {"per_page":10},
+      hits: {"per_page":6},
       labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
     }
   };
@@ -178,7 +161,7 @@
   <title> MySQL安全配置向导 | Northpark博客 </title>
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+<body itemscope itemtype="http://schema.org/WebPage" lang="">
 
   
 
@@ -444,7 +427,7 @@
 </ul>
 </blockquote>
 <a id="more"></a>
-<figure class="highlight vbnet"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div></pre></td><td class="code"><pre><div class="line">[root@server1 ~]<span class="meta"># mysql_secure_installation</span></div><div class="line">NOTE: RUNNING ALL PARTS <span class="keyword">OF</span> THIS SCRIPT <span class="keyword">IS</span> RECOMMENDED <span class="keyword">FOR</span> ALL MySQL</div><div class="line">SERVERS <span class="keyword">IN</span> PRODUCTION USE! PLEASE READ <span class="keyword">EACH</span> <span class="keyword">STEP</span> CAREFULLY!</div><div class="line"><span class="keyword">In</span> <span class="keyword">order</span> <span class="keyword">to</span> log <span class="keyword">into</span> MySQL <span class="keyword">to</span> secure it, we<span class="comment">'ll need the current</span></div><div class="line">password <span class="keyword">for</span> the root user. <span class="keyword">If</span> you<span class="comment">'ve just installed MySQL, and</span></div><div class="line">you haven<span class="comment">'t set the root password yet, the password will be blank,</span></div><div class="line">so you should just press enter here.</div><div class="line">Enter current password <span class="keyword">for</span> root (enter <span class="keyword">for</span> none):&lt;–初次运行直接回车</div><div class="line">OK, successfully used password, moving <span class="keyword">on</span>…</div><div class="line">Setting the root password ensures that nobody can log <span class="keyword">into</span> the MySQL</div><div class="line">root user without the proper authorisation.</div><div class="line"><span class="keyword">Set</span> root password? [Y/n] ==&lt;– 是否设置root用户密码，输入y并回车或直接回车==</div><div class="line"><span class="keyword">New</span> password: ==&lt;– 设置root用户的密码==</div><div class="line">Re-enter <span class="keyword">new</span> password: ==&lt;– 再输入一次你设置的密码==</div><div class="line">Password updated successfully!</div><div class="line">Reloading privilege tables..</div><div class="line">… Success!</div><div class="line"><span class="keyword">By</span> <span class="keyword">default</span>, a MySQL installation has an anonymous user, allowing anyone</div><div class="line"><span class="keyword">to</span> log <span class="keyword">into</span> MySQL without having <span class="keyword">to</span> have a user account created <span class="keyword">for</span></div><div class="line">them. This <span class="keyword">is</span> intended only <span class="keyword">for</span> testing, <span class="keyword">and</span> <span class="keyword">to</span> make the installation</div><div class="line">go a bit smoother. You should remove them before moving <span class="keyword">into</span> a</div><div class="line">production environment.</div><div class="line">Remove anonymous users? [Y/n] ==&lt;– 是否删除匿名用户,生产环境建议删除，所以直接回车==</div><div class="line">… Success!</div><div class="line">Normally, root should only be allowed <span class="keyword">to</span> connect <span class="keyword">from</span> <span class="comment">'localhost'. This</span></div><div class="line">ensures that someone cannot guess at the root password <span class="keyword">from</span> the network.</div><div class="line">Disallow root login remotely? [Y/n] ==&lt;–是否禁止root远程登录,根据自己的需求选择Y/n并回车,建议禁止==</div><div class="line">… Success!</div><div class="line"><span class="keyword">By</span> <span class="keyword">default</span>, MySQL comes <span class="keyword">with</span> a database named <span class="comment">'test' that anyone can</span></div><div class="line">access. This <span class="keyword">is</span> also intended only <span class="keyword">for</span> testing, <span class="keyword">and</span> should be removed</div><div class="line">before moving <span class="keyword">into</span> a production environment.</div><div class="line">Remove test database <span class="keyword">and</span> access <span class="keyword">to</span> it? [Y/n] ==&lt;– 是否删除test数据库,直接回车==</div><div class="line">- Dropping test database…</div><div class="line">… Success!</div><div class="line">- Removing privileges <span class="keyword">on</span> test database…</div><div class="line">… Success!</div><div class="line">Reloading the privilege tables will ensure that all changes made so far</div><div class="line">will <span class="keyword">take</span> effect immediately.</div><div class="line">Reload privilege tables now? [Y/n] ==&lt;– 是否重新加载权限表，直接回车==</div><div class="line">… Success!</div><div class="line">Cleaning up…</div><div class="line">All done! <span class="keyword">If</span> you<span class="comment">'ve completed all of the above steps, your MySQL</span></div><div class="line">installation should now be secure.</div><div class="line">Thanks <span class="keyword">for</span> <span class="keyword">using</span> MySQL!</div><div class="line">[root@server1 ~]<span class="meta">#</span></div></pre></td></tr></table></figure>
+<figure class="highlight vbnet"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">[root@server1 ~]<span class="meta"># mysql_secure_installation</span></span><br><span class="line">NOTE: RUNNING ALL PARTS <span class="keyword">OF</span> THIS SCRIPT <span class="keyword">IS</span> RECOMMENDED <span class="keyword">FOR</span> ALL MySQL</span><br><span class="line">SERVERS <span class="keyword">IN</span> PRODUCTION USE! PLEASE READ <span class="keyword">EACH</span> <span class="keyword">STEP</span> CAREFULLY!</span><br><span class="line"><span class="keyword">In</span> <span class="keyword">order</span> <span class="keyword">to</span> log <span class="keyword">into</span> MySQL <span class="keyword">to</span> secure it, we<span class="comment">'ll need the current</span></span><br><span class="line">password <span class="keyword">for</span> the root user. <span class="keyword">If</span> you<span class="comment">'ve just installed MySQL, and</span></span><br><span class="line">you haven<span class="comment">'t set the root password yet, the password will be blank,</span></span><br><span class="line">so you should just press enter here.</span><br><span class="line">Enter current password <span class="keyword">for</span> root (enter <span class="keyword">for</span> none):&lt;–初次运行直接回车</span><br><span class="line">OK, successfully used password, moving <span class="keyword">on</span>…</span><br><span class="line">Setting the root password ensures that nobody can log <span class="keyword">into</span> the MySQL</span><br><span class="line">root user without the proper authorisation.</span><br><span class="line"><span class="keyword">Set</span> root password? [Y/n] ==&lt;– 是否设置root用户密码，输入y并回车或直接回车==</span><br><span class="line"><span class="keyword">New</span> password: ==&lt;– 设置root用户的密码==</span><br><span class="line">Re-enter <span class="keyword">new</span> password: ==&lt;– 再输入一次你设置的密码==</span><br><span class="line">Password updated successfully!</span><br><span class="line">Reloading privilege tables..</span><br><span class="line">… Success!</span><br><span class="line"><span class="keyword">By</span> <span class="keyword">default</span>, a MySQL installation has an anonymous user, allowing anyone</span><br><span class="line"><span class="keyword">to</span> log <span class="keyword">into</span> MySQL without having <span class="keyword">to</span> have a user account created <span class="keyword">for</span></span><br><span class="line">them. This <span class="keyword">is</span> intended only <span class="keyword">for</span> testing, <span class="keyword">and</span> <span class="keyword">to</span> make the installation</span><br><span class="line">go a bit smoother. You should remove them before moving <span class="keyword">into</span> a</span><br><span class="line">production environment.</span><br><span class="line">Remove anonymous users? [Y/n] ==&lt;– 是否删除匿名用户,生产环境建议删除，所以直接回车==</span><br><span class="line">… Success!</span><br><span class="line">Normally, root should only be allowed <span class="keyword">to</span> connect <span class="keyword">from</span> <span class="comment">'localhost'. This</span></span><br><span class="line">ensures that someone cannot guess at the root password <span class="keyword">from</span> the network.</span><br><span class="line">Disallow root login remotely? [Y/n] ==&lt;–是否禁止root远程登录,根据自己的需求选择Y/n并回车,建议禁止==</span><br><span class="line">… Success!</span><br><span class="line"><span class="keyword">By</span> <span class="keyword">default</span>, MySQL comes <span class="keyword">with</span> a database named <span class="comment">'test' that anyone can</span></span><br><span class="line">access. This <span class="keyword">is</span> also intended only <span class="keyword">for</span> testing, <span class="keyword">and</span> should be removed</span><br><span class="line">before moving <span class="keyword">into</span> a production environment.</span><br><span class="line">Remove test database <span class="keyword">and</span> access <span class="keyword">to</span> it? [Y/n] ==&lt;– 是否删除test数据库,直接回车==</span><br><span class="line">- Dropping test database…</span><br><span class="line">… Success!</span><br><span class="line">- Removing privileges <span class="keyword">on</span> test database…</span><br><span class="line">… Success!</span><br><span class="line">Reloading the privilege tables will ensure that all changes made so far</span><br><span class="line">will <span class="keyword">take</span> effect immediately.</span><br><span class="line">Reload privilege tables now? [Y/n] ==&lt;– 是否重新加载权限表，直接回车==</span><br><span class="line">… Success!</span><br><span class="line">Cleaning up…</span><br><span class="line">All done! <span class="keyword">If</span> you<span class="comment">'ve completed all of the above steps, your MySQL</span></span><br><span class="line">installation should now be secure.</span><br><span class="line">Thanks <span class="keyword">for</span> <span class="keyword">using</span> MySQL!</span><br><span class="line">[root@server1 ~]<span class="meta">#</span></span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -588,7 +571,7 @@
                alt="Bruce" />
           <p class="site-author-name" itemprop="name">Bruce</p>
            
-              <p class="site-description motion-element" itemprop="description">人生苦短，及时行乐</p>
+              <p class="site-description motion-element" itemprop="description">Extreme ways</p>
           
         </div>
         <nav class="site-state motion-element">
@@ -596,7 +579,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/">
-                <span class="site-state-item-count">74</span>
+                <span class="site-state-item-count">80</span>
                 <span class="site-state-item-name">posts</span>
               </a>
             </div>
@@ -618,7 +601,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">72</span>
+                <span class="site-state-item-count">81</span>
                 <span class="site-state-item-name">tags</span>
               </a>
             </div>
@@ -692,10 +675,6 @@
                   <a href="http://lonelyrobots.cn/?,哈哈，他排行老六，又名撒币六子" title="OldのSix" target="_blank">OldのSix</a>
                 </li>
               
-                <li class="links-of-blogroll-item">
-                  <a href="http://www.yecao.xyz?,野草博客-电影群主的休闲之作" title="野草博客" target="_blank">野草博客</a>
-                </li>
-              
             </ul>
           </div>
         
@@ -747,34 +726,28 @@
 
 
 <div class="powered-by">
-  Powered by <a class="theme-link" href="http://hexo.io">hexo</a>
-</div>
-<div class="powered-by">
-   <a class="theme-link" href="http://theme-next.iissnan.com/">theme-next
-  </a>
-</div>
-
-<div class="powered-by"> 
-  <a class="theme-link" href="https://northpark.cn/">NorthPark中文网
-  </a>
+  Powered by <a class="theme-link" href="https://northpark.cn/">NorthPark.cn</a>
 </div>
 
 
 <div class="powered-by">
+  MacSoft -
   <a class="theme-link" href="https://northpark.cn/soft/mac">
-   <i class="fa fa-apple" aria-hidden="true"></i>
+    NorthPark.soft
   </a>
 </div>
 
 <div class="powered-by">
+ Movies.TV.Comic -
   <a class="theme-link" href="https://northpark.cn/movies">
-    <i class="fa fa-film" aria-hidden="true"></i>
+    NorthPark.movies
   </a>
 </div>
 
 <div class="theme-info">
+  Pua -
   <a class="theme-link" href="https://northpark.cn/romeo">
-    <i class="fa fa-gratipay" aria-hidden="true"></i>
+    NorthPark.pua
   </a>
 </div>
 
