@@ -121,15 +121,15 @@
 <meta property="og:url" content="http://liuhouer.github.io/2017/12/27/css盒子模型/index.html">
 <meta property="og:site_name" content="Northpark博客">
 <meta property="og:description" content="元素分类 在讲解CSS布局之前，我们需要提前知道一些知识，在CSS中，html中的标签元素大体被分为三种不同的类型：块状元素、内联元素(又叫行内元素)和内联块状元素。常用的块状元素有：  1&amp;lt;div&amp;gt;、&amp;lt;p&amp;gt;、&amp;lt;h1&amp;gt;...&amp;lt;h6&amp;gt;、&amp;lt;ol&amp;gt;、&amp;lt;ul&amp;gt;、&amp;lt;dl&amp;gt;、&amp;lt;table&amp;gt;、&amp;lt;address&amp;">
-<meta property="og:image" content="http://7xpfpd.com1.z0.glb.clouddn.com/Image1.jpg">
-<meta property="og:image" content="http://7xpfpd.com1.z0.glb.clouddn.com/Image2.jpg">
-<meta property="og:image" content="http://7xpfpd.com1.z0.glb.clouddn.com/Image3.png">
-<meta property="og:image" content="http://7xpfpd.com1.z0.glb.clouddn.com/Image4.jpg">
-<meta property="og:updated_time" content="2018-06-11T01:21:02.281Z">
+<meta property="og:image" content="http://liuhouer.heartill.com/Image1.jpg">
+<meta property="og:image" content="http://liuhouer.heartill.com/Image2.jpg">
+<meta property="og:image" content="http://liuhouer.heartill.com/Image3.png">
+<meta property="og:image" content="http://liuhouer.heartill.com/Image4.jpg">
+<meta property="og:updated_time" content="2018-12-05T09:12:06.513Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="css盒子模型">
 <meta name="twitter:description" content="元素分类 在讲解CSS布局之前，我们需要提前知道一些知识，在CSS中，html中的标签元素大体被分为三种不同的类型：块状元素、内联元素(又叫行内元素)和内联块状元素。常用的块状元素有：  1&amp;lt;div&amp;gt;、&amp;lt;p&amp;gt;、&amp;lt;h1&amp;gt;...&amp;lt;h6&amp;gt;、&amp;lt;ol&amp;gt;、&amp;lt;ul&amp;gt;、&amp;lt;dl&amp;gt;、&amp;lt;table&amp;gt;、&amp;lt;address&amp;">
-<meta name="twitter:image" content="http://7xpfpd.com1.z0.glb.clouddn.com/Image1.jpg">
+<meta name="twitter:image" content="http://liuhouer.heartill.com/Image1.jpg">
 
 
 
@@ -455,7 +455,7 @@
 <figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">border-top</span>:<span class="number">1px</span> solid red;</span><br><span class="line"><span class="attribute">border-right</span>:<span class="number">1px</span> solid red;</span><br><span class="line"><span class="attribute">border-left</span>:<span class="number">1px</span> solid red;</span><br></pre></td></tr></table></figure>
 <a id="more"></a>
 <h2 id="盒模型–宽度和高度"><a href="#盒模型–宽度和高度" class="headerlink" title="盒模型–宽度和高度"></a>盒模型–宽度和高度</h2><p>盒模型宽度和高度和我们平常所说的物体的宽度和高度理解是不一样的，css内定义的宽（width）和高（height），指的是填充以里的内容范围。<br>因此一个元素实际宽度（盒子的宽度）=左边界+左边框+左填充+内容宽度+右填充+右边框+右边界。</p>
-<p><img src="http://7xpfpd.com1.z0.glb.clouddn.com/Image1.jpg" alt="enter description here"></p>
+<p><img src="http://liuhouer.heartill.com/Image1.jpg" alt="enter description here"></p>
 <h2 id="盒模型–填充"><a href="#盒模型–填充" class="headerlink" title="盒模型–填充"></a>盒模型–填充</h2><p>元素内容与边框之间是可以设置距离的，称之为“填充”。填充也可分为上、右、下、左(顺时针)。如下代码：</p>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">div</span>&#123;<span class="attribute">padding</span>:<span class="number">20px</span> <span class="number">10px</span> <span class="number">15px</span> <span class="number">30px</span>;&#125;</span><br></pre></td></tr></table></figure>
 <p>顺序一定不要搞混。可以分开写上面代码：</p>
@@ -484,10 +484,10 @@
 <p>==层模型有三种形式：<br>1、绝对定位(position: absolute)<br>2、相对定位(position: relative)<br>3、固定定位(position: fixed)==</p>
 <h3 id="层模型–绝对定位"><a href="#层模型–绝对定位" class="headerlink" title="层模型–绝对定位"></a>层模型–绝对定位</h3><p>如果想为元素设置层模型中的绝对定位，需要设置position:absolute(表示绝对定位)，这条语句的作用将元素从文档流中拖出来，然后使用left、right、top、bottom属性相对于其最接近的一个具有定位属性的父包含块进行绝对定位。如果不存在这样的包含块，则相对于body元素，即相对于浏览器窗口。<br>如下面代码可以实现div元素相对于浏览器窗口向右移动100px，向下移动50px。</p>
 <figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">div&#123;</span><br><span class="line"><span class="attribute">width</span>:<span class="number">200px</span>;</span><br><span class="line"><span class="attribute">height</span>:<span class="number">200px</span>;</span><br><span class="line"><span class="attribute">border</span>:<span class="number">2px</span> red solid;</span><br><span class="line"><span class="attribute">position</span>:absolute;</span><br><span class="line"><span class="attribute">left</span>:<span class="number">100px</span>;</span><br><span class="line"><span class="attribute">top</span>:<span class="number">50px</span>;</span><br><span class="line">&#125;</span><br><span class="line">&lt;<span class="selector-tag">div</span> id=<span class="string">"div1"</span>&gt;&lt;/div&gt;</span><br></pre></td></tr></table></figure>
-<p>效果如下：<br><img src="http://7xpfpd.com1.z0.glb.clouddn.com/Image2.jpg" alt="enter description here"></p>
+<p>效果如下：<br><img src="http://liuhouer.heartill.com/Image2.jpg" alt="enter description here"></p>
 <h3 id="层模型–固定定位"><a href="#层模型–固定定位" class="headerlink" title="层模型–固定定位"></a>层模型–固定定位</h3><p>fixed：表示固定定位，与absolute定位类型类似，但它的相对移动的坐标是视图（屏幕内的网页窗口）本身。由于视图本身是固定的，它不会随浏览器窗口的滚动条滚动而变化，除非你在屏幕中移动浏览器窗口的屏幕位置，或改变浏览器窗口的显示大小，因此固定定位的元素会始终位于浏览器窗口内视图的某个位置，不会受文档流动影响，这与<code>background-attachment:fixed;</code>属性功能相同。以下代码可以实现相对于浏览器视图向右移动100px，向下移动50px。并且拖动滚动条时位置固定不变。</p>
 <figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#div1&#123;</span></span><br><span class="line"><span class="symbol">width:</span><span class="number">200</span>px;</span><br><span class="line"><span class="symbol">height:</span><span class="number">200</span>px;</span><br><span class="line"><span class="symbol">border:</span><span class="number">2</span>px red solid;</span><br><span class="line"><span class="symbol">position:</span>fixed;</span><br><span class="line"><span class="symbol">left:</span><span class="number">100</span>px;</span><br><span class="line"><span class="symbol">top:</span><span class="number">50</span>px;</span><br><span class="line">&#125;</span><br><span class="line"><span class="params">&lt;p&gt;</span>文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本文本。<span class="params">&lt;/p&gt;</span></span><br><span class="line">....</span><br></pre></td></tr></table></figure>
-<p><img src="http://7xpfpd.com1.z0.glb.clouddn.com/Image3.png" alt="enter description here"></p>
+<p><img src="http://liuhouer.heartill.com/Image3.png" alt="enter description here"></p>
 <h2 id="Relative与Absolute组合使用"><a href="#Relative与Absolute组合使用" class="headerlink" title="Relative与Absolute组合使用"></a>Relative与Absolute组合使用</h2><p>小伙伴们学习了12-6小节的绝对定位的方法：使用position:absolute可以实现被设置元素相对于浏览器（body）设置定位以后，大家有没有想过可不可以相对于其它元素进行定位呢？答案是肯定的，当然可以。使用position:relative来帮忙，但是必须遵守下面规范：<br>1、参照定位的元素必须是相对定位元素的前辈元素：</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"box1"</span>&gt;</span><span class="comment">&lt;!--参照定位的元素--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"box2"</span>&gt;</span>相对参照元素进行定位<span class="tag">&lt;/<span class="name">div</span>&gt;</span><span class="comment">&lt;!--相对定位元素--&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <p>从上面代码可以看出box1是box2的父元素（父元素当然也是前辈元素了）。<br>2、参照定位的元素必须加入position:relative;</p>
@@ -508,7 +508,7 @@
 <h3 id="1、英文命令颜色"><a href="#1、英文命令颜色" class="headerlink" title="1、英文命令颜色"></a>1、英文命令颜色</h3><p>前面几个小节中经常用到的就是这种设置方法：<br>p{color:red;}</p>
 <h3 id="2、RGB颜色"><a href="#2、RGB颜色" class="headerlink" title="2、RGB颜色"></a>2、RGB颜色</h3><p>这个与 photoshop 中的 RGB 颜色是一致的，由 R(red)、G(green)、B(blue) 三种颜色的比例来配色。<br>p{color:rgb(133,45,200);}<br>每一项的值可以是 0~255 之间的整数，也可以是 0%~100% 的百分数。如：<br>p{color:rgb(20%,33%,25%);}</p>
 <h3 id="3、十六进制颜色"><a href="#3、十六进制颜色" class="headerlink" title="3、十六进制颜色"></a>3、十六进制颜色</h3><p>这种颜色设置方法是现在比较普遍使用的方法，其原理其实也是 RGB 设置，但是其每一项的值由 0-255 变成了十六进制 00-ff。<br>p{color:#00ffff;}<br>配色表：</p>
-<p><img src="http://7xpfpd.com1.z0.glb.clouddn.com/Image4.jpg" alt="enter description here"></p>
+<p><img src="http://liuhouer.heartill.com/Image4.jpg" alt="enter description here"></p>
 <h2 id="长度值"><a href="#长度值" class="headerlink" title="长度值"></a>长度值</h2><p>长度单位总结一下，目前比较常用到px（像素）、em、% 百分比，要注意其实这三种单位都是相对单位。</p>
 <h3 id="1、像素"><a href="#1、像素" class="headerlink" title="1、像素"></a>1、像素</h3><p>像素为什么是相对单位呢？因为像素指的是显示器上的小点（CSS规范中假设“90像素=1英寸”）。实际情况是浏览器会使用显示器的实际像素值有关，在目前大多数的设计者都倾向于使用像素（px）作为单位。</p>
 <h3 id="2、em"><a href="#2、em" class="headerlink" title="2、em"></a>2、em</h3><p>就是本元素给定字体的 font-size 值，如果元素的 font-size 为 14px ，那么 1em = 14px；如果 font-size 为 18px，那么 1em = 18px。如下代码：</p>
@@ -734,7 +734,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">81</span>
+                <span class="site-state-item-count">76</span>
                 <span class="site-state-item-name">tags</span>
               </a>
             </div>
