@@ -1,0 +1,1053 @@
+<!doctype html>
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+<html class="mac-soft mist use-motion" lang="">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Boogaloo:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Satisfy:300,300italic,400,400italic,700,700italic|Roboto:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="多线程,高并发," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Northpark博客" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/octopus.png?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="Java并发编程入门，适合没有并发编程经验的同学，本章首先从课程重点、特点、适合人群及学习收获几个方面对课程进行整体的介绍，然后会从一个实际的计数场景实现开始，给大家展示多线程并发时的线程不安全问题，让大家能够初体验到并发编程，之后会讲解并发和高并发的概念，并通过对比让大家明白到底什么是并发和…  高并发、多线程探索-1-相关基础知识0、工具Apache Bench(AB) :Apache附带的">
+<meta name="keywords" content="多线程,高并发">
+<meta property="og:type" content="article">
+<meta property="og:title" content="高并发、多线程探索-1-相关基础知识">
+<meta property="og:url" content="http://liuhouer.github.io/2018/12/24/高并发、多线程探索-1-相关基础知识/index.html">
+<meta property="og:site_name" content="Northpark博客">
+<meta property="og:description" content="Java并发编程入门，适合没有并发编程经验的同学，本章首先从课程重点、特点、适合人群及学习收获几个方面对课程进行整体的介绍，然后会从一个实际的计数场景实现开始，给大家展示多线程并发时的线程不安全问题，让大家能够初体验到并发编程，之后会讲解并发和高并发的概念，并通过对比让大家明白到底什么是并发和…  高并发、多线程探索-1-相关基础知识0、工具Apache Bench(AB) :Apache附带的">
+<meta property="og:image" content="http://liuhouer.heartill.com/blog/2018-12-24/1.jpg">
+<meta property="og:image" content="http://liuhouer.heartill.com/blog/2018-12-24/2.jpg">
+<meta property="og:image" content="http://liuhouer.heartill.com/blog/2018-12-24/3.jpg">
+<meta property="og:image" content="http://liuhouer.heartill.com/blog/2018-12-24/4.jpg">
+<meta property="og:image" content="http://liuhouer.heartill.com/blog/2018-12-24/5.jpg">
+<meta property="og:image" content="http://liuhouer.heartill.com/blog/2018-12-24/6.jpg">
+<meta property="og:image" content="http://liuhouer.heartill.com/blog/2018-12-24/7.jpg">
+<meta property="og:image" content="http://liuhouer.heartill.com/blog/2018-12-24/extend.jpg">
+<meta property="og:image" content="http://liuhouer.heartill.com/blog/2018-12-24/8.jpg">
+<meta property="og:image" content="http://liuhouer.heartill.com/blog/2018-12-24/9.jpg">
+<meta property="og:image" content="http://liuhouer.heartill.com/blog/2018-12-24/10.jpg">
+<meta property="og:updated_time" content="2018-12-24T10:12:29.397Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="高并发、多线程探索-1-相关基础知识">
+<meta name="twitter:description" content="Java并发编程入门，适合没有并发编程经验的同学，本章首先从课程重点、特点、适合人群及学习收获几个方面对课程进行整体的介绍，然后会从一个实际的计数场景实现开始，给大家展示多线程并发时的线程不安全问题，让大家能够初体验到并发编程，之后会讲解并发和高并发的概念，并通过对比让大家明白到底什么是并发和…  高并发、多线程探索-1-相关基础知识0、工具Apache Bench(AB) :Apache附带的">
+<meta name="twitter:image" content="http://liuhouer.heartill.com/blog/2018-12-24/1.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":6},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://liuhouer.github.io/2018/12/24/高并发、多线程探索-1-相关基础知识/"/>
+
+
+
+
+
+  <title> 高并发、多线程探索-1-相关基础知识 | Northpark博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Northpark博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Today does not walk, will have to run tomorrow.</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-首页">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-关于">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-旅行">
+          <a href="/travel" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-ship"></i> <br />
+            
+            旅行
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-微世界">
+          <a href="/landscape" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-reddit-alien"></i> <br />
+            
+            微世界
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-音乐">
+          <a href="/music" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-music"></i> <br />
+            
+            音乐
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-读书">
+          <a href="/books" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-book"></i> <br />
+            
+            读书
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-归档">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://liuhouer.github.io/2018/12/24/高并发、多线程探索-1-相关基础知识/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Bruce">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Northpark博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                高并发、多线程探索-1-相关基础知识
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-24T00:00:00+08:00">
+                2018-12-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">in</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i> &nbsp;  本文总阅读量
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>次
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>Java并发编程入门，适合没有并发编程经验的同学，本章首先从课程重点、特点、适合人群及学习收获几个方面对课程进行整体的介绍，然后会从一个实际的计数场景实现开始，给大家展示多线程并发时的线程不安全问题，让大家能够初体验到并发编程，之后会讲解并发和高并发的概念，并通过对比让大家明白到底什么是并发和…</p>
+</blockquote>
+<h1 id="高并发、多线程探索-1-相关基础知识"><a href="#高并发、多线程探索-1-相关基础知识" class="headerlink" title="高并发、多线程探索-1-相关基础知识"></a>高并发、多线程探索-1-相关基础知识</h1><h2 id="0、工具"><a href="#0、工具" class="headerlink" title="0、工具"></a>0、工具</h2><p>Apache Bench(AB) :Apache附带的工具，测试网站性能<br>Jmeter ： Apache组织开发的压力测试工具（比AB更强大）<br>代码测试方法 ：Semaphore、CountDownLatch类</p>
+<ul>
+<li>Semaphore类：信号量</li>
+</ul>
+<blockquote>
+<p>信号量，在我们测试的过程中充当监控并发数的角色。能够维持在同一时间的请求的并发量，达到并发量上线，会阻塞进程。</p>
+</blockquote>
+<ul>
+<li>CountDownLatch类：计数器向下减的闭锁<br><img src="http://liuhouer.heartill.com/blog/2018-12-24/1.jpg" alt="1"></li>
+</ul>
+<blockquote>
+<p>说明：假设计数器的值为3，线程A执行了await()方法之后，进入了awaiting等待状态。在其他线程的方法中执行了countDown()方法之后，计数器的值都会减一，直到计数器的值减为0，线程A的方法才继续执行。所以说，countDownLatch类可以阻塞线程执行，并且当满足指定条件后让线程继续执行。</p>
+</blockquote>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">package</span> <span class="selector-tag">cn</span><span class="selector-class">.northpark</span><span class="selector-class">.concurrency</span><span class="selector-class">.annotaion</span>;</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">import</span> <span class="selector-tag">java</span><span class="selector-class">.lang</span><span class="selector-class">.annotation</span><span class="selector-class">.ElementType</span>;</span><br><span class="line"><span class="selector-tag">import</span> <span class="selector-tag">java</span><span class="selector-class">.lang</span><span class="selector-class">.annotation</span><span class="selector-class">.Retention</span>;</span><br><span class="line"><span class="selector-tag">import</span> <span class="selector-tag">java</span><span class="selector-class">.lang</span><span class="selector-class">.annotation</span><span class="selector-class">.RetentionPolicy</span>;</span><br><span class="line"><span class="selector-tag">import</span> <span class="selector-tag">java</span><span class="selector-class">.lang</span><span class="selector-class">.annotation</span><span class="selector-class">.Target</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@<span class="keyword">Target</span>(<span class="keyword">ElementType</span>.<span class="keyword">TYPE</span>)</span><br><span class="line">@<span class="keyword">Retention</span>(<span class="keyword">RetentionPolicy</span>.<span class="keyword">SOURCE</span>)</span><br><span class="line"><span class="keyword">public</span> @interface NoteThreadSafe &#123;</span><br><span class="line">	<span class="selector-tag">String</span> <span class="selector-tag">value</span>() <span class="selector-tag">default</span> "";</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">package cn.northpark.concurrency.controller;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.CountDownLatch;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.ExecutorService;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.Executors;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.Semaphore;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> cn.northpark.concurrency.annotaion.NoteThreadSafe;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> lombok.extern.slf4j.Slf4j;</span><br><span class="line"></span><br><span class="line">@Slf4j</span><br><span class="line">@NoteThreadSafe</span><br><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">TestCurrency</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 请求总数</span></span><br><span class="line">	<span class="keyword">static</span> int totalCount = <span class="number">5000</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 同时并发执行的线程数</span></span><br><span class="line">	<span class="keyword">static</span> int threadTotal = <span class="number">200</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 计数器</span></span><br><span class="line">	public <span class="keyword">static</span> int count = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">	public <span class="keyword">static</span> <span class="keyword">void</span> main(<span class="built_in">String</span>[] args) throws InterruptedException &#123;</span><br><span class="line">		ExecutorService executorService = Executors.newCachedThreadPool();</span><br><span class="line">		<span class="comment">// 限制同时执行的线程数</span></span><br><span class="line">		final Semaphore semaphore = <span class="keyword">new</span> Semaphore(threadTotal);</span><br><span class="line">		final CountDownLatch countDownLatch = <span class="keyword">new</span> CountDownLatch(totalCount);</span><br><span class="line"></span><br><span class="line">		<span class="keyword">for</span> (int i = <span class="number">0</span>; i &lt; totalCount; i++) &#123;</span><br><span class="line">			executorService.execute(() -&gt; &#123;</span><br><span class="line">				<span class="keyword">try</span> &#123;</span><br><span class="line">					semaphore.acquire();</span><br><span class="line">					add();</span><br><span class="line">					semaphore.release();</span><br><span class="line">				&#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">					<span class="comment">// TODO Auto-generated catch block</span></span><br><span class="line">					e.printStackTrace();</span><br><span class="line">				&#125;</span><br><span class="line">				countDownLatch.countDown();</span><br><span class="line"></span><br><span class="line">			&#125;);</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		countDownLatch.await();</span><br><span class="line">		executorService.shutdown();</span><br><span class="line">		log.info(<span class="string">"count&#123;&#125;"</span>, count);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public <span class="keyword">static</span> <span class="keyword">void</span> add() &#123;</span><br><span class="line">		count++;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="1、基础概念"><a href="#1、基础概念" class="headerlink" title="1、基础概念"></a>1、基础概念</h2><blockquote>
+<p>并发:同时拥有两个或者多个线程，如果程序在单核处理器上运行，多个线程将交替地还如或者换出内存，这些线程是同时”存在”的，每隔线程都处于执行过程中的某个状态，如果运行在多核处理器上，此时，程序中的每个线程都将分配到一个处理器核上，因此可以同时运行。</p>
+<p>高并发:High Concurrency<br>是互联网分布式系统架构设计中必须考虑的因素之一，它通常是指，通过设计保证系统能够<strong>==同时并行处理==</strong>很多请求</p>
+</blockquote>
+<p>。</p>
+<h2 id="2、CPU多级缓存"><a href="#2、CPU多级缓存" class="headerlink" title="2、CPU多级缓存"></a>2、CPU多级缓存</h2><p>CPU的频率太快了，快到主存跟不上，这样在处理器时钟周期内，CPU常常需要等待主存，浪费资源，所以cache的出现，是为了缓解CPU和内存之间速度的不匹配问题。<br>CPU多级缓存配置（演变）：<br><img src="http://liuhouer.heartill.com/blog/2018-12-24/2.jpg" alt="2"></p>
+<p>局部性原理：<br>(1) 时间局部性：如果某个数据被访问，那么在不久的将来它很可能被再次访问。<br>(2) 空间局部性：如果某个数据被访问，那么与他相邻的数据很快也可能被访问。</p>
+<h2 id="3、缓存一致性-MESI-Modify-Exclusive-Share-Invalid"><a href="#3、缓存一致性-MESI-Modify-Exclusive-Share-Invalid" class="headerlink" title="3、缓存一致性(MESI Modify|Exclusive|Share|Invalid)"></a>3、缓存一致性(MESI Modify|Exclusive|Share|Invalid)</h2><p><img src="http://liuhouer.heartill.com/blog/2018-12-24/3.jpg" alt="3"></p>
+<blockquote>
+<p>Modify:被修改，该缓存行只被缓存在该CPU的缓存中。并且是被修改过的，因此它与主存中的数据是不一致的，该缓存行中的内存需要在未来的某个时间点写回主存，这个时间点是允许其他CPU读取主存中相应的内存之前。当这里的值被写回主存之后，该缓存行的状态将变为Excluisive.</p>
+</blockquote>
+<blockquote>
+<p>Exclusive:独享，该缓存行只被缓存在该CPU的缓存中，他是未被修改过的，是与主存中的数据一致的。他可以在任何时刻，被其他CPU读取该内存时，变成Share。当该CPU修改他的内容时，变成Modify</p>
+</blockquote>
+<blockquote>
+<p>Share：共享，意味着该缓存行可能被多个CPU进行缓存，并且各缓存中的数据与主存数据是一致的。当有一个CPU修改该缓存行的时候，其他CPU中该缓存行变成Invalid</p>
+</blockquote>
+<blockquote>
+<p>Invalid：无效</p>
+</blockquote>
+<p><strong>四种操作</strong><br>本地读取 local read :读本地缓存<br>本地写入 local write : 写本地缓存<br>远端读取 remote rade : 将Memory中的数据读取过来<br>远端写入 remote write : 将数据写回Memory中<br>缓存被修改时的情况：<br><img src="http://liuhouer.heartill.com/blog/2018-12-24/4.jpg" alt="4"><br>某一时刻缓存被CPU A 与CPU B共享，这时CPU A 要修改本地缓存的时候，会将主存的数据与CPU B在共享的数据置为无效状态。缓存由S -&gt; I</p>
+<h2 id="4、乱序执行优化"><a href="#4、乱序执行优化" class="headerlink" title="4、乱序执行优化"></a>4、乱序执行优化</h2><p>处理器为提高运算速度而做出违背代码原有顺序的优化。<br>举例：初始计算需求如下<br><img src="http://liuhouer.heartill.com/blog/2018-12-24/5.jpg" alt="5"></p>
+<p>预期计算流程：<br><img src="http://liuhouer.heartill.com/blog/2018-12-24/6.jpg" alt="6"><br>实际计算流程（乱序执行优化后）：<br><img src="http://liuhouer.heartill.com/blog/2018-12-24/7.jpg" alt="7"></p>
+<h2 id="5、JAVA-内存模型-JMM"><a href="#5、JAVA-内存模型-JMM" class="headerlink" title="5、JAVA 内存模型(JMM)"></a>5、JAVA 内存模型(JMM)</h2><blockquote>
+<p>一种规范，规范了java虚拟机与计算机内存如何协同工作的。它规定了<strong>一个线程如何和何时可以看到其他线程修改过的共享变量的值，以及在必须时如何同步地访问共享变量</strong>。</p>
+</blockquote>
+<p><img src="http://liuhouer.heartill.com/blog/2018-12-24/extend.jpg" alt="extend"></p>
+<blockquote>
+<p>堆Heap:运行时数据区，有垃圾回收，堆的优势可以动态分配内存大小，生存期也不必事先告诉编译器，因为他是在运行时动态分配内存。缺点是由于运行时动态分配内存，所以存取速度慢一些。</p>
+</blockquote>
+<blockquote>
+<p>栈Stack:优势存取速度快，速度仅次于计算机的寄存器。栈的数据是可以共享的，但是缺点是存在栈中数据的大小与生存期必须是确定的。主要存放基本类型变量，对象据点。要求调用栈和本地变量存放在<strong>线程栈</strong>上。</p>
+</blockquote>
+<blockquote>
+<p><strong>静态类型</strong>变量跟随类的定义存放在堆上。存放在堆上的对象可以被所持有对这个对象引用的线程访问。</p>
+</blockquote>
+<blockquote>
+<p>如果两个线程同时调用了同一个对象的同一个方法，他们都会访问这个对象的成员变量。但是这两个线程都拥有的是该对象的成员变量（局部变量）的<strong>私有拷贝</strong>。—[线程封闭中的堆栈封闭]</p>
+</blockquote>
+<p><img src="http://liuhouer.heartill.com/blog/2018-12-24/8.jpg" alt="8"></p>
+<blockquote>
+<p>CPU<br>Registers(寄存器):是CPU内存的基础，CPU在寄存器上执行操作的速度远大于在主存上执行的速度。这是因为CPU访问寄存器速度远大于主存。</p>
+</blockquote>
+<blockquote>
+<p>CPU Cache<br>Memory(高速缓存):由于计算机的存储设备与处理器的运算速度之间有着几个数量级的差距，所以现代计算机系统都不得不加入一层读写速度尽可能接近处理器运算速度的高级缓存，来作为内存与处理器之间的缓冲。将运算时所使用到的数据复制到缓存中,让运算能快速的进行。当运算结束后，再从缓存同步回内存之中，这样处理器就无需等待缓慢的内存读写了。</p>
+</blockquote>
+<blockquote>
+<p>RAM-Main Memory(主存/内存):<br>当一个CPU需要读取主存的时候，他会将主存中的部分读取到CPU缓存中，甚至他可能将缓存中的部分内容读到他的内部寄存器里面，然后在寄存器中执行操作。当CPU需要将结果回写到主存的时候，他会将内部寄存器中的值刷新到缓存中，然后在某个时间点从缓存中刷回主存。</p>
+</blockquote>
+<p><img src="http://liuhouer.heartill.com/blog/2018-12-24/9.jpg" alt="9"></p>
+<blockquote>
+<p>Java内存模型抽象结构：每个线程都有一个私有的本地内存，本地内存他是java内存模型的一个抽象的概念。它并不是真实存在的，它涵盖了缓存、写缓冲区、寄存器以及其他的硬件和编译器的优化。本地内存中它存储了该线程以读或写共享变量拷贝的一个副本。</p>
+</blockquote>
+<blockquote>
+<p>从更低的层次来说，主内存就是硬件的内存，是为了获取更高的运行速度，虚拟机及硬件系统可能会让工作内存优先存储于寄存器和高速缓存中，java内存模型中的线程的工作内存是CPU的寄存器和高速缓存的一个抽象的描述。而JVM的静态内存存储模型它只是对内存的一种物理划分而已。它只局限在内存，而且只局限在JVM的内存。</p>
+</blockquote>
+<h2 id="6、Java内存模型-同步八种操作"><a href="#6、Java内存模型-同步八种操作" class="headerlink" title="6、Java内存模型-同步八种操作"></a>6、Java内存模型-同步八种操作</h2><p><img src="http://liuhouer.heartill.com/blog/2018-12-24/10.jpg" alt="10"></p>
+<ul>
+<li>lock(锁定) ：作用于主内存变量，把一个变量标识为一条线程独占状态</li>
+<li>unlock(解锁) ： 作用于主内存的变量，把一个处于锁定状态的变量释放出来，释放后的变量才可以被其他线程锁定</li>
+<li>read(读取) ： 作用于主内存的变量，把一个变量值从主内存传输到线程的工作内存中，以便随后的load动作使用</li>
+<li>load(载入) ：作用于工作内存的变量，它把read操作从主内存中得到的变量值放入工作内存的变量副本中</li>
+<li>use(使用) ：作用于工作内存的变量，把工作内存中的一个变量值传递给执行引擎</li>
+<li>assign(赋值) ： 作用于工作内存的变量，它把一个从执行引擎接收到的值赋值给工作内存的变量</li>
+<li>store(存储) ： 作用于工作内存的变量，把工作内存中的一个变量的值传送到主内存中，以便随后的write操作</li>
+<li>write(写入) ：作用于主内存的变量中，它把store操作从工作内存中一个变量的值传送到主内存的变量中</li>
+</ul>
+<h2 id="7、Java内存模型-同步规则"><a href="#7、Java内存模型-同步规则" class="headerlink" title="7、Java内存模型-同步规则"></a>7、Java内存模型-同步规则</h2><blockquote>
+<p>如果要把一个变量从主内存中复制到工作内存，就需要按顺序的执行read和load操作，如果把变量从工作内存中同步回主内存中，就要按顺序的执行store和write操作。但java内存模型只要求上述操作必须按顺序执行，而没有保证必须是连续执行</p>
+</blockquote>
+<blockquote>
+<p>不允许read和load、store和write操作之一单独出现</p>
+</blockquote>
+<blockquote>
+<p>不允许一个线程丢弃它的最近assign的操作，即变量在工作内存中改变了之后必须同步到主内存中</p>
+</blockquote>
+<blockquote>
+<p>不允许一个线程无原因的（没有发生过任何assign操作）把数据从工作内存同步回主内存中</p>
+</blockquote>
+<blockquote>
+<p>一个新的变量只能在主内存中诞生，不允许在工作内存中直接使用一个未被初始化（load或assign）的变量。即就是对一个变量实施use和store操作之前，必须先执行过了assign和load操作。</p>
+</blockquote>
+<blockquote>
+<p>一个变量早同一时刻只允许一条线程对其进行lock操作，但lock操作可以被同一条线程重复执行多次，多次执行lock后，只有执行相同次数的unlock操作，变量才会被解锁。lock和unlock必须是成对出现。</p>
+</blockquote>
+<blockquote>
+<p>如果对一个变量执行lock操作，将会清空工作内存中此变量的值，在执行引擎使用这个变量前需要重新执行load或assign操作初始化变量的值。</p>
+</blockquote>
+<blockquote>
+<p>如果一个变量事先没有被lock锁定，则不允许对它执行unlock操作，也不允许unlock一个被其他线程锁定的变量</p>
+</blockquote>
+<blockquote>
+<p>对一个变量执行unlock操作之前，必须先把此变量同步到主内存中（执行store和write操作）</p>
+</blockquote>
+<h2 id="8、并发的优势与风险"><a href="#8、并发的优势与风险" class="headerlink" title="8、并发的优势与风险"></a>8、并发的优势与风险</h2><blockquote>
+<p>风险：</p>
+</blockquote>
+<p>安全性：多个线程共享数据时可能会产生于期望不相符的结果<br>活跃性：某个操作无法继续进行下去时，就会发生活跃性问题。比如死锁、饥饿问题<br>性能：线程过多时会使得CPU频繁切换，调度时间增多；同步机制；消耗过多内存。</p>
+<blockquote>
+<p>优势：</p>
+</blockquote>
+<p>速度：同时处理多个请求，响应更快；复杂的操作可以分成多个进程同时进行。<br>设计：程序设计在某些情况下更简单，也可以有更多选择<br>资源利用：CPU能够在等待IO的时候做一些其他的事情</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>生活不止苟且,还有我喜爱的海岸.</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="http://7xpfpd.com1.z0.glb.clouddn.com/blog/donate/wxpay.jpg" alt="Bruce WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="http://7xpfpd.com1.z0.glb.clouddn.com/blog/donate/alipay.png" alt="Bruce Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/多线程/" rel="tag"># 多线程</a>
+          
+            <a href="/tags/高并发/" rel="tag"># 高并发</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/06/10/guice整合guice-servlet，web scope注解6/" rel="next" title="guice整合guice-servlet，web scope注解 <6>">
+                <i class="fa fa-chevron-left"></i> guice整合guice-servlet，web scope注解 <6>
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8yNzgzNy80NDEz"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Inhaltsverzeichnis
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Übersicht
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="Bruce" />
+          <p class="site-author-name" itemprop="name">Bruce</p>
+           
+              <p class="site-description motion-element" itemprop="description">Extreme ways</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/">
+                <span class="site-state-item-count">81</span>
+                <span class="site-state-item-name">Artikel</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">44</span>
+                <span class="site-state-item-name">Kategorien</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">77</span>
+                <span class="site-state-item-name">Tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/liuhouer" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/liuhouer" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.facebook.com/bruce.mo.7" target="_blank" title="Facebook">
+                  
+                    <i class="fa fa-fw fa-facebook-square"></i>
+                  
+                  Facebook
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://northpark.cn/?,NorthPark-小清新的软件、影视、心情、图片互动公园" title="NorthPark" target="_blank">NorthPark</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://effine.cn/?,哈哈，他叫verphen，故给他起绰号挖粪男孩" title="挖粪の男孩" target="_blank">挖粪の男孩</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://lonelyrobots.cn/?,哈哈，他排行老六，又名撒币六子" title="OldのSix" target="_blank">OldのSix</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#高并发、多线程探索-1-相关基础知识"><span class="nav-number">1.</span> <span class="nav-text">高并发、多线程探索-1-相关基础知识</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#0、工具"><span class="nav-number">1.1.</span> <span class="nav-text">0、工具</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1、基础概念"><span class="nav-number">1.2.</span> <span class="nav-text">1、基础概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2、CPU多级缓存"><span class="nav-number">1.3.</span> <span class="nav-text">2、CPU多级缓存</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3、缓存一致性-MESI-Modify-Exclusive-Share-Invalid"><span class="nav-number">1.4.</span> <span class="nav-text">3、缓存一致性(MESI Modify|Exclusive|Share|Invalid)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4、乱序执行优化"><span class="nav-number">1.5.</span> <span class="nav-text">4、乱序执行优化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5、JAVA-内存模型-JMM"><span class="nav-number">1.6.</span> <span class="nav-text">5、JAVA 内存模型(JMM)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6、Java内存模型-同步八种操作"><span class="nav-number">1.7.</span> <span class="nav-text">6、Java内存模型-同步八种操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7、Java内存模型-同步规则"><span class="nav-number">1.8.</span> <span class="nav-text">7、Java内存模型-同步规则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8、并发的优势与风险"><span class="nav-number">1.9.</span> <span class="nav-text">8、并发的优势与风险</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Bruce</span>
+</div>
+
+
+<div class="powered-by">
+  Erstellt mit  <a class="theme-link" href="https://northpark.cn/">NorthPark.cn</a>
+</div>
+
+
+<div class="powered-by">
+  MacSoft -
+  <a class="theme-link" href="https://northpark.cn/soft/mac">
+    NorthPark.soft
+  </a>
+</div>
+
+<div class="powered-by">
+ Movies.TV.Comic -
+  <a class="theme-link" href="https://northpark.cn/movies">
+    NorthPark.movies
+  </a>
+</div>
+
+<div class="theme-info">
+  Pua -
+  <a class="theme-link" href="https://northpark.cn/romeo">
+    NorthPark.pua
+  </a>
+</div>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i> &nbsp;   本站访客数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人次
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>  &nbsp; 本站总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+</body>
+</html>

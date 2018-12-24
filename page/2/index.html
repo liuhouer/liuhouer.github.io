@@ -317,6 +317,154 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://liuhouer.github.io/2018/05/25/guice的基本使用1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Bruce">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Northpark博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2018/05/25/guice的基本使用1/" itemprop="url">
+                  guice的基本使用<1>
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-05-25T00:00:00+08:00">
+                2018-05-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">in</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/guice/" itemprop="url" rel="index">
+                    <span itemprop="name">guice</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="guice的基本使用"><a href="#guice的基本使用" class="headerlink" title="guice的基本使用"></a>guice的基本使用<1></1></h1><p>guice是google一个轻量级的DI注入框架，现在比较强大了，也与目前流行的struts2、jpa等都有集成了。</p>
+<p>先看一个例子:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Dao</span> </span>&#123;</span><br><span class="line">     <span class="function"><span class="keyword">void</span> <span class="title">testGuice</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> com.google.inject.Singleton;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Singleton</span><span class="comment">//声明此DaoImpl为单例</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DaoImpl</span> <span class="keyword">implements</span> <span class="title">Dao</span></span>&#123;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testGuice</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">System.out.println(<span class="string">"测试guice，实现依赖!"</span>);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> com.google.inject.<span class="type">AbstractModule</span>;                                                  </span><br><span class="line"><span class="comment">//需要继承AbstractModule这个类，用于绑定                                                              </span></span><br><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">TestModule</span> <span class="keyword">extends</span> <span class="title">AbstractModule</span></span>&#123;                                           </span><br><span class="line">                                                                                          </span><br><span class="line"><span class="meta">@Override</span>                                                                                 </span><br><span class="line"><span class="keyword">protected</span> void configure() &#123;                                                              </span><br><span class="line">bind(<span class="type">Dao</span>.<span class="keyword">class</span>).to(<span class="type">DaoImpl</span>.<span class="keyword">class</span>);<span class="comment">//这句代码的意思是说：运行时动态的将DaoImpl对象赋给Dao对象并且是单例的               </span></span><br><span class="line">&#125;                                                                                         </span><br><span class="line">                                                                                          </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> com.google.<span class="keyword">inject</span>.Guice;</span><br><span class="line"><span class="keyword">import</span> com.google.<span class="keyword">inject</span>.Injector;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> Test &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> main(String[] args) &#123;</span><br><span class="line">         Injector injector = Guice.createInjector(<span class="keyword">new</span> TestModule());  </span><br><span class="line">         Dao dao = injector.getInstance(DaoImpl.<span class="keyword">class</span>);  </span><br><span class="line">         dao.testGuice();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://liuhouer.github.io/2018/01/25/java接收邮件的探索之旅/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -354,7 +502,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-25T00:00:00+08:00">
                 2018-01-25
@@ -375,7 +523,7 @@
                 <i class="fa fa-folder-o"></i>
               </span>
               
-                <span class="post-meta-item-text">In</span>
+                <span class="post-meta-item-text">in</span>
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
@@ -386,7 +534,7 @@
 
                 
                 
-                  , 
+                  . 
                 
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
@@ -439,7 +587,7 @@
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/01/25/java接收邮件的探索之旅/#more" rel="contents">
-              Read more &raquo;
+              Weiterlesen &raquo;
             </a>
           </div>
           <!--/noindex-->
@@ -521,7 +669,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-12-27T10:24:09+08:00">
                 2017-12-27
@@ -542,7 +690,7 @@
                 <i class="fa fa-folder-o"></i>
               </span>
               
-                <span class="post-meta-item-text">In</span>
+                <span class="post-meta-item-text">in</span>
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
@@ -617,7 +765,7 @@
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2017/12/27/css盒子模型/#more" rel="contents">
-              Read more &raquo;
+              Weiterlesen &raquo;
             </a>
           </div>
           <!--/noindex-->
@@ -699,7 +847,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-12-26T10:24:09+08:00">
                 2017-12-26
@@ -720,7 +868,7 @@
                 <i class="fa fa-folder-o"></i>
               </span>
               
-                <span class="post-meta-item-text">In</span>
+                <span class="post-meta-item-text">in</span>
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
@@ -811,7 +959,7 @@
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2017/12/26/css结构和布局/#more" rel="contents">
-              Read more &raquo;
+              Weiterlesen &raquo;
             </a>
           </div>
           <!--/noindex-->
@@ -893,7 +1041,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-12-25T10:24:09+08:00">
                 2017-12-25
@@ -914,7 +1062,7 @@
                 <i class="fa fa-folder-o"></i>
               </span>
               
-                <span class="post-meta-item-text">In</span>
+                <span class="post-meta-item-text">in</span>
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
@@ -1122,7 +1270,7 @@ caption标签，为表格添加标题和摘要
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-11-15T17:46:45+08:00">
                 2017-11-15
@@ -1143,7 +1291,7 @@ caption标签，为表格添加标题和摘要
                 <i class="fa fa-folder-o"></i>
               </span>
               
-                <span class="post-meta-item-text">In</span>
+                <span class="post-meta-item-text">in</span>
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
@@ -1154,7 +1302,7 @@ caption标签，为表格添加标题和摘要
 
                 
                 
-                  , 
+                  . 
                 
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
@@ -1206,174 +1354,7 @@ caption标签，为表格添加标题和摘要
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2017/11/15/quartz定时任务操作job-java非web项目/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://liuhouer.github.io/2017/11/08/多线程操作操作数据库/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Bruce">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Northpark博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/11/08/多线程操作操作数据库/" itemprop="url">
-                  多线程操作操作数据库
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-11-08T17:04:10+08:00">
-                2017-11-08
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
-                  </a>
-                </span>
-
-                
-                
-                  , 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/多线程/" itemprop="url" rel="index">
-                    <span itemprop="name">多线程</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="命题"><a href="#命题" class="headerlink" title="命题"></a>命题</h2><blockquote>
-<p>最近有一个需求是：     实现一个java<br>standalone应用，开辟静态HashMap（1500），创建500个线程，序号从1到500，每个线程都会建立3次连接访问数据库test，<br>调用数据库函数cms.sp_get_fundasset，传入线程序号作为参数。数据库函数返回的账户净值按序号写入对应的静态HashMap。统计500个线程全部结束后消耗的时间总长；</p>
-</blockquote>
-<h2 id="实现-思路"><a href="#实现-思路" class="headerlink" title="实现 思路"></a>实现 思路</h2><blockquote>
-<ul>
-<li>创建调用传统创建线程的类</li>
-<li>创建db用于jdbc连接</li>
-<li>创建test用于写测试代码</li>
-</ul>
-</blockquote>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/11/08/多线程操作操作数据库/#more" rel="contents">
-              Read more &raquo;
+              Weiterlesen &raquo;
             </a>
           </div>
           <!--/noindex-->
@@ -1458,8 +1439,8 @@ caption标签，为表格添加标题和摘要
           
             <div class="site-state-item site-state-posts">
               <a href="/">
-                <span class="site-state-item-count">80</span>
-                <span class="site-state-item-name">posts</span>
+                <span class="site-state-item-count">81</span>
+                <span class="site-state-item-name">Artikel</span>
               </a>
             </div>
           
@@ -1470,7 +1451,7 @@ caption标签，为表格添加标题和摘要
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
                 <span class="site-state-item-count">44</span>
-                <span class="site-state-item-name">categories</span>
+                <span class="site-state-item-name">Kategorien</span>
               </a>
             </div>
           
@@ -1480,8 +1461,8 @@ caption标签，为表格添加标题和摘要
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">76</span>
-                <span class="site-state-item-name">tags</span>
+                <span class="site-state-item-count">77</span>
+                <span class="site-state-item-name">Tags</span>
               </a>
             </div>
           
@@ -1589,7 +1570,7 @@ caption标签，为表格添加标题和摘要
 
 
 <div class="powered-by">
-  Powered by <a class="theme-link" href="https://northpark.cn/">NorthPark.cn</a>
+  Erstellt mit  <a class="theme-link" href="https://northpark.cn/">NorthPark.cn</a>
 </div>
 
 

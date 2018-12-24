@@ -317,6 +317,173 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://liuhouer.github.io/2016/09/09/使用 django-blog-zinnia 搭建个人博客/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Bruce">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Northpark博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/09/09/使用 django-blog-zinnia 搭建个人博客/" itemprop="url">
+                  使用 django-blog-zinnia 搭建个人博客
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-09-09T23:46:49+08:00">
+                2016-09-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">in</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/博客/" itemprop="url" rel="index">
+                    <span itemprop="name">博客</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <blockquote>
+<p>目前网上搭建个人博客的方案很多，虽然使用诸如 Wordpress ( PHP )、Hexo ( Node.js )<br>等可以方便快速地搭建一款功能齐全的高性能个人博客，但是本文将尝试一种更为小众化的方案 —— 一款基于 django-blog-zinnia<br>( Python ) 的个人博客应用。 django-blog-zinnia<br>虽然小巧，但是具备了个人博客应用的全部基础功能，且具有很高的拓展性，并且开箱即用。以下是官方列出的一些特性：</p>
+</blockquote>
+<ul>
+<li><p>评论</p>
+</li>
+<li><p>站点地图（用于搜索引擎优化）</p>
+</li>
+<li>文章归档视图（自动按时间归档博文，包括年、月、星期、日各个时间维度）</li>
+<li>RSS 或者 Atom Feed</li>
+<li>分类和标签云</li>
+<li>全文搜索</li>
+<li>Markdown 语法标记</li>
+<li>等等其他一些博客应用具备的全部基本功能。</li>
+<li>你可以参照它的官方文档 ( django-blog-zinnia documentation ) 的 installation 部分进行初始的安装，但本文也会给出详细的安装教程，并对相关的细节进行进一步补充，对功能进行进一步地拓展设置。</li>
+</ul>
+<p><strong>注：本博客在写作时每一个步骤均在实际环境下测试了一遍，基本确保没有问题。但是由于个人写作时的疏忽或者计算机环境的差异，也可能会有一些错误导致你卡在某个地方无法继续进行下去。如果是这样请给我留言，我和你一起排查问题，如果发现是博客写作时的错误也好使我尽快更正。</strong></p>
+<h2 id="建立虚拟环境"><a href="#建立虚拟环境" class="headerlink" title="建立虚拟环境"></a>建立虚拟环境</h2><p>因为在安装 django-blog-zinnia 的过程中会安装很多其他第三方依赖包，因此强烈建议使用虚拟环境安装，以免把系统环境弄乱。</p>
+<p>假设你的 python 版本是 3.4 或更高（建议使用 3.4 以上版本，当然 django-blog-zinnia 本身是兼容 python2.7 及以上版本的），且已经安装了虚拟环境管理工具 virtualenv，如果没有的话通过<code>pip install virtualenv</code> 安装。打开命令行，进入到你想建立虚拟环境的目录，通过命令 <code>virtualenv zinnia_demo_env</code> 创建一个名为 zinnia_demo_env 的虚拟环境，当然 zinnia_demo_env 这个目录名你可以任意指定。进入到创建的虚拟环境的 Scripts 目录下，输入 activate 命令激活虚拟环境，此时命令行前多了一个 ( zinnia_demo_env ) 说明已经激活，例如我的是：</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(zinnia_demo_env) D:<span class="tag">\<span class="name">Users</span></span><span class="tag">\<span class="name">zmrenwu</span></span><span class="tag">\<span class="name">Envs</span></span><span class="tag">\<span class="name">zinnia</span></span>_demo_env<span class="tag">\<span class="name">Scripts</span></span>&gt;</span><br></pre></td></tr></table></figure>
+<p>通过 pip install django==1.9.6 安装 django，建议使用 1.9.6 版本，当然 &gt;=1.9 的版本都是兼容的，但注意目前不兼容 django1.10。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2016/09/09/使用 django-blog-zinnia 搭建个人博客/#more" rel="contents">
+              Weiterlesen &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://liuhouer.github.io/2016/07/19/比较合适的div+css的命名/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -354,7 +521,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-07-19T23:46:49+08:00">
                 2016-07-19
@@ -375,7 +542,7 @@
                 <i class="fa fa-folder-o"></i>
               </span>
               
-                <span class="post-meta-item-text">In</span>
+                <span class="post-meta-item-text">in</span>
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
@@ -551,7 +718,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-07-13T23:46:49+08:00">
                 2016-07-13
@@ -572,7 +739,7 @@
                 <i class="fa fa-folder-o"></i>
               </span>
               
-                <span class="post-meta-item-text">In</span>
+                <span class="post-meta-item-text">in</span>
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
@@ -631,7 +798,7 @@
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2016/07/13/水魔方游玩攻略/#more" rel="contents">
-              Read more &raquo;
+              Weiterlesen &raquo;
             </a>
           </div>
           <!--/noindex-->
@@ -713,7 +880,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-07-11T23:46:49+08:00">
                 2016-07-11
@@ -734,7 +901,7 @@
                 <i class="fa fa-folder-o"></i>
               </span>
               
-                <span class="post-meta-item-text">In</span>
+                <span class="post-meta-item-text">in</span>
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
@@ -789,7 +956,7 @@
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2016/07/11/Springmvc自定义注解实现自定义拦截/#more" rel="contents">
-              Read more &raquo;
+              Weiterlesen &raquo;
             </a>
           </div>
           <!--/noindex-->
@@ -871,7 +1038,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-05-26T23:46:49+08:00">
                 2016-05-26
@@ -892,7 +1059,7 @@
                 <i class="fa fa-folder-o"></i>
               </span>
               
-                <span class="post-meta-item-text">In</span>
+                <span class="post-meta-item-text">in</span>
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
@@ -1024,7 +1191,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-05-23T23:46:49+08:00">
                 2016-05-23
@@ -1045,7 +1212,7 @@
                 <i class="fa fa-folder-o"></i>
               </span>
               
-                <span class="post-meta-item-text">In</span>
+                <span class="post-meta-item-text">in</span>
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
@@ -1130,154 +1297,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://liuhouer.github.io/2016/05/21/微单微世界/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Bruce">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Northpark博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/05/21/微单微世界/" itemprop="url">
-                  微单微世界
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-05-21T15:41:15+08:00">
-                2016-05-21
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/摄影/" itemprop="url" rel="index">
-                    <span itemprop="name">摄影</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p><strong>它并不是我的花 我只是恰好途经了它的盛放</strong><br><strong>同步更新到分类-微世界</strong></p>
-<p><img src="http://landscape.heartill.com/16-5-21/67923945.jpg" alt=""><br><img src="http://landscape.heartill.com/16-5-21/87724692.jpg" alt=""><br><img src="http://landscape.heartill.com/16-5-21/12485394.jpg" alt=""><br><img src="http://landscape.heartill.com/16-5-21/43890907.jpg" alt=""><br><img src="http://landscape.heartill.com/16-5-21/33553156.jpg" alt=""><br><img src="http://landscape.heartill.com/16-5-21/71478007.jpg" alt=""><br><img src="http://landscape.heartill.com/16-5-21/54986814.jpg" alt=""><br><img src="http://landscape.heartill.com/16-5-21/19144292.jpg" alt=""><br><img src="http://landscape.heartill.com/16-5-21/8199880.jpg" alt=""><br><img src="http://landscape.heartill.com/16-5-21/22002353.jpg" alt=""></p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2016/05/21/微单微世界/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1327,8 +1346,8 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/">
-                <span class="site-state-item-count">80</span>
-                <span class="site-state-item-name">posts</span>
+                <span class="site-state-item-count">81</span>
+                <span class="site-state-item-name">Artikel</span>
               </a>
             </div>
           
@@ -1339,7 +1358,7 @@
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
                 <span class="site-state-item-count">44</span>
-                <span class="site-state-item-name">categories</span>
+                <span class="site-state-item-name">Kategorien</span>
               </a>
             </div>
           
@@ -1349,8 +1368,8 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">76</span>
-                <span class="site-state-item-name">tags</span>
+                <span class="site-state-item-count">77</span>
+                <span class="site-state-item-name">Tags</span>
               </a>
             </div>
           
@@ -1458,7 +1477,7 @@
 
 
 <div class="powered-by">
-  Powered by <a class="theme-link" href="https://northpark.cn/">NorthPark.cn</a>
+  Erstellt mit  <a class="theme-link" href="https://northpark.cn/">NorthPark.cn</a>
 </div>
 
 
