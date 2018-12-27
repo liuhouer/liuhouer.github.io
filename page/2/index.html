@@ -318,6 +318,158 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://liuhouer.github.io/2018/05/29/guice 配置模块的两种方式 3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Bruce">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Northpark博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2018/05/29/guice 配置模块的两种方式 3/" itemprop="url">
+                  guice 配置模块的两种方式 <3>
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-05-29T00:00:00+08:00">
+                2018-05-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/guice/" itemprop="url" rel="index">
+                    <span itemprop="name">guice</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h1 id="guice-配置模块的两种方式"><a href="#guice-配置模块的两种方式" class="headerlink" title="guice 配置模块的两种方式 "></a>guice 配置模块的两种方式 <3></3></h1><blockquote>
+<p>guice是使用module进行绑定的，它提供了两种方式进行操作.</p>
+</blockquote>
+<h2 id="第一种是继承AbstractModule抽象类"><a href="#第一种是继承AbstractModule抽象类" class="headerlink" title="第一种是继承AbstractModule抽象类."></a>第一种是继承AbstractModule抽象类.</h2><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"> <span class="keyword">import</span> com.google.inject.<span class="type">AbstractModule</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 继承 AbstractModule这个抽象类</span></span><br><span class="line"><span class="comment"> * @author bruce</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">TestModule</span> <span class="keyword">extends</span> <span class="title">AbstractModule</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> void configure() &#123;</span><br><span class="line">        </span><br><span class="line">        bind(<span class="type">Dog</span>.<span class="keyword">class</span>).to(<span class="type">DarkDog</span>.<span class="keyword">class</span>);</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="第二种是实现Module接口"><a href="#第二种是实现Module接口" class="headerlink" title="第二种是实现Module接口:"></a>第二种是实现Module接口:</h2><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> com.google.inject.Binder;</span><br><span class="line"><span class="keyword">import</span> com.google.inject.Module;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 实现module 接口</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> bruce</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">GoogleGuiceModule</span> <span class="keyword">implements</span> <span class="title">Module</span>&#123;</span></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> configure(Binder arg) &#123;</span><br><span class="line">        arg.bind(Dog.<span class="keyword">class</span>).to(DarkDog.<span class="keyword">class</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/05/29/guice 配置模块的两种方式 3/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://liuhouer.github.io/2018/05/27/guice三种注入方式 2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1129,235 +1281,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://liuhouer.github.io/2017/12/25/html容易忽略的标签和结构/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Bruce">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Northpark博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/12/25/html容易忽略的标签和结构/" itemprop="url">
-                  html容易忽略的标签和结构
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-12-25T10:24:09+08:00">
-                2017-12-25
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/html/" itemprop="url" rel="index">
-                    <span itemprop="name">html</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <blockquote>
-<ol>
-<li>HTML是网页内容的载体。内容就是网页制作者放在页面上想要让用户浏览的信息，可以包含文字、图片、视频等。</li>
-<li>CSS样式是表现。就像网页的外衣。比如，标题字体、颜色变化，或为标题加入背景图片、边框等。所有这些用来改变内容外观的东西称之为表现。</li>
-<li>JavaScript是用来实现网页上的特效效果。如：鼠标滑过弹出下拉菜单。或鼠标滑过表格的背景颜色改变。还有焦点新闻（新闻图片）的轮换。可以这么理解，有动画的，有交互的一般都是用JavaScript来实现的。<br>下面给大家布置一个任务，在完成任务的时候，每输入一行代码，代码窗口就会立即显示出效果。</li>
-</ol>
-<p>下面我们来了解一下<head>标签的作用。文档的头部描述了文档的各种属性和信息，包括文档的标题等。绝大多数文档头部包含的数据都不会真正作为内容显示给读者。<br>下面这些标签可用在 head 部分：</head></p>
-</blockquote>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">title</span>&gt;</span>...<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">link</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined">...</span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined">...</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<blockquote>
-<p><code>&lt;title&gt;</code>标签：在<code>&lt;title&gt;</code>和<code>&lt;/title&gt;</code>标签之间的文字内容是网页的标题信息，它会出现在浏览器的标题栏中。网页的title标签用于告诉用户和搜索引擎这个网页的主要内容是什么，搜索引擎可以通过网页标题，迅速的判断出网页的主题。每个网页的内容都是不同的，每个网页都应该有一个独一无二的title。</p>
-</blockquote>
-<blockquote>
-<p><code>&lt;em&gt;</code>的内容在浏览中显示为斜体，<strong>显示为加粗。如果不喜欢这种样式，没有关系，以后可以使用css样式去改变它。</strong></p>
-</blockquote>
-<blockquote>
-<p><code>&lt;q&gt;</code>标签，==短文本引用==<br>      想在你的html中加一段引用吗？比如在你的网页的文章里想引用某个作家的一句诗，这样会使你的文章更加出彩，那么<q>标签是你所需要的。<br>语法：<br><code>&lt;q&gt;</code>引用文本<code>&lt;/q&gt;</code><br>不需要双引号</q></p>
-</blockquote>
-<blockquote>
-<pre><code>`&lt;blockquote&gt;`的作用也是引用别人的文本。但它是对长文本的引用，如在文章中引入大段某知名作家的文字，这时需要这个标签。
-  等等，上一节`&lt;q&gt;`标签不是也是对文本的引用吗？不要忘记`&lt;q&gt;`标签是对简短文本的引用，比如说引用一句话就用到`&lt;q&gt;`标签。
-  如想在我的文章中引用李白《关山月》中的诗句，因为引用文本比较长，所以使用`&lt;blockquote&gt;`。
-</code></pre><p>语法: <code>&lt;blockquote&gt;</code>引用文本<code>&lt;/blockquote&gt;</code></p>
-</blockquote>
-<blockquote>
-<pre><code>认识&lt;hr&gt;标签，添加水平横线
-&lt;address&gt;标签，为网页加入地址信息
-</code></pre></blockquote>
-<blockquote>
-<pre><code>想加入一行代码吗？使用&lt;code&gt;标签
-</code></pre></blockquote>
-<blockquote>
-<pre><code>单行&lt;code&gt;&lt;/code&gt;;
-多行代码，&lt;pre&gt;
-</code></pre></blockquote>
-<blockquote>
-<pre><code>注意：&lt;pre&gt; 标签不只是为显示计算机的源代码时用的，在你需要在网页中预显示格&gt;     式时都可以使用它，只是&lt;pre&gt;标签的一个常见应用就是用来展示计算机的源代码。
-</code></pre></blockquote>
-<blockquote>
-<pre><code>ul标签是圆点
-ol是数字 可以使用&lt;ol&gt;标签来制作有序列表来展示。
-</code></pre></blockquote>
-<pre><code>&lt;table&gt;(表格标签)
-&lt;tbody&gt;（不加tbody表格将加载完再显示，加tbody表格将逐行显示，还有另外两个thead&gt;&lt;tfooter&gt;）
-&lt;tr&gt;（行标签）
-&lt;th&gt;&lt;/th&gt;（表头标签）
-&lt;td&gt;&lt;/td&gt;（单元格标签）
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-
-caption标签，为表格添加标题和摘要
-表格还是需要添加一些标签进行优化，可以添加标题和摘要。代码如下：
-
-摘要
-摘要的内容是不会在浏览器中显示出来的。它的作用是增加表格的可读性(语义化)，使搜索引擎更好的读懂表格内容，还可以使屏幕阅读器更好的帮助特殊用户读取表格内容。
-    语法：&lt;table summary=&quot;表格简介文本&quot;&gt;
-
-标题
-用以描述表格内容，标题的显示位置：表格上方。
-     语法：
-&lt;table&gt;
-&lt;caption&gt;标题文本&lt;/caption&gt;
-&lt;tr&gt;
-&lt;td&gt;…&lt;/td&gt;
-&lt;td&gt;…&lt;/td&gt;
-…
-&lt;/tr&gt;
-…
-&lt;/table&gt;
-
-
-使用mailto在网页中链接Email地址
-
-在网页的制作中为使网页炫丽美观，肯定是缺少不了图片，可以使用&lt;img&gt;标签来插入图片。
-语法：
-&lt;img src=&quot;图片地址&quot; alt=&quot;下载失败时的替换文本&quot; title = &quot;提示文本&quot;&gt;
-举例：
-&lt;img src = &quot;myimage.gif&quot; alt = &quot;My Image&quot; title = &quot;My Image&quot; /&gt;
-文本域，支持多行文本输入
-当用户需要在表单中输入大段文字时，需要用到文本输入域。
-语法：
-&lt;textarea rows=&quot;行数&quot; cols=&quot;列数&quot;&gt;文本&lt;/textarea&gt;
-
-
-使用下拉列表框进行多选
-下拉列表也可以进行多选操作，在&lt;select&gt;标签中设置multiple=&quot;multiple&quot;属性，就可以实现多选功能，在 windows 操作系统下，进行多选时按下Ctrl键同时进行单击（在 Mac下使用 Command +单击），可以选择多个选项。
-</code></pre>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1407,7 +1330,7 @@ caption标签，为表格添加标题和摘要
           
             <div class="site-state-item site-state-posts">
               <a href="/">
-                <span class="site-state-item-count">82</span>
+                <span class="site-state-item-count">83</span>
                 <span class="site-state-item-name">posts</span>
               </a>
             </div>

@@ -318,6 +318,166 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://liuhouer.github.io/2018/12/27/高并发、多线程探索-3-安全发布对象与多种单例模式/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Bruce">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Northpark博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2018/12/27/高并发、多线程探索-3-安全发布对象与多种单例模式/" itemprop="url">
+                  高并发、多线程探索-3-安全发布对象与多种单例模式
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-27T00:00:00+08:00">
+                2018-12-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><h2 id="发布对象"><a href="#发布对象" class="headerlink" title="发布对象"></a>发布对象</h2><blockquote>
+<p>使一个对象能够被当前范围之外的代码所使用。<br>在我们的日常开发中，我们经常要发布一些对象，比如通过类的非私有方法返回对象的引用，或者通过公有静态变量发布对象。</p>
+</blockquote>
+<h2 id="对象逸出"><a href="#对象逸出" class="headerlink" title="对象逸出"></a>对象逸出</h2><blockquote>
+<p>一种错误的发布。当一个对象还没有构造完成时，就使它被其他线程所见。</p>
+</blockquote>
+<h2 id="代码演示"><a href="#代码演示" class="headerlink" title="代码演示"></a>代码演示</h2><h3 id="不安全发布对象"><a href="#不安全发布对象" class="headerlink" title="不安全发布对象"></a>不安全发布对象</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> cn.northpark.concurrency.publish;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.Arrays;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> cn.northpark.concurrency.annotaion.NotRecommand;</span><br><span class="line"><span class="keyword">import</span> cn.northpark.concurrency.annotaion.NotThreadSafe;</span><br><span class="line"><span class="keyword">import</span> lombok.extern.slf4j.Slf4j;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> jeyy</span></span><br><span class="line"><span class="comment"> *	这个代码通过public访问级别发布了类的域，在类的任何外部的线程都可以访问这些域</span></span><br><span class="line"><span class="comment"> *  我们无法保证其他线程会不会修改这个域，从而使私有域内的值错误（上述代码中就对私有域进行了修改）</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Slf</span>4j</span><br><span class="line"><span class="meta">@NotThreadSafe</span></span><br><span class="line"><span class="meta">@NotRecommand</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UnsafePublish</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//调用类的公共方法可以改变类的私有属性的值</span></span><br><span class="line">	<span class="keyword">private</span> String[] status = &#123;<span class="string">"1"</span>,<span class="string">"2"</span>,<span class="string">"3"</span>&#125;;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//类的非私有方法，返回私有对象的引用</span></span><br><span class="line">	<span class="keyword">public</span> String[] getStatus() &#123;</span><br><span class="line">		<span class="keyword">return</span> status;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		UnsafePublish up = <span class="keyword">new</span> UnsafePublish();</span><br><span class="line">		log.info(<span class="string">"&#123;&#125;"</span>,Arrays.toString(up.getStatus()));</span><br><span class="line">		</span><br><span class="line">		up.status[<span class="number">0</span>]=<span class="string">"999"</span>;</span><br><span class="line">		log.info(<span class="string">"&#123;&#125;"</span>,Arrays.toString(up.getStatus()));</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> cn.northpark.concurrency.publish;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> cn.northpark.concurrency.annotaion.NotRecommand;</span><br><span class="line"><span class="keyword">import</span> cn.northpark.concurrency.annotaion.NotThreadSafe;</span><br><span class="line"><span class="keyword">import</span> lombok.extern.slf4j.Slf4j;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> jeyy</span></span><br><span class="line"><span class="comment"> *  &lt;pre&gt;</span></span><br><span class="line"><span class="comment"> *  这个内部类的实例里面包含了对封装实例的私有域对象的引用，在对象没有被正确构造完成之前就会被发布，有可能有不安全的因素在里面，会导致this引用在构造期间溢出的错误。</span></span><br><span class="line"><span class="comment"> *  上述代码在函数构造过程中启动了一个线程。无论是隐式的启动还是显式的启动，都会造成这个this引用的溢出。新线程总会在所属对象构造完毕之前就已经看到它了。</span></span><br><span class="line"><span class="comment"> *  因此要在构造函数中创建线程，那么不要启动它，而是应该采用一个专有的start或者初始化的方法统一启动线程</span></span><br><span class="line"><span class="comment"> *  这里其实我们可以采用工厂方法和私有构造函数来完成对象创建和监听器的注册等等，这样才可以避免错误</span></span><br><span class="line"><span class="comment"> *  ——————————————————————————————————————————————————-</span></span><br><span class="line"><span class="comment"> *  如果不正确的发布对象会导致两种错误： </span></span><br><span class="line"><span class="comment"> *  （1）发布线程意外的任何线程都可以看到被发布对象的过期的值 </span></span><br><span class="line"><span class="comment"> *  （2）线程看到的被发布线程的引用是最新的，然而被发布对象的状态却是过期的</span></span><br><span class="line"><span class="comment"> * &lt;/pre&gt;	</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Slf</span>4j</span><br><span class="line"><span class="meta">@NotThreadSafe</span></span><br><span class="line"><span class="meta">@NotRecommand</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Escape</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">int</span> thisCanBeEscape = <span class="number">0</span>;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">Escape</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">new</span> InnerClass();</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">InnerClass</span></span>&#123;</span><br><span class="line">		<span class="comment">//内部类构造方法调用外部类的私有域</span></span><br><span class="line">		<span class="function"><span class="keyword">public</span> <span class="title">InnerClass</span><span class="params">()</span> </span>&#123;</span><br><span class="line">			log.info(<span class="string">"&#123;&#125;"</span>,Escape.<span class="keyword">this</span>.thisCanBeEscape);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">new</span> Escape();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="安全发布对象示例（多种单例模式演示）"><a href="#安全发布对象示例（多种单例模式演示）" class="headerlink" title="安全发布对象示例（多种单例模式演示）"></a>安全发布对象示例（多种单例模式演示）</h2><blockquote>
+<p>如何安全发布对象？共有四种方法</p>
+</blockquote>
+<blockquote>
+<p>1、在静态初始化函数中<strong>初始化一个对象引用</strong><br>2、将对象的引用保存到<strong>volatile类型域</strong>或者<strong>AtomicReference对象</strong>中<br>3、将对象的引用保存到某个正确<strong>构造对象的final类型域</strong>中<br>4、将对象的引用保存到一个由<strong>锁保护</strong>的域中</p>
+</blockquote>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/12/27/高并发、多线程探索-3-安全发布对象与多种单例模式/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://liuhouer.github.io/2018/12/25/高并发、多线程探索-2-线程安全性-原子性-Atomic-CAS/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1107,158 +1267,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://liuhouer.github.io/2018/05/29/guice 配置模块的两种方式 3/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Bruce">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Northpark博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2018/05/29/guice 配置模块的两种方式 3/" itemprop="url">
-                  guice 配置模块的两种方式 <3>
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-05-29T00:00:00+08:00">
-                2018-05-29
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/guice/" itemprop="url" rel="index">
-                    <span itemprop="name">guice</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="guice-配置模块的两种方式"><a href="#guice-配置模块的两种方式" class="headerlink" title="guice 配置模块的两种方式 "></a>guice 配置模块的两种方式 <3></3></h1><blockquote>
-<p>guice是使用module进行绑定的，它提供了两种方式进行操作.</p>
-</blockquote>
-<h2 id="第一种是继承AbstractModule抽象类"><a href="#第一种是继承AbstractModule抽象类" class="headerlink" title="第一种是继承AbstractModule抽象类."></a>第一种是继承AbstractModule抽象类.</h2><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"> <span class="keyword">import</span> com.google.inject.<span class="type">AbstractModule</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 继承 AbstractModule这个抽象类</span></span><br><span class="line"><span class="comment"> * @author bruce</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">TestModule</span> <span class="keyword">extends</span> <span class="title">AbstractModule</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> void configure() &#123;</span><br><span class="line">        </span><br><span class="line">        bind(<span class="type">Dog</span>.<span class="keyword">class</span>).to(<span class="type">DarkDog</span>.<span class="keyword">class</span>);</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="第二种是实现Module接口"><a href="#第二种是实现Module接口" class="headerlink" title="第二种是实现Module接口:"></a>第二种是实现Module接口:</h2><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> com.google.inject.Binder;</span><br><span class="line"><span class="keyword">import</span> com.google.inject.Module;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 实现module 接口</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> bruce</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">GoogleGuiceModule</span> <span class="keyword">implements</span> <span class="title">Module</span>&#123;</span></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> configure(Binder arg) &#123;</span><br><span class="line">        arg.bind(Dog.<span class="keyword">class</span>).to(DarkDog.<span class="keyword">class</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<hr>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/05/29/guice 配置模块的两种方式 3/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1308,7 +1316,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/">
-                <span class="site-state-item-count">82</span>
+                <span class="site-state-item-count">83</span>
                 <span class="site-state-item-name">posts</span>
               </a>
             </div>
