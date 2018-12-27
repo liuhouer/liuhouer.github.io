@@ -96,7 +96,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="多线程,高并发," />
+  <meta name="keywords" content="多线程,高并发,单例模式," />
 
 
 
@@ -115,7 +115,7 @@
 
 
 <meta name="description" content="概念发布对象 使一个对象能够被当前范围之外的代码所使用。在我们的日常开发中，我们经常要发布一些对象，比如通过类的非私有方法返回对象的引用，或者通过公有静态变量发布对象。  对象逸出 一种错误的发布。当一个对象还没有构造完成时，就使它被其他线程所见。  代码演示不安全发布对象1234567891011121314151617181920212223242526272829303132333435pa">
-<meta name="keywords" content="多线程,高并发">
+<meta name="keywords" content="多线程,高并发,单例模式">
 <meta property="og:type" content="article">
 <meta property="og:title" content="高并发、多线程探索-3-安全发布对象与多种单例模式">
 <meta property="og:url" content="http://liuhouer.github.io/2018/12/27/高并发、多线程探索-3-安全发布对象与多种单例模式/index.html">
@@ -123,7 +123,7 @@
 <meta property="og:description" content="概念发布对象 使一个对象能够被当前范围之外的代码所使用。在我们的日常开发中，我们经常要发布一些对象，比如通过类的非私有方法返回对象的引用，或者通过公有静态变量发布对象。  对象逸出 一种错误的发布。当一个对象还没有构造完成时，就使它被其他线程所见。  代码演示不安全发布对象1234567891011121314151617181920212223242526272829303132333435pa">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http://liuhouer.heartill.com/blog/2018-12-27/1.jpg">
-<meta property="og:updated_time" content="2018-12-27T06:50:44.766Z">
+<meta property="og:updated_time" content="2018-12-27T10:38:21.741Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="高并发、多线程探索-3-安全发布对象与多种单例模式">
 <meta name="twitter:description" content="概念发布对象 使一个对象能够被当前范围之外的代码所使用。在我们的日常开发中，我们经常要发布一些对象，比如通过类的非私有方法返回对象的引用，或者通过公有静态变量发布对象。  对象逸出 一种错误的发布。当一个对象还没有构造完成时，就使它被其他线程所见。  代码演示不安全发布对象1234567891011121314151617181920212223242526272829303132333435pa">
@@ -519,6 +519,8 @@
           
             <a href="/tags/高并发/" rel="tag"># 高并发</a>
           
+            <a href="/tags/单例模式/" rel="tag"># 单例模式</a>
+          
         </div>
       
 
@@ -539,6 +541,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/12/27/高并发、多线程探索-4-不可变对象 -final -Immutable{google guava} -unmodifiable/" rel="prev" title="高并发、多线程探索-4-不可变对象 -final -Immutable{google guava} -unmodifiable">
+                高并发、多线程探索-4-不可变对象 -final -Immutable{google guava} -unmodifiable <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -612,7 +618,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/">
-                <span class="site-state-item-count">83</span>
+                <span class="site-state-item-count">85</span>
                 <span class="site-state-item-name">posts</span>
               </a>
             </div>
@@ -634,7 +640,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">77</span>
+                <span class="site-state-item-count">80</span>
                 <span class="site-state-item-name">tags</span>
               </a>
             </div>
