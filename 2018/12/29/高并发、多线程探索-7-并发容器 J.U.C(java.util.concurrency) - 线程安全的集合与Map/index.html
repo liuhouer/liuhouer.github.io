@@ -1,0 +1,960 @@
+<!doctype html>
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+<html class="mac-soft mist use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Boogaloo:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Satisfy:300,300italic,400,400italic,700,700italic|Roboto:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="多线程,高并发," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Northpark博客" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/octopus.png?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="概述 Java并发容器JUC是三个单词的缩写。是JDK下面的一个包名。即Java.util.concurrency。上一节我们介绍了ArrayList、HashMap、HashSet对应的同步容器保证其线程安全，这节我们介绍一下其对应的并发容器。  ArrayList –&amp;gt; CopyOnWriteArrayList CopyOnWriteArrayList写操作时复制，当有新元素添加到集合中">
+<meta name="keywords" content="多线程,高并发">
+<meta property="og:type" content="article">
+<meta property="og:title" content="高并发、多线程探索-7-并发容器 J.U.C(java.util.concurrency) - 线程安全的集合与Map">
+<meta property="og:url" content="http://liuhouer.github.io/2018/12/29/高并发、多线程探索-7-并发容器 J.U.C(java.util.concurrency) - 线程安全的集合与Map/index.html">
+<meta property="og:site_name" content="Northpark博客">
+<meta property="og:description" content="概述 Java并发容器JUC是三个单词的缩写。是JDK下面的一个包名。即Java.util.concurrency。上一节我们介绍了ArrayList、HashMap、HashSet对应的同步容器保证其线程安全，这节我们介绍一下其对应的并发容器。  ArrayList –&amp;gt; CopyOnWriteArrayList CopyOnWriteArrayList写操作时复制，当有新元素添加到集合中">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2018-12-29T07:10:47.703Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="高并发、多线程探索-7-并发容器 J.U.C(java.util.concurrency) - 线程安全的集合与Map">
+<meta name="twitter:description" content="概述 Java并发容器JUC是三个单词的缩写。是JDK下面的一个包名。即Java.util.concurrency。上一节我们介绍了ArrayList、HashMap、HashSet对应的同步容器保证其线程安全，这节我们介绍一下其对应的并发容器。  ArrayList –&amp;gt; CopyOnWriteArrayList CopyOnWriteArrayList写操作时复制，当有新元素添加到集合中">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":6},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://liuhouer.github.io/2018/12/29/高并发、多线程探索-7-并发容器 J.U.C(java.util.concurrency) - 线程安全的集合与Map/"/>
+
+
+
+
+
+  <title> 高并发、多线程探索-7-并发容器 J.U.C(java.util.concurrency) - 线程安全的集合与Map | Northpark博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Northpark博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Today does not walk, will have to run tomorrow.</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-首页">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-关于">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-旅行">
+          <a href="/travel" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-ship"></i> <br />
+            
+            旅行
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-微世界">
+          <a href="/landscape" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-reddit-alien"></i> <br />
+            
+            微世界
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-音乐">
+          <a href="/music" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-music"></i> <br />
+            
+            音乐
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-读书">
+          <a href="/books" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-book"></i> <br />
+            
+            读书
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-归档">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://liuhouer.github.io/2018/12/29/高并发、多线程探索-7-并发容器 J.U.C(java.util.concurrency) - 线程安全的集合与Map/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Bruce">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Northpark博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                高并发、多线程探索-7-并发容器 J.U.C(java.util.concurrency) - 线程安全的集合与Map
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-29T00:00:00+08:00">
+                2018-12-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i> &nbsp;  本文总阅读量
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>次
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><blockquote>
+<p>Java<strong>并发容器JUC</strong>是三个单词的缩写。是JDK下面的一个包名。即<strong>Java.util.concurrency</strong>。<br>上一节我们介绍了ArrayList、HashMap、HashSet对应的同步容器保证其线程安全，这节我们介绍一下其对应的并发容器。</p>
+</blockquote>
+<h3 id="ArrayList-–-gt-CopyOnWriteArrayList"><a href="#ArrayList-–-gt-CopyOnWriteArrayList" class="headerlink" title="ArrayList –&gt; CopyOnWriteArrayList"></a>ArrayList –&gt; CopyOnWriteArrayList</h3><blockquote>
+<p><strong>CopyOnWriteArrayList</strong><br>写操作时复制，当有新元素添加到集合中时，从原有的数组中拷贝一份出来，然后在新的数组上作写操作，将原来的数组指向新的数组。整个数组的add操作都是在锁的保护下进行的，防止并发时复制多份副本。读操作是在原数组中进行，不需要加锁</p>
+</blockquote>
+<blockquote>
+<p><strong>缺点</strong>：<br>1.写操作时复制消耗内存，如果元素比较多时候，容易导致young gc 和full gc。<br>2.不能用于实时读的场景.由于复制和add操作等需要时间，故读取时可能读到旧值。  能做到最终一致性，但无法满足实时性的要求，更适合读多写少的场景。<br>如果无法知道数组有多大，或者add,set操作有多少，慎用此类,在大量的复制副本的过程中很容易出错。</p>
+</blockquote>
+<blockquote>
+<p><strong>设计思想</strong>：<br>1.读写分离<br>2.最终一致性<br>3.使用时另外开辟空间，防止并发冲突</p>
+</blockquote>
+<p><strong>源码分析</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//构造方法</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">CopyOnWriteArrayList</span><span class="params">(Collection&lt;? extends E&gt; c)</span> </span>&#123;</span><br><span class="line">    Object[] elements;<span class="comment">//使用对象数组来承载数据</span></span><br><span class="line">    <span class="keyword">if</span> (c.getClass() == CopyOnWriteArrayList.class)</span><br><span class="line">        elements = ((CopyOnWriteArrayList&lt;?&gt;)c).getArray();</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        elements = c.toArray();</span><br><span class="line">        <span class="comment">// c.toArray might (incorrectly) not return Object[] (see 6260652)</span></span><br><span class="line">        <span class="keyword">if</span> (elements.getClass() != Object[].class)</span><br><span class="line">            elements = Arrays.copyOf(elements, elements.length, Object[].class);</span><br><span class="line">    &#125;</span><br><span class="line">    setArray(elements);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//添加数据方法</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">add</span><span class="params">(E e)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">final</span> ReentrantLock lock = <span class="keyword">this</span>.lock;<span class="comment">//使用重入锁，保证线程安全</span></span><br><span class="line">    lock.lock();</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        Object[] elements = getArray();<span class="comment">//获取当前数组数据</span></span><br><span class="line">        <span class="keyword">int</span> len = elements.length;</span><br><span class="line">        Object[] newElements = Arrays.copyOf(elements, len + <span class="number">1</span>);<span class="comment">//复制当前数组并且扩容+1</span></span><br><span class="line">        newElements[len] = e;<span class="comment">//将要添加的数据放入新数组</span></span><br><span class="line">        setArray(newElements);<span class="comment">//将原来的数组指向新的数组</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        lock.unlock();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//获取数据方法，与普通的get没什么差别</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> E <span class="title">get</span><span class="params">(Object[] a, <span class="keyword">int</span> index)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (E) a[index];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="HashSet-–-gt-CopyOnWriteArraySet"><a href="#HashSet-–-gt-CopyOnWriteArraySet" class="headerlink" title="HashSet –&gt; CopyOnWriteArraySet"></a>HashSet –&gt; CopyOnWriteArraySet</h3><blockquote>
+<p>它是线程安全的，<strong>底层实现使用的是CopyOnWriteArrayList</strong>，因此它也适用于大小<strong>很小</strong>的set集合，<strong>只读操作远大于可变操作</strong>。因为他需要copy整个数组，所以包括add、remove、set它的开销相对于大一些。<br>迭代器不支持可变的remove操作。使用迭代器遍历的时候速度很快，而且不会与其他线程发生冲突。</p>
+</blockquote>
+<p><strong>源码分析</strong>：</p>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//构造方法</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">CopyOnWriteArraySet</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    al = <span class="keyword">new</span> CopyOnWriteArrayList&lt;E&gt;();<span class="comment">//底层使用CopyOnWriteArrayList</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//添加元素方法，基本实现原理与CopyOnWriteArrayList相同</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> boolean <span class="title">addIfAbsent</span>(<span class="params">E e, Object[] snapshot</span>) </span>&#123;</span><br><span class="line">    final ReentrantLock <span class="keyword">lock</span> = <span class="keyword">this</span>.<span class="keyword">lock</span>;</span><br><span class="line">    <span class="keyword">lock</span>.<span class="keyword">lock</span>();</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        Object[] current = getArray();</span><br><span class="line">        <span class="keyword">int</span> len = current.length;</span><br><span class="line">        <span class="keyword">if</span> (snapshot != current) &#123;<span class="comment">//添加了元素去重操作</span></span><br><span class="line">            <span class="comment">// Optimize for lost race to another addXXX operation</span></span><br><span class="line">            <span class="keyword">int</span> common = Math.min(snapshot.length, len);</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; common; i++)</span><br><span class="line">                <span class="keyword">if</span> (current[i] != snapshot[i] &amp;&amp; eq(e, current[i]))</span><br><span class="line">                    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">            <span class="keyword">if</span> (indexOf(e, current, common, len) &gt;= <span class="number">0</span>)</span><br><span class="line">                    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        Object[] newElements = Arrays.copyOf(current, len + <span class="number">1</span>);</span><br><span class="line">        newElements[len] = e;</span><br><span class="line">        setArray(newElements);</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        <span class="keyword">lock</span>.unlock();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="TreeSet-–-gt-ConcurrentSkipListSet"><a href="#TreeSet-–-gt-ConcurrentSkipListSet" class="headerlink" title="TreeSet –&gt; ConcurrentSkipListSet"></a>TreeSet –&gt; ConcurrentSkipListSet</h3><blockquote>
+<p>它是JDK6新增的类，同TreeSet一样支持自然排序，并且可以在构造的时候自己定义比较器。</p>
+<p>同其他set集合，是基于map集合的（<strong>基于ConcurrentSkipListMap</strong>），在多线程环境下，里面的contains、add、remove操作都是线程安全的。<br>多个线程可以安全的并发的执行插入、移除、和访问操作。但是对于批量操作addAll、removeAll、retainAll和containsAll并不能保证以原子方式执行，原因是addAll、removeAll、retainAll底层调用的还是contains、add、remove方法，只能保证每一次的执行是原子性的，代表在单一执行操纵时不会被打断，但是不能保证每一次批量操作都不会被打断。在使用批量操作时，还是需要手动加上同步操作的。<br>不允许使用null元素的，它无法可靠的将参数及返回值与不存在的元素区分开来。</p>
+</blockquote>
+<p>源码分析：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//构造方法</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">ConcurrentSkipListSet</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    m = <span class="keyword">new</span> ConcurrentSkipListMap&lt;E,Object&gt;();<span class="comment">//使用ConcurrentSkipListMap实现</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<a id="more"></a> 
+<h3 id="HashMap-–-gt-ConcurrentHashMap"><a href="#HashMap-–-gt-ConcurrentHashMap" class="headerlink" title="HashMap –&gt; ConcurrentHashMap"></a>HashMap –&gt; ConcurrentHashMap</h3><blockquote>
+<p>不允许空值，在实际的应用中除了少数的插入操作和删除操作外，绝大多数我们使用map都是读取操作。而且读操作大多数都是成功的。基于这个前提，它针对读操作做了大量的优化。因此这个类在高并发环境下有特别好的表现。<br>ConcurrentHashMap作为Concurrent一族，其有着高效地并发操作，相比Hashtable的笨重，ConcurrentHashMap则更胜一筹了。<br>在<strong>1.8版本以前</strong>，ConcurrentHashMap采用<strong>分段锁的概念</strong>，使锁更加细化.<br>但是1.8已经改变了这种思路，而是利用<strong>CAS+Synchronized</strong>来保证并发更新的安全，当然底层采用数组+链表+红黑树的存储结构。</p>
+</blockquote>
+<h3 id="TreeMap-–-gt-ConcurrentSkipListMap"><a href="#TreeMap-–-gt-ConcurrentSkipListMap" class="headerlink" title="TreeMap –&gt; ConcurrentSkipListMap"></a>TreeMap –&gt; ConcurrentSkipListMap</h3><blockquote>
+<p>底层实现采用<strong>SkipList跳表</strong><br>曾经有人用<strong>ConcurrentHashMap</strong>与<strong>ConcurrentSkipListMap</strong>做性能测试，在4个线程1.6W的数据条件下，前者的数据存取速度是后者的4倍左右。但是后者有几个前者不能比拟的优点：<br>1、Key是有序的<br>2、支持更高的并发，存储时间与线程数无关 安全共享对象策略</p>
+</blockquote>
+<h3 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h3><blockquote>
+<p><strong>线程限制</strong>：一个被线程限制的对象，由线程独占，并且只能被占有它的线程修改<br><strong>共享只读</strong>：一个共享只读的对象，在没有额外同步的情况下，可以被多个线程并发访问，但是任何线程都不能修改它<br><strong>线程安全对象</strong>：一个线程安全的对象或者容器，在内部通过同步机制来保障线程安全，多以其他线程无需额外的同步就可以通过公共接口随意访问他<br><strong>被守护对象</strong>：被守护对象只能通过获取特定的锁来访问。</p>
+</blockquote>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>生活不止苟且,还有我喜爱的海岸.</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="http://liuhouer.heartill.com/blog/donate/praise.jpg" alt="Bruce WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="http://liuhouer.heartill.com/blog/donate/alipay.png" alt="Bruce Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/多线程/" rel="tag"># 多线程</a>
+          
+            <a href="/tags/高并发/" rel="tag"># 高并发</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/28/高并发、多线程探索-6-线程不安全类、同步容器/" rel="next" title="高并发、多线程探索-6-线程不安全类、同步容器">
+                <i class="fa fa-chevron-left"></i> 高并发、多线程探索-6-线程不安全类、同步容器
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8yNzgzNy80NDEz"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="Bruce" />
+          <p class="site-author-name" itemprop="name">Bruce</p>
+           
+              <p class="site-description motion-element" itemprop="description">Extreme ways</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/">
+                <span class="site-state-item-count">87</span>
+                <span class="site-state-item-name">posts</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">44</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">80</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/liuhouer" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/liuhouer" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.facebook.com/bruce.mo.7" target="_blank" title="Facebook">
+                  
+                    <i class="fa fa-fw fa-facebook-square"></i>
+                  
+                  Facebook
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://northpark.cn/?,NorthPark-小清新的软件、影视、心情、图片互动公园" title="NorthPark" target="_blank">NorthPark</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://effine.cn/?,哈哈，他叫verphen，故给他起绰号挖粪男孩" title="挖粪の男孩" target="_blank">挖粪の男孩</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://lonelyrobots.cn/?,哈哈，他排行老六，又名撒币六子" title="OldのSix" target="_blank">OldのSix</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#概述"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ArrayList-–-gt-CopyOnWriteArrayList"><span class="nav-number">1.1.</span> <span class="nav-text">ArrayList –&gt; CopyOnWriteArrayList</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HashSet-–-gt-CopyOnWriteArraySet"><span class="nav-number">1.2.</span> <span class="nav-text">HashSet –&gt; CopyOnWriteArraySet</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TreeSet-–-gt-ConcurrentSkipListSet"><span class="nav-number">1.3.</span> <span class="nav-text">TreeSet –&gt; ConcurrentSkipListSet</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HashMap-–-gt-ConcurrentHashMap"><span class="nav-number">1.4.</span> <span class="nav-text">HashMap –&gt; ConcurrentHashMap</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TreeMap-–-gt-ConcurrentSkipListMap"><span class="nav-number">1.5.</span> <span class="nav-text">TreeMap –&gt; ConcurrentSkipListMap</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#概念"><span class="nav-number">1.6.</span> <span class="nav-text">概念</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Bruce</span>
+</div>
+
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+
+<div class="powered-by">
+  <a class="theme-link" href="https://northpark.cn/">
+    NorthPark中文网
+  </a>
+</div>
+
+<div class="powered-by">
+  <a class="theme-link" href="https://northpark.cn/soft/mac">
+    Mac破解软件
+  </a>
+</div>
+
+<div class="powered-by">
+  <a class="theme-link" href="https://northpark.cn/movies">
+    院线大片
+  </a>
+</div>
+
+<div class="theme-info">
+  <a class="theme-link" href="https://northpark.cn/romeo">
+    情商提升
+  </a>
+</div>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i> &nbsp;   本站访客数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人次
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>  &nbsp; 本站总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+</body>
+</html>

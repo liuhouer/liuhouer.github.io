@@ -318,6 +318,332 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://liuhouer.github.io/2018/12/24/高并发、多线程探索-1-相关基础知识/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Bruce">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Northpark博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2018/12/24/高并发、多线程探索-1-相关基础知识/" itemprop="url">
+                  高并发、多线程探索-1-相关基础知识
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-24T00:00:00+08:00">
+                2018-12-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <blockquote>
+<p>Java并发编程入门，适合没有并发编程经验的同学，本章首先从课程重点、特点、适合人群及学习收获几个方面对课程进行整体的介绍，然后会从一个实际的计数场景实现开始，给大家展示多线程并发时的线程不安全问题，让大家能够初体验到并发编程，之后会讲解并发和高并发的概念，并通过对比让大家明白到底什么是并发和…</p>
+</blockquote>
+<h1 id="高并发、多线程探索-1-相关基础知识"><a href="#高并发、多线程探索-1-相关基础知识" class="headerlink" title="高并发、多线程探索-1-相关基础知识"></a>高并发、多线程探索-1-相关基础知识</h1><h2 id="0、工具"><a href="#0、工具" class="headerlink" title="0、工具"></a>0、工具</h2><p>Apache Bench(AB) :Apache附带的工具，测试网站性能<br>Jmeter ： Apache组织开发的压力测试工具（比AB更强大）<br>代码测试方法 ：Semaphore、CountDownLatch类</p>
+<ul>
+<li>Semaphore类：信号量</li>
+</ul>
+<blockquote>
+<p>信号量，在我们测试的过程中充当监控并发数的角色。能够维持在同一时间的请求的并发量，达到并发量上线，会阻塞进程。</p>
+</blockquote>
+<ul>
+<li>CountDownLatch类：计数器向下减的闭锁<br><img src="http://liuhouer.heartill.com/blog/2018-12-24/1.jpg" alt="1"></li>
+</ul>
+<blockquote>
+<p>说明：假设计数器的值为3，线程A执行了await()方法之后，进入了awaiting等待状态。在其他线程的方法中执行了countDown()方法之后，计数器的值都会减一，直到计数器的值减为0，线程A的方法才继续执行。所以说，countDownLatch类可以阻塞线程执行，并且当满足指定条件后让线程继续执行。</p>
+</blockquote>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">package</span> <span class="selector-tag">cn</span><span class="selector-class">.northpark</span><span class="selector-class">.concurrency</span><span class="selector-class">.annotaion</span>;</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">import</span> <span class="selector-tag">java</span><span class="selector-class">.lang</span><span class="selector-class">.annotation</span><span class="selector-class">.ElementType</span>;</span><br><span class="line"><span class="selector-tag">import</span> <span class="selector-tag">java</span><span class="selector-class">.lang</span><span class="selector-class">.annotation</span><span class="selector-class">.Retention</span>;</span><br><span class="line"><span class="selector-tag">import</span> <span class="selector-tag">java</span><span class="selector-class">.lang</span><span class="selector-class">.annotation</span><span class="selector-class">.RetentionPolicy</span>;</span><br><span class="line"><span class="selector-tag">import</span> <span class="selector-tag">java</span><span class="selector-class">.lang</span><span class="selector-class">.annotation</span><span class="selector-class">.Target</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@<span class="keyword">Target</span>(<span class="keyword">ElementType</span>.<span class="keyword">TYPE</span>)</span><br><span class="line">@<span class="keyword">Retention</span>(<span class="keyword">RetentionPolicy</span>.<span class="keyword">SOURCE</span>)</span><br><span class="line"><span class="keyword">public</span> @interface NoteThreadSafe &#123;</span><br><span class="line">	<span class="selector-tag">String</span> <span class="selector-tag">value</span>() <span class="selector-tag">default</span> "";</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">package cn.northpark.concurrency.controller;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.CountDownLatch;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.ExecutorService;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.Executors;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.Semaphore;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> cn.northpark.concurrency.annotaion.NoteThreadSafe;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> lombok.extern.slf4j.Slf4j;</span><br><span class="line"></span><br><span class="line">@Slf4j</span><br><span class="line">@NoteThreadSafe</span><br><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">TestCurrency</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 请求总数</span></span><br><span class="line">	<span class="keyword">static</span> int totalCount = <span class="number">5000</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 同时并发执行的线程数</span></span><br><span class="line">	<span class="keyword">static</span> int threadTotal = <span class="number">200</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 计数器</span></span><br><span class="line">	public <span class="keyword">static</span> int count = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">	public <span class="keyword">static</span> <span class="keyword">void</span> main(<span class="built_in">String</span>[] args) throws InterruptedException &#123;</span><br><span class="line">		ExecutorService executorService = Executors.newCachedThreadPool();</span><br><span class="line">		<span class="comment">// 限制同时执行的线程数</span></span><br><span class="line">		final Semaphore semaphore = <span class="keyword">new</span> Semaphore(threadTotal);</span><br><span class="line">		final CountDownLatch countDownLatch = <span class="keyword">new</span> CountDownLatch(totalCount);</span><br><span class="line"></span><br><span class="line">		<span class="keyword">for</span> (int i = <span class="number">0</span>; i &lt; totalCount; i++) &#123;</span><br><span class="line">			executorService.execute(() -&gt; &#123;</span><br><span class="line">				<span class="keyword">try</span> &#123;</span><br><span class="line">					semaphore.acquire();</span><br><span class="line">					add();</span><br><span class="line">					semaphore.release();</span><br><span class="line">				&#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">					<span class="comment">// TODO Auto-generated catch block</span></span><br><span class="line">					e.printStackTrace();</span><br><span class="line">				&#125;</span><br><span class="line">				countDownLatch.countDown();</span><br><span class="line"></span><br><span class="line">			&#125;);</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		countDownLatch.await();</span><br><span class="line">		executorService.shutdown();</span><br><span class="line">		log.info(<span class="string">"count&#123;&#125;"</span>, count);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public <span class="keyword">static</span> <span class="keyword">void</span> add() &#123;</span><br><span class="line">		count++;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/12/24/高并发、多线程探索-1-相关基础知识/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://liuhouer.github.io/2018/06/10/guice整合guice-servlet，web scope注解6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Bruce">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Northpark博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2018/06/10/guice整合guice-servlet，web scope注解6/" itemprop="url">
+                  guice整合guice-servlet，web scope注解 <6>
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-06-10T00:00:00+08:00">
+                2018-06-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/guice/" itemprop="url" rel="index">
+                    <span itemprop="name">guice</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="guice整合guice-servlet，web-scope注解"><a href="#guice整合guice-servlet，web-scope注解" class="headerlink" title="guice整合guice-servlet，web scope注解 "></a>guice整合guice-servlet，web scope注解 <6></6></h1><blockquote>
+<p>guice servlet提供了几个比较有用的web scope，类似与传统servlet<br>的session，request这些提供的范围等。</p>
+</blockquote>
+<p><strong>guice servlet 提供的web scope 如下:</strong></p>
+<ul>
+<li>@RequestScoped</li>
+<li>@SessionScoped</li>
+<li>@RequestParameters</li>
+</ul>
+<h2 id="1-RequestScoped"><a href="#1-RequestScoped" class="headerlink" title="1.@RequestScoped"></a>1.@RequestScoped</h2><p>例子如下:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> cn.northpark.action;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.google.inject.servlet.RequestScoped;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 类似我们请求的时候将值保存在此访问之中</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> bruce</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@RequestScoped</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RequstScope</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> cn.northpark.action;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.google.inject.Inject;</span><br><span class="line"><span class="keyword">import</span> com.google.inject.Provider;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RequstScopeTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    <span class="keyword">private</span> Provider&lt;RequstScope&gt; requst=<span class="keyword">null</span>;</span><br><span class="line">    </span><br><span class="line"></span><br><span class="line">    RequstScope a=requst.get();<span class="comment">//通过此种方法去取此范围的值</span></span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="2-SessionScoped"><a href="#2-SessionScoped" class="headerlink" title="2.@SessionScoped"></a>2.@SessionScoped</h2><p>例子如下:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> cn.northpark.action;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.google.inject.servlet.SessionScoped;</span><br><span class="line"></span><br><span class="line"><span class="meta">@SessionScoped</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SessionScope</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> count=<span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getCount</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> count;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setCount</span><span class="params">(<span class="keyword">int</span> count)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.count = count;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> cn.northpark.action;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.google.inject.Inject;</span><br><span class="line"><span class="keyword">import</span> com.google.inject.Provider;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SessionScopeTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    <span class="keyword">private</span> Provider&lt;SessionScope&gt; session=<span class="keyword">null</span>;</span><br><span class="line">    </span><br><span class="line"></span><br><span class="line">    SessionScope a=session.get();<span class="comment">//通过此种方法去取此范围的值</span></span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">test</span><span class="params">()</span></span>&#123;</span><br><span class="line">        a.setCount(<span class="number">2</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="3-RequestParameters"><a href="#3-RequestParameters" class="headerlink" title="3.@RequestParameters"></a>3.@RequestParameters</h2><p>例子如下:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Inject</span></span><br><span class="line"><span class="meta">@RequestParameters</span></span><br><span class="line"><span class="keyword">private</span> Provider&lt;Map&lt;String, String[]&gt;&gt; reqParamMapProvider;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>guice servlet 还是比较好用，如果你选择用servlet开发的时候建议用它了。</p>
+</blockquote>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://liuhouer.github.io/2018/06/05/guice整合guice-servlet，web开发 5/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -907,321 +1233,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://liuhouer.github.io/2018/05/25/guice的基本使用1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Bruce">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Northpark博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2018/05/25/guice的基本使用1/" itemprop="url">
-                  guice的基本使用<1>
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-05-25T00:00:00+08:00">
-                2018-05-25
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/guice/" itemprop="url" rel="index">
-                    <span itemprop="name">guice</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="guice的基本使用"><a href="#guice的基本使用" class="headerlink" title="guice的基本使用"></a>guice的基本使用<1></1></h1><p>guice是google一个轻量级的DI注入框架，现在比较强大了，也与目前流行的struts2、jpa等都有集成了。</p>
-<p>先看一个例子:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Dao</span> </span>&#123;</span><br><span class="line">     <span class="function"><span class="keyword">void</span> <span class="title">testGuice</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> com.google.inject.Singleton;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Singleton</span><span class="comment">//声明此DaoImpl为单例</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DaoImpl</span> <span class="keyword">implements</span> <span class="title">Dao</span></span>&#123;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testGuice</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">System.out.println(<span class="string">"测试guice，实现依赖!"</span>);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> com.google.inject.<span class="type">AbstractModule</span>;                                                  </span><br><span class="line"><span class="comment">//需要继承AbstractModule这个类，用于绑定                                                              </span></span><br><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">TestModule</span> <span class="keyword">extends</span> <span class="title">AbstractModule</span></span>&#123;                                           </span><br><span class="line">                                                                                          </span><br><span class="line"><span class="meta">@Override</span>                                                                                 </span><br><span class="line"><span class="keyword">protected</span> void configure() &#123;                                                              </span><br><span class="line">bind(<span class="type">Dao</span>.<span class="keyword">class</span>).to(<span class="type">DaoImpl</span>.<span class="keyword">class</span>);<span class="comment">//这句代码的意思是说：运行时动态的将DaoImpl对象赋给Dao对象并且是单例的               </span></span><br><span class="line">&#125;                                                                                         </span><br><span class="line">                                                                                          </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> com.google.<span class="keyword">inject</span>.Guice;</span><br><span class="line"><span class="keyword">import</span> com.google.<span class="keyword">inject</span>.Injector;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> Test &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> main(String[] args) &#123;</span><br><span class="line">         Injector injector = Guice.createInjector(<span class="keyword">new</span> TestModule());  </span><br><span class="line">         Dao dao = injector.getInstance(DaoImpl.<span class="keyword">class</span>);  </span><br><span class="line">         dao.testGuice();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://liuhouer.github.io/2018/01/25/java接收邮件的探索之旅/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Bruce">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Northpark博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2018/01/25/java接收邮件的探索之旅/" itemprop="url">
-                  java接收邮件的探索之旅
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-25T00:00:00+08:00">
-                2018-01-25
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/邮件/" itemprop="url" rel="index">
-                    <span itemprop="name">邮件</span>
-                  </a>
-                </span>
-
-                
-                
-                  , 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/邮件/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>场景：目前需要定时收取<strong>某个账户</strong>的<strong>未读</strong>邮件，保存到<strong>elasticsearch doc</strong>中去。</p>
-<blockquote>
-<p>使用javaMail收邮件主要有两种协议，一种是pop3，一种是imap。这两种协议都可以用来收邮件，但是在其中的处理上是有区别的。pop3是不支持判断邮件是否为已读的，也就是说你不能直接从收件箱里面取到未读邮件，这需要自己进行判断，然而imap就提供了这样的功能，使用imap时可以很轻松的判断该邮件是否为已读或未读或其他。<br>由此看来，pop3不适合我的需求【通过每次检索全部，然后判断subject也可以实现，不过每次都需要遍历对比，比较麻烦】<br>那么我就用imap协议来收取了，pop3和imap只是配置email的url有点区别 其他地方是一样的</p>
-</blockquote>
-<p><em>pop3和imap主要区别就是能否判断邮件状态的问题，其他的操作都差不多.</em></p>
-<h2 id="准备工作："><a href="#准备工作：" class="headerlink" title="准备工作："></a>准备工作：</h2><h3 id="邮箱设置打开pop3、imap、smtp收发协议"><a href="#邮箱设置打开pop3、imap、smtp收发协议" class="headerlink" title="邮箱设置打开pop3、imap、smtp收发协议"></a>邮箱设置打开pop3、imap、smtp收发协议</h3><p>去你的126|163|qq邮箱 打开设置-pop3 如图<br>注意重点：</p>
-<ul>
-<li><strong>全部接收</strong>，不然30天以前的收不到还以为代码有问题</li>
-<li>配置<strong>授权码</strong>，目前163和qq邮箱都是<strong>授权码形式</strong>，代码里的password位置填写的都是<strong>授权码</strong>而<strong>不是邮箱密码</strong>哦<br><img src="http://liuhouer.heartill.com/pop3setting.png" alt="enter description here"><h3 id="协议的端口和协议规则"><a href="#协议的端口和协议规则" class="headerlink" title="协议的端口和协议规则"></a>协议的端口和协议规则</h3>//协议的内容端口等区别，对应关系如图：<br><img src="http://liuhouer.heartill.com/pop3%20port.png" alt="enter description here"></li>
-</ul>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/01/25/java接收邮件的探索之旅/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1271,7 +1282,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/">
-                <span class="site-state-item-count">85</span>
+                <span class="site-state-item-count">87</span>
                 <span class="site-state-item-name">posts</span>
               </a>
             </div>

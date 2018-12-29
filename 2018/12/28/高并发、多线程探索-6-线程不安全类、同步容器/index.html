@@ -1,0 +1,980 @@
+<!doctype html>
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+<html class="mac-soft mist use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Boogaloo:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Satisfy:300,300italic,400,400italic,700,700italic|Roboto:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="多线程,高并发," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Northpark博客" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/octopus.png?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="1、线程不安全的类 如果一个类的对象同时可以被多个线程访问，并且你不做特殊的同步或并发处理，那么它就很容易表现出线程不安全的现象。比如抛出异常、逻辑处理错误…  下面列举一下常见的线程不安全的类及对应的线程安全类： （1）StringBuilder 与 StringBufferStringBuilder是线程不安全的，而StringBuffer是线程安全的。分析源码：StringBuffer的方法">
+<meta name="keywords" content="多线程,高并发">
+<meta property="og:type" content="article">
+<meta property="og:title" content="高并发、多线程探索-6-线程不安全类、同步容器">
+<meta property="og:url" content="http://liuhouer.github.io/2018/12/28/高并发、多线程探索-6-线程不安全类、同步容器/index.html">
+<meta property="og:site_name" content="Northpark博客">
+<meta property="og:description" content="1、线程不安全的类 如果一个类的对象同时可以被多个线程访问，并且你不做特殊的同步或并发处理，那么它就很容易表现出线程不安全的现象。比如抛出异常、逻辑处理错误…  下面列举一下常见的线程不安全的类及对应的线程安全类： （1）StringBuilder 与 StringBufferStringBuilder是线程不安全的，而StringBuffer是线程安全的。分析源码：StringBuffer的方法">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2018-12-29T07:10:54.857Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="高并发、多线程探索-6-线程不安全类、同步容器">
+<meta name="twitter:description" content="1、线程不安全的类 如果一个类的对象同时可以被多个线程访问，并且你不做特殊的同步或并发处理，那么它就很容易表现出线程不安全的现象。比如抛出异常、逻辑处理错误…  下面列举一下常见的线程不安全的类及对应的线程安全类： （1）StringBuilder 与 StringBufferStringBuilder是线程不安全的，而StringBuffer是线程安全的。分析源码：StringBuffer的方法">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":6},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://liuhouer.github.io/2018/12/28/高并发、多线程探索-6-线程不安全类、同步容器/"/>
+
+
+
+
+
+  <title> 高并发、多线程探索-6-线程不安全类、同步容器 | Northpark博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Northpark博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Today does not walk, will have to run tomorrow.</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-首页">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-关于">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-旅行">
+          <a href="/travel" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-ship"></i> <br />
+            
+            旅行
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-微世界">
+          <a href="/landscape" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-reddit-alien"></i> <br />
+            
+            微世界
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-音乐">
+          <a href="/music" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-music"></i> <br />
+            
+            音乐
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-读书">
+          <a href="/books" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-book"></i> <br />
+            
+            读书
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-归档">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://liuhouer.github.io/2018/12/28/高并发、多线程探索-6-线程不安全类、同步容器/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Bruce">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Northpark博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                高并发、多线程探索-6-线程不安全类、同步容器
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-28T00:00:00+08:00">
+                2018-12-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i> &nbsp;  本文总阅读量
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>次
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="1、线程不安全的类"><a href="#1、线程不安全的类" class="headerlink" title="1、线程不安全的类"></a>1、线程不安全的类</h2><blockquote>
+<p>如果一个类的对象同时可以被多个线程访问，并且你不做特殊的同步或并发处理，那么它就很容易表现出线程不安全的现象。比如抛出异常、逻辑处理错误…</p>
+</blockquote>
+<p>下面列举一下常见的线程不安全的类及对应的线程安全类：</p>
+<h3 id="（1）StringBuilder-与-StringBuffer"><a href="#（1）StringBuilder-与-StringBuffer" class="headerlink" title="（1）StringBuilder 与 StringBuffer"></a>（1）StringBuilder 与 StringBuffer</h3><p>StringBuilder是线程不安全的，而StringBuffer是线程安全的。分析源码：StringBuffer的方法使用了synchronized关键字修饰。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> StringBuffer <span class="title">append</span><span class="params">(String str)</span> </span>&#123;</span><br><span class="line">     toStringCache = <span class="keyword">null</span>;</span><br><span class="line">     <span class="keyword">super</span>.append(str);</span><br><span class="line">     <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="（2）SimpleDateFormat-与-jodatime插件"><a href="#（2）SimpleDateFormat-与-jodatime插件" class="headerlink" title="（2）SimpleDateFormat 与 jodatime插件"></a>（2）SimpleDateFormat 与 jodatime插件</h3><p>SimpleDateFormat 类在处理时间的时候，如下写法是线程不安全的：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> SimpleDateFormat simpleDateFormat = <span class="keyword">new</span> SimpleDateFormat(<span class="string">"yyyyMMdd"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//线程调用方法</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">update</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        simpleDateFormat.parse(<span class="string">"20180208"</span>);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        log.error(<span class="string">"parse exception"</span>, e);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>但是我们可以变换其为线程安全的写法：在每次转换的时候使用线程封闭，新建变量</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">update</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        SimpleDateFormat simpleDateFormat = <span class="keyword">new</span> SimpleDateFormat(<span class="string">"yyyyMMdd"</span>);</span><br><span class="line">        simpleDateFormat.parse(<span class="string">"20180208"</span>);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        log.error(<span class="string">"parse exception"</span>, e);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>另外我们也可以使用<strong>jodatime插件</strong>来转换时间：其可以保证线程安全性<br>Joda 类具有不可变性，因此它们的实例无法被修改。（不可变类的一个优点就是它们是线程安全的）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern(<span class="string">"yyyyMMdd"</span>);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">update</span><span class="params">(<span class="keyword">int</span> i)</span> </span>&#123;</span><br><span class="line">    log.info(<span class="string">"&#123;&#125;, &#123;&#125;"</span>, i, DateTime.parse(<span class="string">"20180208"</span>, dateTimeFormatter).toDate());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<a id="more"></a> 
+<blockquote>
+<p>分析源码：（不可变性）</p>
+</blockquote>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DateTimeFormatter</span> </span>&#123;</span><br><span class="line">    <span class="comment">//均使用final声明</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> InternalPrinter iPrinter;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> InternalParser iParser;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> Locale iLocale;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> boolean iOffsetParsed;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> Chronology iChrono;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> DateTimeZone iZone;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> Integer iPivotYear;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> int iDefaultYear;</span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">private</span> InternalParser requireParser() &#123;</span><br><span class="line">        InternalParser var1 = <span class="keyword">this</span>.iParser;</span><br><span class="line">        <span class="keyword">if</span> (var1 == <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span> new UnsupportedOperationException(<span class="string">"Parsing not supported"</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> var1;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> DateTime parseDateTime(String var1) &#123;</span><br><span class="line">        InternalParser var2 = <span class="keyword">this</span>.requireParser();</span><br><span class="line">        Chronology var3 = <span class="keyword">this</span>.selectChronology((Chronology)<span class="literal">null</span>);</span><br><span class="line">        DateTimeParserBucket var4 = new DateTimeParserBucket(<span class="number">0</span>L, var3, <span class="keyword">this</span>.iLocale, </span><br><span class="line">                                                            <span class="keyword">this</span>.iPivotYear, <span class="keyword">this</span>.iDefaultYear);</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="（3）ArrayList-HashSet-HashMap-等Collection类"><a href="#（3）ArrayList-HashSet-HashMap-等Collection类" class="headerlink" title="（3）ArrayList,HashSet,HashMap 等Collection类"></a>（3）ArrayList,HashSet,HashMap 等Collection类</h3><blockquote>
+<p>像ArrayList,HashSet,HashMap 等Collection类均是线程不安全的，我们以ArrayList举例分析一下源码：</p>
+</blockquote>
+<h4 id="1、ArrayList的基本属性"><a href="#1、ArrayList的基本属性" class="headerlink" title="1、ArrayList的基本属性"></a>1、ArrayList的基本属性</h4><p>：<br>在声明时使用了transient 关键字，此关键字意为在采用Java默认的序列化机制的时候，被该关键字修饰的属性不会被序列化。而ArrayList实现了序列化接口，自己定义了序列化方法（在此不描述）。</p>
+<p>//对象数组：ArrayList的底层数据结构<br>private transient Object[] elementData;<br>//elementData中已存放的元素的个数<br>private int size;<br>//默认数组容量<br>private static final int DEFAULT_CAPACITY = 10;</p>
+<h4 id="2、初始化"><a href="#2、初始化" class="headerlink" title="2、初始化"></a>2、初始化</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 创建一个容量为initialCapacity的空的（size==0）对象数组</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="title">ArrayList</span><span class="params">(<span class="keyword">int</span> initialCapacity)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>();<span class="comment">//即父类protected AbstractList() &#123;&#125;</span></span><br><span class="line">    <span class="keyword">if</span> (initialCapacity &lt; <span class="number">0</span>)</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"Illegal Capacity:"</span> + initialCapacity);</span><br><span class="line">    <span class="keyword">this</span>.elementData = <span class="keyword">new</span> Object[initialCapacity];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 默认初始化一个容量为10的对象数组</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="title">ArrayList</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>(<span class="number">10</span>);</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<h4 id="3、添加方法（重点）"><a href="#3、添加方法（重点）" class="headerlink" title="3、添加方法（重点）"></a>3、添加方法（重点）</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//每次添加时将数组扩容1，然后再赋值</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">add</span><span class="params">(E e)</span> </span>&#123;</span><br><span class="line">    ensureCapacityInternal(size + <span class="number">1</span>);  <span class="comment">// Increments modCount!!</span></span><br><span class="line">    elementData[size++] = e;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">ensureCapacityInternal</span><span class="params">(<span class="keyword">int</span> minCapacity)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (elementData == DEFAULTCAPACITY_EMPTY_ELEMENTDATA) &#123;</span><br><span class="line">        minCapacity = Math.max(DEFAULT_CAPACITY, minCapacity);</span><br><span class="line">    &#125;</span><br><span class="line">    ensureExplicitCapacity(minCapacity);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">ensureExplicitCapacity</span><span class="params">(<span class="keyword">int</span> minCapacity)</span> </span>&#123;</span><br><span class="line">    modCount++;</span><br><span class="line">    <span class="comment">// overflow-conscious code</span></span><br><span class="line">    <span class="keyword">if</span> (minCapacity - elementData.length &gt; <span class="number">0</span>)</span><br><span class="line">        grow(minCapacity);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>总结：ArrayList每次对内容进行插入操作的时候，都会做扩容处理，这是ArrayList的优点（无容量的限制），同时也是缺点，线程不安全。（以下例子取材于鱼笑笑博客）<br>一个 ArrayList ，在添加一个元素的时候，它可能会有两步来完成：</p>
+<p>在 Items[Size] 的位置存放此元素； 增大 Size 的值。 在单线程运行的情况下，如果 Size =<br>0，添加一个元素后，此元素在位置 0，而且 Size=1；  而如果是在多线程情况下，比如有两个线程，线程 A 先将元素存放在位置<br>0。但是此时 CPU 调度线程A暂停，线程 B 得到运行的机会。线程B也向此 ArrayList 添加元素，因为此时 Size 仍然等于 0<br>（注意，我们假设的是添加一个元素是要两个步骤哦，而线程A仅仅完成了步骤1），所以线程B也将元素存放在位置0。然后线程A和线程B都继续运行，都增加<br>Size 的值。 那好，现在我们来看看 ArrayList 的情况，元素实际上只有一个，存放在位置 0，而 Size 却等于<br>2。这就是“线程不安全”了。</p>
+<p>那么如何将其处理为线程安全的？或者说对应的线程安全类有哪些呢？接下来就涉及到我们同步容器。</p>
+</blockquote>
+<h2 id="2、同步容器"><a href="#2、同步容器" class="headerlink" title="2、同步容器"></a>2、同步容器</h2><blockquote>
+<p>同步容器分两类，一种是Java提供好的类，另一类是Collections类中的相关同步方法。</p>
+</blockquote>
+<h3 id="（1）ArrayList的线程安全类：Vector-Stack"><a href="#（1）ArrayList的线程安全类：Vector-Stack" class="headerlink" title="（1）ArrayList的线程安全类：Vector,Stack"></a>（1）ArrayList的线程安全类：Vector,Stack</h3><p><strong>Vector实现了List接口，Vector实际上就是一个数组，和ArrayList非常的类似，但是内部的方法都是使用synchronized修饰过的方法。</strong><br>Stack它的方法也是使用synchronized修饰了，继承了<strong>Vector</strong>，实际上就是栈<br>使用举例（Vector）：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//定义</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> List&lt;Integer&gt; <span class="built_in">list</span> = <span class="keyword">new</span> Vector&lt;&gt;();</span><br><span class="line"><span class="comment">//多线程调用方法</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">update</span><span class="params">(<span class="keyword">int</span> i)</span> </span>&#123;</span><br><span class="line">   <span class="built_in">list</span>.add(i);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">源码分析：使用了synchronized修饰</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> synchronized boolean <span class="title">add</span><span class="params">(E e)</span> </span>&#123;</span><br><span class="line">    modCount++;</span><br><span class="line">    ensureCapacityHelper(elementCount + <span class="number">1</span>);</span><br><span class="line">    elementData[elementCount++] = e;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">但是Vector也不是完全的线程安全的，比如： </span><br><span class="line">错误[<span class="number">1</span>]：删除与获取并发操作</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">VectorExample</span> &#123;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Vector&lt;Integer&gt; <span class="built_in">vector</span> = <span class="keyword">new</span> Vector&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</span><br><span class="line">                <span class="built_in">vector</span>.add(i);</span><br><span class="line">            &#125;</span><br><span class="line">            Thread thread1 = <span class="keyword">new</span> Thread() &#123;</span><br><span class="line">                <span class="keyword">public</span> <span class="keyword">void</span> run() &#123;</span><br><span class="line">                    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="built_in">vector</span>.size(); i++) &#123;</span><br><span class="line">                        <span class="built_in">vector</span>.remove(i);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;;</span><br><span class="line">            Thread thread2 = <span class="keyword">new</span> Thread() &#123;</span><br><span class="line">                <span class="keyword">public</span> <span class="keyword">void</span> run() &#123;</span><br><span class="line">                    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="built_in">vector</span>.size(); i++) &#123;</span><br><span class="line">                        <span class="built_in">vector</span>.get(i);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;;</span><br><span class="line">            thread1.start();</span><br><span class="line">            thread2.start();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>运行结果：报错java.lang.ArrayIndexOutOfBoundsException: Array index out of<br>range<br>原因分析：同时发生获取与删除的操作。当两个线程在同一时间都判断了vector的size，假设都判断为9，而下一刻线程1执行了remove操作，随后线程2才去get，所以就出现了错误。synchronized关键字可以保证同一时间只有一个线程执行该方法，但是多个线程同时分别执行remove、add、get操作的时候就无法控制了。</p>
+</blockquote>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">错误[<span class="number">2</span>]：使用<span class="keyword">foreach</span>\iterator遍历Vector的时候进行增删操作</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">VectorExample3</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 报错java.util.ConcurrentModificationException</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">test1</span>(<span class="params">Vector&lt;Integer&gt; v1</span>) </span>&#123; <span class="comment">// foreach</span></span><br><span class="line">        <span class="keyword">for</span>(Integer i : v1) &#123;</span><br><span class="line">            <span class="keyword">if</span> (i.<span class="keyword">equals</span>(<span class="number">3</span>)) &#123;</span><br><span class="line">                v1.<span class="keyword">remove</span>(i);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 报错java.util.ConcurrentModificationException</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">test2</span>(<span class="params">Vector&lt;Integer&gt; v1</span>) </span>&#123; <span class="comment">// iterator</span></span><br><span class="line">        Iterator&lt;Integer&gt; iterator = v1.iterator();</span><br><span class="line">        <span class="keyword">while</span> (iterator.hasNext()) &#123;</span><br><span class="line">            Integer i = iterator.next();</span><br><span class="line">            <span class="keyword">if</span> (i.<span class="keyword">equals</span>(<span class="number">3</span>)) &#123;</span><br><span class="line">                v1.<span class="keyword">remove</span>(i);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// success</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">test3</span>(<span class="params">Vector&lt;Integer&gt; v1</span>) </span>&#123; <span class="comment">// for</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; v1.size(); i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (v1.<span class="keyword">get</span>(i).<span class="keyword">equals</span>(<span class="number">3</span>)) &#123;</span><br><span class="line">                v1.<span class="keyword">remove</span>(i);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span>(<span class="params">String[] args</span>) </span>&#123;</span><br><span class="line">        Vector&lt;Integer&gt; vector = <span class="keyword">new</span> Vector&lt;&gt;();</span><br><span class="line">        vector.<span class="keyword">add</span>(<span class="number">1</span>);</span><br><span class="line">        vector.<span class="keyword">add</span>(<span class="number">2</span>);</span><br><span class="line">        vector.<span class="keyword">add</span>(<span class="number">3</span>);</span><br><span class="line">        test1(vector);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>解决办法：在使用iteratir进行增删操作的时候，加上Lock或者synchronized同步措施或者并发容器</p>
+<h3 id="（2）HashMap的线程安全类：HashTable"><a href="#（2）HashMap的线程安全类：HashTable" class="headerlink" title="（2）HashMap的线程安全类：HashTable"></a>（2）HashMap的线程安全类：HashTable</h3><p>使用举例:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//定义</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> Map&lt;Integer, Integer&gt; <span class="built_in">map</span> = <span class="keyword">new</span> Hashtable&lt;&gt;();</span><br><span class="line"><span class="comment">//多线程调用方法</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">update</span><span class="params">(<span class="keyword">int</span> i)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">map</span>.put(i, i);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>源码分析：</p>
+<blockquote>
+<p>保证安全性：使用了synchronized修饰 不允许空值（在代码中特殊做了判断）<br>HashMap和HashTable都使用哈希表来存储键值对。在数据结构上是基本相同的，都创建了一个继承自Map.Entry的私有的内部类Entry，每一个Entry对象表示存储在哈希表中的一个键值对。</p>
+</blockquote>
+<p>Entry对象唯一表示一个键值对，有四个属性：<br>-K key 键对象<br>-V value 值对象<br>-int hash 键对象的hash值<br>-Entry entry 指向链表中下一个Entry对象，可为null，表示当前Entry对象在链表尾部</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> V <span class="title">put</span><span class="params">(K key, V value)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// Make sure the value is not null</span></span><br><span class="line">    <span class="keyword">if</span> (value == <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> NullPointerException();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Makes sure the key is not already in the hashtable.</span></span><br><span class="line">    Entry&lt;?,?&gt; tab[] = table;</span><br><span class="line">    <span class="keyword">int</span> hash = key.hashCode();</span><br><span class="line">    <span class="keyword">int</span> index = (hash &amp; <span class="number">0x7FFFFFFF</span>) % tab.length;</span><br><span class="line">    <span class="meta">@SuppressWarnings</span>(<span class="string">"unchecked"</span>)</span><br><span class="line">    Entry&lt;K,V&gt; entry = (Entry&lt;K,V&gt;)tab[index];</span><br><span class="line">    <span class="keyword">for</span>(; entry != <span class="keyword">null</span> ; entry = entry.next) &#123;</span><br><span class="line">        <span class="keyword">if</span> ((entry.hash == hash) &amp;&amp; entry.key.equals(key)) &#123;</span><br><span class="line">            V old = entry.value;</span><br><span class="line">            entry.value = value;</span><br><span class="line">            <span class="keyword">return</span> old;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    addEntry(hash, key, value, index);</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="（3）Collections类中的相关同步方法"><a href="#（3）Collections类中的相关同步方法" class="headerlink" title="（3）Collections类中的相关同步方法"></a>（3）Collections类中的相关同步方法</h3><blockquote>
+<p>Collections类中提供了一系列的线程安全方法用于处理ArrayList等线程不安全的Collection类</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">使用方法：</span><br><span class="line"></span><br><span class="line"><span class="comment">//定义</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> List&lt;Integer&gt; list = Collections.synchronizedList(Lists.newArrayList());</span><br><span class="line"><span class="comment">//多线程调用方法</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">update</span><span class="params">(<span class="keyword">int</span> i)</span> </span>&#123;</span><br><span class="line">    list.add(i);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">源码分析： </span><br><span class="line">内部操作的方法使用了<span class="keyword">synchronized</span>修饰符</span><br><span class="line"></span><br><span class="line"> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">SynchronizedList</span>&lt;<span class="title">E</span>&gt;</span></span><br><span class="line"><span class="class">        <span class="keyword">extends</span> <span class="title">SynchronizedCollection</span>&lt;<span class="title">E</span>&gt;</span></span><br><span class="line"><span class="class">        <span class="keyword">implements</span> <span class="title">List</span>&lt;<span class="title">E</span>&gt; </span>&#123;</span><br><span class="line">        ...</span><br><span class="line">        <span class="function"><span class="keyword">public</span> E <span class="title">get</span><span class="params">(<span class="keyword">int</span> index)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">synchronized</span> (mutex) &#123;<span class="keyword">return</span> list.get(index);&#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> E <span class="title">set</span><span class="params">(<span class="keyword">int</span> index, E element)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">synchronized</span> (mutex) &#123;<span class="keyword">return</span> list.set(index, element);&#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> index, E element)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">synchronized</span> (mutex) &#123;list.add(index, element);&#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> E <span class="title">remove</span><span class="params">(<span class="keyword">int</span> index)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">synchronized</span> (mutex) &#123;<span class="keyword">return</span> list.remove(index);&#125;</span><br><span class="line">        &#125;</span><br><span class="line">        ...</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>生活不止苟且,还有我喜爱的海岸.</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="http://liuhouer.heartill.com/blog/donate/praise.jpg" alt="Bruce WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="http://liuhouer.heartill.com/blog/donate/alipay.png" alt="Bruce Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/多线程/" rel="tag"># 多线程</a>
+          
+            <a href="/tags/高并发/" rel="tag"># 高并发</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/27/高并发、多线程探索-5-线程封闭、threadLocal应用/" rel="next" title="高并发、多线程探索-5-线程封闭、threadLocal应用">
+                <i class="fa fa-chevron-left"></i> 高并发、多线程探索-5-线程封闭、threadLocal应用
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/12/29/高并发、多线程探索-7-并发容器 J.U.C(java.util.concurrency) - 线程安全的集合与Map/" rel="prev" title="高并发、多线程探索-7-并发容器 J.U.C(java.util.concurrency) - 线程安全的集合与Map">
+                高并发、多线程探索-7-并发容器 J.U.C(java.util.concurrency) - 线程安全的集合与Map <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8yNzgzNy80NDEz"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="Bruce" />
+          <p class="site-author-name" itemprop="name">Bruce</p>
+           
+              <p class="site-description motion-element" itemprop="description">Extreme ways</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/">
+                <span class="site-state-item-count">87</span>
+                <span class="site-state-item-name">posts</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">44</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">80</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/liuhouer" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/liuhouer" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.facebook.com/bruce.mo.7" target="_blank" title="Facebook">
+                  
+                    <i class="fa fa-fw fa-facebook-square"></i>
+                  
+                  Facebook
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://northpark.cn/?,NorthPark-小清新的软件、影视、心情、图片互动公园" title="NorthPark" target="_blank">NorthPark</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://effine.cn/?,哈哈，他叫verphen，故给他起绰号挖粪男孩" title="挖粪の男孩" target="_blank">挖粪の男孩</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://lonelyrobots.cn/?,哈哈，他排行老六，又名撒币六子" title="OldのSix" target="_blank">OldのSix</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1、线程不安全的类"><span class="nav-number">1.</span> <span class="nav-text">1、线程不安全的类</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#（1）StringBuilder-与-StringBuffer"><span class="nav-number">1.1.</span> <span class="nav-text">（1）StringBuilder 与 StringBuffer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#（2）SimpleDateFormat-与-jodatime插件"><span class="nav-number">1.2.</span> <span class="nav-text">（2）SimpleDateFormat 与 jodatime插件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#（3）ArrayList-HashSet-HashMap-等Collection类"><span class="nav-number">1.3.</span> <span class="nav-text">（3）ArrayList,HashSet,HashMap 等Collection类</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、ArrayList的基本属性"><span class="nav-number">1.3.1.</span> <span class="nav-text">1、ArrayList的基本属性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、初始化"><span class="nav-number">1.3.2.</span> <span class="nav-text">2、初始化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3、添加方法（重点）"><span class="nav-number">1.3.3.</span> <span class="nav-text">3、添加方法（重点）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2、同步容器"><span class="nav-number">2.</span> <span class="nav-text">2、同步容器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#（1）ArrayList的线程安全类：Vector-Stack"><span class="nav-number">2.1.</span> <span class="nav-text">（1）ArrayList的线程安全类：Vector,Stack</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#（2）HashMap的线程安全类：HashTable"><span class="nav-number">2.2.</span> <span class="nav-text">（2）HashMap的线程安全类：HashTable</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#（3）Collections类中的相关同步方法"><span class="nav-number">2.3.</span> <span class="nav-text">（3）Collections类中的相关同步方法</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Bruce</span>
+</div>
+
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+
+<div class="powered-by">
+  <a class="theme-link" href="https://northpark.cn/">
+    NorthPark中文网
+  </a>
+</div>
+
+<div class="powered-by">
+  <a class="theme-link" href="https://northpark.cn/soft/mac">
+    Mac破解软件
+  </a>
+</div>
+
+<div class="powered-by">
+  <a class="theme-link" href="https://northpark.cn/movies">
+    院线大片
+  </a>
+</div>
+
+<div class="theme-info">
+  <a class="theme-link" href="https://northpark.cn/romeo">
+    情商提升
+  </a>
+</div>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i> &nbsp;   本站访客数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人次
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>  &nbsp; 本站总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+</body>
+</html>

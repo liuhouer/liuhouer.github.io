@@ -318,6 +318,335 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://liuhouer.github.io/2018/12/29/高并发、多线程探索-7-并发容器 J.U.C(java.util.concurrency) - 线程安全的集合与Map/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Bruce">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Northpark博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2018/12/29/高并发、多线程探索-7-并发容器 J.U.C(java.util.concurrency) - 线程安全的集合与Map/" itemprop="url">
+                  高并发、多线程探索-7-并发容器 J.U.C(java.util.concurrency) - 线程安全的集合与Map
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-29T00:00:00+08:00">
+                2018-12-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><blockquote>
+<p>Java<strong>并发容器JUC</strong>是三个单词的缩写。是JDK下面的一个包名。即<strong>Java.util.concurrency</strong>。<br>上一节我们介绍了ArrayList、HashMap、HashSet对应的同步容器保证其线程安全，这节我们介绍一下其对应的并发容器。</p>
+</blockquote>
+<h3 id="ArrayList-–-gt-CopyOnWriteArrayList"><a href="#ArrayList-–-gt-CopyOnWriteArrayList" class="headerlink" title="ArrayList –&gt; CopyOnWriteArrayList"></a>ArrayList –&gt; CopyOnWriteArrayList</h3><blockquote>
+<p><strong>CopyOnWriteArrayList</strong><br>写操作时复制，当有新元素添加到集合中时，从原有的数组中拷贝一份出来，然后在新的数组上作写操作，将原来的数组指向新的数组。整个数组的add操作都是在锁的保护下进行的，防止并发时复制多份副本。读操作是在原数组中进行，不需要加锁</p>
+</blockquote>
+<blockquote>
+<p><strong>缺点</strong>：<br>1.写操作时复制消耗内存，如果元素比较多时候，容易导致young gc 和full gc。<br>2.不能用于实时读的场景.由于复制和add操作等需要时间，故读取时可能读到旧值。  能做到最终一致性，但无法满足实时性的要求，更适合读多写少的场景。<br>如果无法知道数组有多大，或者add,set操作有多少，慎用此类,在大量的复制副本的过程中很容易出错。</p>
+</blockquote>
+<blockquote>
+<p><strong>设计思想</strong>：<br>1.读写分离<br>2.最终一致性<br>3.使用时另外开辟空间，防止并发冲突</p>
+</blockquote>
+<p><strong>源码分析</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//构造方法</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">CopyOnWriteArrayList</span><span class="params">(Collection&lt;? extends E&gt; c)</span> </span>&#123;</span><br><span class="line">    Object[] elements;<span class="comment">//使用对象数组来承载数据</span></span><br><span class="line">    <span class="keyword">if</span> (c.getClass() == CopyOnWriteArrayList.class)</span><br><span class="line">        elements = ((CopyOnWriteArrayList&lt;?&gt;)c).getArray();</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        elements = c.toArray();</span><br><span class="line">        <span class="comment">// c.toArray might (incorrectly) not return Object[] (see 6260652)</span></span><br><span class="line">        <span class="keyword">if</span> (elements.getClass() != Object[].class)</span><br><span class="line">            elements = Arrays.copyOf(elements, elements.length, Object[].class);</span><br><span class="line">    &#125;</span><br><span class="line">    setArray(elements);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//添加数据方法</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">add</span><span class="params">(E e)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">final</span> ReentrantLock lock = <span class="keyword">this</span>.lock;<span class="comment">//使用重入锁，保证线程安全</span></span><br><span class="line">    lock.lock();</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        Object[] elements = getArray();<span class="comment">//获取当前数组数据</span></span><br><span class="line">        <span class="keyword">int</span> len = elements.length;</span><br><span class="line">        Object[] newElements = Arrays.copyOf(elements, len + <span class="number">1</span>);<span class="comment">//复制当前数组并且扩容+1</span></span><br><span class="line">        newElements[len] = e;<span class="comment">//将要添加的数据放入新数组</span></span><br><span class="line">        setArray(newElements);<span class="comment">//将原来的数组指向新的数组</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        lock.unlock();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//获取数据方法，与普通的get没什么差别</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> E <span class="title">get</span><span class="params">(Object[] a, <span class="keyword">int</span> index)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (E) a[index];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="HashSet-–-gt-CopyOnWriteArraySet"><a href="#HashSet-–-gt-CopyOnWriteArraySet" class="headerlink" title="HashSet –&gt; CopyOnWriteArraySet"></a>HashSet –&gt; CopyOnWriteArraySet</h3><blockquote>
+<p>它是线程安全的，<strong>底层实现使用的是CopyOnWriteArrayList</strong>，因此它也适用于大小<strong>很小</strong>的set集合，<strong>只读操作远大于可变操作</strong>。因为他需要copy整个数组，所以包括add、remove、set它的开销相对于大一些。<br>迭代器不支持可变的remove操作。使用迭代器遍历的时候速度很快，而且不会与其他线程发生冲突。</p>
+</blockquote>
+<p><strong>源码分析</strong>：</p>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//构造方法</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">CopyOnWriteArraySet</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    al = <span class="keyword">new</span> CopyOnWriteArrayList&lt;E&gt;();<span class="comment">//底层使用CopyOnWriteArrayList</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//添加元素方法，基本实现原理与CopyOnWriteArrayList相同</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> boolean <span class="title">addIfAbsent</span>(<span class="params">E e, Object[] snapshot</span>) </span>&#123;</span><br><span class="line">    final ReentrantLock <span class="keyword">lock</span> = <span class="keyword">this</span>.<span class="keyword">lock</span>;</span><br><span class="line">    <span class="keyword">lock</span>.<span class="keyword">lock</span>();</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        Object[] current = getArray();</span><br><span class="line">        <span class="keyword">int</span> len = current.length;</span><br><span class="line">        <span class="keyword">if</span> (snapshot != current) &#123;<span class="comment">//添加了元素去重操作</span></span><br><span class="line">            <span class="comment">// Optimize for lost race to another addXXX operation</span></span><br><span class="line">            <span class="keyword">int</span> common = Math.min(snapshot.length, len);</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; common; i++)</span><br><span class="line">                <span class="keyword">if</span> (current[i] != snapshot[i] &amp;&amp; eq(e, current[i]))</span><br><span class="line">                    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">            <span class="keyword">if</span> (indexOf(e, current, common, len) &gt;= <span class="number">0</span>)</span><br><span class="line">                    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        Object[] newElements = Arrays.copyOf(current, len + <span class="number">1</span>);</span><br><span class="line">        newElements[len] = e;</span><br><span class="line">        setArray(newElements);</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        <span class="keyword">lock</span>.unlock();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="TreeSet-–-gt-ConcurrentSkipListSet"><a href="#TreeSet-–-gt-ConcurrentSkipListSet" class="headerlink" title="TreeSet –&gt; ConcurrentSkipListSet"></a>TreeSet –&gt; ConcurrentSkipListSet</h3><blockquote>
+<p>它是JDK6新增的类，同TreeSet一样支持自然排序，并且可以在构造的时候自己定义比较器。</p>
+<p>同其他set集合，是基于map集合的（<strong>基于ConcurrentSkipListMap</strong>），在多线程环境下，里面的contains、add、remove操作都是线程安全的。<br>多个线程可以安全的并发的执行插入、移除、和访问操作。但是对于批量操作addAll、removeAll、retainAll和containsAll并不能保证以原子方式执行，原因是addAll、removeAll、retainAll底层调用的还是contains、add、remove方法，只能保证每一次的执行是原子性的，代表在单一执行操纵时不会被打断，但是不能保证每一次批量操作都不会被打断。在使用批量操作时，还是需要手动加上同步操作的。<br>不允许使用null元素的，它无法可靠的将参数及返回值与不存在的元素区分开来。</p>
+</blockquote>
+<p>源码分析：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//构造方法</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">ConcurrentSkipListSet</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    m = <span class="keyword">new</span> ConcurrentSkipListMap&lt;E,Object&gt;();<span class="comment">//使用ConcurrentSkipListMap实现</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/12/29/高并发、多线程探索-7-并发容器 J.U.C(java.util.concurrency) - 线程安全的集合与Map/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://liuhouer.github.io/2018/12/28/高并发、多线程探索-6-线程不安全类、同步容器/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Bruce">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Northpark博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2018/12/28/高并发、多线程探索-6-线程不安全类、同步容器/" itemprop="url">
+                  高并发、多线程探索-6-线程不安全类、同步容器
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-28T00:00:00+08:00">
+                2018-12-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="1、线程不安全的类"><a href="#1、线程不安全的类" class="headerlink" title="1、线程不安全的类"></a>1、线程不安全的类</h2><blockquote>
+<p>如果一个类的对象同时可以被多个线程访问，并且你不做特殊的同步或并发处理，那么它就很容易表现出线程不安全的现象。比如抛出异常、逻辑处理错误…</p>
+</blockquote>
+<p>下面列举一下常见的线程不安全的类及对应的线程安全类：</p>
+<h3 id="（1）StringBuilder-与-StringBuffer"><a href="#（1）StringBuilder-与-StringBuffer" class="headerlink" title="（1）StringBuilder 与 StringBuffer"></a>（1）StringBuilder 与 StringBuffer</h3><p>StringBuilder是线程不安全的，而StringBuffer是线程安全的。分析源码：StringBuffer的方法使用了synchronized关键字修饰。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> StringBuffer <span class="title">append</span><span class="params">(String str)</span> </span>&#123;</span><br><span class="line">     toStringCache = <span class="keyword">null</span>;</span><br><span class="line">     <span class="keyword">super</span>.append(str);</span><br><span class="line">     <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="（2）SimpleDateFormat-与-jodatime插件"><a href="#（2）SimpleDateFormat-与-jodatime插件" class="headerlink" title="（2）SimpleDateFormat 与 jodatime插件"></a>（2）SimpleDateFormat 与 jodatime插件</h3><p>SimpleDateFormat 类在处理时间的时候，如下写法是线程不安全的：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> SimpleDateFormat simpleDateFormat = <span class="keyword">new</span> SimpleDateFormat(<span class="string">"yyyyMMdd"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//线程调用方法</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">update</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        simpleDateFormat.parse(<span class="string">"20180208"</span>);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        log.error(<span class="string">"parse exception"</span>, e);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>但是我们可以变换其为线程安全的写法：在每次转换的时候使用线程封闭，新建变量</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">update</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        SimpleDateFormat simpleDateFormat = <span class="keyword">new</span> SimpleDateFormat(<span class="string">"yyyyMMdd"</span>);</span><br><span class="line">        simpleDateFormat.parse(<span class="string">"20180208"</span>);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        log.error(<span class="string">"parse exception"</span>, e);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>另外我们也可以使用<strong>jodatime插件</strong>来转换时间：其可以保证线程安全性<br>Joda 类具有不可变性，因此它们的实例无法被修改。（不可变类的一个优点就是它们是线程安全的）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern(<span class="string">"yyyyMMdd"</span>);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">update</span><span class="params">(<span class="keyword">int</span> i)</span> </span>&#123;</span><br><span class="line">    log.info(<span class="string">"&#123;&#125;, &#123;&#125;"</span>, i, DateTime.parse(<span class="string">"20180208"</span>, dateTimeFormatter).toDate());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/12/28/高并发、多线程探索-6-线程不安全类、同步容器/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://liuhouer.github.io/2018/12/27/高并发、多线程探索-5-线程封闭、threadLocal应用/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -426,165 +755,6 @@
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/12/27/高并发、多线程探索-5-线程封闭、threadLocal应用/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://liuhouer.github.io/2018/12/27/高并发、多线程探索-4-不可变对象 -final -Immutable{google guava} -unmodifiable/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Bruce">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Northpark博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2018/12/27/高并发、多线程探索-4-不可变对象 -final -Immutable{google guava} -unmodifiable/" itemprop="url">
-                  高并发、多线程探索-4-不可变对象 -final -Immutable{google guava} -unmodifiable
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-27T00:00:00+08:00">
-                2018-12-27
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><h3 id="1、不可变对象"><a href="#1、不可变对象" class="headerlink" title="1、不可变对象"></a>1、不可变对象</h3><p>有一种对象只要它发布了就是安全的，它就是不可变对象。一个不可变对象需要满足的条件：</p>
-<p>对象创建一个其状态不能修改<br>对象所有域都是final类型<br>对象是正确创建的(在对象创建期间，this引用没有逸出)</p>
-<h3 id="2、创建一个不可变对象的方法"><a href="#2、创建一个不可变对象的方法" class="headerlink" title="2、创建一个不可变对象的方法"></a>2、创建一个不可变对象的方法</h3><p>（1）自己定义<br>这里可以采用的方式包括：<br>1、将类声明为final，这样它就不能被继承。<br>2、将所有的成员声明为私有的，这样就不允许直接访问这些成员。<br>3、对变量不提供set方法，将所有可变的成员声明为final，这样就只能赋值一次。通过构造器初始化所有成员进行深度拷贝。<br>4、在get方法中不直接返回对象的本身，而是克隆对象，返回对象的拷贝。</p>
-<p>（2）使用Java中提供的Collection类中的各种unmodifiable开头的方法<br>（3）使用Guava中的Immutable开头的类</p>
-<h3 id="3、final关键字"><a href="#3、final关键字" class="headerlink" title="3、final关键字"></a>3、final关键字</h3><p>final关键字可以修饰类、修饰方法、修饰变量</p>
-<p>修饰类：类不能被集成。<br>基础类型的包装类都是final类型的类。final类中的成员变量可以根据需要设置为final，但是要注意的是，final类中的所有成员方法都会被隐式的指定为final方法<br>修饰方法：<br>(1)把方法锁定，以防任何继承类修改它的含义<br>(2)效率：在早期的java实现版本中，会将final方法转为内嵌调用。但是如果方法过于庞大，可能看不见效果。一个private方法会被隐式的指定为final方法<br>修饰变量：<br>基本数据类型变量，在初始化之后，它的值就不能被修改了。如果是引用类型变量，在它初始化之后便不能再指向另外的对象。 </p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> cn.northpark.concurrency.immutable;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.Map;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.google.common.collect.Maps;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> cn.northpark.concurrency.annotaion.NotThreadSafe;</span><br><span class="line"><span class="keyword">import</span> lombok.extern.slf4j.Slf4j;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Slf</span>4j</span><br><span class="line"><span class="meta">@NotThreadSafe</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ImmutableExample1</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">static</span> Integer a = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">static</span> String b = <span class="string">"2"</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">static</span> Map&lt;Integer, Integer&gt; map = Maps.newHashMap();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        map.put(<span class="number">1</span>, <span class="number">2</span>);</span><br><span class="line">        map.put(<span class="number">3</span>, <span class="number">4</span>);</span><br><span class="line">        map.put(<span class="number">5</span>, <span class="number">6</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//a = 2;//报错</span></span><br><span class="line">        <span class="comment">//b = "3";//报错</span></span><br><span class="line">        <span class="comment">//map = Maps.newHashMap();//报错</span></span><br><span class="line">        map.put(<span class="number">1</span>, <span class="number">3</span>);</span><br><span class="line">        log.info(<span class="string">"&#123;&#125;"</span>, map.get(<span class="number">1</span>));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">(<span class="keyword">final</span> <span class="keyword">int</span> a)</span> </span>&#123;</span><br><span class="line"><span class="comment">//        a = 1;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>（1）对一个被final修饰的变量（Integer a、String b）被赋值时在编译过程中就出现了错误。<br>（2）（map）在重新被指向一个新的map对象的时候也出现了错误。<br>那么对被定义为final的map进行赋值呢？我们单独运行map.put(1,3)语句，结果是可以的。<strong>被final修饰的引用类型变量，虽然不能重新指向，但是可以修改</strong>,这一点尤为要注意。 </p>
-<blockquote>
-<p>18:05:19.163 [main] INFO cn.northpark.concurrency.immutable.ImmutableExample1 - 3</p>
-</blockquote>
-<p>（3）当final修饰方法的参数时：同样也是不允许在方法内部对其修改的。 </p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">(<span class="keyword">final</span> <span class="keyword">int</span> a)</span> </span>&#123;</span><br><span class="line"><span class="comment">//        a = 1;	//报错</span></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/12/27/高并发、多线程探索-4-不可变对象 -final -Immutable{google guava} -unmodifiable/#more" rel="contents">
               Read more &raquo;
             </a>
           </div>
@@ -790,6 +960,165 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://liuhouer.github.io/2018/12/27/高并发、多线程探索-4-不可变对象 -final -Immutable{google guava} -unmodifiable/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Bruce">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Northpark博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2018/12/27/高并发、多线程探索-4-不可变对象 -final -Immutable{google guava} -unmodifiable/" itemprop="url">
+                  高并发、多线程探索-4-不可变对象 -final -Immutable{google guava} -unmodifiable
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-27T00:00:00+08:00">
+                2018-12-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><h3 id="1、不可变对象"><a href="#1、不可变对象" class="headerlink" title="1、不可变对象"></a>1、不可变对象</h3><p>有一种对象只要它发布了就是安全的，它就是不可变对象。一个不可变对象需要满足的条件：</p>
+<p>对象创建一个其状态不能修改<br>对象所有域都是final类型<br>对象是正确创建的(在对象创建期间，this引用没有逸出)</p>
+<h3 id="2、创建一个不可变对象的方法"><a href="#2、创建一个不可变对象的方法" class="headerlink" title="2、创建一个不可变对象的方法"></a>2、创建一个不可变对象的方法</h3><p>（1）自己定义<br>这里可以采用的方式包括：<br>1、将类声明为final，这样它就不能被继承。<br>2、将所有的成员声明为私有的，这样就不允许直接访问这些成员。<br>3、对变量不提供set方法，将所有可变的成员声明为final，这样就只能赋值一次。通过构造器初始化所有成员进行深度拷贝。<br>4、在get方法中不直接返回对象的本身，而是克隆对象，返回对象的拷贝。</p>
+<p>（2）使用Java中提供的Collection类中的各种unmodifiable开头的方法<br>（3）使用Guava中的Immutable开头的类</p>
+<h3 id="3、final关键字"><a href="#3、final关键字" class="headerlink" title="3、final关键字"></a>3、final关键字</h3><p>final关键字可以修饰类、修饰方法、修饰变量</p>
+<p>修饰类：类不能被集成。<br>基础类型的包装类都是final类型的类。final类中的成员变量可以根据需要设置为final，但是要注意的是，final类中的所有成员方法都会被隐式的指定为final方法<br>修饰方法：<br>(1)把方法锁定，以防任何继承类修改它的含义<br>(2)效率：在早期的java实现版本中，会将final方法转为内嵌调用。但是如果方法过于庞大，可能看不见效果。一个private方法会被隐式的指定为final方法<br>修饰变量：<br>基本数据类型变量，在初始化之后，它的值就不能被修改了。如果是引用类型变量，在它初始化之后便不能再指向另外的对象。 </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> cn.northpark.concurrency.immutable;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.Map;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.google.common.collect.Maps;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> cn.northpark.concurrency.annotaion.NotThreadSafe;</span><br><span class="line"><span class="keyword">import</span> lombok.extern.slf4j.Slf4j;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Slf</span>4j</span><br><span class="line"><span class="meta">@NotThreadSafe</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ImmutableExample1</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">static</span> Integer a = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">static</span> String b = <span class="string">"2"</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">static</span> Map&lt;Integer, Integer&gt; map = Maps.newHashMap();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        map.put(<span class="number">1</span>, <span class="number">2</span>);</span><br><span class="line">        map.put(<span class="number">3</span>, <span class="number">4</span>);</span><br><span class="line">        map.put(<span class="number">5</span>, <span class="number">6</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//a = 2;//报错</span></span><br><span class="line">        <span class="comment">//b = "3";//报错</span></span><br><span class="line">        <span class="comment">//map = Maps.newHashMap();//报错</span></span><br><span class="line">        map.put(<span class="number">1</span>, <span class="number">3</span>);</span><br><span class="line">        log.info(<span class="string">"&#123;&#125;"</span>, map.get(<span class="number">1</span>));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">(<span class="keyword">final</span> <span class="keyword">int</span> a)</span> </span>&#123;</span><br><span class="line"><span class="comment">//        a = 1;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>（1）对一个被final修饰的变量（Integer a、String b）被赋值时在编译过程中就出现了错误。<br>（2）（map）在重新被指向一个新的map对象的时候也出现了错误。<br>那么对被定义为final的map进行赋值呢？我们单独运行map.put(1,3)语句，结果是可以的。<strong>被final修饰的引用类型变量，虽然不能重新指向，但是可以修改</strong>,这一点尤为要注意。 </p>
+<blockquote>
+<p>18:05:19.163 [main] INFO cn.northpark.concurrency.immutable.ImmutableExample1 - 3</p>
+</blockquote>
+<p>（3）当final修饰方法的参数时：同样也是不允许在方法内部对其修改的。 </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">(<span class="keyword">final</span> <span class="keyword">int</span> a)</span> </span>&#123;</span><br><span class="line"><span class="comment">//        a = 1;	//报错</span></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/12/27/高并发、多线程探索-4-不可变对象 -final -Immutable{google guava} -unmodifiable/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://liuhouer.github.io/2018/12/25/高并发、多线程探索-2-线程安全性-原子性-Atomic-CAS/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -940,332 +1269,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://liuhouer.github.io/2018/12/24/高并发、多线程探索-1-相关基础知识/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Bruce">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Northpark博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2018/12/24/高并发、多线程探索-1-相关基础知识/" itemprop="url">
-                  高并发、多线程探索-1-相关基础知识
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-24T00:00:00+08:00">
-                2018-12-24
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <blockquote>
-<p>Java并发编程入门，适合没有并发编程经验的同学，本章首先从课程重点、特点、适合人群及学习收获几个方面对课程进行整体的介绍，然后会从一个实际的计数场景实现开始，给大家展示多线程并发时的线程不安全问题，让大家能够初体验到并发编程，之后会讲解并发和高并发的概念，并通过对比让大家明白到底什么是并发和…</p>
-</blockquote>
-<h1 id="高并发、多线程探索-1-相关基础知识"><a href="#高并发、多线程探索-1-相关基础知识" class="headerlink" title="高并发、多线程探索-1-相关基础知识"></a>高并发、多线程探索-1-相关基础知识</h1><h2 id="0、工具"><a href="#0、工具" class="headerlink" title="0、工具"></a>0、工具</h2><p>Apache Bench(AB) :Apache附带的工具，测试网站性能<br>Jmeter ： Apache组织开发的压力测试工具（比AB更强大）<br>代码测试方法 ：Semaphore、CountDownLatch类</p>
-<ul>
-<li>Semaphore类：信号量</li>
-</ul>
-<blockquote>
-<p>信号量，在我们测试的过程中充当监控并发数的角色。能够维持在同一时间的请求的并发量，达到并发量上线，会阻塞进程。</p>
-</blockquote>
-<ul>
-<li>CountDownLatch类：计数器向下减的闭锁<br><img src="http://liuhouer.heartill.com/blog/2018-12-24/1.jpg" alt="1"></li>
-</ul>
-<blockquote>
-<p>说明：假设计数器的值为3，线程A执行了await()方法之后，进入了awaiting等待状态。在其他线程的方法中执行了countDown()方法之后，计数器的值都会减一，直到计数器的值减为0，线程A的方法才继续执行。所以说，countDownLatch类可以阻塞线程执行，并且当满足指定条件后让线程继续执行。</p>
-</blockquote>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">package</span> <span class="selector-tag">cn</span><span class="selector-class">.northpark</span><span class="selector-class">.concurrency</span><span class="selector-class">.annotaion</span>;</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">import</span> <span class="selector-tag">java</span><span class="selector-class">.lang</span><span class="selector-class">.annotation</span><span class="selector-class">.ElementType</span>;</span><br><span class="line"><span class="selector-tag">import</span> <span class="selector-tag">java</span><span class="selector-class">.lang</span><span class="selector-class">.annotation</span><span class="selector-class">.Retention</span>;</span><br><span class="line"><span class="selector-tag">import</span> <span class="selector-tag">java</span><span class="selector-class">.lang</span><span class="selector-class">.annotation</span><span class="selector-class">.RetentionPolicy</span>;</span><br><span class="line"><span class="selector-tag">import</span> <span class="selector-tag">java</span><span class="selector-class">.lang</span><span class="selector-class">.annotation</span><span class="selector-class">.Target</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@<span class="keyword">Target</span>(<span class="keyword">ElementType</span>.<span class="keyword">TYPE</span>)</span><br><span class="line">@<span class="keyword">Retention</span>(<span class="keyword">RetentionPolicy</span>.<span class="keyword">SOURCE</span>)</span><br><span class="line"><span class="keyword">public</span> @interface NoteThreadSafe &#123;</span><br><span class="line">	<span class="selector-tag">String</span> <span class="selector-tag">value</span>() <span class="selector-tag">default</span> "";</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">package cn.northpark.concurrency.controller;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.CountDownLatch;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.ExecutorService;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.Executors;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.Semaphore;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> cn.northpark.concurrency.annotaion.NoteThreadSafe;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> lombok.extern.slf4j.Slf4j;</span><br><span class="line"></span><br><span class="line">@Slf4j</span><br><span class="line">@NoteThreadSafe</span><br><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">TestCurrency</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 请求总数</span></span><br><span class="line">	<span class="keyword">static</span> int totalCount = <span class="number">5000</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 同时并发执行的线程数</span></span><br><span class="line">	<span class="keyword">static</span> int threadTotal = <span class="number">200</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 计数器</span></span><br><span class="line">	public <span class="keyword">static</span> int count = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">	public <span class="keyword">static</span> <span class="keyword">void</span> main(<span class="built_in">String</span>[] args) throws InterruptedException &#123;</span><br><span class="line">		ExecutorService executorService = Executors.newCachedThreadPool();</span><br><span class="line">		<span class="comment">// 限制同时执行的线程数</span></span><br><span class="line">		final Semaphore semaphore = <span class="keyword">new</span> Semaphore(threadTotal);</span><br><span class="line">		final CountDownLatch countDownLatch = <span class="keyword">new</span> CountDownLatch(totalCount);</span><br><span class="line"></span><br><span class="line">		<span class="keyword">for</span> (int i = <span class="number">0</span>; i &lt; totalCount; i++) &#123;</span><br><span class="line">			executorService.execute(() -&gt; &#123;</span><br><span class="line">				<span class="keyword">try</span> &#123;</span><br><span class="line">					semaphore.acquire();</span><br><span class="line">					add();</span><br><span class="line">					semaphore.release();</span><br><span class="line">				&#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">					<span class="comment">// TODO Auto-generated catch block</span></span><br><span class="line">					e.printStackTrace();</span><br><span class="line">				&#125;</span><br><span class="line">				countDownLatch.countDown();</span><br><span class="line"></span><br><span class="line">			&#125;);</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		countDownLatch.await();</span><br><span class="line">		executorService.shutdown();</span><br><span class="line">		log.info(<span class="string">"count&#123;&#125;"</span>, count);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public <span class="keyword">static</span> <span class="keyword">void</span> add() &#123;</span><br><span class="line">		count++;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/12/24/高并发、多线程探索-1-相关基础知识/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://liuhouer.github.io/2018/06/10/guice整合guice-servlet，web scope注解6/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Bruce">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Northpark博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2018/06/10/guice整合guice-servlet，web scope注解6/" itemprop="url">
-                  guice整合guice-servlet，web scope注解 <6>
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-06-10T00:00:00+08:00">
-                2018-06-10
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/guice/" itemprop="url" rel="index">
-                    <span itemprop="name">guice</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="guice整合guice-servlet，web-scope注解"><a href="#guice整合guice-servlet，web-scope注解" class="headerlink" title="guice整合guice-servlet，web scope注解 "></a>guice整合guice-servlet，web scope注解 <6></6></h1><blockquote>
-<p>guice servlet提供了几个比较有用的web scope，类似与传统servlet<br>的session，request这些提供的范围等。</p>
-</blockquote>
-<p><strong>guice servlet 提供的web scope 如下:</strong></p>
-<ul>
-<li>@RequestScoped</li>
-<li>@SessionScoped</li>
-<li>@RequestParameters</li>
-</ul>
-<h2 id="1-RequestScoped"><a href="#1-RequestScoped" class="headerlink" title="1.@RequestScoped"></a>1.@RequestScoped</h2><p>例子如下:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> cn.northpark.action;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.google.inject.servlet.RequestScoped;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 类似我们请求的时候将值保存在此访问之中</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> bruce</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@RequestScoped</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RequstScope</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> cn.northpark.action;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.google.inject.Inject;</span><br><span class="line"><span class="keyword">import</span> com.google.inject.Provider;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RequstScopeTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    <span class="keyword">private</span> Provider&lt;RequstScope&gt; requst=<span class="keyword">null</span>;</span><br><span class="line">    </span><br><span class="line"></span><br><span class="line">    RequstScope a=requst.get();<span class="comment">//通过此种方法去取此范围的值</span></span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="2-SessionScoped"><a href="#2-SessionScoped" class="headerlink" title="2.@SessionScoped"></a>2.@SessionScoped</h2><p>例子如下:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> cn.northpark.action;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.google.inject.servlet.SessionScoped;</span><br><span class="line"></span><br><span class="line"><span class="meta">@SessionScoped</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SessionScope</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> count=<span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getCount</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> count;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setCount</span><span class="params">(<span class="keyword">int</span> count)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.count = count;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> cn.northpark.action;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.google.inject.Inject;</span><br><span class="line"><span class="keyword">import</span> com.google.inject.Provider;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SessionScopeTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    <span class="keyword">private</span> Provider&lt;SessionScope&gt; session=<span class="keyword">null</span>;</span><br><span class="line">    </span><br><span class="line"></span><br><span class="line">    SessionScope a=session.get();<span class="comment">//通过此种方法去取此范围的值</span></span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">test</span><span class="params">()</span></span>&#123;</span><br><span class="line">        a.setCount(<span class="number">2</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="3-RequestParameters"><a href="#3-RequestParameters" class="headerlink" title="3.@RequestParameters"></a>3.@RequestParameters</h2><p>例子如下:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Inject</span></span><br><span class="line"><span class="meta">@RequestParameters</span></span><br><span class="line"><span class="keyword">private</span> Provider&lt;Map&lt;String, String[]&gt;&gt; reqParamMapProvider;</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>guice servlet 还是比较好用，如果你选择用servlet开发的时候建议用它了。</p>
-</blockquote>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1315,7 +1318,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/">
-                <span class="site-state-item-count">85</span>
+                <span class="site-state-item-count">87</span>
                 <span class="site-state-item-name">posts</span>
               </a>
             </div>

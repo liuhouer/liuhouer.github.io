@@ -318,6 +318,312 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://liuhouer.github.io/2016/03/15/hibernate基于注解的主键生成策略/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Bruce">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Northpark博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/03/15/hibernate基于注解的主键生成策略/" itemprop="url">
+                  hibernate基于注解的主键生成策略
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-03-15T15:18:21+08:00">
+                2016-03-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/hibernate/" itemprop="url" rel="index">
+                    <span itemprop="name">hibernate</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h1 id="楔子"><a href="#楔子" class="headerlink" title="楔子"></a>楔子</h1><blockquote>
+<p><strong>最近想把UUID32位的主键策略改为6位的INT自增的主键，来改善个人网站的优雅和简洁性。于是找了些资料整理在这。由于我的网站用的注解，来减少xml配置文件带来的烦躁，所以主键策略一定要是基于注解的。</strong></p>
+</blockquote>
+<h1 id="一-自定义主键生成策略，由-GenericGenerator实现。"><a href="#一-自定义主键生成策略，由-GenericGenerator实现。" class="headerlink" title="一. 自定义主键生成策略，由@GenericGenerator实现。**"></a>一. 自定义主键生成策略，由<em>@GenericGenerator</em>实现。**</h1><p><em>hibernate</em>在<em>JPA</em>的基础上进行了扩展，可以用一下方式引入<em>hibernate</em>独有的主键生成策略，就是通过<em>@GenericGenerator</em>加入的。**</p>
+<p>比如说，<em>JPA</em>标准用法**<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">@Id  </span><br><span class="line">@GeneratedValue(GenerationType.AUTO)  </span><br><span class="line"></span><br><span class="line">就可以用hibernate特有以下用法来实现</span><br><span class="line"></span><br><span class="line">@GeneratedValue(generator = &quot;paymentableGenerator&quot;)     </span><br><span class="line">@GenericGenerator(name = &quot;paymentableGenerator&quot;, strategy = &quot;assigned&quot;)  </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@GenericGenerator的定义:</span><br><span class="line"></span><br><span class="line">@Target(&#123;PACKAGE, TYPE, METHOD, FIELD&#125;)   </span><br><span class="line">@Retention(RUNTIME)   </span><br><span class="line">public @interface GenericGenerator &#123;   </span><br><span class="line">  </span><br><span class="line">String name();   </span><br><span class="line">  </span><br><span class="line">String strategy();   </span><br><span class="line">  </span><br><span class="line">Parameter[] parameters() default &#123;&#125;;   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>name属性指定生成器名称。</li>
+<li>strategy属性指定具体生成器的类名。</li>
+<li>parameters得到strategy指定的具体生成器所用到的参数。</li>
+</ul>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2016/03/15/hibernate基于注解的主键生成策略/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://liuhouer.github.io/2016/03/06/雨巷/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Bruce">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Northpark博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/03/06/雨巷/" itemprop="url">
+                  雨巷
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-03-06T11:50:36+08:00">
+                2016-03-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/碎碎念/" itemprop="url" rel="index">
+                    <span itemprop="name">碎碎念</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <!-- <img src="http://liuhouer.heartill.com/post_.dingxiang.jpg" style="width: 208px;height: 208px;"></img> -->
+<p><img src="http://liuhouer.heartill.com/post_.dingxiang.jpg" alt="最喜欢的意境散文" title="最喜欢的意境散文"></p>
+<p>撑着油纸伞，独自<br>彷徨在悠长、悠长<br>又寂寥的雨巷<br>我希望逢着<br>一个丁香一样地<br>结着愁怨的姑娘 </p>
+<p>她是有<br>丁香一样的颜色<br>丁香一样的芬芳<br>丁香一样的忧愁<br>在雨中哀怨<br>哀怨又彷徨 </p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2016/03/06/雨巷/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://liuhouer.github.io/2016/01/05/dream-record/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -950,328 +1256,6 @@ print square_of_sum([-5, 0, 5, 15, 25])
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://liuhouer.github.io/2015/12/26/mac-python/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Bruce">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Northpark博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/12/26/mac-python/" itemprop="url">
-                  mac os x python开发环境的设置
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2015-12-26T15:32:46+08:00">
-                2015-12-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/mac/" itemprop="url" rel="index">
-                    <span itemprop="name">mac</span>
-                  </a>
-                </span>
-
-                
-                
-                  , 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/mac/python/" itemprop="url" rel="index">
-                    <span itemprop="name">python</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="python开发环境的设置"><a href="#python开发环境的设置" class="headerlink" title="python开发环境的设置"></a>python开发环境的设置</h1><h2 id="Python-可选"><a href="#Python-可选" class="headerlink" title="Python (可选)"></a>Python (可选)</h2><p>虽然Mac OS X 自带了Python，但是我们可以选择使用Homebrew安装Python 2.7.x。因为：</p>
-<ul>
-<li>使用Homebrew安装更新的python版本</li>
-<li>同时安装2.7.x和3.x的python</li>
-<li>Homebrew会同时安装setuptools和pip等工具</li>
-</ul>
-<p>安装python 2.7.x：</p>
-<pre><code>brew install python --with-brewed-openssl
-</code></pre><p>安装python 3.x：</p>
-<pre><code>brew install python3 --with-brewed-openssl
-</code></pre>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2015/12/26/mac-python/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://liuhouer.github.io/2015/12/24/论git的好处/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Bruce">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Northpark博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/12/24/论git的好处/" itemprop="url">
-                  论git的好处
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2015-12-24T17:26:57+08:00">
-                2015-12-24
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/git/" itemprop="url" rel="index">
-                    <span itemprop="name">git</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>linus威武? .好吧,其实我也不知道.真正扎实在用git也就这几个月.之前都是svn.曾经用过cvs.</p>
-<p>git给我带来的好处:</p>
-<p>##- 本地的版本管理</p>
-<p>不需要远程或架设服务器就能做到本地版本管理.</p>
-<p>不污染子目录的track文件</p>
-<p>svn每个子目录都要扔一个.svn.这个实在是.. .(我想很多人都碰到过svn lock folder的情况.实在让人气急败坏.实际上.svn文件就是罪魁祸首.各种clean up无果. delelte后svn up异常.真是.. 摔!.去你妹的svn.)</p>
-<p>##- 强大的branch</p>
-<p>超轻量级的branch建立.(实际只是建立文件指针).推荐根据的git workflow的开发流程.将workspace分成几区.master dev feature hotfix区等.开发层次就出来了.</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2015/12/24/论git的好处/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1321,7 +1305,7 @@ print square_of_sum([-5, 0, 5, 15, 25])
           
             <div class="site-state-item site-state-posts">
               <a href="/">
-                <span class="site-state-item-count">85</span>
+                <span class="site-state-item-count">87</span>
                 <span class="site-state-item-name">posts</span>
               </a>
             </div>
