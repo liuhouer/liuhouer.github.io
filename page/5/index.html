@@ -318,6 +318,184 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://liuhouer.github.io/2016/09/20/Spring配置数据源的几种形式/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Bruce">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Northpark博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/09/20/Spring配置数据源的几种形式/" itemprop="url">
+                  Spring配置数据源的几种形式
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-09-20T23:46:49+08:00">
+                2016-09-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h1 id="Spring配置数据源的几种形式"><a href="#Spring配置数据源的几种形式" class="headerlink" title="Spring配置数据源的几种形式"></a>Spring配置数据源的几种形式</h1><blockquote>
+<p>由于我的网站之前用的c3p0数据连接池配置，总是引发一些莫名其妙的错误，几次内存泄漏都和这个有关系，google之发现好多人都发现了这些bug.<br>于是了解了一下常见的数据源的配置，并改成了dbcp的配置方案。</p>
+</blockquote>
+<p>Spring中提供了4种不同形式的数据源配置方式：</p>
+<ul>
+<li><p>1、Spring自带的数据源(DriverMangerDataSource);</p>
+</li>
+<li><p>2、DBCP数据源;</p>
+</li>
+<li><p>3、C3P0数据源;</p>
+</li>
+<li><p>4、JNDI数据源。</p>
+</li>
+</ul>
+<p>以上数据源配置需要用的Jar包在<a href="http://www.java2s.com/Code/Jar/c/Catalogc.htm中都可以下载到" target="_blank" rel="noopener">http://www.java2s.com/Code/Jar/c/Catalogc.htm中都可以下载到</a></p>
+<p>下面详细介绍这四种数据源配置方式：</p>
+<h2 id="1-DriverMangerDataSource"><a href="#1-DriverMangerDataSource" class="headerlink" title="1. DriverMangerDataSource"></a>1. DriverMangerDataSource</h2><blockquote>
+<p>使用org.springframework.jdbc.datasource.DriverManagerDataSource<br>说明：DriverManagerDataSource建立连接是只要有连接就新建一个connection,根本没有连接池的作用。</p>
+</blockquote>
+<p>XML代码</p>
+<figure class="highlight vbscript-html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"&gt; </span><br><span class="line">          &lt;property name="driverClassName"&gt;&lt;value&gt;$&#123;jdbc.driverClassName&#125;&lt;/value&gt;&lt;/property&gt; </span><br><span class="line">          &lt;property name="url"&gt;&lt;value&gt;$&#123;jdbc.url&#125;&lt;/value&gt;&lt;/property&gt; </span><br><span class="line">          &lt;property name="username"&gt;&lt;value&gt;$&#123;jdbc.username&#125;&lt;/value&gt;&lt;/property&gt; </span><br><span class="line">          &lt;property name="password"&gt;&lt;value&gt;$&#123;jdbc.password&#125;&lt;/value&gt;&lt;/property&gt; </span><br><span class="line"></span><br><span class="line">&lt;/bean&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="2-DBCP数据源"><a href="#2-DBCP数据源" class="headerlink" title="2.DBCP数据源"></a>2.DBCP数据源</h2><blockquote>
+<p>使用org.apache.commons.dbcp.BasicDataSource<br>说明:这是一种推荐说明的数据源配置方式，它真正使用了连接池技术</p>
+<p>DBCP的配置依赖于2个jar包commons-dbcp.jar，commons-pool.jar。</p>
+</blockquote>
+<p>XML代码：</p>
+<figure class="highlight vbscript-html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 使用org.apache.commons.dbcp.BasicDataSource   </span><br><span class="line">         说明:这是一种推荐说明的数据源配置方式，它真正使用了连接池技术 --&gt;</span><br><span class="line">&lt;bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"</span><br><span class="line">destroy-method="close"&gt;</span><br><span class="line">&lt;property name="driverClassName" value="$&#123;jdbc.driver&#125;" /&gt;</span><br><span class="line">&lt;property name="url" value="$&#123;jdbc.url&#125;" /&gt;</span><br><span class="line">&lt;property name="username" value="$&#123;jdbc.username&#125;" /&gt;</span><br><span class="line">&lt;property name="password" value="$&#123;jdbc.password&#125;" /&gt;</span><br><span class="line">&lt;!--maxActive: 最大连接数量 --&gt;</span><br><span class="line">&lt;property name="maxActive" value="150" /&gt;</span><br><span class="line">&lt;!--minIdle: 最小空闲连接 --&gt;</span><br><span class="line">&lt;property name="minIdle" value="5" /&gt;</span><br><span class="line">&lt;!--maxIdle: 最大空闲连接 --&gt;</span><br><span class="line">&lt;property name="maxIdle" value="20" /&gt;</span><br><span class="line">&lt;!--initialSize: 初始化连接 --&gt;</span><br><span class="line">&lt;property name="initialSize" value="30" /&gt;</span><br><span class="line">&lt;!-- 连接被泄露时是否打印 --&gt;</span><br><span class="line">&lt;property name="logAbandoned" value="true" /&gt;</span><br><span class="line">&lt;!--removeAbandoned: 是否自动回收超时连接 --&gt;</span><br><span class="line">&lt;property name="removeAbandoned" value="true" /&gt;</span><br><span class="line">&lt;!--removeAbandonedTimeout: 超时时间(以秒数为单位) --&gt;</span><br><span class="line">&lt;property name="removeAbandonedTimeout" value="10" /&gt;</span><br><span class="line">&lt;!--maxWait: 超时等待时间以毫秒为单位 1000等于60秒 --&gt;</span><br><span class="line">&lt;property name="maxWait" value="1000" /&gt;</span><br><span class="line">&lt;!-- 在空闲连接回收器线程运行期间休眠的时间值,以毫秒为单位. --&gt;</span><br><span class="line">&lt;property name="timeBetweenEvictionRunsMillis" value="10000" /&gt;</span><br><span class="line">&lt;!-- 在每次空闲连接回收器线程(如果有)运行时检查的连接数量 --&gt;</span><br><span class="line">&lt;property name="numTestsPerEvictionRun" value="10" /&gt;</span><br><span class="line">&lt;!-- 1000 * 60 * 30 连接在池中保持空闲而不被空闲连接回收器线程 --&gt;</span><br><span class="line">&lt;property name="minEvictableIdleTimeMillis" value="10000" /&gt;</span><br><span class="line">&lt;property name="validationQuery" value="SELECT NOW() FROM DUAL" /&gt;</span><br><span class="line">&lt;/bean&gt;</span><br></pre></td></tr></table></figure>
+<p>上面代码的解释：</p>
+<blockquote>
+<p>BasicDataSource提供了close()方法关闭数据源，所以必须设定destroy-method=”close”属性，<br>以便Spring容器关闭时，数据源能够正常关闭。除以上必须的数据源属性外，还有一些常用的属性：</p>
+<p>defaultAutoCommit：设置从数据源中返回的连接是否采用自动提交机制，默认值为 true；<br>defaultReadOnly：设置数据源是否仅能执行只读操作， 默认值为 false；<br>maxActive：最大连接数据库连接数，设置为0时，表示没有限制； maxIdle：最大等待连接中的数量，设置为0时，表示没有限制；<br>maxWait：最大等待秒数，单位为毫秒， 超过时间会报出错误信息；<br>validationQuery：用于验证连接是否成功的查询SQL语句，SQL语句必须至少要返回一行数据，<br>如你可以简单地设置为：“select count(*) from user”； removeAbandoned：是否自我中断，默认是<br>false ；<br>removeAbandonedTimeout：几秒后数据连接会自动断开，在removeAbandoned为true，提供该值；<br>logAbandoned：是否记录中断事件， 默认为 false；</p>
+</blockquote>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2016/09/20/Spring配置数据源的几种形式/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://liuhouer.github.io/2016/09/09/使用 django-blog-zinnia 搭建个人博客/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1146,158 +1324,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://liuhouer.github.io/2016/05/23/蛇先生×小仓鼠/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Bruce">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Northpark博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/05/23/蛇先生×小仓鼠/" itemprop="url">
-                  蛇先生×小仓鼠
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-05-23T23:46:49+08:00">
-                2016-05-23
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/碎碎念/" itemprop="url" rel="index">
-                    <span itemprop="name">碎碎念</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="蛇先生×小仓鼠"><a href="#蛇先生×小仓鼠" class="headerlink" title="蛇先生×小仓鼠"></a>蛇先生×小仓鼠</h2><h3 id="1-蛇先生是动物园的蛇先生。"><a href="#1-蛇先生是动物园的蛇先生。" class="headerlink" title="1.蛇先生是动物园的蛇先生。"></a>1.蛇先生是动物园的蛇先生。</h3><p>小仓鼠是动物园里蛇先生的晚餐。<br>“蛇先生！你打算吃我吗！”<br>“……”<br>“蛇先生！你确定不先洗洗吗！”<br>“……”<br>“蛇先生！！你吃东西不拔毛吗！！”<br>“……”<br>“蛇先生！不拔毛的话……”<br>“闭嘴！再吵我就真的吃了你！”</p>
-<h3 id="2-反正蛇先生还是动物园里的蛇先生。"><a href="#2-反正蛇先生还是动物园里的蛇先生。" class="headerlink" title="2.反正蛇先生还是动物园里的蛇先生。"></a>2.反正蛇先生还是动物园里的蛇先生。</h3><p>小仓鼠却变成了蛇先生的储备粮。<br>“蛇先生！今天你饿了吗！”<br>“……”<br>“蛇先生！！那你现在饿吗！”<br>“……”<br>“蛇先生！你吃不吃玉米粒啊！”<br>“……”<br>“蛇先生！你……”<br>蛇先生张开蛇嘴，吐出蛇信子，露出凶煞的表情。<br>“……蛇先生你终于肯吃我了吗？”<br>“……”<br>“那你拔毛吗！”<br>“滚。”<br>蛇先生一个扫尾把小仓鼠咕噜咕噜滚走了。</p>
-<h3 id="3-蛇先生成了动物园第一条不吃仓鼠的蛇。"><a href="#3-蛇先生成了动物园第一条不吃仓鼠的蛇。" class="headerlink" title="3.蛇先生成了动物园第一条不吃仓鼠的蛇。"></a>3.蛇先生成了动物园第一条不吃仓鼠的蛇。</h3><p>小仓鼠成了动物园最著名的仓鼠。<br>蛇先生用尾尖点点仓鼠鼓鼓的腮帮子。<br>“这个是什么？”<br>“这似窝的粮似！！”<br>蛇先生用力戳了戳。<br>“很疼的！！！！！”<br>蛇先生张开嘴，“你还敢吼我。”<br>小仓鼠不舍的捂住腮帮子。<br>“…那你可以等我吃完再吃我吗？”<br>蛇先生收回蛇信子，溜去一边儿睡觉去了。<br>“好吧。”</p>
-<h3 id="4-蛇先生是动物园中最不缺肉的蛇。"><a href="#4-蛇先生是动物园中最不缺肉的蛇。" class="headerlink" title="4.蛇先生是动物园中最不缺肉的蛇。"></a>4.蛇先生是动物园中最不缺肉的蛇。</h3><p>小仓鼠是动物园中长肉最快的仓鼠。<br>“你怎么这么胖了？”<br>“…因为没有跑轮！”<br>蛇先生将小仓鼠扫到自己身上。<br>“跑吧。”<br>“蛇先生你身上好滑！！！！”<br>“闭嘴，再不跑我吃了你。”<br>“蛇先生你身上好凉！！”<br>“闭嘴，再啰嗦我就吃了你。”<br>“蛇先生你身上还有花纹！！！”<br>“闭嘴！再多嘴我就……”<br>“蛇先生你身上一点儿毛都没有！！”<br>蛇先生很挫败。<br>为什么这招不管用了呢？</p>
-<h3 id="5-蛇先生是动物园中最不怕热的蛇。"><a href="#5-蛇先生是动物园中最不怕热的蛇。" class="headerlink" title="5.蛇先生是动物园中最不怕热的蛇。"></a>5.蛇先生是动物园中最不怕热的蛇。</h3><p>小仓鼠是动物园中最奄奄一息的仓鼠。<br>“好热好热好热好热！！！”<br>“……”<br>“真的好热！！！”<br>“……”<br>“以前仓鼠窝还有纳凉板呢！！！”<br>“……”<br>“为什么蛇先生就没有呢！！”<br>“……”<br>“蛇先生你不热吗！！”<br>“你想说什么？”<br>“……我可以躺在你身上睡一觉吗？”<br>“……”<br>“蛇先生身上特别凉快的！！！”<br>“……”<br>“还滑滑的！！”<br>“……”<br>“还……”<br>“闭嘴，上来，吵醒我你就死定了。”<br>于是小仓鼠欢快的跑到蛇先生身上睡觉去了。<br>饲养员送食时，看到盘着蛇身休息的蛇先生，身上还有个四只爪子平爬的小东西。<br>“……那是什么？”<br>“是仓鼠。”<br>“它怎么不吃了？”<br>“……大概是……恋爱了。”</p>
-<h3 id="6-蛇先生是动物园中最奇葩的蛇。"><a href="#6-蛇先生是动物园中最奇葩的蛇。" class="headerlink" title="6.蛇先生是动物园中最奇葩的蛇。"></a>6.蛇先生是动物园中最奇葩的蛇。</h3><p>小仓鼠是动物园中最幸福的仓鼠。<br>饲养员惊奇。<br>游客也很惊奇。<br>“哇！！你看！那条蛇不吃仓鼠！”<br>“原来真的不吃！”<br>“叽叽喳喳喳喳叽叽……”<br>小仓鼠抬头问问蛇先生。<br>“蛇先生蛇先生他们在看什么！！”<br>“看你，和我。”<br>“啊！为什么！！”<br>“因为我们相处的很愉快。”<br>小仓鼠噗嗤噗嗤的爬上蛇先生身上，抱着蛇先生后脑狠狠亲了一口。<br>“当然要愉快！！！”<br>“…给我滚下去。”<br>“哇！妈妈！你看那条蛇不仅不吃仓鼠！还会脸红啊！！！”</p>
-<p>小仓鼠到现在都不懂为什么蛇先生一直不吃自己。<br>“蛇先生！！蛇先生！！”<br>“……”<br>“你为什么不吃我啊！！”<br>“嫌脏。”<br>“我每天都有口水浴的！！！”<br>“嫌腻。”<br>“我每天都有在你身上锻炼的！！！”<br>“嫌小。”<br>“你看你看我都胖了一圈儿了！！！”<br>“……”</p>
-<p>蛇先生的窝里，每天小仓鼠都会这么问它。<br>然而，蛇先生依旧不会吃它。</p>
-<p>真是个美好的动物园。</p>
-<p>真是个美好的蛇先生，和小仓鼠。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1347,7 +1373,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/">
-                <span class="site-state-item-count">87</span>
+                <span class="site-state-item-count">88</span>
                 <span class="site-state-item-name">posts</span>
               </a>
             </div>
@@ -1469,7 +1495,7 @@
         <div class="copyright" >
   
   &copy;  2015 - 
-  <span itemprop="copyrightYear">2018</span>
+  <span itemprop="copyrightYear">2019</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

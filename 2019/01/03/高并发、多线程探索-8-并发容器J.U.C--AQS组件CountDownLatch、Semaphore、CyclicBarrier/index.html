@@ -1,0 +1,965 @@
+<!doctype html>
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+<html class="mac-soft mist use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Boogaloo:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Satisfy:300,300italic,400,400italic,700,700italic|Roboto:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="多线程,高并发," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Northpark博客" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/octopus.png?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="AQS简介 AQS全名：AbstractQueuedSynchronizer，是并发容器J.U.C（java.lang.concurrent）下locks包内的一个类。它实现了一个FIFO(FirstIn、FisrtOut先进先出)的队列。底层实现的数据结构是一个双向列表。    Sync queue：同步队列，是一个双向列表。包括head节点和tail节点。head节点主要用作后续的调度。">
+<meta name="keywords" content="多线程,高并发">
+<meta property="og:type" content="article">
+<meta property="og:title" content="高并发、多线程探索-8-并发容器J.U.C--AQS组件CountDownLatch、Semaphore、CyclicBarrier">
+<meta property="og:url" content="http://liuhouer.github.io/2019/01/03/高并发、多线程探索-8-并发容器J.U.C--AQS组件CountDownLatch、Semaphore、CyclicBarrier/index.html">
+<meta property="og:site_name" content="Northpark博客">
+<meta property="og:description" content="AQS简介 AQS全名：AbstractQueuedSynchronizer，是并发容器J.U.C（java.lang.concurrent）下locks包内的一个类。它实现了一个FIFO(FirstIn、FisrtOut先进先出)的队列。底层实现的数据结构是一个双向列表。    Sync queue：同步队列，是一个双向列表。包括head节点和tail节点。head节点主要用作后续的调度。">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http://liuhouer.heartill.com/blog/2019-1-3/1.jpg">
+<meta property="og:image" content="http://liuhouer.heartill.com/blog/2019-1-3/2.jpg">
+<meta property="og:image" content="http://liuhouer.heartill.com/blog/2019-1-3/3.jpg">
+<meta property="og:updated_time" content="2019-01-03T08:57:37.788Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="高并发、多线程探索-8-并发容器J.U.C--AQS组件CountDownLatch、Semaphore、CyclicBarrier">
+<meta name="twitter:description" content="AQS简介 AQS全名：AbstractQueuedSynchronizer，是并发容器J.U.C（java.lang.concurrent）下locks包内的一个类。它实现了一个FIFO(FirstIn、FisrtOut先进先出)的队列。底层实现的数据结构是一个双向列表。    Sync queue：同步队列，是一个双向列表。包括head节点和tail节点。head节点主要用作后续的调度。">
+<meta name="twitter:image" content="http://liuhouer.heartill.com/blog/2019-1-3/1.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":6},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://liuhouer.github.io/2019/01/03/高并发、多线程探索-8-并发容器J.U.C--AQS组件CountDownLatch、Semaphore、CyclicBarrier/"/>
+
+
+
+
+
+  <title> 高并发、多线程探索-8-并发容器J.U.C--AQS组件CountDownLatch、Semaphore、CyclicBarrier | Northpark博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Northpark博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Today does not walk, will have to run tomorrow.</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-首页">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-关于">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-旅行">
+          <a href="/travel" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-ship"></i> <br />
+            
+            旅行
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-微世界">
+          <a href="/landscape" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-reddit-alien"></i> <br />
+            
+            微世界
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-音乐">
+          <a href="/music" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-music"></i> <br />
+            
+            音乐
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-读书">
+          <a href="/books" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-book"></i> <br />
+            
+            读书
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-归档">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://liuhouer.github.io/2019/01/03/高并发、多线程探索-8-并发容器J.U.C--AQS组件CountDownLatch、Semaphore、CyclicBarrier/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Bruce">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Northpark博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                高并发、多线程探索-8-并发容器J.U.C--AQS组件CountDownLatch、Semaphore、CyclicBarrier
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-01-03T00:00:00+08:00">
+                2019-01-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i> &nbsp;  本文总阅读量
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>次
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="AQS简介"><a href="#AQS简介" class="headerlink" title="AQS简介"></a>AQS简介</h2><blockquote>
+<p>AQS全名：<strong>AbstractQueuedSynchronizer</strong>，是并发容器J.U.C（java.lang.concurrent）下locks包内的一个类。它实现了一个<strong>FIFO(FirstIn、FisrtOut先进先出)的队列</strong>。底层实现的数据结构是一个<strong>双向列表</strong>。</p>
+</blockquote>
+<p><img src="http://liuhouer.heartill.com/blog/2019-1-3/1.jpg" alt="1"></p>
+<blockquote>
+<p>Sync queue：同步队列，是一个双向列表。包括head节点和tail节点。head节点主要用作后续的调度。</p>
+</blockquote>
+<blockquote>
+<p>Condition queue：非必须，单向列表。当程序中存在cindition的时候才会存在此列表</p>
+</blockquote>
+<h3 id="AQS设计思想"><a href="#AQS设计思想" class="headerlink" title="AQS设计思想"></a>AQS设计思想</h3><p>使用Node实现FIFO队列，可以用于构建锁或者其他同步装置的基础框架。<br>利用int类型标识状态。在AQS类中有一个叫做state的成员变量</p>
+<figure class="highlight pf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">* The synchronization <span class="keyword">state</span>.</span><br><span class="line">*/</span><br><span class="line">private volatile int <span class="keyword">state</span>;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>基于AQS有一个同步组件，叫做<strong>ReentrantLock</strong>。在这个组件里，stste表示获取锁的线程数，假如state=0，表示还没有线程获取锁，1表示有线程获取了锁。大于1表示重入锁的数量。<br>继承：子类通过继承并通过实现它的方法管理其状态（acquire和release方法操纵状态）。<br>可以同时实现排它锁和共享锁模式（独占、共享），站在一个使用者的角度，AQS的功能主要分为两类：独占和共享。它的所有子类中，要么实现并使用了它的独占功能的api，要么使用了共享锁的功能，而不会同时使用两套api，即便是最有名的子类<strong>ReentrantReadWriteLock</strong>也是通过两个内部类读锁和写锁分别实现了两套api来实现的。</p>
+</blockquote>
+<h3 id="AQS的大致实现思路"><a href="#AQS的大致实现思路" class="headerlink" title="AQS的大致实现思路"></a>AQS的大致实现思路</h3><blockquote>
+<p>AQS内部维护了一个CLH队列来管理锁。线程会首先尝试获取锁，如果失败就将当前线程及等待状态等信息包装成一个node节点加入到同步队列sync<br>queue里。接着会不断的循环尝试获取锁，条件是当前节点为head的直接后继才会尝试。如果失败就会阻塞自己直到自己被唤醒。而当持有锁的线程释放锁的时候，会唤醒队列中的后继线程。</p>
+</blockquote>
+<h2 id="AQS组件：CountDownLatch"><a href="#AQS组件：CountDownLatch" class="headerlink" title="AQS组件：CountDownLatch"></a>AQS组件：CountDownLatch</h2><p><img src="http://liuhouer.heartill.com/blog/2019-1-3/2.jpg" alt="2"></p>
+<blockquote>
+<p>通过一个计数来保证线程是否需要被阻塞。实现一个或多个线程等待其他线程执行的场景。<br>我们定义一个CountDownLatch，通过给定的计数器为其初始化，该计数器是原子性操作，保证同时只有一个线程去操作该计数器。调用该类await方法的线程会一直处于阻塞状态。只有其他线程调用countDown方法（每次使计数器-1），使计数器归零才能继续执行。</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> CountDownLatch countDownLatch = <span class="keyword">new</span> CountDownLatch(threadCount);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; threadCount; i++) &#123;</span><br><span class="line">		<span class="keyword">final</span> <span class="keyword">int</span> threadNum = i;</span><br><span class="line">		exec.execute(() -&gt; &#123;</span><br><span class="line">			<span class="keyword">try</span> &#123;</span><br><span class="line">				test(threadNum); <span class="comment">//需要被等待的线程执行的方法</span></span><br><span class="line">			&#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">				log.error(<span class="string">"exception"</span>, e);</span><br><span class="line">			&#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">				countDownLatch.countDown();</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;);</span><br><span class="line">	&#125;</span><br><span class="line">	countDownLatch.await();</span><br></pre></td></tr></table></figure>
+<p>CountDownLatch的await方法还有重载形式，可以设置等待的时间，如果超过此时间，计数器还未清零，则不继续等待：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">countDownLatch.await(<span class="number">10</span>, TimeUnit.MILLISECONDS);</span><br><span class="line"></span><br><span class="line"><span class="comment">//参数1：等待的时间长度</span></span><br><span class="line"><span class="comment">//参数2：等待的时间单位</span></span><br></pre></td></tr></table></figure>
+<h2 id="AQS组件：Semaphore"><a href="#AQS组件：Semaphore" class="headerlink" title="AQS组件：Semaphore"></a>AQS组件：Semaphore</h2><blockquote>
+<p>用于保证同一时间并发访问线程的数目。<br>信号量在操作系统中是很重要的概念，Java并发库里的Semaphore就可以很轻松的完成类似操作系统信号量的控制。Semaphore可以很容易控制系统中某个资源被同时访问的线程个数。<br>在数据结构中我们学过链表，链表正常是可以保存无限个节点的，而Semaphore可以实现有限大小的列表。<br>使用场景：仅能提供有限访问的资源。比如数据库连接。 Semaphore使用acquire方法和release方法来实现控制：</p>
+</blockquote>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* 1、普通调用</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="selector-tag">try</span> &#123;</span><br><span class="line"><span class="selector-tag">semaphore</span><span class="selector-class">.acquire</span>(); <span class="comment">// 获取一个许可</span></span><br><span class="line"><span class="selector-tag">test</span>();<span class="comment">//需要并发控制的内容</span></span><br><span class="line"><span class="selector-tag">semaphore</span><span class="selector-class">.release</span>(); <span class="comment">// 释放一个许可</span></span><br><span class="line">&#125; <span class="selector-tag">catch</span> (Exception e) &#123;</span><br><span class="line"><span class="selector-tag">log</span><span class="selector-class">.error</span>(<span class="string">"exception"</span>, e);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* 2、同时获取多个许可，同时释放多个许可</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="selector-tag">try</span> &#123;</span><br><span class="line"><span class="selector-tag">semaphore</span><span class="selector-class">.acquire</span>(<span class="number">2</span>);</span><br><span class="line"><span class="selector-tag">test</span>();</span><br><span class="line"><span class="selector-tag">semaphore</span><span class="selector-class">.release</span>(<span class="number">2</span>);</span><br><span class="line">&#125; <span class="selector-tag">catch</span> (Exception e) &#123;</span><br><span class="line"><span class="selector-tag">log</span><span class="selector-class">.error</span>(<span class="string">"exception"</span>, e);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">* 3、尝试获取许可，获取不到不执行</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="selector-tag">try</span> &#123;</span><br><span class="line"><span class="selector-tag">if</span> (semaphore.tryAcquire()) &#123;</span><br><span class="line"><span class="selector-tag">test</span>(threadNum);</span><br><span class="line"><span class="selector-tag">semaphore</span><span class="selector-class">.release</span>();</span><br><span class="line">&#125;</span><br><span class="line">&#125; <span class="selector-tag">catch</span> (Exception e) &#123;</span><br><span class="line"><span class="selector-tag">log</span><span class="selector-class">.error</span>(<span class="string">"exception"</span>, e);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">* 4、尝试获取许可一段时间，获取不到不执行</span></span><br><span class="line"><span class="comment">* 参数1：等待时间长度 参数2：等待时间单位</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="selector-tag">try</span> &#123;</span><br><span class="line"><span class="selector-tag">if</span> (semaphore.tryAcquire(<span class="number">5000</span>, TimeUnit.MILLISECONDS)) &#123;</span><br><span class="line"><span class="selector-tag">test</span>(threadNum);</span><br><span class="line"><span class="selector-tag">semaphore</span><span class="selector-class">.release</span>();</span><br><span class="line">&#125;</span><br><span class="line">&#125; <span class="selector-tag">catch</span> (Exception e) &#123;</span><br><span class="line"><span class="selector-tag">log</span><span class="selector-class">.error</span>(<span class="string">"exception"</span>, e);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="AQS组件：CyclicBarrier"><a href="#AQS组件：CyclicBarrier" class="headerlink" title="AQS组件：CyclicBarrier"></a>AQS组件：CyclicBarrier</h2><p><img src="http://liuhouer.heartill.com/blog/2019-1-3/3.jpg" alt="3"></p>
+<blockquote>
+<p>也是一个同步辅助类，它允许一组线程相互等待，直到到达某个公共的屏障点（循环屏障）通过它可以完成多个线程之间相互等待，只有每个线程都准备就绪后才能继续往下执行后面的操作。<br>每当有一个线程执行了await方法，计数器就会执行+1操作，待计数器达到预定的值，所有的线程再同时继续执行。由于计数器释放之后可以重用（reset方法），所以称之为循环屏障。</p>
+</blockquote>
+<blockquote>
+<p>与CountDownLatch区别：<br>1、计数器可重复用<br>2、描述一个或多个线程等待其他线程的关系/多个线程相互等待//公共线程循环调用方法</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">private static CyclicBarrier barrier = new CyclicBarrier(5);</span><br><span class="line"></span><br><span class="line">public static void main(String[] args) throws Exception &#123;</span><br><span class="line">ExecutorService executor = Executors.newCachedThreadPool();</span><br><span class="line"></span><br><span class="line">for (int i = 0; i &lt; 10; i++) &#123;</span><br><span class="line">final int threadNum = i;</span><br><span class="line">Thread.sleep(1000);</span><br><span class="line">executor.execute(() -&gt; &#123;</span><br><span class="line">try &#123;</span><br><span class="line">race(threadNum);</span><br><span class="line">&#125; catch (Exception e) &#123;</span><br><span class="line">log.error(&quot;exception&quot;, e);</span><br><span class="line">&#125;</span><br><span class="line">&#125;);</span><br><span class="line">&#125;</span><br><span class="line">executor.shutdown();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//使用方法1：每个线程都持续等待</span><br><span class="line">private static void race(int threadNum) throws Exception &#123;</span><br><span class="line">Thread.sleep(1000);</span><br><span class="line">log.info(&quot;&#123;&#125; is ready&quot;, threadNum);</span><br><span class="line">barrier.await();</span><br><span class="line">log.info(&quot;&#123;&#125; continue&quot;, threadNum);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//使用方法2：每个线程只等待一段时间</span><br><span class="line">private static void race(int threadNum) throws Exception &#123;</span><br><span class="line">Thread.sleep(1000);</span><br><span class="line">try &#123;</span><br><span class="line">barrier.await(2000, TimeUnit.MILLISECONDS);</span><br><span class="line">&#125; catch (InterruptedException | BrokenBarrierException | TimeoutException e) &#123;</span><br><span class="line">log.warn(&quot;BarrierException&quot;, e);</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//使用方法3：在初始化的时候设置runnable，当线程达到屏障时优先执行runnable</span><br><span class="line">private static CyclicBarrier barrier = new CyclicBarrier(5, () -&gt; &#123;</span><br><span class="line">log.info(&quot;callback is running&quot;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>生活不止苟且,还有我喜爱的海岸.</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="http://liuhouer.heartill.com/blog/donate/praise.jpg" alt="Bruce WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="http://liuhouer.heartill.com/blog/donate/alipay.png" alt="Bruce Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/多线程/" rel="tag"># 多线程</a>
+          
+            <a href="/tags/高并发/" rel="tag"># 高并发</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/29/高并发、多线程探索-7-并发容器 J.U.C(java.util.concurrency) - 线程安全的集合与Map/" rel="next" title="高并发、多线程探索-7-并发容器 J.U.C(java.util.concurrency) - 线程安全的集合与Map">
+                <i class="fa fa-chevron-left"></i> 高并发、多线程探索-7-并发容器 J.U.C(java.util.concurrency) - 线程安全的集合与Map
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8yNzgzNy80NDEz"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="Bruce" />
+          <p class="site-author-name" itemprop="name">Bruce</p>
+           
+              <p class="site-description motion-element" itemprop="description">Extreme ways</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/">
+                <span class="site-state-item-count">88</span>
+                <span class="site-state-item-name">posts</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">44</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">80</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/liuhouer" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/liuhouer" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.facebook.com/bruce.mo.7" target="_blank" title="Facebook">
+                  
+                    <i class="fa fa-fw fa-facebook-square"></i>
+                  
+                  Facebook
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://northpark.cn/?,NorthPark-小清新的软件、影视、心情、图片互动公园" title="NorthPark" target="_blank">NorthPark</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://effine.cn/?,哈哈，他叫verphen，故给他起绰号挖粪男孩" title="挖粪の男孩" target="_blank">挖粪の男孩</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://lonelyrobots.cn/?,哈哈，他排行老六，又名撒币六子" title="OldのSix" target="_blank">OldのSix</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#AQS简介"><span class="nav-number">1.</span> <span class="nav-text">AQS简介</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#AQS设计思想"><span class="nav-number">1.1.</span> <span class="nav-text">AQS设计思想</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AQS的大致实现思路"><span class="nav-number">1.2.</span> <span class="nav-text">AQS的大致实现思路</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AQS组件：CountDownLatch"><span class="nav-number">2.</span> <span class="nav-text">AQS组件：CountDownLatch</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AQS组件：Semaphore"><span class="nav-number">3.</span> <span class="nav-text">AQS组件：Semaphore</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AQS组件：CyclicBarrier"><span class="nav-number">4.</span> <span class="nav-text">AQS组件：CyclicBarrier</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Bruce</span>
+</div>
+
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+
+<div class="powered-by">
+  <a class="theme-link" href="https://northpark.cn/">
+    NorthPark中文网
+  </a>
+</div>
+
+<div class="powered-by">
+  <a class="theme-link" href="https://northpark.cn/soft/mac">
+    Mac破解软件
+  </a>
+</div>
+
+<div class="powered-by">
+  <a class="theme-link" href="https://northpark.cn/movies">
+    院线大片
+  </a>
+</div>
+
+<div class="theme-info">
+  <a class="theme-link" href="https://northpark.cn/romeo">
+    情商提升
+  </a>
+</div>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i> &nbsp;   本站访客数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人次
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>  &nbsp; 本站总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+</body>
+</html>
