@@ -318,6 +318,149 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://liuhouer.github.io/2013/01/18/delphi从文本读取到数组/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Bruce">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Northpark博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2013/01/18/delphi从文本读取到数组/" itemprop="url">
+                  delphi从文本读取到数组
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2013-01-18T00:00:00+08:00">
+                2013-01-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/delphi/" itemprop="url" rel="index">
+                    <span itemprop="name">delphi</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>//读文件 c:\1.txt 内容，以回车为分割存入数组<br>    procedure TForm1.Button4Click(Sender: TObject);<br>    var<br>      slist:TStringList; //存储文本文件内容<br>      pstrarray:array of string;   //数组<br>      i,icount:integer;       //文本文件行数<br>    begin<br>      slist:=TStringList.Create;<br>      slist.LoadFromFile(‘c:\1.txt’);  //把文件内容载入到字符串数组列表<br>      icount:=slist.Count;<br>      setlength(pstrarray,icount); //设置动态数组长度<br>      for i:=0 to icount-1 do    //遍历文本，把每行数据存入数组<br>      begin<br>        pstrarray[i]:=slist.Strings[i];<br>      end;<br>      slist.free;<br>    end;</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://liuhouer.github.io/2013/01/17/delphi怎样使一个子窗体在主窗体最小化后而不最小化/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1089,154 +1232,6 @@ type
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://liuhouer.github.io/2011/12/13/Delphi 我为何离开你/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Bruce">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Northpark博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2011/12/13/Delphi 我为何离开你/" itemprop="url">
-                  Delphi 我为何离开你
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2011-12-13T13:37:51+08:00">
-                2011-12-13
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/delphi/" itemprop="url" rel="index">
-                    <span itemprop="name">delphi</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>[转载]Delphi 我为何离开你 </p>
-<p>原文地址：Delphi 我为何离开你作者：杯具de橙子<br>作为一个用了 Delphi 好多年，甚至还在 Borland 参加过实习的人，在近几年内也被问起为什么不愿意再用 Delphi，本来不愿意多说什么，毕竟用什么语言，那是个人喜好，或者说，做什么事用什么工具，我对语言并没有特别的爱好或是信仰。但是近期也看到了一些不那么好玩的现象，比如说 RAD Studio XE2 的预览版，这次我没有申请参加内测，但是却有很多朋友，拿到内测后，特地发给我，让我来玩玩，当然了，拿了别人的东西，也就不能再沉默了，多少也要说点什么。这次完全不想写什么评测，只是谈谈自己对这次 XE2 的看法。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2011/12/13/Delphi 我为何离开你/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1286,7 +1281,7 @@ type
           
             <div class="site-state-item site-state-posts">
               <a href="/">
-                <span class="site-state-item-count">89</span>
+                <span class="site-state-item-count">90</span>
                 <span class="site-state-item-name">posts</span>
               </a>
             </div>
@@ -1297,7 +1292,7 @@ type
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">44</span>
+                <span class="site-state-item-count">45</span>
                 <span class="site-state-item-name">categories</span>
               </a>
             </div>
@@ -1308,7 +1303,7 @@ type
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">82</span>
+                <span class="site-state-item-count">83</span>
                 <span class="site-state-item-name">tags</span>
               </a>
             </div>

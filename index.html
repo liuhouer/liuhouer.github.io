@@ -318,6 +318,189 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://liuhouer.github.io/2019/06/28/Storm学习笔记-基础知识123/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Bruce">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Northpark博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2019/06/28/Storm学习笔记-基础知识123/" itemprop="url">
+                  Storm学习笔记-基础知识123
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-06-28T00:00:00+08:00">
+                2019-06-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/storm/" itemprop="url" rel="index">
+                    <span itemprop="name">storm</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="storm学习"><a href="#storm学习" class="headerlink" title="storm学习"></a>storm学习</h1><h2 id="学习途径"><a href="#学习途径" class="headerlink" title="学习途径"></a>学习途径</h2><h3 id="1、官方文档"><a href="#1、官方文档" class="headerlink" title="1、官方文档"></a>1、官方文档</h3><p><a href="http://storm.apache.org/index.html" target="_blank" rel="noopener">http://storm.apache.org/index.html</a></p>
+<h3 id="2、GitHub-有案例"><a href="#2、GitHub-有案例" class="headerlink" title="2、GitHub,有案例"></a>2、GitHub,有案例</h3><p><a href="https://github.com/apache/storm" target="_blank" rel="noopener">https://github.com/apache/storm</a></p>
+<h3 id="3、一个官方文档简体中文版的翻译"><a href="#3、一个官方文档简体中文版的翻译" class="headerlink" title="3、一个官方文档简体中文版的翻译"></a>3、一个官方文档简体中文版的翻译</h3><p><a href="http://python-storm-tutorial.readthedocs.io/zh_CN/latest/" target="_blank" rel="noopener">http://python-storm-tutorial.readthedocs.io/zh_CN/latest/</a></p>
+<p>多尝试、多思考、遇到问题看日志</p>
+<p><img src="http://liuhouer.heartill.com/storm/11.jpg" alt="enter description here"><br><img src="http://liuhouer.heartill.com/storm/12.jpg" alt="enter description here"><br><img src="http://liuhouer.heartill.com/storm/13.jpg" alt="enter description here"></p>
+<h2 id="1、什么是storm"><a href="#1、什么是storm" class="headerlink" title="1、什么是storm"></a>1、什么是storm</h2><p>Apache Storm is a free and open source distributed realtime computation system.<br>     免费、开源、分布式、实时计算系统<br>Storm makes it easy to reliably process unbounded streams of data<br>     unbounded：无界，源源不断<br>     bounded：Hadoop/spark SQL  离线 （input–&gt;output）<br>doing for realtime processing what Hadoop did for batch processing<br>     storm：实时流处理<br>     Hadoop：离线批处理</p>
+<h2 id="2、storm能做什么？"><a href="#2、storm能做什么？" class="headerlink" title="2、storm能做什么？"></a>2、storm能做什么？</h2><p>Storm has many use cases:<br>    realtime analytics：实时分析<br>    online machine learning：在线机器学习<br>    continuous computation：持续计算<br>    distributed RPC,<br>     ETL：<br>    and more.</p>
+<h2 id="3、storm的特点"><a href="#3、storm的特点" class="headerlink" title="3、storm的特点"></a>3、storm的特点</h2><p> fast: over a million tuples processed per second per node 。一秒1亿<br>      scalable（可添加机器）<br>      fault-tolerant 容错<br>      guarantees your data will be processed 保证每条数据被处理<br>      easy to set up and operate.<br>storm能实现高频数据和大规模数据的实时处理          </p>
+<h2 id="4、storm发展历史"><a href="#4、storm发展历史" class="headerlink" title="4、storm发展历史"></a>4、storm发展历史</h2><p>storm产生于twitter<br>   需求：大户数的实时处理<br>   实时系统要考虑：<br>   1）健壮性<br>    2）拓展性/分布式<br>    3）数据不丢失不重复<br>    4）高性能低延时</p>
+<h2 id="5、storm和Hadoop的区别"><a href="#5、storm和Hadoop的区别" class="headerlink" title="5、storm和Hadoop的区别"></a>5、storm和Hadoop的区别</h2><p>处理过程<br>Hadoop—–&gt;   map       reduce<br>storm    —–&gt;  spout      bolt<br>storm进程不杀死不结束<br>Hadoop进程完成就结束<br>处理速度： storm 快                                                                  </p>
+<h2 id="6、发展趋势"><a href="#6、发展趋势" class="headerlink" title="6、发展趋势"></a>6、发展趋势</h2><p>看：<br>    社区的发展、活跃度<br>    企业的需求<br>    大数据的相关大会，如storm的数量上升<br>    互联网公司使用度</p>
+<h2 id="storm-核心概念"><a href="#storm-核心概念" class="headerlink" title="storm 核心概念"></a>storm 核心概念</h2><p><img src="http://liuhouer.heartill.com/storm/14.jpg" alt="课程目录"></p>
+<h3 id="storm-核心概念-1"><a href="#storm-核心概念-1" class="headerlink" title="storm 核心概念"></a>storm 核心概念</h3><pre><code>1. Topologies  把顺序串起来的东西/ 调度中心
+2. Streams   流，数据流，水流
+3. Spouts     产生数据、水流的东西（水龙头）
+4. Bolts        处理数据/水流的东西   水壶/水桶
+5. Tuple      数据/水
+6. Stream groupings
+7. Reliability
+8. Tasks
+9. Workers
+</code></pre><h3 id="Storm核心概念总结"><a href="#Storm核心概念总结" class="headerlink" title="Storm核心概念总结"></a>Storm核心概念总结</h3><p>Topology:计算拓扑， 由spout和bolt组成的</p>
+<p>Stream:消息流，抽象概念，没有边界的tup le构成</p>
+<p>Tuple:消息/数据传递的基本 单元</p>
+<p>Spout:消息流的源头，Topology的消息生产者</p>
+<p>Bolt:消息处理单元，可以做过滤、聚合、查询/写数据库的操作</p>
+<p><img src="http://liuhouer.heartill.com/storm/15.png" alt="Storm核心概念总结"></p>
+<p><img src="http://liuhouer.heartill.com/storm/16.jpg" alt="storm概念理解模型"></p>
+<p><img src="http://liuhouer.heartill.com/storm/17.jpg" alt="storm理解模型"></p>
+<p><img src="http://liuhouer.heartill.com/storm/18.jpg" alt="storm理解模型"></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://liuhouer.github.io/2019/03/28/最简单实现高并发插入数万条数据(可同步可异步)/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -970,7 +1153,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://liuhouer.github.io/2018/12/27/高并发、多线程探索-5-线程封闭、threadLocal应用/">
+    <link itemprop="mainEntityOfPage" href="http://liuhouer.github.io/2018/12/27/高并发、多线程探索-4-不可变对象 -final -Immutable{google guava} -unmodifiable/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Bruce">
@@ -992,8 +1175,8 @@
             
               
                 
-                <a class="post-title-link" href="/2018/12/27/高并发、多线程探索-5-线程封闭、threadLocal应用/" itemprop="url">
-                  高并发、多线程探索-5-线程封闭、threadLocal应用
+                <a class="post-title-link" href="/2018/12/27/高并发、多线程探索-4-不可变对象 -final -Immutable{google guava} -unmodifiable/" itemprop="url">
+                  高并发、多线程探索-4-不可变对象 -final -Immutable{google guava} -unmodifiable
                 </a>
               
             
@@ -1068,176 +1251,22 @@
 
       
         
-          <h2 id="1、什么是线程封闭？"><a href="#1、什么是线程封闭？" class="headerlink" title="1、什么是线程封闭？"></a>1、什么是线程封闭？</h2><p>它其实就是把对象封装到一个线程里，只有一个线程能看到这个对象，那么这个对象就算不是线程安全的，也不会出现任何线程安全方面的问题。</p>
-<p>线程封闭技术有一个常见的应用：</p>
-<p>数据库连接对应jdbc的Connection对象，Connection对象在实现的时候并没有对线程安全做太多的处理，jdbc的规范里也没有要求Connection对象必须是线程安全的。<br>实际在服务器应用程序中，线程从连接池获取了一个Connection对象，使用完再把Connection对象返回给连接池，由于大多数请求都是由单线程采用同步的方式来处理的，并且在Connection对象返回之前，连接池不会将它分配给其他线程。因此这种连接管理模式处理请求时隐含的将Connection对象封闭在线程里面，这样我们使用的connection对象虽然本身不是线程安全的，但是它通过线程封闭也做到了线程安全。</p>
-<h2 id="2、线程封闭的种类："><a href="#2、线程封闭的种类：" class="headerlink" title="2、线程封闭的种类："></a>2、线程封闭的种类：</h2><h3 id="（1）Ad-hoc-线程封闭："><a href="#（1）Ad-hoc-线程封闭：" class="headerlink" title="（1）Ad-hoc 线程封闭："></a>（1）Ad-hoc 线程封闭：</h3><p>Ad-hoc线程封闭是指，维护线程封闭性的职责完全由程序实现来承担。Ad-hoc线程封闭是非常脆弱的，因为没有任何一种语言特性，例如可见性修饰符或局部变量，能将对象封闭到目标线程上。事实上，对线程封闭对象（例如，GUI应用程序中的可视化组件或数据模型等）的引用通常保存在公有变量中。</p>
-<h3 id="（2）堆栈封闭："><a href="#（2）堆栈封闭：" class="headerlink" title="（2）堆栈封闭："></a>（2）堆栈封闭：</h3><p>堆栈封闭其实就是方法中定义局部变量。不存在并发问题。多个线程访问一个方法的时候，方法中的局部变量都会被拷贝一份到线程的栈中（Java内存模型），所以局部变量是不会被多个线程所共享的。</p>
-<h3 id="（3）ThreadLocal线程封闭："><a href="#（3）ThreadLocal线程封闭：" class="headerlink" title="（3）ThreadLocal线程封闭："></a>（3）ThreadLocal线程封闭：</h3><p>它是一个特别好的封闭方法，其实ThreadLocal内部维护了一个map,map的key是每个线程的名称，而map的value就是我们要封闭的对象。ThreadLocal提供了get、set、remove方法，每个操作都是基于当前线程的，所以它是线程安全的。 </p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//ThreadLocal的get方法源码</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> T <span class="title">get</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Thread t = Thread.currentThread();<span class="comment">//当前线程对象</span></span><br><span class="line">    ThreadLocalMap map = getMap(t);<span class="comment">//get操作基于当前线程</span></span><br><span class="line">    <span class="keyword">if</span> (map != <span class="keyword">null</span>) &#123;</span><br><span class="line">        ThreadLocalMap.Entry e = map.getEntry(<span class="keyword">this</span>);</span><br><span class="line">        <span class="keyword">if</span> (e != <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="meta">@SuppressWarnings</span>(<span class="string">"unchecked"</span>)</span><br><span class="line">            T result = (T)e.value;</span><br><span class="line">            <span class="keyword">return</span> result;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> setInitialValue();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/12/27/高并发、多线程探索-5-线程封闭、threadLocal应用/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://liuhouer.github.io/2018/12/27/高并发、多线程探索-3-安全发布对象与多种单例模式/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Bruce">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Northpark博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2018/12/27/高并发、多线程探索-3-安全发布对象与多种单例模式/" itemprop="url">
-                  高并发、多线程探索-3-安全发布对象与多种单例模式
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-27T00:00:00+08:00">
-                2018-12-27
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><h2 id="发布对象"><a href="#发布对象" class="headerlink" title="发布对象"></a>发布对象</h2><blockquote>
-<p>使一个对象能够被当前范围之外的代码所使用。<br>在我们的日常开发中，我们经常要发布一些对象，比如通过类的非私有方法返回对象的引用，或者通过公有静态变量发布对象。</p>
-</blockquote>
-<h2 id="对象逸出"><a href="#对象逸出" class="headerlink" title="对象逸出"></a>对象逸出</h2><blockquote>
-<p>一种错误的发布。当一个对象还没有构造完成时，就使它被其他线程所见。</p>
-</blockquote>
-<h2 id="代码演示"><a href="#代码演示" class="headerlink" title="代码演示"></a>代码演示</h2><h3 id="不安全发布对象"><a href="#不安全发布对象" class="headerlink" title="不安全发布对象"></a>不安全发布对象</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> cn.northpark.concurrency.publish;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.Arrays;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> cn.northpark.concurrency.annotaion.NotRecommand;</span><br><span class="line"><span class="keyword">import</span> cn.northpark.concurrency.annotaion.NotThreadSafe;</span><br><span class="line"><span class="keyword">import</span> lombok.extern.slf4j.Slf4j;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> jeyy</span></span><br><span class="line"><span class="comment"> *	这个代码通过public访问级别发布了类的域，在类的任何外部的线程都可以访问这些域</span></span><br><span class="line"><span class="comment"> *  我们无法保证其他线程会不会修改这个域，从而使私有域内的值错误（上述代码中就对私有域进行了修改）</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Slf</span>4j</span><br><span class="line"><span class="meta">@NotThreadSafe</span></span><br><span class="line"><span class="meta">@NotRecommand</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UnsafePublish</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//调用类的公共方法可以改变类的私有属性的值</span></span><br><span class="line">	<span class="keyword">private</span> String[] status = &#123;<span class="string">"1"</span>,<span class="string">"2"</span>,<span class="string">"3"</span>&#125;;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//类的非私有方法，返回私有对象的引用</span></span><br><span class="line">	<span class="keyword">public</span> String[] getStatus() &#123;</span><br><span class="line">		<span class="keyword">return</span> status;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		UnsafePublish up = <span class="keyword">new</span> UnsafePublish();</span><br><span class="line">		log.info(<span class="string">"&#123;&#125;"</span>,Arrays.toString(up.getStatus()));</span><br><span class="line">		</span><br><span class="line">		up.status[<span class="number">0</span>]=<span class="string">"999"</span>;</span><br><span class="line">		log.info(<span class="string">"&#123;&#125;"</span>,Arrays.toString(up.getStatus()));</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> cn.northpark.concurrency.publish;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> cn.northpark.concurrency.annotaion.NotRecommand;</span><br><span class="line"><span class="keyword">import</span> cn.northpark.concurrency.annotaion.NotThreadSafe;</span><br><span class="line"><span class="keyword">import</span> lombok.extern.slf4j.Slf4j;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> jeyy</span></span><br><span class="line"><span class="comment"> *  &lt;pre&gt;</span></span><br><span class="line"><span class="comment"> *  这个内部类的实例里面包含了对封装实例的私有域对象的引用，在对象没有被正确构造完成之前就会被发布，有可能有不安全的因素在里面，会导致this引用在构造期间溢出的错误。</span></span><br><span class="line"><span class="comment"> *  上述代码在函数构造过程中启动了一个线程。无论是隐式的启动还是显式的启动，都会造成这个this引用的溢出。新线程总会在所属对象构造完毕之前就已经看到它了。</span></span><br><span class="line"><span class="comment"> *  因此要在构造函数中创建线程，那么不要启动它，而是应该采用一个专有的start或者初始化的方法统一启动线程</span></span><br><span class="line"><span class="comment"> *  这里其实我们可以采用工厂方法和私有构造函数来完成对象创建和监听器的注册等等，这样才可以避免错误</span></span><br><span class="line"><span class="comment"> *  ——————————————————————————————————————————————————-</span></span><br><span class="line"><span class="comment"> *  如果不正确的发布对象会导致两种错误： </span></span><br><span class="line"><span class="comment"> *  （1）发布线程意外的任何线程都可以看到被发布对象的过期的值 </span></span><br><span class="line"><span class="comment"> *  （2）线程看到的被发布线程的引用是最新的，然而被发布对象的状态却是过期的</span></span><br><span class="line"><span class="comment"> * &lt;/pre&gt;	</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Slf</span>4j</span><br><span class="line"><span class="meta">@NotThreadSafe</span></span><br><span class="line"><span class="meta">@NotRecommand</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Escape</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">int</span> thisCanBeEscape = <span class="number">0</span>;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">Escape</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">new</span> InnerClass();</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">InnerClass</span></span>&#123;</span><br><span class="line">		<span class="comment">//内部类构造方法调用外部类的私有域</span></span><br><span class="line">		<span class="function"><span class="keyword">public</span> <span class="title">InnerClass</span><span class="params">()</span> </span>&#123;</span><br><span class="line">			log.info(<span class="string">"&#123;&#125;"</span>,Escape.<span class="keyword">this</span>.thisCanBeEscape);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">new</span> Escape();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="安全发布对象示例（多种单例模式演示）"><a href="#安全发布对象示例（多种单例模式演示）" class="headerlink" title="安全发布对象示例（多种单例模式演示）"></a>安全发布对象示例（多种单例模式演示）</h2><blockquote>
-<p>如何安全发布对象？共有四种方法</p>
-</blockquote>
+          <h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><h3 id="1、不可变对象"><a href="#1、不可变对象" class="headerlink" title="1、不可变对象"></a>1、不可变对象</h3><p>有一种对象只要它发布了就是安全的，它就是不可变对象。一个不可变对象需要满足的条件：</p>
+<p>对象创建一个其状态不能修改<br>对象所有域都是final类型<br>对象是正确创建的(在对象创建期间，this引用没有逸出)</p>
+<h3 id="2、创建一个不可变对象的方法"><a href="#2、创建一个不可变对象的方法" class="headerlink" title="2、创建一个不可变对象的方法"></a>2、创建一个不可变对象的方法</h3><p>（1）自己定义<br>这里可以采用的方式包括：<br>1、将类声明为final，这样它就不能被继承。<br>2、将所有的成员声明为私有的，这样就不允许直接访问这些成员。<br>3、对变量不提供set方法，将所有可变的成员声明为final，这样就只能赋值一次。通过构造器初始化所有成员进行深度拷贝。<br>4、在get方法中不直接返回对象的本身，而是克隆对象，返回对象的拷贝。</p>
+<p>（2）使用Java中提供的Collection类中的各种unmodifiable开头的方法<br>（3）使用Guava中的Immutable开头的类</p>
+<h3 id="3、final关键字"><a href="#3、final关键字" class="headerlink" title="3、final关键字"></a>3、final关键字</h3><p>final关键字可以修饰类、修饰方法、修饰变量</p>
+<p>修饰类：类不能被集成。<br>基础类型的包装类都是final类型的类。final类中的成员变量可以根据需要设置为final，但是要注意的是，final类中的所有成员方法都会被隐式的指定为final方法<br>修饰方法：<br>(1)把方法锁定，以防任何继承类修改它的含义<br>(2)效率：在早期的java实现版本中，会将final方法转为内嵌调用。但是如果方法过于庞大，可能看不见效果。一个private方法会被隐式的指定为final方法<br>修饰变量：<br>基本数据类型变量，在初始化之后，它的值就不能被修改了。如果是引用类型变量，在它初始化之后便不能再指向另外的对象。 </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> cn.northpark.concurrency.immutable;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.Map;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.google.common.collect.Maps;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> cn.northpark.concurrency.annotaion.NotThreadSafe;</span><br><span class="line"><span class="keyword">import</span> lombok.extern.slf4j.Slf4j;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Slf</span>4j</span><br><span class="line"><span class="meta">@NotThreadSafe</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ImmutableExample1</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">static</span> Integer a = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">static</span> String b = <span class="string">"2"</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">static</span> Map&lt;Integer, Integer&gt; map = Maps.newHashMap();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        map.put(<span class="number">1</span>, <span class="number">2</span>);</span><br><span class="line">        map.put(<span class="number">3</span>, <span class="number">4</span>);</span><br><span class="line">        map.put(<span class="number">5</span>, <span class="number">6</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//a = 2;//报错</span></span><br><span class="line">        <span class="comment">//b = "3";//报错</span></span><br><span class="line">        <span class="comment">//map = Maps.newHashMap();//报错</span></span><br><span class="line">        map.put(<span class="number">1</span>, <span class="number">3</span>);</span><br><span class="line">        log.info(<span class="string">"&#123;&#125;"</span>, map.get(<span class="number">1</span>));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">(<span class="keyword">final</span> <span class="keyword">int</span> a)</span> </span>&#123;</span><br><span class="line"><span class="comment">//        a = 1;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>（1）对一个被final修饰的变量（Integer a、String b）被赋值时在编译过程中就出现了错误。<br>（2）（map）在重新被指向一个新的map对象的时候也出现了错误。<br>那么对被定义为final的map进行赋值呢？我们单独运行map.put(1,3)语句，结果是可以的。<strong>被final修饰的引用类型变量，虽然不能重新指向，但是可以修改</strong>,这一点尤为要注意。 </p>
 <blockquote>
-<p>1、在静态初始化函数中<strong>初始化一个对象引用</strong><br>2、将对象的引用保存到<strong>volatile类型域</strong>或者<strong>AtomicReference对象</strong>中<br>3、将对象的引用保存到某个正确<strong>构造对象的final类型域</strong>中<br>4、将对象的引用保存到一个由<strong>锁保护</strong>的域中</p>
+<p>18:05:19.163 [main] INFO cn.northpark.concurrency.immutable.ImmutableExample1 - 3</p>
 </blockquote>
+<p>（3）当final修饰方法的参数时：同样也是不允许在方法内部对其修改的。 </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">(<span class="keyword">final</span> <span class="keyword">int</span> a)</span> </span>&#123;</span><br><span class="line"><span class="comment">//        a = 1;	//报错</span></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/12/27/高并发、多线程探索-3-安全发布对象与多种单例模式/#more" rel="contents">
+            <a class="btn" href="/2018/12/27/高并发、多线程探索-4-不可变对象 -final -Immutable{google guava} -unmodifiable/#more" rel="contents">
               Read more &raquo;
             </a>
           </div>
@@ -1323,7 +1352,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/">
-                <span class="site-state-item-count">89</span>
+                <span class="site-state-item-count">90</span>
                 <span class="site-state-item-name">posts</span>
               </a>
             </div>
@@ -1334,7 +1363,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">44</span>
+                <span class="site-state-item-count">45</span>
                 <span class="site-state-item-name">categories</span>
               </a>
             </div>
@@ -1345,7 +1374,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">82</span>
+                <span class="site-state-item-count">83</span>
                 <span class="site-state-item-name">tags</span>
               </a>
             </div>
