@@ -318,6 +318,184 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://liuhouer.github.io/2017/12/27/css盒子模型/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Bruce">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Northpark博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/12/27/css盒子模型/" itemprop="url">
+                  css盒子模型
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-12-27T10:24:09+08:00">
+                2017-12-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/css/" itemprop="url" rel="index">
+                    <span itemprop="name">css</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h1 id="元素分类"><a href="#元素分类" class="headerlink" title="元素分类"></a>元素分类</h1><blockquote>
+<p>在讲解CSS布局之前，我们需要提前知道一些知识，在CSS中，html中的标签元素大体被分为三种不同的类型：块状元素、内联元素(又叫行内元素)和内联块状元素。<br>常用的块状元素有：</p>
+</blockquote>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span>、<span class="tag">&lt;<span class="name">p</span>&gt;</span>、<span class="tag">&lt;<span class="name">h1</span>&gt;</span>...<span class="tag">&lt;<span class="name">h6</span>&gt;</span>、<span class="tag">&lt;<span class="name">ol</span>&gt;</span>、<span class="tag">&lt;<span class="name">ul</span>&gt;</span>、<span class="tag">&lt;<span class="name">dl</span>&gt;</span>、<span class="tag">&lt;<span class="name">table</span>&gt;</span>、<span class="tag">&lt;<span class="name">address</span>&gt;</span>、<span class="tag">&lt;<span class="name">blockquote</span>&gt;</span> 、<span class="tag">&lt;<span class="name">form</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>常用的内联元素有：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span>&gt;</span>、<span class="tag">&lt;<span class="name">span</span>&gt;</span>、<span class="tag">&lt;<span class="name">br</span>&gt;</span>、<span class="tag">&lt;<span class="name">i</span>&gt;</span>、<span class="tag">&lt;<span class="name">em</span>&gt;</span>、<span class="tag">&lt;<span class="name">strong</span>&gt;</span>、<span class="tag">&lt;<span class="name">label</span>&gt;</span>、<span class="tag">&lt;<span class="name">q</span>&gt;</span>、<span class="tag">&lt;<span class="name">var</span>&gt;</span>、<span class="tag">&lt;<span class="name">cite</span>&gt;</span>、<span class="tag">&lt;<span class="name">code</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>常用的内联块状元素有：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">img</span>&gt;</span>、<span class="tag">&lt;<span class="name">input</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="元素分类–块级元素"><a href="#元素分类–块级元素" class="headerlink" title="元素分类–块级元素"></a>元素分类–块级元素</h2><figure class="highlight pf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">什么是块级元素？在html中<span class="variable">&lt;div&gt;</span>、 <span class="variable">&lt;p&gt;</span>、<span class="variable">&lt;h1&gt;</span>、<span class="variable">&lt;form&gt;</span>、<span class="variable">&lt;ul&gt;</span> 和 <span class="variable">&lt;li&gt;</span>就是块级元素。设置display:<span class="built_in">block</span>就是将元素显示为块级元素。如下代码就是将内联元素a转换为块状元素，从而使a元素具有块状元素特点。</span><br><span class="line">a&#123;display:<span class="built_in">block</span>;&#125;</span><br><span class="line">块级元素特点：</span><br><span class="line"><span class="number">1</span>、每个块级元素都从新的一行开始，并且其后的元素也另起一行。（真霸道，一个块级元素独占一行）</span><br><span class="line"><span class="number">2</span>、元素的高度、宽度、行高以及顶和底边距都可设置。</span><br><span class="line"><span class="number">3</span>、元素宽度在不设置的情况下，是它本身父容器的<span class="number">100</span>%（和父元素的宽度一致），除非设定一个宽度。</span><br></pre></td></tr></table></figure>
+<h2 id="元素分类–内联元素"><a href="#元素分类–内联元素" class="headerlink" title="元素分类–内联元素"></a>元素分类–内联元素</h2><figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">在html中，<span class="params">&lt;span&gt;</span>、<span class="params">&lt;a&gt;</span>、<span class="params">&lt;label&gt;</span>、 <span class="params">&lt;strong&gt;</span> 和<span class="params">&lt;em&gt;</span>就是典型的内联元素（行内元素）（inline）元素。当然块状元素也可以通过代码display:inline将元素设置为内联元素。如下代码就是将块状元素div转换为内联元素，从而使 div 元素具有内联元素特点。</span><br><span class="line">div&#123;</span><br><span class="line"><span class="symbol">display:</span>inline;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">......</span><br><span class="line"></span><br><span class="line"><span class="params">&lt;div&gt;</span>我要变成内联元素<span class="params">&lt;/div&gt;</span></span><br></pre></td></tr></table></figure>
+<p><strong>内联元素特点</strong>：</p>
+<blockquote>
+<p> 1、和其他元素都在一行上；<br> 2、元素的高度、宽度及顶部和底部边距不可设置；<br> 3、元素的宽度就是它包含的文字或图片的宽度，不可改变。</p>
+</blockquote>
+<h2 id="元素分类–内联块状元素"><a href="#元素分类–内联块状元素" class="headerlink" title="元素分类–内联块状元素"></a>元素分类–内联块状元素</h2><figure class="highlight oxygene"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">内联块状元素（<span class="keyword">inline</span>-<span class="keyword">block</span>）就是同时具备内联元素、块状元素的特点，代码display:<span class="keyword">inline</span>-<span class="keyword">block</span>就是将元素设置为内联块状元素。(css2.<span class="number">1</span>新增)，&lt;img&gt;、&lt;input&gt;标签就是这种内联块状标签。</span><br></pre></td></tr></table></figure>
+<p><strong>inline-block 元素特点</strong>：</p>
+<blockquote>
+<p>1、和其他元素都在一行上；</p>
+<p>2、元素的高度、宽度、行高以及顶和底边距都可设置。</p>
+</blockquote>
+<h1 id="盒模型"><a href="#盒模型" class="headerlink" title="盒模型"></a>盒模型</h1><h2 id="盒模型–边框（一）"><a href="#盒模型–边框（一）" class="headerlink" title="盒模型–边框（一）"></a>盒模型–边框（一）</h2><p>盒子模型的边框就是围绕着内容及补白的线，这条线你可以设置它的粗细、样式和颜色(边框三个属性)。<br>如下面代码为 div 来设置边框粗细为 2px、样式为实心的、颜色为红色的边框：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">div</span>&#123;</span><br><span class="line"><span class="attribute">border</span>:<span class="number">2px</span> solid red;</span><br><span class="line">&#125;</span><br><span class="line">上面是 <span class="selector-tag">border</span> 代码的缩写形式，可以分开写：</span><br><span class="line"><span class="selector-tag">div</span>&#123;</span><br><span class="line"><span class="attribute">border-width</span>:<span class="number">2px</span>;</span><br><span class="line"><span class="attribute">border-style</span>:solid;</span><br><span class="line"><span class="attribute">border-color</span>:red;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注意：</p>
+<blockquote>
+<p>1、border-style（边框样式）常见样式有： dashed（虚线）| dotted（点线）| solid（实线）。</p>
+<p>2、border-color（边框颜色）中的颜色可设置为十六进制颜色，如: border-color:#888;//前面的井号不要忘掉。</p>
+<p>3、border-width（边框宽度）中的宽度也可以设置为： thin | medium |<br>thick（但不是很常用），最常还是用象素（px）。</p>
+</blockquote>
+<h2 id="盒模型–边框（二）"><a href="#盒模型–边框（二）" class="headerlink" title="盒模型–边框（二）"></a>盒模型–边框（二）</h2><p>现在有一个问题，如果有想为 p 标签单独设置下边框，而其它三边都不设置边框样式怎么办呢？css 样式中允许只为一个方向的边框设置样式：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">div</span>&#123;<span class="attribute">border-bottom</span>:<span class="number">1px</span> solid red;&#125;</span><br></pre></td></tr></table></figure>
+<p>同样可以使用下面代码实现其它三边(上、右、左)边框的设置：</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">border-top</span>:<span class="number">1px</span> solid red;</span><br><span class="line"><span class="attribute">border-right</span>:<span class="number">1px</span> solid red;</span><br><span class="line"><span class="attribute">border-left</span>:<span class="number">1px</span> solid red;</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/12/27/css盒子模型/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://liuhouer.github.io/2017/12/26/css结构和布局/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1221,173 +1399,11 @@ caption标签，为表格添加标题和摘要
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://liuhouer.github.io/2017/07/27/centos 6.5 安装 MySql 6.7/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Bruce">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Northpark博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/07/27/centos 6.5 安装 MySql 6.7/" itemprop="url">
-                  centos 6.5 安装 MySql 6.7
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-07-27T10:24:09+08:00">
-                2017-07-27
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/mysql/" itemprop="url" rel="index">
-                    <span itemprop="name">mysql</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><blockquote>
-<p>之前尝试过3次centos安装mysql服务，都失败了，严重的时候，系统都挂了，所有服务重新撘~<br>我尝试了各种安装方式,例如:</p>
-<blockquote>
-<blockquote>
-<p>下载别人提供好的tag.gz，解压缩，按照人家的步骤一步步来，结果安装完后启动失败~<br> 这样指令安装：yum install -y mysql-server mysql mysql-devel，安装完后启动失败，fuck！！！</p>
-</blockquote>
-<p>希望有同样遭遇的小伙伴，可以按照我的方式来装一次，版本号相同的话，肯定是可以的，所有的雷我都替你们趟过了！！ </p>
-</blockquote>
-</blockquote>
-<h2 id="1-安装-MySQL-yum-资源库"><a href="#1-安装-MySQL-yum-资源库" class="headerlink" title="1.安装 MySQL yum 资源库"></a>1.安装 MySQL yum 资源库</h2><p> 找到需要下载的资源: <a href="http://dev.mysql.com/downloads/repo/yum/" target="_blank" rel="noopener">http://dev.mysql.com/downloads/repo/yum/</a></p>
-<p><img src="http://liuhouer.heartill.com/1.png" alt="找到需要下载的资源"></p>
-<p>MySQL Yum 下载页面</p>
-<p><img src="http://liuhouer.heartill.com/2.png" alt="MySQL Yum 下载页面"></p>
-<blockquote>
-<p>复制了下载链接，wget获取资源库，确保没有错误，用md5校验，确保和官网文件是一致没错误的</p>
-</blockquote>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/07/27/centos 6.5 安装 MySql 6.7/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><a class="extend next" rel="next" href="/page/5/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/5/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1432,7 +1448,7 @@ caption标签，为表格添加标题和摘要
           
             <div class="site-state-item site-state-posts">
               <a href="/">
-                <span class="site-state-item-count">90</span>
+                <span class="site-state-item-count">91</span>
                 <span class="site-state-item-name">posts</span>
               </a>
             </div>
