@@ -114,27 +114,18 @@
 
 
 
-<meta name="description" content="storm学习学习途径1、官方文档http://storm.apache.org/index.html 2、GitHub,有案例https://github.com/apache/storm 3、一个官方文档简体中文版的翻译http://python-storm-tutorial.readthedocs.io/zh_CN/latest/ 多尝试、多思考、遇到问题看日志  1、什么是stormApa">
+<meta name="description" content="环境前置说明：  通过我们的客户端(终端，CRT，XShell)    ssh hadoop@hadoop000    ssh hadoop@192.168.199.102    远程服务器的用户名是hadoop，密码也是hadoop    有没有提供root权限，sudo command    hadoop000(192.168.199.102)是远程服务器的hostname    如果你想在本">
 <meta name="keywords" content="storm">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Storm学习笔记-基础知识123">
-<meta property="og:url" content="http://liuhouer.github.io/2019/06/28/Storm学习笔记-基础知识123/index.html">
+<meta property="og:title" content="Storm学习笔记-第五章 Storm周边框架使用">
+<meta property="og:url" content="http://liuhouer.github.io/2019/07/18/Storm学习笔记-第五章 Storm周边框架使用/index.html">
 <meta property="og:site_name" content="Northpark博客">
-<meta property="og:description" content="storm学习学习途径1、官方文档http://storm.apache.org/index.html 2、GitHub,有案例https://github.com/apache/storm 3、一个官方文档简体中文版的翻译http://python-storm-tutorial.readthedocs.io/zh_CN/latest/ 多尝试、多思考、遇到问题看日志  1、什么是stormApa">
+<meta property="og:description" content="环境前置说明：  通过我们的客户端(终端，CRT，XShell)    ssh hadoop@hadoop000    ssh hadoop@192.168.199.102    远程服务器的用户名是hadoop，密码也是hadoop    有没有提供root权限，sudo command    hadoop000(192.168.199.102)是远程服务器的hostname    如果你想在本">
 <meta property="og:locale" content="en">
-<meta property="og:image" content="http://liuhouer.heartill.com/storm/11.jpg">
-<meta property="og:image" content="http://liuhouer.heartill.com/storm/12.jpg">
-<meta property="og:image" content="http://liuhouer.heartill.com/storm/13.jpg">
-<meta property="og:image" content="http://liuhouer.heartill.com/storm/14.jpg">
-<meta property="og:image" content="http://liuhouer.heartill.com/storm/15.png">
-<meta property="og:image" content="http://liuhouer.heartill.com/storm/16.jpg">
-<meta property="og:image" content="http://liuhouer.heartill.com/storm/17.jpg">
-<meta property="og:image" content="http://liuhouer.heartill.com/storm/18.jpg">
-<meta property="og:updated_time" content="2019-06-28T10:07:56.879Z">
+<meta property="og:updated_time" content="2019-07-18T08:02:10.276Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Storm学习笔记-基础知识123">
-<meta name="twitter:description" content="storm学习学习途径1、官方文档http://storm.apache.org/index.html 2、GitHub,有案例https://github.com/apache/storm 3、一个官方文档简体中文版的翻译http://python-storm-tutorial.readthedocs.io/zh_CN/latest/ 多尝试、多思考、遇到问题看日志  1、什么是stormApa">
-<meta name="twitter:image" content="http://liuhouer.heartill.com/storm/11.jpg">
+<meta name="twitter:title" content="Storm学习笔记-第五章 Storm周边框架使用">
+<meta name="twitter:description" content="环境前置说明：  通过我们的客户端(终端，CRT，XShell)    ssh hadoop@hadoop000    ssh hadoop@192.168.199.102    远程服务器的用户名是hadoop，密码也是hadoop    有没有提供root权限，sudo command    hadoop000(192.168.199.102)是远程服务器的hostname    如果你想在本">
 
 
 
@@ -162,13 +153,13 @@
 
 
 
-  <link rel="canonical" href="http://liuhouer.github.io/2019/06/28/Storm学习笔记-基础知识123/"/>
+  <link rel="canonical" href="http://liuhouer.github.io/2019/07/18/Storm学习笔记-第五章 Storm周边框架使用/"/>
 
 
 
 
 
-  <title> Storm学习笔记-基础知识123 | Northpark博客 </title>
+  <title> Storm学习笔记-第五章 Storm周边框架使用 | Northpark博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="en">
@@ -327,7 +318,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://liuhouer.github.io/2019/06/28/Storm学习笔记-基础知识123/">
+    <link itemprop="mainEntityOfPage" href="http://liuhouer.github.io/2019/07/18/Storm学习笔记-第五章 Storm周边框架使用/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Bruce">
@@ -348,7 +339,7 @@
             
             
               
-                Storm学习笔记-基础知识123
+                Storm学习笔记-第五章 Storm周边框架使用
               
             
           </h1>
@@ -363,8 +354,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-06-28T00:00:00+08:00">
-                2019-06-28
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-07-18T00:00:00+08:00">
+                2019-07-18
               </time>
             
 
@@ -437,36 +428,44 @@
       
 
       
-        <h1 id="storm学习"><a href="#storm学习" class="headerlink" title="storm学习"></a>storm学习</h1><h2 id="学习途径"><a href="#学习途径" class="headerlink" title="学习途径"></a>学习途径</h2><h3 id="1、官方文档"><a href="#1、官方文档" class="headerlink" title="1、官方文档"></a>1、官方文档</h3><p><a href="http://storm.apache.org/index.html" target="_blank" rel="noopener">http://storm.apache.org/index.html</a></p>
-<h3 id="2、GitHub-有案例"><a href="#2、GitHub-有案例" class="headerlink" title="2、GitHub,有案例"></a>2、GitHub,有案例</h3><p><a href="https://github.com/apache/storm" target="_blank" rel="noopener">https://github.com/apache/storm</a></p>
-<h3 id="3、一个官方文档简体中文版的翻译"><a href="#3、一个官方文档简体中文版的翻译" class="headerlink" title="3、一个官方文档简体中文版的翻译"></a>3、一个官方文档简体中文版的翻译</h3><p><a href="http://python-storm-tutorial.readthedocs.io/zh_CN/latest/" target="_blank" rel="noopener">http://python-storm-tutorial.readthedocs.io/zh_CN/latest/</a></p>
-<p>多尝试、多思考、遇到问题看日志</p>
-<p><img src="http://liuhouer.heartill.com/storm/11.jpg" alt="enter description here"><br><img src="http://liuhouer.heartill.com/storm/12.jpg" alt="enter description here"><br><img src="http://liuhouer.heartill.com/storm/13.jpg" alt="enter description here"></p>
-<h2 id="1、什么是storm"><a href="#1、什么是storm" class="headerlink" title="1、什么是storm"></a>1、什么是storm</h2><p>Apache Storm is a free and open source distributed realtime computation system.<br>     免费、开源、分布式、实时计算系统<br>Storm makes it easy to reliably process unbounded streams of data<br>     unbounded：无界，源源不断<br>     bounded：Hadoop/spark SQL  离线 （input–&gt;output）<br>doing for realtime processing what Hadoop did for batch processing<br>     storm：实时流处理<br>     Hadoop：离线批处理</p>
-<h2 id="2、storm能做什么？"><a href="#2、storm能做什么？" class="headerlink" title="2、storm能做什么？"></a>2、storm能做什么？</h2><p>Storm has many use cases:<br>    realtime analytics：实时分析<br>    online machine learning：在线机器学习<br>    continuous computation：持续计算<br>    distributed RPC,<br>     ETL：<br>    and more.</p>
-<h2 id="3、storm的特点"><a href="#3、storm的特点" class="headerlink" title="3、storm的特点"></a>3、storm的特点</h2><p> fast: over a million tuples processed per second per node 。一秒1亿<br>      scalable（可添加机器）<br>      fault-tolerant 容错<br>      guarantees your data will be processed 保证每条数据被处理<br>      easy to set up and operate.<br>storm能实现高频数据和大规模数据的实时处理          </p>
-<h2 id="4、storm发展历史"><a href="#4、storm发展历史" class="headerlink" title="4、storm发展历史"></a>4、storm发展历史</h2><p>storm产生于twitter<br>   需求：大户数的实时处理<br>   实时系统要考虑：<br>   1）健壮性<br>    2）拓展性/分布式<br>    3）数据不丢失不重复<br>    4）高性能低延时</p>
-<h2 id="5、storm和Hadoop的区别"><a href="#5、storm和Hadoop的区别" class="headerlink" title="5、storm和Hadoop的区别"></a>5、storm和Hadoop的区别</h2><p>处理过程<br>Hadoop—–&gt;   map       reduce<br>storm    —–&gt;  spout      bolt<br>storm进程不杀死不结束<br>Hadoop进程完成就结束<br>处理速度： storm 快                                                                  </p>
-<h2 id="6、发展趋势"><a href="#6、发展趋势" class="headerlink" title="6、发展趋势"></a>6、发展趋势</h2><p>看：<br>    社区的发展、活跃度<br>    企业的需求<br>    大数据的相关大会，如storm的数量上升<br>    互联网公司使用度</p>
-<h2 id="storm-核心概念"><a href="#storm-核心概念" class="headerlink" title="storm 核心概念"></a>storm 核心概念</h2><p><img src="http://liuhouer.heartill.com/storm/14.jpg" alt="课程目录"></p>
-<h3 id="storm-核心概念-1"><a href="#storm-核心概念-1" class="headerlink" title="storm 核心概念"></a>storm 核心概念</h3><pre><code>1. Topologies  把顺序串起来的东西/ 调度中心
-2. Streams   流，数据流，水流
-3. Spouts     产生数据、水流的东西（水龙头）
-4. Bolts        处理数据/水流的东西   水壶/水桶
-5. Tuple      数据/水
-6. Stream groupings
-7. Reliability
-8. Tasks
-9. Workers
-</code></pre><h3 id="Storm核心概念总结"><a href="#Storm核心概念总结" class="headerlink" title="Storm核心概念总结"></a>Storm核心概念总结</h3><p>Topology:计算拓扑， 由spout和bolt组成的</p>
-<p>Stream:消息流，抽象概念，没有边界的tup le构成</p>
-<p>Tuple:消息/数据传递的基本 单元</p>
-<p>Spout:消息流的源头，Topology的消息生产者</p>
-<p>Bolt:消息处理单元，可以做过滤、聚合、查询/写数据库的操作</p>
-<p><img src="http://liuhouer.heartill.com/storm/15.png" alt="Storm核心概念总结"></p>
-<p><img src="http://liuhouer.heartill.com/storm/16.jpg" alt="storm概念理解模型"></p>
-<p><img src="http://liuhouer.heartill.com/storm/17.jpg" alt="storm理解模型"></p>
-<p><img src="http://liuhouer.heartill.com/storm/18.jpg" alt="storm理解模型"></p>
+        <h2 id="环境前置说明："><a href="#环境前置说明：" class="headerlink" title="环境前置说明："></a>环境前置说明：</h2><blockquote>
+<p> 通过我们的客户端(终端，CRT，XShell)<br>    ssh hadoop@hadoop000<br>    ssh <a href="mailto:hadoop@192.168.199.102" target="_blank" rel="noopener">hadoop@192.168.199.102</a><br>    远程服务器的用户名是hadoop，密码也是hadoop<br>    有没有提供root权限，sudo command<br>    hadoop000(192.168.199.102)是远程服务器的hostname<br>    如果你想在本地通过ssh hadoop@hadoop000远程登录，<br>    那么你本地的hosts肯定要添加ip和hostname的映射<br>    192.168.199.102  hadoop000</p>
+</blockquote>
+<h2 id="JDK的安装"><a href="#JDK的安装" class="headerlink" title="JDK的安装"></a>JDK的安装</h2><blockquote>
+<p>将所有的软件都安装到~/app<br>        tar -zxvf jdk-8u91-linux-x64.tar.gz -C ~/app/<br>    建议将jdk的bin目录配置到系统环境变量中： ~/.bash_profile<br>        export JAVA_HOME=/home/hadoop/app/jdk1.8.0_91<br>        export PATH=$JAVA_HOME/bin:$PATH<br>    让系统环境变量生效<br>        source ~/.bash_profile<br>    验证<br>        java -version</p>
+</blockquote>
+<h2 id="ZooKeeper安装"><a href="#ZooKeeper安装" class="headerlink" title="ZooKeeper安装"></a>ZooKeeper安装</h2><blockquote>
+<p>下载ZK的安装包：<a href="http://archive.cloudera.com/cdh5/cdh/5/" target="_blank" rel="noopener">http://archive.cloudera.com/cdh5/cdh/5/</a><br>    解压：tar -zxvf zookeeper-3.4.5-cdh5.7.0.tar.gz -C ~/app/<br>    建议ZK_HOME/bin添加到系统环境变量: ~/.bash_profile<br>        export ZK_HOME=/home/hadoop/app/zookeeper-3.4.5-cdh5.7.0<br>        export PATH=$ZK_HOME/bin:$PATH<br>    让系统环境变量生效<br>        source ~/.bash_profile<br>    修改ZK的配置： $ZK_HOME/conf/zoo.cfg<br>        dataDir=/home/hadoop/app/tmp/zookeeper<br>    启动zk: $ZK_HOME/bin/<br>        zkServer.sh start<br>    验证: jps<br>        多了一个QuorumPeerMain进程，就表示zk启动成功了<br>        jps -m<br>        jps -l</p>
+</blockquote>
+<h2 id="ELK"><a href="#ELK" class="headerlink" title="ELK:"></a>ELK:</h2><pre><code>www.elastic.co
+</code></pre><h3 id="Logstash-2-4-1"><a href="#Logstash-2-4-1" class="headerlink" title="Logstash 2.4.1"></a>Logstash 2.4.1</h3><blockquote>
+<p>集中、转换和存储数据<br>Logstash 是开源的服务器端数据处理管道，能够同时从多个来源采集数据，转换数据，然后将数据发送到您最喜欢的 “存储库” 中。（我们的存储库当然是 Elasticsearch。）</p>
+</blockquote>
+<figure class="highlight puppet"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">cd logstash-2.4.0</span><br><span class="line">bin/logstash -e <span class="string">'input &#123; stdin &#123; &#125; &#125; output &#123; stdout &#123;&#125; &#125;'</span></span><br><span class="line">bin/logstash -e <span class="string">'input &#123; stdin &#123; &#125; &#125; output &#123; stdout &#123;codec =&gt; json&#125; &#125;'</span></span><br><span class="line"></span><br><span class="line">https://www.elastic.co/guide/en/logstash/2.4/plugins-inputs-file.html</span><br><span class="line"></span><br><span class="line">first-pipeline.conf </span><br><span class="line"><span class="keyword">input</span> &#123;</span><br><span class="line">    file &#123;</span><br><span class="line">        <span class="attr">path</span> =&gt; <span class="string">"/Users/myusername/tutorialdata/*.log"</span></span><br><span class="line">        <span class="attr">start_position</span> =&gt; beginning</span><br><span class="line">        <span class="attr">ignore_older</span> =&gt; <span class="number">0</span></span><br><span class="line">    &#125;&#125;</span><br><span class="line"><span class="keyword">filter</span> &#123;</span><br><span class="line">    grok &#123;</span><br><span class="line">        <span class="attr">match</span> =&gt; &#123; <span class="string">"message"</span> =&gt; <span class="string">"%&#123;COMBINEDAPACHELOG&#125;"</span>&#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">geoip</span> &#123;</span><br><span class="line">        <span class="attr">source</span> =&gt; <span class="string">"clientip"</span></span><br><span class="line">    &#125;&#125;</span><br><span class="line"><span class="keyword">output</span> &#123;</span><br><span class="line">    elasticsearch &#123;</span><br><span class="line">        <span class="attr">hosts</span> =&gt; [ <span class="string">"localhost:9200"</span> ]</span><br><span class="line">    &#125;&#125;</span><br><span class="line"></span><br><span class="line">bin/logstash -f first-pipeline.conf --configtest</span><br></pre></td></tr></table></figure>
+<h3 id="Kafka概述"><a href="#Kafka概述" class="headerlink" title="Kafka概述"></a>Kafka概述</h3><pre><code>和消息系统类似
+
+消息中间件：生产者和消费者
+
+妈妈：生产者
+你：消费者
+馒头：数据流、消息
+
+    正常情况下： 生产一个  消费一个
+    其他情况：  
+        一直生产，你吃到某一个馒头时，你卡住(机器故障)， 馒头就丢失了
+        一直生产，做馒头速度快，你吃来不及，馒头也就丢失了
+
+    拿个碗/篮子，馒头做好以后先放到篮子里，你要吃的时候去篮子里面取出来吃
+
+篮子/框： Kafka
+    当篮子满了，馒头就装不下了，咋办？
+    多准备几个篮子 === Kafka的扩容
+</code></pre><h3 id="Kafka架构"><a href="#Kafka架构" class="headerlink" title="Kafka架构"></a>Kafka架构</h3><pre><code>producer：生产者，就是生产馒头(老妈)
+consumer：消费者，就是吃馒头的(你)
+broker：篮子
+topic：主题，给馒头带一个标签，topica的馒头是给你吃的，topicb的馒头是给你弟弟吃
+</code></pre><h3 id="单节点单broker的部署及使用"><a href="#单节点单broker的部署及使用" class="headerlink" title="单节点单broker的部署及使用"></a>单节点单broker的部署及使用</h3><figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">$KAFKA_HOME/config/server.properties</span><br><span class="line"></span><br><span class="line">broker.id=0</span><br><span class="line">listeners</span><br><span class="line">host.name</span><br><span class="line">log.dirs</span><br><span class="line">zookeeper.<span class="keyword">connect</span></span><br><span class="line"></span><br><span class="line">启动Kafka</span><br><span class="line">kafka-server-start.sh</span><br><span class="line">USAGE: <span class="string">/home/hadoop/app/kafka_2.11-0.9.0.0/bin/kafka-server-start.sh</span> [-daemon] server.properties [<span class="params">--override</span> property=value]*</span><br><span class="line"></span><br><span class="line">kafka-server-start.sh $KAFKA_HOME/config/server.properties</span><br><span class="line"></span><br><span class="line">创建topic: zk</span><br><span class="line">kafka-topics.sh <span class="params">--create</span> <span class="params">--zookeeper</span> hadoop000<span class="function">:2181</span> <span class="params">--replication-factor</span> 1 <span class="params">--partitions</span> 1 <span class="params">--topic</span> hello_topic</span><br><span class="line"></span><br><span class="line">查看所有topic</span><br><span class="line">kafka-topics.sh <span class="params">--list</span> <span class="params">--zookeeper</span> hadoop000<span class="function">:2181</span></span><br><span class="line"></span><br><span class="line">发送消息: broker</span><br><span class="line">kafka-console-producer.sh <span class="params">--broker-list</span> hadoop000<span class="function">:9092</span> <span class="params">--topic</span> hello_topic</span><br><span class="line"></span><br><span class="line">消费消息: zk</span><br><span class="line">kafka-console-consumer.sh <span class="params">--zookeeper</span> hadoop000<span class="function">:2181</span> <span class="params">--topic</span> hello_topic <span class="params">--from-beginning</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="params">--from-beginning</span>的使用 </span><br><span class="line">【带这个参数消费所有消息】【不带这个参数，只消费客户端启动后的消息】</span><br><span class="line"></span><br><span class="line">查看所有topic的详细信息：kafka-topics.sh <span class="params">--describe</span> <span class="params">--zookeeper</span> hadoop000<span class="function">:2181</span></span><br><span class="line">查看指定topic的详细信息：kafka-topics.sh <span class="params">--describe</span> <span class="params">--zookeeper</span> hadoop000<span class="function">:2181</span> <span class="params">--topic</span> hello_topic</span><br></pre></td></tr></table></figure>
+<h3 id="单节点多broker"><a href="#单节点多broker" class="headerlink" title="单节点多broker"></a>单节点多broker</h3><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">server-<span class="number">1</span>.properties</span><br><span class="line">    log.dirs=/home/hadoop/app/tmp/kafka-logs-<span class="number">1</span></span><br><span class="line">    listeners=PLAINTEXT:<span class="comment">//:9093</span></span><br><span class="line">    broker.id=<span class="number">1</span></span><br><span class="line"></span><br><span class="line">server-<span class="number">2</span>.properties</span><br><span class="line">    log.dirs=/home/hadoop/app/tmp/kafka-logs-<span class="number">2</span></span><br><span class="line">    listeners=PLAINTEXT:<span class="comment">//:9094</span></span><br><span class="line">    broker.id=<span class="number">2</span></span><br><span class="line"></span><br><span class="line">server-<span class="number">3</span>.properties</span><br><span class="line">    log.dirs=/home/hadoop/app/tmp/kafka-logs-<span class="number">3</span></span><br><span class="line">    listeners=PLAINTEXT:<span class="comment">//:9095</span></span><br><span class="line">    broker.id=<span class="number">3</span></span><br><span class="line"></span><br><span class="line">kafka-server-start<span class="selector-class">.sh</span> -daemon <span class="variable">$KAFKA_HOME</span>/config/server-<span class="number">1</span><span class="selector-class">.properties</span> &amp;</span><br><span class="line">kafka-server-start<span class="selector-class">.sh</span> -daemon <span class="variable">$KAFKA_HOME</span>/config/server-<span class="number">2</span><span class="selector-class">.properties</span> &amp;</span><br><span class="line">kafka-server-start<span class="selector-class">.sh</span> -daemon <span class="variable">$KAFKA_HOME</span>/config/server-<span class="number">3</span><span class="selector-class">.properties</span> &amp;</span><br><span class="line"></span><br><span class="line">kafka-topics<span class="selector-class">.sh</span> --create --zookeeper hadoop000:<span class="number">2181</span> --replication-factor <span class="number">3</span> --partitions <span class="number">1</span> --topic my-replicated-topic</span><br><span class="line"></span><br><span class="line">kafka-console-producer<span class="selector-class">.sh</span> --broker-list hadoop000:<span class="number">9093</span>,hadoop000:<span class="number">9094</span>,hadoop000:<span class="number">9095</span> --topic my-replicated-topic</span><br><span class="line">kafka-console-consumer<span class="selector-class">.sh</span> --zookeeper hadoop000:<span class="number">2181</span> --topic my-replicated-topic</span><br><span class="line"></span><br><span class="line">kafka-topics<span class="selector-class">.sh</span> --describe --zookeeper hadoop000:<span class="number">2181</span> --topic my-replicated-topic</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -530,8 +529,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/03/28/最简单实现高并发插入数万条数据(可同步可异步)/" rel="next" title="最简单实现高并发插入数万条数据(可同步可异步)">
-                <i class="fa fa-chevron-left"></i> 最简单实现高并发插入数万条数据(可同步可异步)
+              <a href="/2019/07/16/Storm学习笔记-第四章 Storm编程/" rel="next" title="Storm学习笔记-第四章 Storm编程">
+                <i class="fa fa-chevron-left"></i> Storm学习笔记-第四章 Storm编程
               </a>
             
           </div>
@@ -539,10 +538,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/07/16/Storm学习笔记-第四章 Storm编程/" rel="prev" title="Storm学习笔记-第四章 Storm编程">
-                Storm学习笔记-第四章 Storm编程 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -731,7 +726,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#storm学习"><span class="nav-number">1.</span> <span class="nav-text">storm学习</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#学习途径"><span class="nav-number">1.1.</span> <span class="nav-text">学习途径</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、官方文档"><span class="nav-number">1.1.1.</span> <span class="nav-text">1、官方文档</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、GitHub-有案例"><span class="nav-number">1.1.2.</span> <span class="nav-text">2、GitHub,有案例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、一个官方文档简体中文版的翻译"><span class="nav-number">1.1.3.</span> <span class="nav-text">3、一个官方文档简体中文版的翻译</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1、什么是storm"><span class="nav-number">1.2.</span> <span class="nav-text">1、什么是storm</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2、storm能做什么？"><span class="nav-number">1.3.</span> <span class="nav-text">2、storm能做什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3、storm的特点"><span class="nav-number">1.4.</span> <span class="nav-text">3、storm的特点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4、storm发展历史"><span class="nav-number">1.5.</span> <span class="nav-text">4、storm发展历史</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5、storm和Hadoop的区别"><span class="nav-number">1.6.</span> <span class="nav-text">5、storm和Hadoop的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6、发展趋势"><span class="nav-number">1.7.</span> <span class="nav-text">6、发展趋势</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#storm-核心概念"><span class="nav-number">1.8.</span> <span class="nav-text">storm 核心概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#storm-核心概念-1"><span class="nav-number">1.8.1.</span> <span class="nav-text">storm 核心概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Storm核心概念总结"><span class="nav-number">1.8.2.</span> <span class="nav-text">Storm核心概念总结</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#环境前置说明："><span class="nav-number">1.</span> <span class="nav-text">环境前置说明：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JDK的安装"><span class="nav-number">2.</span> <span class="nav-text">JDK的安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ZooKeeper安装"><span class="nav-number">3.</span> <span class="nav-text">ZooKeeper安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ELK"><span class="nav-number">4.</span> <span class="nav-text">ELK:</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Logstash-2-4-1"><span class="nav-number">4.1.</span> <span class="nav-text">Logstash 2.4.1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Kafka概述"><span class="nav-number">4.2.</span> <span class="nav-text">Kafka概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Kafka架构"><span class="nav-number">4.3.</span> <span class="nav-text">Kafka架构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#单节点单broker的部署及使用"><span class="nav-number">4.4.</span> <span class="nav-text">单节点单broker的部署及使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#单节点多broker"><span class="nav-number">4.5.</span> <span class="nav-text">单节点多broker</span></a></li></ol></li></ol></div>
             
 
           </div>

@@ -318,6 +318,164 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://liuhouer.github.io/2018/12/28/高并发、多线程探索-6-线程不安全类、同步容器/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Bruce">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Northpark博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2018/12/28/高并发、多线程探索-6-线程不安全类、同步容器/" itemprop="url">
+                  高并发、多线程探索-6-线程不安全类、同步容器
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-28T00:00:00+08:00">
+                2018-12-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="1、线程不安全的类"><a href="#1、线程不安全的类" class="headerlink" title="1、线程不安全的类"></a>1、线程不安全的类</h2><blockquote>
+<p>如果一个类的对象同时可以被多个线程访问，并且你不做特殊的同步或并发处理，那么它就很容易表现出线程不安全的现象。比如抛出异常、逻辑处理错误…</p>
+</blockquote>
+<p>下面列举一下常见的线程不安全的类及对应的线程安全类：</p>
+<h3 id="（1）StringBuilder-与-StringBuffer"><a href="#（1）StringBuilder-与-StringBuffer" class="headerlink" title="（1）StringBuilder 与 StringBuffer"></a>（1）StringBuilder 与 StringBuffer</h3><p>StringBuilder是线程不安全的，而StringBuffer是线程安全的。分析源码：StringBuffer的方法使用了synchronized关键字修饰。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> StringBuffer <span class="title">append</span><span class="params">(String str)</span> </span>&#123;</span><br><span class="line">     toStringCache = <span class="keyword">null</span>;</span><br><span class="line">     <span class="keyword">super</span>.append(str);</span><br><span class="line">     <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="（2）SimpleDateFormat-与-jodatime插件"><a href="#（2）SimpleDateFormat-与-jodatime插件" class="headerlink" title="（2）SimpleDateFormat 与 jodatime插件"></a>（2）SimpleDateFormat 与 jodatime插件</h3><p>SimpleDateFormat 类在处理时间的时候，如下写法是线程不安全的：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> SimpleDateFormat simpleDateFormat = <span class="keyword">new</span> SimpleDateFormat(<span class="string">"yyyyMMdd"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//线程调用方法</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">update</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        simpleDateFormat.parse(<span class="string">"20180208"</span>);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        log.error(<span class="string">"parse exception"</span>, e);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>但是我们可以变换其为线程安全的写法：在每次转换的时候使用线程封闭，新建变量</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">update</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        SimpleDateFormat simpleDateFormat = <span class="keyword">new</span> SimpleDateFormat(<span class="string">"yyyyMMdd"</span>);</span><br><span class="line">        simpleDateFormat.parse(<span class="string">"20180208"</span>);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        log.error(<span class="string">"parse exception"</span>, e);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>另外我们也可以使用<strong>jodatime插件</strong>来转换时间：其可以保证线程安全性<br>Joda 类具有不可变性，因此它们的实例无法被修改。（不可变类的一个优点就是它们是线程安全的）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern(<span class="string">"yyyyMMdd"</span>);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">update</span><span class="params">(<span class="keyword">int</span> i)</span> </span>&#123;</span><br><span class="line">    log.info(<span class="string">"&#123;&#125;, &#123;&#125;"</span>, i, DateTime.parse(<span class="string">"20180208"</span>, dateTimeFormatter).toDate());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/12/28/高并发、多线程探索-6-线程不安全类、同步容器/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://liuhouer.github.io/2018/12/27/高并发、多线程探索-4-不可变对象 -final -Immutable{google guava} -unmodifiable/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1104,168 +1262,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://liuhouer.github.io/2018/06/10/guice整合guice-servlet，web scope注解6/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Bruce">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Northpark博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2018/06/10/guice整合guice-servlet，web scope注解6/" itemprop="url">
-                  guice整合guice-servlet，web scope注解 <6>
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-06-10T00:00:00+08:00">
-                2018-06-10
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/guice/" itemprop="url" rel="index">
-                    <span itemprop="name">guice</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="guice整合guice-servlet，web-scope注解"><a href="#guice整合guice-servlet，web-scope注解" class="headerlink" title="guice整合guice-servlet，web scope注解 "></a>guice整合guice-servlet，web scope注解 <6></6></h1><blockquote>
-<p>guice servlet提供了几个比较有用的web scope，类似与传统servlet<br>的session，request这些提供的范围等。</p>
-</blockquote>
-<p><strong>guice servlet 提供的web scope 如下:</strong></p>
-<ul>
-<li>@RequestScoped</li>
-<li>@SessionScoped</li>
-<li>@RequestParameters</li>
-</ul>
-<h2 id="1-RequestScoped"><a href="#1-RequestScoped" class="headerlink" title="1.@RequestScoped"></a>1.@RequestScoped</h2><p>例子如下:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> cn.northpark.action;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.google.inject.servlet.RequestScoped;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 类似我们请求的时候将值保存在此访问之中</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> bruce</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@RequestScoped</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RequstScope</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> cn.northpark.action;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.google.inject.Inject;</span><br><span class="line"><span class="keyword">import</span> com.google.inject.Provider;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RequstScopeTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    <span class="keyword">private</span> Provider&lt;RequstScope&gt; requst=<span class="keyword">null</span>;</span><br><span class="line">    </span><br><span class="line"></span><br><span class="line">    RequstScope a=requst.get();<span class="comment">//通过此种方法去取此范围的值</span></span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="2-SessionScoped"><a href="#2-SessionScoped" class="headerlink" title="2.@SessionScoped"></a>2.@SessionScoped</h2><p>例子如下:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> cn.northpark.action;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.google.inject.servlet.SessionScoped;</span><br><span class="line"></span><br><span class="line"><span class="meta">@SessionScoped</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SessionScope</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> count=<span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getCount</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> count;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setCount</span><span class="params">(<span class="keyword">int</span> count)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.count = count;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> cn.northpark.action;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.google.inject.Inject;</span><br><span class="line"><span class="keyword">import</span> com.google.inject.Provider;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SessionScopeTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    <span class="keyword">private</span> Provider&lt;SessionScope&gt; session=<span class="keyword">null</span>;</span><br><span class="line">    </span><br><span class="line"></span><br><span class="line">    SessionScope a=session.get();<span class="comment">//通过此种方法去取此范围的值</span></span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">test</span><span class="params">()</span></span>&#123;</span><br><span class="line">        a.setCount(<span class="number">2</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="3-RequestParameters"><a href="#3-RequestParameters" class="headerlink" title="3.@RequestParameters"></a>3.@RequestParameters</h2><p>例子如下:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Inject</span></span><br><span class="line"><span class="meta">@RequestParameters</span></span><br><span class="line"><span class="keyword">private</span> Provider&lt;Map&lt;String, String[]&gt;&gt; reqParamMapProvider;</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>guice servlet 还是比较好用，如果你选择用servlet开发的时候建议用它了。</p>
-</blockquote>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1315,7 +1311,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/">
-                <span class="site-state-item-count">91</span>
+                <span class="site-state-item-count">92</span>
                 <span class="site-state-item-name">posts</span>
               </a>
             </div>

@@ -318,6 +318,153 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://liuhouer.github.io/2016/04/26/日志维度分析以及自动邮件发送/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Bruce">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Northpark博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/04/26/日志维度分析以及自动邮件发送/" itemprop="url">
+                  日志维度分析以及自动邮件发送
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-04-26T15:41:15+08:00">
+                2016-04-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="今天要统计下各种维度下的数据，访问量等等，写了几个方法，实现了维度分析，并将返回结果自动发送邮件到自定义邮箱"><a href="#今天要统计下各种维度下的数据，访问量等等，写了几个方法，实现了维度分析，并将返回结果自动发送邮件到自定义邮箱" class="headerlink" title="今天要统计下各种维度下的数据，访问量等等，写了几个方法，实现了维度分析，并将返回结果自动发送邮件到自定义邮箱"></a>今天要统计下各种维度下的数据，访问量等等，写了几个方法，实现了维度分析，并将返回结果自动发送邮件到自定义邮箱</h2><h3 id="主要实现类"><a href="#主要实现类" class="headerlink" title="主要实现类"></a>主要实现类</h3><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">public <span class="keyword">static</span> <span class="keyword">void</span> main(<span class="built_in">String</span>[] args) &#123;</span><br><span class="line"><span class="keyword">try</span>&#123;</span><br><span class="line"></span><br><span class="line"><span class="built_in">List</span>&lt;trackVO&gt; tlist = <span class="keyword">new</span> ArrayList&lt;trackVO&gt;();</span><br><span class="line"><span class="built_in">List</span>&lt;<span class="built_in">String</span>&gt; list = ReadFile(<span class="string">"/Users/jeyy/Documents/test_pc.access.log.2016-04-25"</span>);</span><br><span class="line"><span class="comment">//System.out.println(JsonContext);</span></span><br><span class="line"><span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; list.size(); i++) &#123;</span><br><span class="line"></span><br><span class="line"><span class="comment">//System.out.println(list.get(i));</span></span><br><span class="line">trackVO model =  JsonUtil.jsonUtil.jsonToModel(list.<span class="keyword">get</span>(i), trackVO.<span class="keyword">class</span>);</span><br><span class="line">tlist.add(model);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> <span class="comment">//实现统计逻辑</span></span><br><span class="line"></span><br><span class="line"> <span class="built_in">Map</span>&lt;<span class="built_in">String</span>, Integer&gt; m = getCount(tlist,<span class="string">"pageUrl"</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> <span class="comment">//打印统计结果|发送邮件</span></span><br><span class="line"> <span class="built_in">String</span> rs = printMap(m);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> EmailUtils.emailUtil.analyseLog(<span class="string">"test@qq.com"</span>, rs);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;<span class="keyword">catch</span>(Exception e)&#123;</span><br><span class="line">e.printStackTrace();</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2016/04/26/日志维度分析以及自动邮件发送/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://liuhouer.github.io/2016/04/11/Nodejs规范工具-grunt/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1104,156 +1251,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://liuhouer.github.io/2016/03/06/雨巷/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Bruce">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Northpark博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/03/06/雨巷/" itemprop="url">
-                  雨巷
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-03-06T11:50:36+08:00">
-                2016-03-06
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/碎碎念/" itemprop="url" rel="index">
-                    <span itemprop="name">碎碎念</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <!-- <img src="http://liuhouer.heartill.com/post_.dingxiang.jpg" style="width: 208px;height: 208px;"></img> -->
-<p><img src="http://liuhouer.heartill.com/post_.dingxiang.jpg" alt="最喜欢的意境散文" title="最喜欢的意境散文"></p>
-<p>撑着油纸伞，独自<br>彷徨在悠长、悠长<br>又寂寥的雨巷<br>我希望逢着<br>一个丁香一样地<br>结着愁怨的姑娘 </p>
-<p>她是有<br>丁香一样的颜色<br>丁香一样的芬芳<br>丁香一样的忧愁<br>在雨中哀怨<br>哀怨又彷徨 </p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2016/03/06/雨巷/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1303,7 +1300,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/">
-                <span class="site-state-item-count">91</span>
+                <span class="site-state-item-count">92</span>
                 <span class="site-state-item-name">posts</span>
               </a>
             </div>

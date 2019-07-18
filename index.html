@@ -318,6 +318,197 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://liuhouer.github.io/2019/07/18/Storm学习笔记-第五章 Storm周边框架使用/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Bruce">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Northpark博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2019/07/18/Storm学习笔记-第五章 Storm周边框架使用/" itemprop="url">
+                  Storm学习笔记-第五章 Storm周边框架使用
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-07-18T00:00:00+08:00">
+                2019-07-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/storm/" itemprop="url" rel="index">
+                    <span itemprop="name">storm</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="环境前置说明："><a href="#环境前置说明：" class="headerlink" title="环境前置说明："></a>环境前置说明：</h2><blockquote>
+<p> 通过我们的客户端(终端，CRT，XShell)<br>    ssh hadoop@hadoop000<br>    ssh <a href="mailto:hadoop@192.168.199.102" target="_blank" rel="noopener">hadoop@192.168.199.102</a><br>    远程服务器的用户名是hadoop，密码也是hadoop<br>    有没有提供root权限，sudo command<br>    hadoop000(192.168.199.102)是远程服务器的hostname<br>    如果你想在本地通过ssh hadoop@hadoop000远程登录，<br>    那么你本地的hosts肯定要添加ip和hostname的映射<br>    192.168.199.102  hadoop000</p>
+</blockquote>
+<h2 id="JDK的安装"><a href="#JDK的安装" class="headerlink" title="JDK的安装"></a>JDK的安装</h2><blockquote>
+<p>将所有的软件都安装到~/app<br>        tar -zxvf jdk-8u91-linux-x64.tar.gz -C ~/app/<br>    建议将jdk的bin目录配置到系统环境变量中： ~/.bash_profile<br>        export JAVA_HOME=/home/hadoop/app/jdk1.8.0_91<br>        export PATH=$JAVA_HOME/bin:$PATH<br>    让系统环境变量生效<br>        source ~/.bash_profile<br>    验证<br>        java -version</p>
+</blockquote>
+<h2 id="ZooKeeper安装"><a href="#ZooKeeper安装" class="headerlink" title="ZooKeeper安装"></a>ZooKeeper安装</h2><blockquote>
+<p>下载ZK的安装包：<a href="http://archive.cloudera.com/cdh5/cdh/5/" target="_blank" rel="noopener">http://archive.cloudera.com/cdh5/cdh/5/</a><br>    解压：tar -zxvf zookeeper-3.4.5-cdh5.7.0.tar.gz -C ~/app/<br>    建议ZK_HOME/bin添加到系统环境变量: ~/.bash_profile<br>        export ZK_HOME=/home/hadoop/app/zookeeper-3.4.5-cdh5.7.0<br>        export PATH=$ZK_HOME/bin:$PATH<br>    让系统环境变量生效<br>        source ~/.bash_profile<br>    修改ZK的配置： $ZK_HOME/conf/zoo.cfg<br>        dataDir=/home/hadoop/app/tmp/zookeeper<br>    启动zk: $ZK_HOME/bin/<br>        zkServer.sh start<br>    验证: jps<br>        多了一个QuorumPeerMain进程，就表示zk启动成功了<br>        jps -m<br>        jps -l</p>
+</blockquote>
+<h2 id="ELK"><a href="#ELK" class="headerlink" title="ELK:"></a>ELK:</h2><pre><code>www.elastic.co
+</code></pre><h3 id="Logstash-2-4-1"><a href="#Logstash-2-4-1" class="headerlink" title="Logstash 2.4.1"></a>Logstash 2.4.1</h3><blockquote>
+<p>集中、转换和存储数据<br>Logstash 是开源的服务器端数据处理管道，能够同时从多个来源采集数据，转换数据，然后将数据发送到您最喜欢的 “存储库” 中。（我们的存储库当然是 Elasticsearch。）</p>
+</blockquote>
+<figure class="highlight puppet"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">cd logstash-2.4.0</span><br><span class="line">bin/logstash -e <span class="string">'input &#123; stdin &#123; &#125; &#125; output &#123; stdout &#123;&#125; &#125;'</span></span><br><span class="line">bin/logstash -e <span class="string">'input &#123; stdin &#123; &#125; &#125; output &#123; stdout &#123;codec =&gt; json&#125; &#125;'</span></span><br><span class="line"></span><br><span class="line">https://www.elastic.co/guide/en/logstash/2.4/plugins-inputs-file.html</span><br><span class="line"></span><br><span class="line">first-pipeline.conf </span><br><span class="line"><span class="keyword">input</span> &#123;</span><br><span class="line">    file &#123;</span><br><span class="line">        <span class="attr">path</span> =&gt; <span class="string">"/Users/myusername/tutorialdata/*.log"</span></span><br><span class="line">        <span class="attr">start_position</span> =&gt; beginning</span><br><span class="line">        <span class="attr">ignore_older</span> =&gt; <span class="number">0</span></span><br><span class="line">    &#125;&#125;</span><br><span class="line"><span class="keyword">filter</span> &#123;</span><br><span class="line">    grok &#123;</span><br><span class="line">        <span class="attr">match</span> =&gt; &#123; <span class="string">"message"</span> =&gt; <span class="string">"%&#123;COMBINEDAPACHELOG&#125;"</span>&#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">geoip</span> &#123;</span><br><span class="line">        <span class="attr">source</span> =&gt; <span class="string">"clientip"</span></span><br><span class="line">    &#125;&#125;</span><br><span class="line"><span class="keyword">output</span> &#123;</span><br><span class="line">    elasticsearch &#123;</span><br><span class="line">        <span class="attr">hosts</span> =&gt; [ <span class="string">"localhost:9200"</span> ]</span><br><span class="line">    &#125;&#125;</span><br><span class="line"></span><br><span class="line">bin/logstash -f first-pipeline.conf --configtest</span><br></pre></td></tr></table></figure>
+<h3 id="Kafka概述"><a href="#Kafka概述" class="headerlink" title="Kafka概述"></a>Kafka概述</h3><pre><code>和消息系统类似
+
+消息中间件：生产者和消费者
+
+妈妈：生产者
+你：消费者
+馒头：数据流、消息
+
+    正常情况下： 生产一个  消费一个
+    其他情况：  
+        一直生产，你吃到某一个馒头时，你卡住(机器故障)， 馒头就丢失了
+        一直生产，做馒头速度快，你吃来不及，馒头也就丢失了
+
+    拿个碗/篮子，馒头做好以后先放到篮子里，你要吃的时候去篮子里面取出来吃
+
+篮子/框： Kafka
+    当篮子满了，馒头就装不下了，咋办？
+    多准备几个篮子 === Kafka的扩容
+</code></pre><h3 id="Kafka架构"><a href="#Kafka架构" class="headerlink" title="Kafka架构"></a>Kafka架构</h3><pre><code>producer：生产者，就是生产馒头(老妈)
+consumer：消费者，就是吃馒头的(你)
+broker：篮子
+topic：主题，给馒头带一个标签，topica的馒头是给你吃的，topicb的馒头是给你弟弟吃
+</code></pre><h3 id="单节点单broker的部署及使用"><a href="#单节点单broker的部署及使用" class="headerlink" title="单节点单broker的部署及使用"></a>单节点单broker的部署及使用</h3><figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">$KAFKA_HOME/config/server.properties</span><br><span class="line"></span><br><span class="line">broker.id=0</span><br><span class="line">listeners</span><br><span class="line">host.name</span><br><span class="line">log.dirs</span><br><span class="line">zookeeper.<span class="keyword">connect</span></span><br><span class="line"></span><br><span class="line">启动Kafka</span><br><span class="line">kafka-server-start.sh</span><br><span class="line">USAGE: <span class="string">/home/hadoop/app/kafka_2.11-0.9.0.0/bin/kafka-server-start.sh</span> [-daemon] server.properties [<span class="params">--override</span> property=value]*</span><br><span class="line"></span><br><span class="line">kafka-server-start.sh $KAFKA_HOME/config/server.properties</span><br><span class="line"></span><br><span class="line">创建topic: zk</span><br><span class="line">kafka-topics.sh <span class="params">--create</span> <span class="params">--zookeeper</span> hadoop000<span class="function">:2181</span> <span class="params">--replication-factor</span> 1 <span class="params">--partitions</span> 1 <span class="params">--topic</span> hello_topic</span><br><span class="line"></span><br><span class="line">查看所有topic</span><br><span class="line">kafka-topics.sh <span class="params">--list</span> <span class="params">--zookeeper</span> hadoop000<span class="function">:2181</span></span><br><span class="line"></span><br><span class="line">发送消息: broker</span><br><span class="line">kafka-console-producer.sh <span class="params">--broker-list</span> hadoop000<span class="function">:9092</span> <span class="params">--topic</span> hello_topic</span><br><span class="line"></span><br><span class="line">消费消息: zk</span><br><span class="line">kafka-console-consumer.sh <span class="params">--zookeeper</span> hadoop000<span class="function">:2181</span> <span class="params">--topic</span> hello_topic <span class="params">--from-beginning</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="params">--from-beginning</span>的使用 </span><br><span class="line">【带这个参数消费所有消息】【不带这个参数，只消费客户端启动后的消息】</span><br><span class="line"></span><br><span class="line">查看所有topic的详细信息：kafka-topics.sh <span class="params">--describe</span> <span class="params">--zookeeper</span> hadoop000<span class="function">:2181</span></span><br><span class="line">查看指定topic的详细信息：kafka-topics.sh <span class="params">--describe</span> <span class="params">--zookeeper</span> hadoop000<span class="function">:2181</span> <span class="params">--topic</span> hello_topic</span><br></pre></td></tr></table></figure>
+<h3 id="单节点多broker"><a href="#单节点多broker" class="headerlink" title="单节点多broker"></a>单节点多broker</h3><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">server-<span class="number">1</span>.properties</span><br><span class="line">    log.dirs=/home/hadoop/app/tmp/kafka-logs-<span class="number">1</span></span><br><span class="line">    listeners=PLAINTEXT:<span class="comment">//:9093</span></span><br><span class="line">    broker.id=<span class="number">1</span></span><br><span class="line"></span><br><span class="line">server-<span class="number">2</span>.properties</span><br><span class="line">    log.dirs=/home/hadoop/app/tmp/kafka-logs-<span class="number">2</span></span><br><span class="line">    listeners=PLAINTEXT:<span class="comment">//:9094</span></span><br><span class="line">    broker.id=<span class="number">2</span></span><br><span class="line"></span><br><span class="line">server-<span class="number">3</span>.properties</span><br><span class="line">    log.dirs=/home/hadoop/app/tmp/kafka-logs-<span class="number">3</span></span><br><span class="line">    listeners=PLAINTEXT:<span class="comment">//:9095</span></span><br><span class="line">    broker.id=<span class="number">3</span></span><br><span class="line"></span><br><span class="line">kafka-server-start<span class="selector-class">.sh</span> -daemon <span class="variable">$KAFKA_HOME</span>/config/server-<span class="number">1</span><span class="selector-class">.properties</span> &amp;</span><br><span class="line">kafka-server-start<span class="selector-class">.sh</span> -daemon <span class="variable">$KAFKA_HOME</span>/config/server-<span class="number">2</span><span class="selector-class">.properties</span> &amp;</span><br><span class="line">kafka-server-start<span class="selector-class">.sh</span> -daemon <span class="variable">$KAFKA_HOME</span>/config/server-<span class="number">3</span><span class="selector-class">.properties</span> &amp;</span><br><span class="line"></span><br><span class="line">kafka-topics<span class="selector-class">.sh</span> --create --zookeeper hadoop000:<span class="number">2181</span> --replication-factor <span class="number">3</span> --partitions <span class="number">1</span> --topic my-replicated-topic</span><br><span class="line"></span><br><span class="line">kafka-console-producer<span class="selector-class">.sh</span> --broker-list hadoop000:<span class="number">9093</span>,hadoop000:<span class="number">9094</span>,hadoop000:<span class="number">9095</span> --topic my-replicated-topic</span><br><span class="line">kafka-console-consumer<span class="selector-class">.sh</span> --zookeeper hadoop000:<span class="number">2181</span> --topic my-replicated-topic</span><br><span class="line"></span><br><span class="line">kafka-topics<span class="selector-class">.sh</span> --describe --zookeeper hadoop000:<span class="number">2181</span> --topic my-replicated-topic</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://liuhouer.github.io/2019/07/16/Storm学习笔记-第四章 Storm编程/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1173,164 +1364,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://liuhouer.github.io/2018/12/28/高并发、多线程探索-6-线程不安全类、同步容器/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Bruce">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Northpark博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2018/12/28/高并发、多线程探索-6-线程不安全类、同步容器/" itemprop="url">
-                  高并发、多线程探索-6-线程不安全类、同步容器
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-28T00:00:00+08:00">
-                2018-12-28
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="1、线程不安全的类"><a href="#1、线程不安全的类" class="headerlink" title="1、线程不安全的类"></a>1、线程不安全的类</h2><blockquote>
-<p>如果一个类的对象同时可以被多个线程访问，并且你不做特殊的同步或并发处理，那么它就很容易表现出线程不安全的现象。比如抛出异常、逻辑处理错误…</p>
-</blockquote>
-<p>下面列举一下常见的线程不安全的类及对应的线程安全类：</p>
-<h3 id="（1）StringBuilder-与-StringBuffer"><a href="#（1）StringBuilder-与-StringBuffer" class="headerlink" title="（1）StringBuilder 与 StringBuffer"></a>（1）StringBuilder 与 StringBuffer</h3><p>StringBuilder是线程不安全的，而StringBuffer是线程安全的。分析源码：StringBuffer的方法使用了synchronized关键字修饰。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> StringBuffer <span class="title">append</span><span class="params">(String str)</span> </span>&#123;</span><br><span class="line">     toStringCache = <span class="keyword">null</span>;</span><br><span class="line">     <span class="keyword">super</span>.append(str);</span><br><span class="line">     <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
-<h3 id="（2）SimpleDateFormat-与-jodatime插件"><a href="#（2）SimpleDateFormat-与-jodatime插件" class="headerlink" title="（2）SimpleDateFormat 与 jodatime插件"></a>（2）SimpleDateFormat 与 jodatime插件</h3><p>SimpleDateFormat 类在处理时间的时候，如下写法是线程不安全的：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> SimpleDateFormat simpleDateFormat = <span class="keyword">new</span> SimpleDateFormat(<span class="string">"yyyyMMdd"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//线程调用方法</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">update</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        simpleDateFormat.parse(<span class="string">"20180208"</span>);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        log.error(<span class="string">"parse exception"</span>, e);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>但是我们可以变换其为线程安全的写法：在每次转换的时候使用线程封闭，新建变量</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">update</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        SimpleDateFormat simpleDateFormat = <span class="keyword">new</span> SimpleDateFormat(<span class="string">"yyyyMMdd"</span>);</span><br><span class="line">        simpleDateFormat.parse(<span class="string">"20180208"</span>);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        log.error(<span class="string">"parse exception"</span>, e);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>另外我们也可以使用<strong>jodatime插件</strong>来转换时间：其可以保证线程安全性<br>Joda 类具有不可变性，因此它们的实例无法被修改。（不可变类的一个优点就是它们是线程安全的）</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern(<span class="string">"yyyyMMdd"</span>);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">update</span><span class="params">(<span class="keyword">int</span> i)</span> </span>&#123;</span><br><span class="line">    log.info(<span class="string">"&#123;&#125;, &#123;&#125;"</span>, i, DateTime.parse(<span class="string">"20180208"</span>, dateTimeFormatter).toDate());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/12/28/高并发、多线程探索-6-线程不安全类、同步容器/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1380,7 +1413,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/">
-                <span class="site-state-item-count">91</span>
+                <span class="site-state-item-count">92</span>
                 <span class="site-state-item-name">posts</span>
               </a>
             </div>
