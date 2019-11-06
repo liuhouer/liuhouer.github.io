@@ -122,16 +122,16 @@
 <meta property="og:site_name" content="Northpark博客">
 <meta property="og:description" content="前言 之前尝试过3次centos安装mysql服务，都失败了，严重的时候，系统都挂了，所有服务重新撘~我尝试了各种安装方式,例如:   下载别人提供好的tag.gz，解压缩，按照人家的步骤一步步来，结果安装完后启动失败~ 这样指令安装：yum install -y mysql-server mysql mysql-devel，安装完后启动失败，fuck！！！  希望有同样遭遇的小伙伴，可以按照我的">
 <meta property="og:locale" content="en">
-<meta property="og:image" content="http://liuhouer.heartill.com/1.png">
-<meta property="og:image" content="http://liuhouer.heartill.com/2.png">
-<meta property="og:image" content="http://liuhouer.heartill.com/3.jpg">
-<meta property="og:image" content="http://liuhouer.heartill.com/4.jpg">
-<meta property="og:image" content="http://liuhouer.heartill.com/5.jpg">
-<meta property="og:updated_time" content="2018-12-05T09:12:06.507Z">
+<meta property="og:image" content="http://liuhouer.memorymaple.com/1.png">
+<meta property="og:image" content="http://liuhouer.memorymaple.com/2.png">
+<meta property="og:image" content="http://liuhouer.memorymaple.com/3.jpg">
+<meta property="og:image" content="http://liuhouer.memorymaple.com/4.jpg">
+<meta property="og:image" content="http://liuhouer.memorymaple.com/5.jpg">
+<meta property="og:updated_time" content="2019-11-06T06:17:26.385Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="centos 6.5 安装 MySql 6.7">
 <meta name="twitter:description" content="前言 之前尝试过3次centos安装mysql服务，都失败了，严重的时候，系统都挂了，所有服务重新撘~我尝试了各种安装方式,例如:   下载别人提供好的tag.gz，解压缩，按照人家的步骤一步步来，结果安装完后启动失败~ 这样指令安装：yum install -y mysql-server mysql mysql-devel，安装完后启动失败，fuck！！！  希望有同样遭遇的小伙伴，可以按照我的">
-<meta name="twitter:image" content="http://liuhouer.heartill.com/1.png">
+<meta name="twitter:image" content="http://liuhouer.memorymaple.com/1.png">
 
 
 
@@ -433,9 +433,9 @@
 </blockquote>
 </blockquote>
 <h2 id="1-安装-MySQL-yum-资源库"><a href="#1-安装-MySQL-yum-资源库" class="headerlink" title="1.安装 MySQL yum 资源库"></a>1.安装 MySQL yum 资源库</h2><p> 找到需要下载的资源: <a href="http://dev.mysql.com/downloads/repo/yum/" target="_blank" rel="noopener">http://dev.mysql.com/downloads/repo/yum/</a></p>
-<p><img src="http://liuhouer.heartill.com/1.png" alt="找到需要下载的资源"></p>
+<p><img src="http://liuhouer.memorymaple.com/1.png" alt="找到需要下载的资源"></p>
 <p>MySQL Yum 下载页面</p>
-<p><img src="http://liuhouer.heartill.com/2.png" alt="MySQL Yum 下载页面"></p>
+<p><img src="http://liuhouer.memorymaple.com/2.png" alt="MySQL Yum 下载页面"></p>
 <blockquote>
 <p>复制了下载链接，wget获取资源库，确保没有错误，用md5校验，确保和官网文件是一致没错误的</p>
 </blockquote>
@@ -443,12 +443,12 @@
 <figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget <span class="string">http:</span><span class="comment">//dev.mysql.com/get/mysql57-community-release-el6-7.noarch.rpm</span></span><br></pre></td></tr></table></figure>
 <figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">md5sum mysql57-community-release-el6-<span class="number">7</span><span class="selector-class">.noarch</span><span class="selector-class">.rpm</span></span><br></pre></td></tr></table></figure>
 <figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm -ivh mysql57-community-release-el6-<span class="number">7</span><span class="selector-class">.noarch</span><span class="selector-class">.rpm</span></span><br></pre></td></tr></table></figure>
-<p><img src="http://liuhouer.heartill.com/3.jpg" alt="指令界面"></p>
+<p><img src="http://liuhouer.memorymaple.com/3.jpg" alt="指令界面"></p>
 <h2 id="2-安装-MySQL-5-7服务端和客户端依赖包"><a href="#2-安装-MySQL-5-7服务端和客户端依赖包" class="headerlink" title="2. 安装 MySQL 5.7服务端和客户端依赖包"></a>2. 安装 MySQL 5.7服务端和客户端依赖包</h2><blockquote>
 <p>以上我们安装了mysql5.7的yum资源库，可以开始安装mysql服务端和客户端依赖包了</p>
 </blockquote>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum <span class="keyword">install</span> -y mysql-community-<span class="keyword">client</span> mysql-community-<span class="keyword">server</span></span><br></pre></td></tr></table></figure>
-<p><img src="http://liuhouer.heartill.com/4.jpg" alt="指令界面"></p>
+<p><img src="http://liuhouer.memorymaple.com/4.jpg" alt="指令界面"></p>
 <h2 id="3-启动-MySQL-5-7-Server-配置连接"><a href="#3-启动-MySQL-5-7-Server-配置连接" class="headerlink" title="3. 启动 MySQL 5.7 Server 配置连接 !"></a>3. 启动 MySQL 5.7 Server 配置连接 !</h2><blockquote>
 <p>  Start MySQL 5.7 service<br>  打开mysql服务</p>
 </blockquote>
@@ -465,7 +465,7 @@
 <p>Only command MySQL 5.7 is going to let you run once you login with<br>your default password is password command<br>设置你的mysql管理员的新密码</p>
 </blockquote>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SET</span> <span class="keyword">PASSWORD</span> <span class="keyword">FOR</span> <span class="string">'root'</span>@<span class="string">'localhost'</span> = <span class="keyword">PASSWORD</span>(<span class="string">'Yourpassword1!'</span>);</span><br></pre></td></tr></table></figure>
-<p><img src="http://liuhouer.heartill.com/5.jpg" alt="指令界面5-获取mysql初始化密码，设置管理员密码"></p>
+<p><img src="http://liuhouer.memorymaple.com/5.jpg" alt="指令界面5-获取mysql初始化密码，设置管理员密码"></p>
 <blockquote>
 <p>这样就成功安装了MySQL 5.7 server<br>下面进行一些必要的配置</p>
 </blockquote>

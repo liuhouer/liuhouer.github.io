@@ -122,19 +122,19 @@
 <meta property="og:site_name" content="Northpark博客">
 <meta property="og:description" content="storm学习学习途径1、官方文档http://storm.apache.org/index.html 2、GitHub,有案例https://github.com/apache/storm 3、一个官方文档简体中文版的翻译http://python-storm-tutorial.readthedocs.io/zh_CN/latest/ 多尝试、多思考、遇到问题看日志  1、什么是stormApa">
 <meta property="og:locale" content="en">
-<meta property="og:image" content="http://liuhouer.heartill.com/storm/11.jpg">
-<meta property="og:image" content="http://liuhouer.heartill.com/storm/12.jpg">
-<meta property="og:image" content="http://liuhouer.heartill.com/storm/13.jpg">
-<meta property="og:image" content="http://liuhouer.heartill.com/storm/14.jpg">
-<meta property="og:image" content="http://liuhouer.heartill.com/storm/15.png">
-<meta property="og:image" content="http://liuhouer.heartill.com/storm/16.jpg">
-<meta property="og:image" content="http://liuhouer.heartill.com/storm/17.jpg">
-<meta property="og:image" content="http://liuhouer.heartill.com/storm/18.jpg">
-<meta property="og:updated_time" content="2019-06-28T10:07:56.879Z">
+<meta property="og:image" content="http://liuhouer.memorymaple.com/storm/11.jpg">
+<meta property="og:image" content="http://liuhouer.memorymaple.com/storm/12.jpg">
+<meta property="og:image" content="http://liuhouer.memorymaple.com/storm/13.jpg">
+<meta property="og:image" content="http://liuhouer.memorymaple.com/storm/14.jpg">
+<meta property="og:image" content="http://liuhouer.memorymaple.com/storm/15.png">
+<meta property="og:image" content="http://liuhouer.memorymaple.com/storm/16.jpg">
+<meta property="og:image" content="http://liuhouer.memorymaple.com/storm/17.jpg">
+<meta property="og:image" content="http://liuhouer.memorymaple.com/storm/18.jpg">
+<meta property="og:updated_time" content="2019-11-06T06:17:26.525Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Storm学习笔记-基础知识123">
 <meta name="twitter:description" content="storm学习学习途径1、官方文档http://storm.apache.org/index.html 2、GitHub,有案例https://github.com/apache/storm 3、一个官方文档简体中文版的翻译http://python-storm-tutorial.readthedocs.io/zh_CN/latest/ 多尝试、多思考、遇到问题看日志  1、什么是stormApa">
-<meta name="twitter:image" content="http://liuhouer.heartill.com/storm/11.jpg">
+<meta name="twitter:image" content="http://liuhouer.memorymaple.com/storm/11.jpg">
 
 
 
@@ -441,14 +441,14 @@
 <h3 id="2、GitHub-有案例"><a href="#2、GitHub-有案例" class="headerlink" title="2、GitHub,有案例"></a>2、GitHub,有案例</h3><p><a href="https://github.com/apache/storm" target="_blank" rel="noopener">https://github.com/apache/storm</a></p>
 <h3 id="3、一个官方文档简体中文版的翻译"><a href="#3、一个官方文档简体中文版的翻译" class="headerlink" title="3、一个官方文档简体中文版的翻译"></a>3、一个官方文档简体中文版的翻译</h3><p><a href="http://python-storm-tutorial.readthedocs.io/zh_CN/latest/" target="_blank" rel="noopener">http://python-storm-tutorial.readthedocs.io/zh_CN/latest/</a></p>
 <p>多尝试、多思考、遇到问题看日志</p>
-<p><img src="http://liuhouer.heartill.com/storm/11.jpg" alt="enter description here"><br><img src="http://liuhouer.heartill.com/storm/12.jpg" alt="enter description here"><br><img src="http://liuhouer.heartill.com/storm/13.jpg" alt="enter description here"></p>
+<p><img src="http://liuhouer.memorymaple.com/storm/11.jpg" alt="enter description here"><br><img src="http://liuhouer.memorymaple.com/storm/12.jpg" alt="enter description here"><br><img src="http://liuhouer.memorymaple.com/storm/13.jpg" alt="enter description here"></p>
 <h2 id="1、什么是storm"><a href="#1、什么是storm" class="headerlink" title="1、什么是storm"></a>1、什么是storm</h2><p>Apache Storm is a free and open source distributed realtime computation system.<br>     免费、开源、分布式、实时计算系统<br>Storm makes it easy to reliably process unbounded streams of data<br>     unbounded：无界，源源不断<br>     bounded：Hadoop/spark SQL  离线 （input–&gt;output）<br>doing for realtime processing what Hadoop did for batch processing<br>     storm：实时流处理<br>     Hadoop：离线批处理</p>
 <h2 id="2、storm能做什么？"><a href="#2、storm能做什么？" class="headerlink" title="2、storm能做什么？"></a>2、storm能做什么？</h2><p>Storm has many use cases:<br>    realtime analytics：实时分析<br>    online machine learning：在线机器学习<br>    continuous computation：持续计算<br>    distributed RPC,<br>     ETL：<br>    and more.</p>
 <h2 id="3、storm的特点"><a href="#3、storm的特点" class="headerlink" title="3、storm的特点"></a>3、storm的特点</h2><p> fast: over a million tuples processed per second per node 。一秒1亿<br>      scalable（可添加机器）<br>      fault-tolerant 容错<br>      guarantees your data will be processed 保证每条数据被处理<br>      easy to set up and operate.<br>storm能实现高频数据和大规模数据的实时处理          </p>
 <h2 id="4、storm发展历史"><a href="#4、storm发展历史" class="headerlink" title="4、storm发展历史"></a>4、storm发展历史</h2><p>storm产生于twitter<br>   需求：大户数的实时处理<br>   实时系统要考虑：<br>   1）健壮性<br>    2）拓展性/分布式<br>    3）数据不丢失不重复<br>    4）高性能低延时</p>
 <h2 id="5、storm和Hadoop的区别"><a href="#5、storm和Hadoop的区别" class="headerlink" title="5、storm和Hadoop的区别"></a>5、storm和Hadoop的区别</h2><p>处理过程<br>Hadoop—–&gt;   map       reduce<br>storm    —–&gt;  spout      bolt<br>storm进程不杀死不结束<br>Hadoop进程完成就结束<br>处理速度： storm 快                                                                  </p>
 <h2 id="6、发展趋势"><a href="#6、发展趋势" class="headerlink" title="6、发展趋势"></a>6、发展趋势</h2><p>看：<br>    社区的发展、活跃度<br>    企业的需求<br>    大数据的相关大会，如storm的数量上升<br>    互联网公司使用度</p>
-<h2 id="storm-核心概念"><a href="#storm-核心概念" class="headerlink" title="storm 核心概念"></a>storm 核心概念</h2><p><img src="http://liuhouer.heartill.com/storm/14.jpg" alt="课程目录"></p>
+<h2 id="storm-核心概念"><a href="#storm-核心概念" class="headerlink" title="storm 核心概念"></a>storm 核心概念</h2><p><img src="http://liuhouer.memorymaple.com/storm/14.jpg" alt="课程目录"></p>
 <h3 id="storm-核心概念-1"><a href="#storm-核心概念-1" class="headerlink" title="storm 核心概念"></a>storm 核心概念</h3><pre><code>1. Topologies  把顺序串起来的东西/ 调度中心
 2. Streams   流，数据流，水流
 3. Spouts     产生数据、水流的东西（水龙头）
@@ -463,10 +463,10 @@
 <p>Tuple:消息/数据传递的基本 单元</p>
 <p>Spout:消息流的源头，Topology的消息生产者</p>
 <p>Bolt:消息处理单元，可以做过滤、聚合、查询/写数据库的操作</p>
-<p><img src="http://liuhouer.heartill.com/storm/15.png" alt="Storm核心概念总结"></p>
-<p><img src="http://liuhouer.heartill.com/storm/16.jpg" alt="storm概念理解模型"></p>
-<p><img src="http://liuhouer.heartill.com/storm/17.jpg" alt="storm理解模型"></p>
-<p><img src="http://liuhouer.heartill.com/storm/18.jpg" alt="storm理解模型"></p>
+<p><img src="http://liuhouer.memorymaple.com/storm/15.png" alt="Storm核心概念总结"></p>
+<p><img src="http://liuhouer.memorymaple.com/storm/16.jpg" alt="storm概念理解模型"></p>
+<p><img src="http://liuhouer.memorymaple.com/storm/17.jpg" alt="storm理解模型"></p>
+<p><img src="http://liuhouer.memorymaple.com/storm/18.jpg" alt="storm理解模型"></p>
 
       
     </div>

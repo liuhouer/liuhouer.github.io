@@ -122,13 +122,13 @@
 <meta property="og:site_name" content="Northpark博客">
 <meta property="og:description" content="概念1、不可变对象有一种对象只要它发布了就是安全的，它就是不可变对象。一个不可变对象需要满足的条件： 对象创建一个其状态不能修改对象所有域都是final类型对象是正确创建的(在对象创建期间，this引用没有逸出) 2、创建一个不可变对象的方法（1）自己定义这里可以采用的方式包括：1、将类声明为final，这样它就不能被继承。2、将所有的成员声明为私有的，这样就不允许直接访问这些成员。3、对变量不提">
 <meta property="og:locale" content="en">
-<meta property="og:image" content="http://liuhouer.heartill.com/blog/2018-12-27/2.jpg">
-<meta property="og:image" content="http://liuhouer.heartill.com/blog/2018-12-27/3.jpg">
-<meta property="og:updated_time" content="2018-12-27T10:38:11.564Z">
+<meta property="og:image" content="http://liuhouer.memorymaple.com/blog/2018-12-27/2.jpg">
+<meta property="og:image" content="http://liuhouer.memorymaple.com/blog/2018-12-27/3.jpg">
+<meta property="og:updated_time" content="2019-11-06T06:17:26.661Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="高并发、多线程探索-4-不可变对象 -final -Immutable{google guava} -unmodifiable">
 <meta name="twitter:description" content="概念1、不可变对象有一种对象只要它发布了就是安全的，它就是不可变对象。一个不可变对象需要满足的条件： 对象创建一个其状态不能修改对象所有域都是final类型对象是正确创建的(在对象创建期间，this引用没有逸出) 2、创建一个不可变对象的方法（1）自己定义这里可以采用的方式包括：1、将类声明为final，这样它就不能被继承。2、将所有的成员声明为私有的，这样就不允许直接访问这些成员。3、对变量不提">
-<meta name="twitter:image" content="http://liuhouer.heartill.com/blog/2018-12-27/2.jpg">
+<meta name="twitter:image" content="http://liuhouer.memorymaple.com/blog/2018-12-27/2.jpg">
 
 
 
@@ -437,7 +437,7 @@
 <h3 id="4、Java-unmodifiable相关方法"><a href="#4、Java-unmodifiable相关方法" class="headerlink" title="4、Java:unmodifiable相关方法"></a>4、Java:unmodifiable相关方法</h3><blockquote>
 <p>使用Java的Collection类的unmodifiable相关方法，可以创建不可变对象。unmodifiable相关方法包含：Collection、List、Map、Set….</p>
 </blockquote>
-<p><img src="http://liuhouer.heartill.com/blog/2018-12-27/2.jpg" alt="2"></p>
+<p><img src="http://liuhouer.memorymaple.com/blog/2018-12-27/2.jpg" alt="2"></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> cn.northpark.concurrency.immutable;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.Collections;</span><br><span class="line"><span class="keyword">import</span> java.util.Map;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.google.common.collect.Maps;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> cn.northpark.concurrency.annotaion.ThreadSafe;</span><br><span class="line"><span class="keyword">import</span> lombok.extern.slf4j.Slf4j;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Slf</span>4j</span><br><span class="line"><span class="meta">@ThreadSafe</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ImmutableExample2</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Map&lt;Integer, Integer&gt; map = Maps.newHashMap();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        map.put(<span class="number">1</span>, <span class="number">2</span>);</span><br><span class="line">        map.put(<span class="number">3</span>, <span class="number">4</span>);</span><br><span class="line">        map.put(<span class="number">5</span>, <span class="number">6</span>);</span><br><span class="line">        map = Collections.unmodifiableMap(map);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        map.put(<span class="number">1</span>, <span class="number">3</span>);</span><br><span class="line">        log.info(<span class="string">"&#123;&#125;"</span>, map.get(<span class="number">1</span>));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>上面程序的执行结果为：在map.put（1，3）操作的位置抛出了异常。由此可见map对象已经成为不可变对象。 </p>
 <blockquote>
@@ -449,7 +449,7 @@
 <h3 id="5、Guava-Immutable相关类"><a href="#5、Guava-Immutable相关类" class="headerlink" title="5、Guava:Immutable相关类"></a>5、Guava:Immutable相关类</h3><blockquote>
 <p>使用Guava的Immutable相关类也可以创建不可变对象。同样包含很多类型：Collection、List、Map、Set….</p>
 </blockquote>
-<p><img src="http://liuhouer.heartill.com/blog/2018-12-27/3.jpg" alt="3"></p>
+<p><img src="http://liuhouer.memorymaple.com/blog/2018-12-27/3.jpg" alt="3"></p>
 <p>例如： </p>
 <h4 id="（1）ImmutableList"><a href="#（1）ImmutableList" class="headerlink" title="（1）ImmutableList"></a>（1）ImmutableList</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">static</span> ImmutableList&lt;Integer&gt; list = ImmutableList.of(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>);</span><br><span class="line"></span><br><span class="line">list.add(<span class="number">4</span>);<span class="comment">//这一句在书写完就会被IDE提示该add方法为过时方法，实际为不可用方法</span></span><br></pre></td></tr></table></figure>
 <p>对于ImmutableList.of方法，如果传多个参数，需要这样一直写下去，以逗号分隔每个参数。其源码中是这样实现的：</p>
@@ -527,8 +527,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/12/27/高并发、多线程探索-5-线程封闭、threadLocal应用/" rel="next" title="高并发、多线程探索-5-线程封闭、threadLocal应用">
-                <i class="fa fa-chevron-left"></i> 高并发、多线程探索-5-线程封闭、threadLocal应用
+              <a href="/2018/12/25/高并发、多线程探索-2-线程安全性-原子性-Atomic-CAS/" rel="next" title="高并发、多线程探索-2-线程安全性-原子性-Atomic-CAS">
+                <i class="fa fa-chevron-left"></i> 高并发、多线程探索-2-线程安全性-原子性-Atomic-CAS
               </a>
             
           </div>
@@ -537,8 +537,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/12/28/高并发、多线程探索-6-线程不安全类、同步容器/" rel="prev" title="高并发、多线程探索-6-线程不安全类、同步容器">
-                高并发、多线程探索-6-线程不安全类、同步容器 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/12/27/高并发、多线程探索-5-线程封闭、threadLocal应用/" rel="prev" title="高并发、多线程探索-5-线程封闭、threadLocal应用">
+                高并发、多线程探索-5-线程封闭、threadLocal应用 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>

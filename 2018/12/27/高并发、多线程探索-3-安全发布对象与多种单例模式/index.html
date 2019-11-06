@@ -122,12 +122,12 @@
 <meta property="og:site_name" content="Northpark博客">
 <meta property="og:description" content="概念发布对象 使一个对象能够被当前范围之外的代码所使用。在我们的日常开发中，我们经常要发布一些对象，比如通过类的非私有方法返回对象的引用，或者通过公有静态变量发布对象。  对象逸出 一种错误的发布。当一个对象还没有构造完成时，就使它被其他线程所见。  代码演示不安全发布对象1234567891011121314151617181920212223242526272829303132333435pa">
 <meta property="og:locale" content="en">
-<meta property="og:image" content="http://liuhouer.heartill.com/blog/2018-12-27/1.jpg">
-<meta property="og:updated_time" content="2018-12-27T10:38:21.741Z">
+<meta property="og:image" content="http://liuhouer.memorymaple.com/blog/2018-12-27/1.jpg">
+<meta property="og:updated_time" content="2019-11-06T06:17:26.657Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="高并发、多线程探索-3-安全发布对象与多种单例模式">
 <meta name="twitter:description" content="概念发布对象 使一个对象能够被当前范围之外的代码所使用。在我们的日常开发中，我们经常要发布一些对象，比如通过类的非私有方法返回对象的引用，或者通过公有静态变量发布对象。  对象逸出 一种错误的发布。当一个对象还没有构造完成时，就使它被其他线程所见。  代码演示不安全发布对象1234567891011121314151617181920212223242526272829303132333435pa">
-<meta name="twitter:image" content="http://liuhouer.heartill.com/blog/2018-12-27/1.jpg">
+<meta name="twitter:image" content="http://liuhouer.memorymaple.com/blog/2018-12-27/1.jpg">
 
 
 
@@ -449,7 +449,7 @@
 <p>这里有一个知识点：<br>CPU指令相关  在上述代码中，执行new操作的时候，CPU一共进行了<strong>三次指令</strong><br>（1）memory = allocate() 分配对象的内存空间<br>（2）ctorInstance() 初始化对象<br>（3）instance = memory<br>设置instance指向刚分配的内存</p>
 </blockquote>
 <p>在程序运行过程中，CPU为提高运算速度会做出违背代码原有顺序的优化。我们称之为乱序执行优化或者说是指令重排。<br>那么上面知识点中的三步指令极有可能被优化为（1）（3）（2）的顺序。当我们有两个线程A与B，A线程遵从132的顺序，经过了两此instance的空值判断后，执行了new操作，并且cpu在某一瞬间刚结束指令（3），并且还没有执行指令（2）。而在此时线程B恰巧在进行第一次的instance空值判断，由于线程A执行完（3）指令，为instance分配了内存，线程B判断instance不为空，直接执行return，返回了instance，这样就出现了错误。 </p>
-<p><img src="http://liuhouer.heartill.com/blog/2018-12-27/1.jpg" alt="1"></p>
+<p><img src="http://liuhouer.memorymaple.com/blog/2018-12-27/1.jpg" alt="1"></p>
 <h3 id="4、双重同步锁模式【volatile出坑】"><a href="#4、双重同步锁模式【volatile出坑】" class="headerlink" title="4、双重同步锁模式【volatile出坑】"></a>4、双重同步锁模式【volatile出坑】</h3><p>（出坑）解决办法：</p>
 <p>在对象声明时使用volatile关键字修饰，阻止CPU的指令重排。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> cn.northpark.concurrency.singleton;</span><br><span class="line"><span class="keyword">import</span> cn.northpark.concurrency.annotaion.ThreadSafe;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 懒汉模式 -》 双重同步锁单例模式</span></span><br><span class="line"><span class="comment"> * 单例实例在第一次使用时进行创建</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@ThreadSafe</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SingletonExample5</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 私有构造函数</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">SingletonExample5</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 1、memory = allocate() 分配对象的内存空间</span></span><br><span class="line">    <span class="comment">// 2、ctorInstance() 初始化对象</span></span><br><span class="line">    <span class="comment">// 3、instance = memory 设置instance指向刚分配的内存</span></span><br><span class="line">    <span class="comment">// 单例对象 volatile + 双重检测机制 -&gt; 禁止指令重排</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">volatile</span> <span class="keyword">static</span> SingletonExample5 instance = <span class="keyword">null</span>;</span><br><span class="line">    <span class="comment">// 静态的工厂方法</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> SingletonExample5 <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (instance == <span class="keyword">null</span>) &#123; <span class="comment">// 双重检测机制        // B</span></span><br><span class="line">            <span class="keyword">synchronized</span> (SingletonExample5.class) &#123; <span class="comment">// 同步锁</span></span><br><span class="line">                <span class="keyword">if</span> (instance == <span class="keyword">null</span>) &#123;</span><br><span class="line">                    instance = <span class="keyword">new</span> SingletonExample5(); <span class="comment">// A - 3</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -532,8 +532,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/12/25/高并发、多线程探索-2-线程安全性-原子性-Atomic-CAS/" rel="next" title="高并发、多线程探索-2-线程安全性-原子性-Atomic-CAS">
-                <i class="fa fa-chevron-left"></i> 高并发、多线程探索-2-线程安全性-原子性-Atomic-CAS
+              <a href="/2018/12/27/高并发、多线程探索-5-线程封闭、threadLocal应用/" rel="next" title="高并发、多线程探索-5-线程封闭、threadLocal应用">
+                <i class="fa fa-chevron-left"></i> 高并发、多线程探索-5-线程封闭、threadLocal应用
               </a>
             
           </div>
@@ -542,8 +542,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/12/27/高并发、多线程探索-5-线程封闭、threadLocal应用/" rel="prev" title="高并发、多线程探索-5-线程封闭、threadLocal应用">
-                高并发、多线程探索-5-线程封闭、threadLocal应用 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/12/28/高并发、多线程探索-6-线程不安全类、同步容器/" rel="prev" title="高并发、多线程探索-6-线程不安全类、同步容器">
+                高并发、多线程探索-6-线程不安全类、同步容器 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>

@@ -122,12 +122,12 @@
 <meta property="og:site_name" content="Northpark博客">
 <meta property="og:description" content="目前网上搭建个人博客的方案很多，虽然使用诸如 Wordpress ( PHP )、Hexo ( Node.js )等可以方便快速地搭建一款功能齐全的高性能个人博客，但是本文将尝试一种更为小众化的方案 —— 一款基于 django-blog-zinnia( Python ) 的个人博客应用。 django-blog-zinnia虽然小巧，但是具备了个人博客应用的全部基础功能，且具有很高的拓展性，并">
 <meta property="og:locale" content="en">
-<meta property="og:image" content="http://movies.heartill.com/16-9-8/33882098.jpg">
-<meta property="og:updated_time" content="2018-12-05T09:17:42.205Z">
+<meta property="og:image" content="http://movies.memorymaple.com/16-9-8/33882098.jpg">
+<meta property="og:updated_time" content="2019-11-06T06:17:26.549Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用 django-blog-zinnia 搭建个人博客">
 <meta name="twitter:description" content="目前网上搭建个人博客的方案很多，虽然使用诸如 Wordpress ( PHP )、Hexo ( Node.js )等可以方便快速地搭建一款功能齐全的高性能个人博客，但是本文将尝试一种更为小众化的方案 —— 一款基于 django-blog-zinnia( Python ) 的个人博客应用。 django-blog-zinnia虽然小巧，但是具备了个人博客应用的全部基础功能，且具有很高的拓展性，并">
-<meta name="twitter:image" content="http://movies.heartill.com/16-9-8/33882098.jpg">
+<meta name="twitter:image" content="http://movies.memorymaple.com/16-9-8/33882098.jpg">
 
 
 
@@ -461,7 +461,7 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">zinnia_demo/zinnia_demo/urls.py</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> django.conf.urls <span class="keyword">import</span> url</span><br><span class="line"><span class="keyword">from</span> django.conf.urls <span class="keyword">import</span> url,include</span><br><span class="line"><span class="keyword">from</span> django.contrib <span class="keyword">import</span> admin</span><br><span class="line"></span><br><span class="line">urlpatterns = [</span><br><span class="line">url(<span class="string">r'^admin/'</span>, admin.site.urls),</span><br><span class="line">url(<span class="string">r'^weblog/'</span>, include(<span class="string">'zinnia.urls'</span>)),</span><br><span class="line">    url(<span class="string">r'^comments/'</span>, include(<span class="string">'django_comments.urls'</span>)),</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
 <h2 id="同步数据库并创建后台管理员账户"><a href="#同步数据库并创建后台管理员账户" class="headerlink" title="同步数据库并创建后台管理员账户"></a>同步数据库并创建后台管理员账户</h2><p>在 manage.py 文件所在目录下输入 <code>python manage.py migrate</code> 建立相应的数据库表结构。此时会看到目录下多了一个 db.sqlite 文件，这是存储博客数据的数据库文件，默认使用的 sqlite3。输入命令 <code>python manage.py createsuperuser</code> 创建后台管理员账户，命令行会提示你输入用户名、邮箱、密码。注意密码输入时不会有任何显示，只管输下去就行。</p>
 <h2 id="开启开发服务器"><a href="#开启开发服务器" class="headerlink" title="开启开发服务器"></a>开启开发服务器</h2><p>再次运行<code>python manage.py runserver</code> 开启开发服务器，在浏览器输入 <code>127.0.0.1:8000/weblog</code> 将看到博客的首页面。输入 <em>127.0.0.1:8000/admin</em> 会进入后台登录页面，输入刚才创建的管理员账户用户名和密码就可以登录到后台管理界面。在日志后面点击增加按钮尝试着添加一篇博客看看！再次进入 <em>127.0.0.1:8000/weblog</em> 就可以看到刚才发表的博客了。</p>
-<p><img src="http://movies.heartill.com/16-9-8/33882098.jpg" alt=""></p>
+<p><img src="http://movies.memorymaple.com/16-9-8/33882098.jpg" alt=""></p>
 <p>至此基本的博客已经搭建完毕，接下来是一些可选功能拓展，包括 markdown 语法支持，代码高亮，bootstrap 主题的安装。</p>
 <h2 id="OPTIONAL-Markdown-语法支持"><a href="#OPTIONAL-Markdown-语法支持" class="headerlink" title="( OPTIONAL ) Markdown 语法支持"></a>( OPTIONAL ) Markdown 语法支持</h2><p>再次打开 settings.py 文件，在文件的最后添加：</p>
 <figure class="highlight sml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">zinnia_demo/zinnia_demo/settings.py</span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"><span class="type">ZINNIA_MARKUP_LANGUAGE</span> = <span class="symbol">'markdown'</span></span><br><span class="line"><span class="type">ZINNIA_MARKDOWN_EXTENSIONS</span> = [<span class="symbol">'markdown</span>.extensions.extra', <span class="symbol">'markdown</span>.extensions.codehilite']</span><br></pre></td></tr></table></figure>
